@@ -68,5 +68,25 @@ class KeywordReplacementTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
+    
+    func testAnonymousClousureParameter() {
+        let swift = "numbers.map { 3 * $0.value }"
+        let kotlin = "numbers.map { 3 * it.value }"
+        
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+    
+    func testProtocolInterface() {
+        let swift =
+            "protocol Nameable {}" +
+            "public protocol protocolNameable_protocol {}"
+        let kotlin =
+            "interface Nameable {}" +
+            "public interface protocolNameable_protocol {}"
+        
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
 
 }
