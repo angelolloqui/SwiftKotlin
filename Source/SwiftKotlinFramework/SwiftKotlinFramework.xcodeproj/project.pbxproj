@@ -7,133 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
+		78A7E5B61DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
+		78A7E5B81DB8E36200D77182 /* KeywordReplacementTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B71DB8E36200D77182 /* KeywordReplacementTransformerTests.swift */; };
 		78DC1FBD1D898021009E0283 /* SwiftKotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */; };
 		78DC1FBE1D898021009E0283 /* SwiftKotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */; };
 		78F032D41D86C15400BE709A /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */; };
 		78F032D91D86C15400BE709A /* SwiftKotlinFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F032D81D86C15400BE709A /* SwiftKotlinFrameworkTests.swift */; };
 		78F032E61D86C1C400BE709A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78F032E41D86C1C400BE709A /* Info.plist */; };
 		78F032E71D86C1C400BE709A /* SwiftKotlinFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 78F032E51D86C1C400BE709A /* SwiftKotlinFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		78F032EB1D86C28000BE709A /* SourceKittenFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F032E81D86C28000BE709A /* SourceKittenFramework.framework */; };
-		78F032EC1D86C28000BE709A /* SWXMLHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F032E91D86C28000BE709A /* SWXMLHash.framework */; };
-		78F032ED1D86C28000BE709A /* Yaml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F032EA1D86C28000BE709A /* Yaml.framework */; };
-		78F032F31D86C2E800BE709A /* SourceKittenFramework.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 78F032F01D86C2E800BE709A /* SourceKittenFramework.framework.dSYM */; };
-		78F032F41D86C2E800BE709A /* SWXMLHash.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 78F032F11D86C2E800BE709A /* SWXMLHash.framework.dSYM */; };
-		78F032F51D86C2E800BE709A /* Yaml.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 78F032F21D86C2E800BE709A /* Yaml.framework.dSYM */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		78DC1F6F1D897F70009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1F691D897F70009E0283 /* sourcekitten.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D0E7B63219E9C64500EDBA4D;
-			remoteInfo = sourcekitten;
-		};
-		78DC1F711D897F70009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1F691D897F70009E0283 /* sourcekitten.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D0D1216D19E87B05005E4BAA;
-			remoteInfo = SourceKittenFramework;
-		};
-		78DC1F731D897F70009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1F691D897F70009E0283 /* sourcekitten.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D0D1217719E87B05005E4BAA;
-			remoteInfo = SourceKittenFrameworkTests;
-		};
-		78DC1F971D897F7E009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1F8D1D897F7E009E0283 /* SWXMLHash.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CD6083EF196CA106000B4F8D;
-			remoteInfo = "SWXMLHash iOS";
-		};
-		78DC1F991D897F7E009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1F8D1D897F7E009E0283 /* SWXMLHash.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CD6083FA196CA106000B4F8D;
-			remoteInfo = "SWXMLHash iOS Tests";
-		};
-		78DC1F9B1D897F7E009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1F8D1D897F7E009E0283 /* SWXMLHash.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CD9D052C1A757D8B003CCB21;
-			remoteInfo = "SWXMLHash OSX";
-		};
-		78DC1F9D1D897F7E009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1F8D1D897F7E009E0283 /* SWXMLHash.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CD9D05361A757D8B003CCB21;
-			remoteInfo = "SWXMLHash OSX Tests";
-		};
-		78DC1F9F1D897F7E009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1F8D1D897F7E009E0283 /* SWXMLHash.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CDDEC74C1BF6311A00AB138B;
-			remoteInfo = "SWXMLHash tvOS";
-		};
-		78DC1FA11D897F7E009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1F8D1D897F7E009E0283 /* SWXMLHash.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CDDEC7551BF6311B00AB138B;
-			remoteInfo = "SWXMLHash tvOS Tests";
-		};
-		78DC1FA31D897F7E009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1F8D1D897F7E009E0283 /* SWXMLHash.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CDDEC7681BF6316C00AB138B;
-			remoteInfo = "SWXMLHash watchOS";
-		};
-		78DC1FAE1D897F83009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1FA51D897F83009E0283 /* Yaml.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8E1D76211B258FEE0022C013;
-			remoteInfo = "Yaml OSX";
-		};
-		78DC1FB01D897F83009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1FA51D897F83009E0283 /* Yaml.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8E1D762C1B258FEE0022C013;
-			remoteInfo = "Tests OSX";
-		};
-		78DC1FB21D897F83009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1FA51D897F83009E0283 /* Yaml.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F32DF2581B73054C0011046A;
-			remoteInfo = "Yaml iOS";
-		};
-		78DC1FB41D897F83009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1FA51D897F83009E0283 /* Yaml.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F32DF2611B73054C0011046A;
-			remoteInfo = "Tests iOS";
-		};
-		78DC1FB61D897F83009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1FA51D897F83009E0283 /* Yaml.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8313C4291C8DC2CB00DEF215;
-			remoteInfo = "Yaml tvOS";
-		};
-		78DC1FB81D897F83009E0283 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78DC1FA51D897F83009E0283 /* Yaml.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8313C4321C8DC2CB00DEF215;
-			remoteInfo = "Tests tvOS";
-		};
 		78F032D51D86C15400BE709A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78F032C01D86C15400BE709A /* Project object */;
@@ -150,18 +35,14 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				78F032F31D86C2E800BE709A /* SourceKittenFramework.framework.dSYM in CopyFiles */,
-				78F032F41D86C2E800BE709A /* SWXMLHash.framework.dSYM in CopyFiles */,
-				78F032F51D86C2E800BE709A /* Yaml.framework.dSYM in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		78DC1F691D897F70009E0283 /* sourcekitten.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sourcekitten.xcodeproj; path = ../../Carthage/Checkouts/SourceKitten/sourcekitten.xcodeproj; sourceTree = "<group>"; };
-		78DC1F8D1D897F7E009E0283 /* SWXMLHash.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SWXMLHash.xcodeproj; path = ../../Carthage/Checkouts/SWXMLHash/SWXMLHash.xcodeproj; sourceTree = "<group>"; };
-		78DC1FA51D897F83009E0283 /* Yaml.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Yaml.xcodeproj; path = ../../Carthage/Checkouts/YamlSwift/Yaml.xcodeproj; sourceTree = "<group>"; };
+		78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordReplacementTransformer.swift; sourceTree = "<group>"; };
+		78A7E5B71DB8E36200D77182 /* KeywordReplacementTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordReplacementTransformerTests.swift; sourceTree = "<group>"; };
 		78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftKotlin.swift; sourceTree = "<group>"; };
 		78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftKotlinFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F032D31D86C15400BE709A /* SwiftKotlinFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftKotlinFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,12 +50,6 @@
 		78F032DA1D86C15400BE709A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78F032E41D86C1C400BE709A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78F032E51D86C1C400BE709A /* SwiftKotlinFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftKotlinFramework.h; sourceTree = "<group>"; };
-		78F032E81D86C28000BE709A /* SourceKittenFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SourceKittenFramework.framework; path = ../../Carthage/Build/Mac/SourceKittenFramework.framework; sourceTree = "<group>"; };
-		78F032E91D86C28000BE709A /* SWXMLHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SWXMLHash.framework; path = ../../Carthage/Build/Mac/SWXMLHash.framework; sourceTree = "<group>"; };
-		78F032EA1D86C28000BE709A /* Yaml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Yaml.framework; path = ../../Carthage/Build/Mac/Yaml.framework; sourceTree = "<group>"; };
-		78F032F01D86C2E800BE709A /* SourceKittenFramework.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SourceKittenFramework.framework.dSYM; path = ../../Carthage/Build/Mac/SourceKittenFramework.framework.dSYM; sourceTree = "<group>"; };
-		78F032F11D86C2E800BE709A /* SWXMLHash.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SWXMLHash.framework.dSYM; path = ../../Carthage/Build/Mac/SWXMLHash.framework.dSYM; sourceTree = "<group>"; };
-		78F032F21D86C2E800BE709A /* Yaml.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Yaml.framework.dSYM; path = ../../Carthage/Build/Mac/Yaml.framework.dSYM; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,9 +57,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78F032ED1D86C28000BE709A /* Yaml.framework in Frameworks */,
-				78F032EB1D86C28000BE709A /* SourceKittenFramework.framework in Frameworks */,
-				78F032EC1D86C28000BE709A /* SWXMLHash.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,46 +71,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		78DC1F6A1D897F70009E0283 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				78DC1F701D897F70009E0283 /* sourcekitten.app */,
-				78DC1F721D897F70009E0283 /* SourceKittenFramework.framework */,
-				78DC1F741D897F70009E0283 /* SourceKittenFrameworkTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		78DC1F8E1D897F7E009E0283 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				78DC1F981D897F7E009E0283 /* SWXMLHash.framework */,
-				78DC1F9A1D897F7E009E0283 /* SWXMLHash iOS Tests.xctest */,
-				78DC1F9C1D897F7E009E0283 /* SWXMLHash.framework */,
-				78DC1F9E1D897F7E009E0283 /* SWXMLHash OSX Tests.xctest */,
-				78DC1FA01D897F7E009E0283 /* SWXMLHash.framework */,
-				78DC1FA21D897F7E009E0283 /* SWXMLHash tvOS Tests.xctest */,
-				78DC1FA41D897F7E009E0283 /* SWXMLHash.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		78DC1FA61D897F83009E0283 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				78DC1FAF1D897F83009E0283 /* Yaml.framework */,
-				78DC1FB11D897F83009E0283 /* Tests.xctest */,
-				78DC1FB31D897F83009E0283 /* Yaml.framework */,
-				78DC1FB51D897F83009E0283 /* Tests.xctest */,
-				78DC1FB71D897F83009E0283 /* Yaml.framework */,
-				78DC1FB91D897F83009E0283 /* Tests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		78DC1FBA1D897FED009E0283 /* Transformers */ = {
 			isa = PBXGroup;
 			children = (
+				78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */,
 			);
 			path = Transformers;
 			sourceTree = "<group>";
@@ -284,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				78F032D81D86C15400BE709A /* SwiftKotlinFrameworkTests.swift */,
+				78A7E5B71DB8E36200D77182 /* KeywordReplacementTransformerTests.swift */,
 				78F032DA1D86C15400BE709A /* Info.plist */,
 			);
 			path = SwiftKotlinFrameworkTests;
@@ -301,15 +138,6 @@
 		78F032EE1D86C29400BE709A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				78F032E81D86C28000BE709A /* SourceKittenFramework.framework */,
-				78F032F01D86C2E800BE709A /* SourceKittenFramework.framework.dSYM */,
-				78F032E91D86C28000BE709A /* SWXMLHash.framework */,
-				78F032F11D86C2E800BE709A /* SWXMLHash.framework.dSYM */,
-				78F032EA1D86C28000BE709A /* Yaml.framework */,
-				78F032F21D86C2E800BE709A /* Yaml.framework.dSYM */,
-				78DC1FA51D897F83009E0283 /* Yaml.xcodeproj */,
-				78DC1F8D1D897F7E009E0283 /* SWXMLHash.xcodeproj */,
-				78DC1F691D897F70009E0283 /* sourcekitten.xcodeproj */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -395,20 +223,6 @@
 			mainGroup = 78F032BF1D86C15400BE709A;
 			productRefGroup = 78F032CA1D86C15400BE709A /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 78DC1F6A1D897F70009E0283 /* Products */;
-					ProjectRef = 78DC1F691D897F70009E0283 /* sourcekitten.xcodeproj */;
-				},
-				{
-					ProductGroup = 78DC1F8E1D897F7E009E0283 /* Products */;
-					ProjectRef = 78DC1F8D1D897F7E009E0283 /* SWXMLHash.xcodeproj */;
-				},
-				{
-					ProductGroup = 78DC1FA61D897F83009E0283 /* Products */;
-					ProjectRef = 78DC1FA51D897F83009E0283 /* Yaml.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				78F032C81D86C15400BE709A /* SwiftKotlinFramework */,
@@ -416,121 +230,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		78DC1F701D897F70009E0283 /* sourcekitten.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = sourcekitten.app;
-			remoteRef = 78DC1F6F1D897F70009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1F721D897F70009E0283 /* SourceKittenFramework.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SourceKittenFramework.framework;
-			remoteRef = 78DC1F711D897F70009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1F741D897F70009E0283 /* SourceKittenFrameworkTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SourceKittenFrameworkTests.xctest;
-			remoteRef = 78DC1F731D897F70009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1F981D897F7E009E0283 /* SWXMLHash.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SWXMLHash.framework;
-			remoteRef = 78DC1F971D897F7E009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1F9A1D897F7E009E0283 /* SWXMLHash iOS Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SWXMLHash iOS Tests.xctest";
-			remoteRef = 78DC1F991D897F7E009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1F9C1D897F7E009E0283 /* SWXMLHash.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SWXMLHash.framework;
-			remoteRef = 78DC1F9B1D897F7E009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1F9E1D897F7E009E0283 /* SWXMLHash OSX Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SWXMLHash OSX Tests.xctest";
-			remoteRef = 78DC1F9D1D897F7E009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1FA01D897F7E009E0283 /* SWXMLHash.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SWXMLHash.framework;
-			remoteRef = 78DC1F9F1D897F7E009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1FA21D897F7E009E0283 /* SWXMLHash tvOS Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SWXMLHash tvOS Tests.xctest";
-			remoteRef = 78DC1FA11D897F7E009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1FA41D897F7E009E0283 /* SWXMLHash.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SWXMLHash.framework;
-			remoteRef = 78DC1FA31D897F7E009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1FAF1D897F83009E0283 /* Yaml.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Yaml.framework;
-			remoteRef = 78DC1FAE1D897F83009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1FB11D897F83009E0283 /* Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Tests.xctest;
-			remoteRef = 78DC1FB01D897F83009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1FB31D897F83009E0283 /* Yaml.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Yaml.framework;
-			remoteRef = 78DC1FB21D897F83009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1FB51D897F83009E0283 /* Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Tests.xctest;
-			remoteRef = 78DC1FB41D897F83009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1FB71D897F83009E0283 /* Yaml.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Yaml.framework;
-			remoteRef = 78DC1FB61D897F83009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		78DC1FB91D897F83009E0283 /* Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Tests.xctest;
-			remoteRef = 78DC1FB81D897F83009E0283 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		78F032C71D86C15400BE709A /* Resources */ = {
@@ -555,6 +254,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */,
 				78DC1FBD1D898021009E0283 /* SwiftKotlin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -565,6 +265,8 @@
 			files = (
 				78DC1FBE1D898021009E0283 /* SwiftKotlin.swift in Sources */,
 				78F032D91D86C15400BE709A /* SwiftKotlinFrameworkTests.swift in Sources */,
+				78A7E5B81DB8E36200D77182 /* KeywordReplacementTransformerTests.swift in Sources */,
+				78A7E5B61DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

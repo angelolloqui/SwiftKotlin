@@ -7,15 +7,18 @@
 //
 
 import Foundation
-import SourceKittenFramework
 
-class SwiftKotlin {
-    
-    func translate(file: File) throws {
-          
-        //Create list of transformers
+protocol Transformer {
+    func translate(content: String) throws -> String
+}
+
+class SwiftKotlin: Transformer {
+    let transformers = [KeywordResplacementTransformer()]
         
-        
+    func translate(content: String) throws -> String {
         //Transform each element
+        return try transformers.reduce(content) { (translated, transformer) throws -> String in
+            return try transformer.translate(content: translated)
+        }
     }
 }

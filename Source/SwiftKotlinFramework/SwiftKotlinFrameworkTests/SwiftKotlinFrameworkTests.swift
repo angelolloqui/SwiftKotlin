@@ -7,14 +7,13 @@
 //
 
 import XCTest
-import SourceKittenFramework
-@testable import SwiftKotlinFramework
 
 class SwiftKotlinFrameworkTests: XCTestCase {
+    var swiftKotlin: SwiftKotlin!
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        swiftKotlin = SwiftKotlin()
     }
     
     override func tearDown() {
@@ -22,9 +21,8 @@ class SwiftKotlinFrameworkTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        let file = File(path:"/Users/agarcia/Documents/projects/OpenTable-iOS/OpenTableApps/OpenTable-iOS/Modules/Restaurants/Coordinators/RestaurantsCoordinator.swift")
-        SwiftKotlin.translate(file)
+    func testCreatesTransformers() {
+        XCTAssertTrue(swiftKotlin.transformers.count > 0)
     }
     
     
