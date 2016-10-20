@@ -51,5 +51,22 @@ class KeywordReplacementTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
+    
+    func testSelfReference() {
+        let swift =
+            "self.method()\n" +
+            "self.property\n" +
+            "var strongSelf = self\n" +
+            "var selfA = a_self\n"
+        
+        let kotlin =
+            "this.method()\n" +
+            "this.property\n" +
+            "var strongSelf = this\n" +
+            "var selfA = a_self\n"
+        
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
 
 }

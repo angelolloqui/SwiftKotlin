@@ -12,7 +12,8 @@ import Foundation
 class KeywordResplacementTransformer: Transformer {
     let replacementMap = [
         "\\blet\\b": "val",
-        "\\bfunc\\b": "fun"
+        "\\bfunc\\b": "fun",
+        "\\bself\\b": "this",
     ]
     
     func translate(content: String) throws -> String {
