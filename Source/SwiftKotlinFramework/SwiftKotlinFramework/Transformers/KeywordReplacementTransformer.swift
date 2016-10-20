@@ -10,9 +10,15 @@ import Foundation
 
 
 class KeywordResplacementTransformer: Transformer {
+    let replacementMap = [
+        "\\blet\\b": "val",
+        "\\bfunc\\b": "fun"
+    ]
     
     func translate(content: String) throws -> String {
-        let regex = try! NSRegularExpression(pattern: "\\blet\\b")
-        return regex.stringByReplacingMatches(in: content, options: [], range: NSRange(0..<content.characters.count), withTemplate: "val")        
+        return try replacementMap.reduce(content) { (translate, replace) throws -> String in
+            let regex = try NSRegularExpression(pattern: replace.key)
+            return regex.stringByReplacingMatches(in: translate, options: [], range: NSRange(0..<translate.characters.count), withTemplate: replace.value)
+        }
     }
 }

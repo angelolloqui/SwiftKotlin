@@ -35,5 +35,21 @@ class KeywordReplacementTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
+    
+    
+    func testFuncDeclarations() {
+        let swift =
+            "func test(){}\n" +
+            "private func funcTest(){}\n" +
+            "override func afunc (){}\n"
+        
+        let kotlin =
+            "fun test(){}\n" +
+            "private fun funcTest(){}\n" +
+            "override fun afunc (){}\n"
+        
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
 
 }
