@@ -10,18 +10,18 @@ import Foundation
 
 
 class KeywordResplacementTransformer: Transformer {
-    let replacementMap = [
-        "\\bprotocol\\b": "interface",
-        "\\blet\\b": "val",
-        "\\bfunc\\b": "fun",
-        "\\bself\\b": "this",
-        "\\$0\\b": "it",
+    let replacementSymbolMap = [
+        "protocol": "interface",
+        "let": "val",
+        "func": "fun",
+        "self": "this",
+        "$0": "it",
     ]
     
-    func translate(content: String) throws -> String {
-        return try replacementMap.reduce(content) { (translate, replace) throws -> String in
-            let regex = try NSRegularExpression(pattern: replace.key)
-            return regex.stringByReplacingMatches(in: translate, options: [], range: NSRange(0..<translate.characters.count), withTemplate: replace.value)
+    func transform(formatter: Formatter) throws {
+        formatter.forEachToken(ofType: .identifier) { (i, token) in
+            guard let replace = self.replacementSymbolMap[token.string] else { return }
+            formatter.replaceTokenAtIndex(i, with: Token(token.type, replace))
         }
     }
 }

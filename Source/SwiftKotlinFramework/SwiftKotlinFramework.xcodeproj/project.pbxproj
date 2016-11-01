@@ -15,6 +15,13 @@
 		78A7E5BD1DB8FC1800D77182 /* NameParametersTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5BC1DB8FC1800D77182 /* NameParametersTransformerTests.swift */; };
 		78A7E5C01DB9093A00D77182 /* NSRangeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */; };
 		78A7E5C11DB9093A00D77182 /* NSRangeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */; };
+		78CC67DA1DC8B39C0039511C /* LICENCE.md in Sources */ = {isa = PBXBuildFile; fileRef = 78CC67A11DC8B39C0039511C /* LICENCE.md */; };
+		78CC67DB1DC8B39C0039511C /* LICENCE.md in Sources */ = {isa = PBXBuildFile; fileRef = 78CC67A11DC8B39C0039511C /* LICENCE.md */; };
+		78CC67E91DC8B39C0039511C /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC67AA1DC8B39C0039511C /* Tokenizer.swift */; };
+		78CC67EA1DC8B39C0039511C /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC67AA1DC8B39C0039511C /* Tokenizer.swift */; };
+		78CC68091DC8B4E50039511C /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC68081DC8B4E50039511C /* Formatter.swift */; };
+		78CC680A1DC8B4E50039511C /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC68081DC8B4E50039511C /* Formatter.swift */; };
+		78CC680D1DC8BB940039511C /* TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC680B1DC8BB940039511C /* TestExtensions.swift */; };
 		78DC1FBD1D898021009E0283 /* SwiftKotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */; };
 		78DC1FBE1D898021009E0283 /* SwiftKotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */; };
 		78F032D41D86C15400BE709A /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */; };
@@ -51,6 +58,10 @@
 		78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamedParametersTransformer.swift; sourceTree = "<group>"; };
 		78A7E5BC1DB8FC1800D77182 /* NameParametersTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameParametersTransformerTests.swift; sourceTree = "<group>"; };
 		78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSRangeExtensions.swift; sourceTree = "<group>"; };
+		78CC67A11DC8B39C0039511C /* LICENCE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENCE.md; sourceTree = "<group>"; };
+		78CC67AA1DC8B39C0039511C /* Tokenizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tokenizer.swift; path = SwiftFormat/Tokenizer.swift; sourceTree = "<group>"; };
+		78CC68081DC8B4E50039511C /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		78CC680B1DC8BB940039511C /* TestExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestExtensions.swift; sourceTree = "<group>"; };
 		78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftKotlin.swift; sourceTree = "<group>"; };
 		78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftKotlinFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F032D31D86C15400BE709A /* SwiftKotlinFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftKotlinFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +96,24 @@
 				78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		78CC67861DC8B39C0039511C /* External */ = {
+			isa = PBXGroup;
+			children = (
+				78CC67871DC8B39C0039511C /* SwiftFormat */,
+			);
+			name = External;
+			path = ../External;
+			sourceTree = "<group>";
+		};
+		78CC67871DC8B39C0039511C /* SwiftFormat */ = {
+			isa = PBXGroup;
+			children = (
+				78CC67AA1DC8B39C0039511C /* Tokenizer.swift */,
+				78CC67A11DC8B39C0039511C /* LICENCE.md */,
+			);
+			path = SwiftFormat;
 			sourceTree = "<group>";
 		};
 		78DC1FBA1D897FED009E0283 /* Transformers */ = {
@@ -130,6 +159,8 @@
 				78DC1FBA1D897FED009E0283 /* Transformers */,
 				78F032E31D86C1C400BE709A /* SupportingFiles */,
 				78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */,
+				78CC68081DC8B4E50039511C /* Formatter.swift */,
+				78CC67861DC8B39C0039511C /* External */,
 			);
 			path = SwiftKotlinFramework;
 			sourceTree = "<group>";
@@ -141,6 +172,7 @@
 				78A7E5B71DB8E36200D77182 /* KeywordReplacementTransformerTests.swift */,
 				78A7E5BC1DB8FC1800D77182 /* NameParametersTransformerTests.swift */,
 				78F032DA1D86C15400BE709A /* Info.plist */,
+				78CC680B1DC8BB940039511C /* TestExtensions.swift */,
 			);
 			path = SwiftKotlinFrameworkTests;
 			sourceTree = "<group>";
@@ -238,6 +270,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 78F032BF1D86C15400BE709A;
 			productRefGroup = 78F032CA1D86C15400BE709A /* Products */;
@@ -274,8 +307,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				78A7E5C01DB9093A00D77182 /* NSRangeExtensions.swift in Sources */,
+				78CC67E91DC8B39C0039511C /* Tokenizer.swift in Sources */,
 				78A7E5BA1DB8FBC300D77182 /* NamedParametersTransformer.swift in Sources */,
+				78CC68091DC8B4E50039511C /* Formatter.swift in Sources */,
 				78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */,
+				78CC67DA1DC8B39C0039511C /* LICENCE.md in Sources */,
 				78DC1FBD1D898021009E0283 /* SwiftKotlin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,11 +322,15 @@
 			files = (
 				78A7E5BB1DB8FBC300D77182 /* NamedParametersTransformer.swift in Sources */,
 				78DC1FBE1D898021009E0283 /* SwiftKotlin.swift in Sources */,
+				78CC680A1DC8B4E50039511C /* Formatter.swift in Sources */,
+				78CC67EA1DC8B39C0039511C /* Tokenizer.swift in Sources */,
 				78F032D91D86C15400BE709A /* SwiftKotlinFrameworkTests.swift in Sources */,
+				78CC67DB1DC8B39C0039511C /* LICENCE.md in Sources */,
 				78A7E5B81DB8E36200D77182 /* KeywordReplacementTransformerTests.swift in Sources */,
 				78A7E5C11DB9093A00D77182 /* NSRangeExtensions.swift in Sources */,
 				78A7E5BD1DB8FC1800D77182 /* NameParametersTransformerTests.swift in Sources */,
 				78A7E5B61DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */,
+				78CC680D1DC8BB940039511C /* TestExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

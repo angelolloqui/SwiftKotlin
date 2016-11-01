@@ -10,11 +10,9 @@ import Foundation
 
 class NameParametersTransformer: Transformer {
     
-    func translate(content: String) throws -> String {
-        return try replaceFirstNamedParameter(content: content)
+    func transform(formatter: Formatter) throws {
     }
-    
-    
+        
     func replaceFirstNamedParameter(content: String) throws -> String {
        
         let callExpressions = try findMethodCallExpressions(content: content)
