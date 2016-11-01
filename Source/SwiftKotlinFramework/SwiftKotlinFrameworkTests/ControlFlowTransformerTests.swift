@@ -25,10 +25,14 @@ class ControlFlowTransformerTests: XCTestCase {
         let swift =
             "if number == 3 {}\n" +
             "if (number == 3) {}\n" +
+            "if number == nil {}\n" +
+            "if item is Movie {}\n" +
             "if !object.condition() {}\n"
         let kotlin =
             "if (number == 3) {}\n" +
             "if (number == 3) {}\n" +
+            "if (number == nil) {}\n" +
+            "if (item is Movie) {}\n" +
             "if (!object.condition()) {}\n"
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
@@ -40,7 +44,19 @@ class ControlFlowTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
-    
+   
+    func testIfMultipleLetDeclaration() {
+        let swift =
+            "if let number = some.method()," +
+            "let param = object.itemAt(number) {}"
+        let kotlin =
+            "let number = some.method()\n" +
+            "let param = object.itemAt(number)" +
+            "if (number != null && param != null) {}"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+
     
     func testIfNestedClousure() {
         let swift = "if numbers.flatMap({ $0 % 2}).count == 1 {}"
@@ -61,6 +77,28 @@ class ControlFlowTransformerTests: XCTestCase {
     func testWhileStatement() {
         let swift = "while condition {}"
         let kotlin = "while (condition) {}"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+    
+    
+    func testGuardStatement() {
+        let swift =
+            "guard number == 3 else { return }\n" +
+            "guard condition else { return }\n" +
+            "guard !condition else { return }\n"            
+        let kotlin =
+            "if (number != 3) { return }\n" +
+            "if (!condition) { return }\n" +
+            "if (condition) { return }\n"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+    
+    
+    func testGuardLetStatements() {
+        let swift = "guard let number = number else { return }"
+        let kotlin = "if (number == null) { return }"
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }

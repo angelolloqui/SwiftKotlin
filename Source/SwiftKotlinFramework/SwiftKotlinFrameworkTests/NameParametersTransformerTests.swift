@@ -100,4 +100,21 @@ class NameParametersTransformerTests: XCTestCase {
         XCTAssertEqual(translate, kotlin)
     }
 
+    
+    func testMantainsSwitchCases() {
+        let swift =
+            "switch nb {\n" +
+            "case 0...7, 8, 9: print(data)\n" +
+            "default: print(\"default\")\n" +
+            "}"
+        let kotlin =
+            "switch nb {\n" +
+            "case 0...7, 8, 9: print(data)\n" +
+            "default: print(\"default\")\n" +
+            "}"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+    
+
 }
