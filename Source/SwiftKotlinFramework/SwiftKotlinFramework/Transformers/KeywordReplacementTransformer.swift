@@ -15,7 +15,7 @@ class KeywordResplacementTransformer: Transformer {
         "\\blet\\b": "val",
         "\\bfunc\\b": "fun",
         "\\bself\\b": "this",
-        "\\$0\\b": "it",        
+        "\\$0\\b": "it",
     ]
     
     func translate(content: String) throws -> String {
