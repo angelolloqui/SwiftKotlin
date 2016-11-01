@@ -24,6 +24,9 @@
 		78CC680D1DC8BB940039511C /* TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC680B1DC8BB940039511C /* TestExtensions.swift */; };
 		78DC1FBD1D898021009E0283 /* SwiftKotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */; };
 		78DC1FBE1D898021009E0283 /* SwiftKotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */; };
+		78E279721DC8D8DA002A62BF /* ControlFlowTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E279711DC8D8DA002A62BF /* ControlFlowTransformer.swift */; };
+		78E279731DC8D8DA002A62BF /* ControlFlowTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E279711DC8D8DA002A62BF /* ControlFlowTransformer.swift */; };
+		78E279751DC8E542002A62BF /* ControlFlowTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E279741DC8E542002A62BF /* ControlFlowTransformerTests.swift */; };
 		78F032D41D86C15400BE709A /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */; };
 		78F032D91D86C15400BE709A /* SwiftKotlinFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F032D81D86C15400BE709A /* SwiftKotlinFrameworkTests.swift */; };
 		78F032E61D86C1C400BE709A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78F032E41D86C1C400BE709A /* Info.plist */; };
@@ -63,6 +66,8 @@
 		78CC68081DC8B4E50039511C /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		78CC680B1DC8BB940039511C /* TestExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestExtensions.swift; sourceTree = "<group>"; };
 		78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftKotlin.swift; sourceTree = "<group>"; };
+		78E279711DC8D8DA002A62BF /* ControlFlowTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlFlowTransformer.swift; sourceTree = "<group>"; };
+		78E279741DC8E542002A62BF /* ControlFlowTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlFlowTransformerTests.swift; sourceTree = "<group>"; };
 		78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftKotlinFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F032D31D86C15400BE709A /* SwiftKotlinFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftKotlinFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F032D81D86C15400BE709A /* SwiftKotlinFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftKotlinFrameworkTests.swift; sourceTree = "<group>"; };
@@ -119,6 +124,7 @@
 		78DC1FBA1D897FED009E0283 /* Transformers */ = {
 			isa = PBXGroup;
 			children = (
+				78E279711DC8D8DA002A62BF /* ControlFlowTransformer.swift */,
 				78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */,
 				78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */,
 			);
@@ -169,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				78F032D81D86C15400BE709A /* SwiftKotlinFrameworkTests.swift */,
+				78E279741DC8E542002A62BF /* ControlFlowTransformerTests.swift */,
 				78A7E5B71DB8E36200D77182 /* KeywordReplacementTransformerTests.swift */,
 				78A7E5BC1DB8FC1800D77182 /* NameParametersTransformerTests.swift */,
 				78F032DA1D86C15400BE709A /* Info.plist */,
@@ -308,6 +315,7 @@
 			files = (
 				78A7E5C01DB9093A00D77182 /* NSRangeExtensions.swift in Sources */,
 				78CC67E91DC8B39C0039511C /* Tokenizer.swift in Sources */,
+				78E279721DC8D8DA002A62BF /* ControlFlowTransformer.swift in Sources */,
 				78A7E5BA1DB8FBC300D77182 /* NamedParametersTransformer.swift in Sources */,
 				78CC68091DC8B4E50039511C /* Formatter.swift in Sources */,
 				78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */,
@@ -322,6 +330,7 @@
 			files = (
 				78A7E5BB1DB8FBC300D77182 /* NamedParametersTransformer.swift in Sources */,
 				78DC1FBE1D898021009E0283 /* SwiftKotlin.swift in Sources */,
+				78E279731DC8D8DA002A62BF /* ControlFlowTransformer.swift in Sources */,
 				78CC680A1DC8B4E50039511C /* Formatter.swift in Sources */,
 				78CC67EA1DC8B39C0039511C /* Tokenizer.swift in Sources */,
 				78F032D91D86C15400BE709A /* SwiftKotlinFrameworkTests.swift in Sources */,
@@ -329,6 +338,7 @@
 				78A7E5B81DB8E36200D77182 /* KeywordReplacementTransformerTests.swift in Sources */,
 				78A7E5C11DB9093A00D77182 /* NSRangeExtensions.swift in Sources */,
 				78A7E5BD1DB8FC1800D77182 /* NameParametersTransformerTests.swift in Sources */,
+				78E279751DC8E542002A62BF /* ControlFlowTransformerTests.swift in Sources */,
 				78A7E5B61DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */,
 				78CC680D1DC8BB940039511C /* TestExtensions.swift in Sources */,
 			);

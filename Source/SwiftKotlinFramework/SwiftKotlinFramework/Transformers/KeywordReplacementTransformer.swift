@@ -16,6 +16,7 @@ class KeywordResplacementTransformer: Transformer {
         "func": "fun",
         "self": "this",
         "$0": "it",
+        "nil": "null"
     ]
     
     func transform(formatter: Formatter) throws {

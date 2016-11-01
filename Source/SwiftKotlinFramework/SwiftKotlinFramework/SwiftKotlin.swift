@@ -22,7 +22,8 @@ class SwiftKotlin {
     convenience init() {
         self.init(transformers: [
                 KeywordResplacementTransformer(),
-                NameParametersTransformer()
+                NameParametersTransformer(),
+                ControlFlowTransformer()
         ])
     }
     

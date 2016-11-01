@@ -90,5 +90,12 @@ class KeywordReplacementTransformerTests: XCTestCase {
     }
 
     
+    func testNilConstant() {
+        let swift = "var variable: Int? = nil"
+        let kotlin = "var variable: Int? = null"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+
     
 }
