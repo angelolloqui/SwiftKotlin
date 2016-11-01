@@ -34,40 +34,70 @@ class NameParametersTransformerTests: XCTestCase {
     func testInitParameters() {
         let swift =
             "NetworkRequestServiceTask(\n" +
-            "networkSession: networkSession,\n" +
-            "endpoint: \"restaurants\")"
+                "networkSession: networkSession,\n" +
+                "endpoint: \"restaurants\")"
         
         let kotlin =
             "NetworkRequestServiceTask(\n" +
-            "networkSession = networkSession,\n" +
-            "endpoint = \"restaurants\")"
+                "networkSession = networkSession,\n" +
+                "endpoint = \"restaurants\")"
         
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
+        
     
-    
-    
-    func testMantainsDeclarations() {
+    func testMantainsVariableDeclarations() {
         let swift =
             "var a: Int = 4\n" +
-            "class A: B { \n" +
-                "init(param: Int) { }\n" +
-                "func method(param: Int) { }\n" +
-            "}"
+            "var b, c, d: Int\n"
+        
         let kotlin =
             "var a: Int = 4\n" +
-            "class A: B { \n" +
-                "init(param: Int) { }\n" +
-                "func method(param: Int) { }\n" +
-            "}"
+            "var b, c, d: Int\n"
         
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
     
     
+    func testMantainsClassDeclarations() {
+        let swift = "class A: B {}"
+        let kotlin = "class A: B {}"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
     
-
+    
+    func testMantainsStructDeclarations() {        
+        let swift = "struct A: B {}"
+        let kotlin = "struct A: B {}"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+    
+    func testMantainsMethodDeclarations() {
+        let swift =
+            "class A {\n" +
+                "\tinit(param1: Int, param2: Int) { }\n" +
+                "\tfunc method(param1: Int, param2: Int) { }\n" +
+            "}\n"
+        let kotlin =
+            "class A {\n" +
+                "\tinit(param1: Int, param2: Int) { }\n" +
+                "\tfunc method(param1: Int, param2: Int) { }\n" +
+            "}\n"
+        
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+    
+    
+    func testMantainsProtocolExtensionDeclarations() {
+        let swift = "extension Transformer where Self: KeywordResplacementTransformer {}"
+        let kotlin = "extension Transformer where Self: KeywordResplacementTransformer {}"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
 
 }

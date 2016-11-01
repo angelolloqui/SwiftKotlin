@@ -9,33 +9,33 @@
 import Foundation
 
 class NameParametersTransformer: Transformer {
+    let declarationTokens = ["var", "let", "class", "struct", "enum", "Self", "init", "func"]
     
     func transform(formatter: Formatter) throws {
-    }
         
-    func replaceFirstNamedParameter(content: String) throws -> String {
-       
-        let callExpressions = try findMethodCallExpressions(content: content)
-        
-//        return words.reduce(content) { (translate, word) -> String in
-//            let replacement = word.replacingOccurrences(of: ":", with: " = ")
-//            return translate.replacingOccurrences(of: word, with: replacement)
-//        }
-        
-        return content
+        formatter.forEachToken(":", ofType: .symbol) { (i, token) in
+            //Check previous tokens:
+                //when -> var, let -> then variable declaration, must not change
+                //when -> class, struct, enum, Self -> then type declaration, must not change
+                //when -> init, func -> then method declaration, must not change
+            
+            var isMethodInvocation = true
+            var index = i - 1
+            while let prevToken = formatter.tokenAtIndex(index) {
+                guard !declarationTokens.contains(prevToken.string) else {
+                    isMethodInvocation = false
+                    break
+                }
+                if prevToken.type == .symbol && prevToken.string == "." {
+                    break;
+                }
+                index -= 1
+            }
+            
+            if isMethodInvocation {
+                formatter.replaceTokenAtIndex(i, with: Token(token.type, " ="))
+            }
+        }
     }
     
-    func findMethodCallExpressions(content: String) throws -> [Int] {
-        //\.(\w+)\( finds any expresion with format ".method("
-        let regex1 = try NSRegularExpression(pattern: "\\.(\\w+)\\(")
-        let locations1 = regex1.matches(in: content, options: [], range: NSRange(0..<content.characters.count)).map { $0.range.location + 1 }
-        
-        //(\w+)?\s+(\w+)\( finds any expresion with format "word word(" and captures the 2 words to analyze.
-        let regex2 = try NSRegularExpression(pattern: "(\\w+)?\\s+(\\w+)\\(")
-        let locations2 = regex2.matches(in: content, options: [], range: NSRange(0..<content.characters.count)).flatMap { match -> Int? in
-            return nil
-        }
-        
-        return locations1 + locations2
-    }
 }
