@@ -52,7 +52,16 @@ class ControlFlowTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
+    
+    
+    func testIfLetStatementWithClousure() {
+        let swift = "if let name = formatter.next(fromIndex: firstTokenIndex, matching: { $0.type == .symbol }, extra: true) {}"
+        let kotlin = "let name = formatter.next(fromIndex: firstTokenIndex, matching: { $0.type == .symbol }, extra: true)\nif (name != null) {}"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
 
+    
     func testIfMultipleLetDeclaration() {
         let swift =
             "if let number = some.method(),\n" +

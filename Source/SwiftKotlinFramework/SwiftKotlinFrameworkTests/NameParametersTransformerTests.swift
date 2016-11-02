@@ -45,6 +45,25 @@ class NameParametersTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
+    
+    
+    func testSimpleMethodWithGenerics() {
+        let swift =
+            "func findRestaurant(restaurantId: Int) -> ServiceTask<Restaurant> {\n" +
+            " return NetworkRequestServiceTask<Restaurant>(\n" +
+            " networkSession: networkSession,\n" +
+            " endpoint: \"restaurants/\")\n" +
+            "}"
+        
+        let kotlin =
+            "func findRestaurant(restaurantId: Int) -> ServiceTask<Restaurant> {\n" +
+            " return NetworkRequestServiceTask<Restaurant>(\n" +
+            " networkSession = networkSession,\n" +
+            " endpoint = \"restaurants/\")\n" +
+            "}"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
         
     
     func testMantainsVariableDeclarations() {

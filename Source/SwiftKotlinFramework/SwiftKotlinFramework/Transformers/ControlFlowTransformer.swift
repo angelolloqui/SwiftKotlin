@@ -40,6 +40,8 @@ class ControlFlowTransformer: Transformer {
     }
     
     func transformConditionalLetStatement(_ formatter: Formatter, startIndex: Int, endIndex: Int) {
+        //TODO: Split condition in multiple statementes separated by , if needed
+        
         if  let firstTokenIndex = formatter.indexOfNextToken(fromIndex: startIndex, matching: { !$0.isWhitespaceOrCommentOrLinebreak }),
             let firstToken = formatter.tokenAtIndex(firstTokenIndex),
             firstToken.string == "let" || firstToken.string == "var" {

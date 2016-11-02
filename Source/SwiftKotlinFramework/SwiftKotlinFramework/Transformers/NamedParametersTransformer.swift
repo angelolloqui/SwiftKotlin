@@ -26,7 +26,8 @@ class NameParametersTransformer: Transformer {
                     isMethodInvocation = false
                     break
                 }
-                if prevToken.type == .symbol && prevToken.string == "." {
+                if (prevToken.type == .symbol && prevToken.string == ".") ||
+                    (prevToken.type == .symbol && prevToken.string == "->"){
                     break;
                 }
                 index -= 1
