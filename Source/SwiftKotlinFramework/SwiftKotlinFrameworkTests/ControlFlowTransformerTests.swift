@@ -47,12 +47,12 @@ class ControlFlowTransformerTests: XCTestCase {
    
     func testIfMultipleLetDeclaration() {
         let swift =
-            "if let number = some.method()," +
+            "if let number = some.method(),\n" +
             "let param = object.itemAt(number) {}"
         let kotlin =
             "let number = some.method()\n" +
             "let param = object.itemAt(number)" +
-            "if (number != null && param != null) {}"
+            "if (number != null &&\nparam != null) {}"
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
@@ -85,10 +85,12 @@ class ControlFlowTransformerTests: XCTestCase {
     func testGuardStatement() {
         let swift =
             "guard number == 3 else { return }\n" +
+            "guard value() >= 3 else { return }\n" +
             "guard condition else { return }\n" +
             "guard !condition else { return }\n"            
         let kotlin =
             "if (number != 3) { return }\n" +
+            "if (value() < 3) { return }\n" +
             "if (!condition) { return }\n" +
             "if (condition) { return }\n"
         let translate = try? transformer.translate(content: swift)

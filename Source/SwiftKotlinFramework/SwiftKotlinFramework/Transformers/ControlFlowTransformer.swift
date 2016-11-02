@@ -13,32 +13,30 @@ class ControlFlowTransformer: Transformer {
         "if",
         "while",
         "for",
-        "switch",
-        "guard"
+        "switch"
     ]
     
     func transform(formatter: Formatter) throws {
         transformGuard(formatter)
         transformSwitch(formatter)
-        transformGeneralConditionStatement(formatter)
-    }
-    
-    func transformGeneralConditionStatement(_ formatter: Formatter) {
-        
         formatter.forEachToken(ofType: .identifier) { (i, token) in
             guard conditionals.contains(token.string) else { return }
-            if  let conditionStartIndex = formatter.indexOfNextToken(fromIndex: i, matching: { $0.type != .whitespace }),
-                let scopeStartIndex = formatter.indexOfNextToken(fromIndex: conditionStartIndex, matching: { $0.string == "{" }),
-                var conditionEndIndex = formatter.indexOfPreviousToken(fromIndex: scopeStartIndex, matching: { !$0.isWhitespaceOrCommentOrLinebreak }) {
-                if formatter.tokenAtIndex(conditionStartIndex)?.string != "(" || formatter.tokenAtIndex(conditionEndIndex)?.string != ")" {
-                    formatter.insertToken(Token(.endOfScope, ")"), atIndex: conditionEndIndex + 1)
-                    formatter.insertToken(Token(.startOfScope, "("), atIndex: conditionStartIndex)
-                    conditionEndIndex += 2
-                }
-                transformConditionalLetStatement(formatter, startIndex: conditionStartIndex + 1, endIndex: conditionEndIndex)
-            }
+            transformConditionStatement(formatter, index: i)
         }
+    }
+    
+    func transformConditionStatement(_ formatter: Formatter, index: Int) {
         
+        if  let conditionStartIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0.type != .whitespace }),
+            let scopeStartIndex = formatter.indexOfNextToken(fromIndex: conditionStartIndex, matching: { $0.string == "{" }),
+            var conditionEndIndex = formatter.indexOfPreviousToken(fromIndex: scopeStartIndex, matching: { !$0.isWhitespaceOrCommentOrLinebreak }) {
+            if formatter.tokenAtIndex(conditionStartIndex)?.string != "(" || formatter.tokenAtIndex(conditionEndIndex)?.string != ")" {
+                formatter.insertToken(Token(.endOfScope, ")"), atIndex: conditionEndIndex + 1)
+                formatter.insertToken(Token(.startOfScope, "("), atIndex: conditionStartIndex)
+                conditionEndIndex += 2
+            }
+            transformConditionalLetStatement(formatter, startIndex: conditionStartIndex + 1, endIndex: conditionEndIndex)
+        }
     }
     
     func transformConditionalLetStatement(_ formatter: Formatter, startIndex: Int, endIndex: Int) {
@@ -56,13 +54,11 @@ class ControlFlowTransformer: Transformer {
                     formatter.replaceTokenAtIndex(endIndex - 1, with: Token(.identifier, "null"))
                     //Remove let and extra spacing
                     formatter.removeTokenAtIndex(startIndex)
-                    while formatter.tokenAtIndex(startIndex)?.type == .whitespace {
-                        formatter.removeTokenAtIndex(startIndex)
-                    }
+                    formatter.removeSpacingTokensAtIndex(startIndex)
                 }
                 //This case needs an extra variable definition out of the "if"
                 else {
-                    
+                    //TODO:
                 }
             }
         }
@@ -79,9 +75,33 @@ class ControlFlowTransformer: Transformer {
             formatter.replaceTokenAtIndex(i, with: Token(.identifier, "if"))
             if let elseIndex = formatter.indexOfNextToken(fromIndex: i, matching: { $0.string == "else" }) {
                 formatter.removeTokenAtIndex(elseIndex)
+                formatter.removeSpacingTokensAtIndex(elseIndex)
             }
-            //TODO: Negate condition
+            transformConditionStatement(formatter, index: i)
+            negateCondition(formatter, index: i)
         }
     }
+    
+    func negateCondition(_ formatter: Formatter, index: Int) {
+        guard let scopeStartIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0.type == .startOfScope }) else { return }
+        let negationMap = ["==": "!=", "!=": "==", ">": "<=", "<": ">=", ">=": "<", "<=": ">"]
+        if  let conditionIndex = formatter.indexOfNextToken(fromIndex: scopeStartIndex, matching: { negationMap.keys.contains($0.string) }),
+            let condition = formatter.tokenAtIndex(conditionIndex)?.string,
+            let negation = negationMap[condition] {
+            formatter.replaceTokenAtIndex(conditionIndex, with: Token(.symbol, negation))
+        }
+        else {
+            //Negate the whole condition by using ! (or remove the !)
+            if  let firstTokenIndex = formatter.indexOfNextToken(fromIndex: scopeStartIndex, matching: { $0.type != .whitespace }),
+                let firstToken = formatter.tokenAtIndex(firstTokenIndex),
+                firstToken.string == "!" {
+                formatter.removeTokenAtIndex(firstTokenIndex)
+            }
+            else {
+                formatter.insertToken(Token(.symbol, "!"), atIndex: scopeStartIndex + 1)
+            }
+        }        
+    }
+    
     
 }

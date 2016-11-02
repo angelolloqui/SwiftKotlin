@@ -273,4 +273,10 @@ public class Formatter {
         }
         return nil
     }
+    
+    public func removeSpacingTokensAtIndex(_ index: Int) {
+        while tokenAtIndex(index)?.type == .whitespace {
+            removeTokenAtIndex(index)
+        }
+    }
 }
