@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		784A9EE91DCA0FEF00FFAE7D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784A9EE81DCA0FEF00FFAE7D /* main.swift */; };
+		784A9EEA1DCA103D00FFAE7D /* NSRangeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */; };
+		784A9EEB1DCA104200FFAE7D /* ControlFlowTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E279711DC8D8DA002A62BF /* ControlFlowTransformer.swift */; };
+		784A9EEC1DCA104200FFAE7D /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
+		784A9EED1DCA104200FFAE7D /* NamedParametersTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */; };
+		784A9EEE1DCA104A00FFAE7D /* SwiftKotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */; };
+		784A9EEF1DCA104A00FFAE7D /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC68081DC8B4E50039511C /* Formatter.swift */; };
+		784A9EF01DCA104E00FFAE7D /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC67AA1DC8B39C0039511C /* Tokenizer.swift */; };
 		78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
 		78A7E5B61DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
 		78A7E5B81DB8E36200D77182 /* KeywordReplacementTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B71DB8E36200D77182 /* KeywordReplacementTransformerTests.swift */; };
@@ -15,8 +23,6 @@
 		78A7E5BD1DB8FC1800D77182 /* NameParametersTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5BC1DB8FC1800D77182 /* NameParametersTransformerTests.swift */; };
 		78A7E5C01DB9093A00D77182 /* NSRangeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */; };
 		78A7E5C11DB9093A00D77182 /* NSRangeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */; };
-		78CC67DA1DC8B39C0039511C /* LICENCE.md in Sources */ = {isa = PBXBuildFile; fileRef = 78CC67A11DC8B39C0039511C /* LICENCE.md */; };
-		78CC67DB1DC8B39C0039511C /* LICENCE.md in Sources */ = {isa = PBXBuildFile; fileRef = 78CC67A11DC8B39C0039511C /* LICENCE.md */; };
 		78CC67E91DC8B39C0039511C /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC67AA1DC8B39C0039511C /* Tokenizer.swift */; };
 		78CC67EA1DC8B39C0039511C /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC67AA1DC8B39C0039511C /* Tokenizer.swift */; };
 		78CC68091DC8B4E50039511C /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC68081DC8B4E50039511C /* Formatter.swift */; };
@@ -44,6 +50,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		784A9EDE1DCA0FB800FFAE7D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		78F032EF1D86C2B500BE709A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -56,6 +71,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		784A9EE01DCA0FB800FFAE7D /* SwiftKotlinCommandLine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftKotlinCommandLine; sourceTree = BUILT_PRODUCTS_DIR; };
+		784A9EE81DCA0FEF00FFAE7D /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordReplacementTransformer.swift; sourceTree = "<group>"; };
 		78A7E5B71DB8E36200D77182 /* KeywordReplacementTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordReplacementTransformerTests.swift; sourceTree = "<group>"; };
 		78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamedParametersTransformer.swift; sourceTree = "<group>"; };
@@ -77,6 +94,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		784A9EDD1DCA0FB800FFAE7D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78F032C51D86C15400BE709A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -95,6 +119,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		784A9EE71DCA0FEF00FFAE7D /* SwiftKotlinCommandLine */ = {
+			isa = PBXGroup;
+			children = (
+				784A9EE81DCA0FEF00FFAE7D /* main.swift */,
+			);
+			name = SwiftKotlinCommandLine;
+			path = ../SwiftKotlinCommandLine;
+			sourceTree = "<group>";
+		};
 		78A7E5BE1DB9092F00D77182 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +176,7 @@
 			children = (
 				78F032CB1D86C15400BE709A /* SwiftKotlinFramework */,
 				78F032D71D86C15400BE709A /* SwiftKotlinFrameworkTests */,
+				784A9EE71DCA0FEF00FFAE7D /* SwiftKotlinCommandLine */,
 				78F032CA1D86C15400BE709A /* Products */,
 				78F032EE1D86C29400BE709A /* Frameworks */,
 			);
@@ -153,6 +187,7 @@
 			children = (
 				78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */,
 				78F032D31D86C15400BE709A /* SwiftKotlinFrameworkTests.xctest */,
+				784A9EE01DCA0FB800FFAE7D /* SwiftKotlinCommandLine */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,6 +249,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		784A9EDF1DCA0FB800FFAE7D /* SwiftKotlinCommandLine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 784A9EE41DCA0FB800FFAE7D /* Build configuration list for PBXNativeTarget "SwiftKotlinCommandLine" */;
+			buildPhases = (
+				784A9EDC1DCA0FB800FFAE7D /* Sources */,
+				784A9EDD1DCA0FB800FFAE7D /* Frameworks */,
+				784A9EDE1DCA0FB800FFAE7D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftKotlinCommandLine;
+			productName = SwiftKotlinCommandLine;
+			productReference = 784A9EE01DCA0FB800FFAE7D /* SwiftKotlinCommandLine */;
+			productType = "com.apple.product-type.tool";
+		};
 		78F032C81D86C15400BE709A /* SwiftKotlinFramework */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 78F032DD1D86C15400BE709A /* Build configuration list for PBXNativeTarget "SwiftKotlinFramework" */;
@@ -257,10 +309,15 @@
 		78F032C01D86C15400BE709A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0800;
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Angel G. Olloqui";
 				TargetAttributes = {
+					784A9EDF1DCA0FB800FFAE7D = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = P6X9Y77ULM;
+						ProvisioningStyle = Automatic;
+					};
 					78F032C81D86C15400BE709A = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 0800;
@@ -286,6 +343,7 @@
 			targets = (
 				78F032C81D86C15400BE709A /* SwiftKotlinFramework */,
 				78F032D21D86C15400BE709A /* SwiftKotlinFrameworkTests */,
+				784A9EDF1DCA0FB800FFAE7D /* SwiftKotlinCommandLine */,
 			);
 		};
 /* End PBXProject section */
@@ -309,6 +367,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		784A9EDC1DCA0FB800FFAE7D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				784A9EED1DCA104200FFAE7D /* NamedParametersTransformer.swift in Sources */,
+				784A9EEB1DCA104200FFAE7D /* ControlFlowTransformer.swift in Sources */,
+				784A9EEE1DCA104A00FFAE7D /* SwiftKotlin.swift in Sources */,
+				784A9EEF1DCA104A00FFAE7D /* Formatter.swift in Sources */,
+				784A9EEA1DCA103D00FFAE7D /* NSRangeExtensions.swift in Sources */,
+				784A9EF01DCA104E00FFAE7D /* Tokenizer.swift in Sources */,
+				784A9EEC1DCA104200FFAE7D /* KeywordReplacementTransformer.swift in Sources */,
+				784A9EE91DCA0FEF00FFAE7D /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78F032C41D86C15400BE709A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -319,7 +392,6 @@
 				78A7E5BA1DB8FBC300D77182 /* NamedParametersTransformer.swift in Sources */,
 				78CC68091DC8B4E50039511C /* Formatter.swift in Sources */,
 				78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */,
-				78CC67DA1DC8B39C0039511C /* LICENCE.md in Sources */,
 				78DC1FBD1D898021009E0283 /* SwiftKotlin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,7 +406,6 @@
 				78CC680A1DC8B4E50039511C /* Formatter.swift in Sources */,
 				78CC67EA1DC8B39C0039511C /* Tokenizer.swift in Sources */,
 				78F032D91D86C15400BE709A /* SwiftKotlinFrameworkTests.swift in Sources */,
-				78CC67DB1DC8B39C0039511C /* LICENCE.md in Sources */,
 				78A7E5B81DB8E36200D77182 /* KeywordReplacementTransformerTests.swift in Sources */,
 				78A7E5C11DB9093A00D77182 /* NSRangeExtensions.swift in Sources */,
 				78A7E5BD1DB8FC1800D77182 /* NameParametersTransformerTests.swift in Sources */,
@@ -355,6 +426,30 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		784A9EE51DCA0FB800FFAE7D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEVELOPMENT_TEAM = P6X9Y77ULM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		784A9EE61DCA0FB800FFAE7D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEVELOPMENT_TEAM = P6X9Y77ULM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		78F032DB1D86C15400BE709A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -513,6 +608,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		784A9EE41DCA0FB800FFAE7D /* Build configuration list for PBXNativeTarget "SwiftKotlinCommandLine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				784A9EE51DCA0FB800FFAE7D /* Debug */,
+				784A9EE61DCA0FB800FFAE7D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		78F032C31D86C15400BE709A /* Build configuration list for PBXProject "SwiftKotlinFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
