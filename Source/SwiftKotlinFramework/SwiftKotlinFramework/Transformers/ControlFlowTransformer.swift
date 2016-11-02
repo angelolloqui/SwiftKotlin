@@ -35,15 +35,16 @@ class ControlFlowTransformer: Transformer {
                 formatter.insertToken(Token(.startOfScope, "("), atIndex: conditionStartIndex)
                 conditionEndIndex += 2
             }
-            transformConditionalLetStatement(formatter, startIndex: conditionStartIndex + 1, endIndex: conditionEndIndex)
+            transformConditionalLetStatement(formatter, startIndex: conditionStartIndex, endIndex: conditionEndIndex)
         }
     }
     
     func transformConditionalLetStatement(_ formatter: Formatter, startIndex: Int, endIndex: Int) {
-        if let token = formatter.tokenAtIndex(startIndex),
-            token.string == "let" || token.string == "var" {
-            if  let unwrappedVariableName = formatter.nextNonWhitespaceOrCommentOrLinebreakToken(fromIndex: startIndex),
-                let assignementIndex = formatter.indexOfNextToken(fromIndex: startIndex + 1, matching: { $0.type == .symbol && $0.string == "=" }),
+        if  let firstTokenIndex = formatter.indexOfNextToken(fromIndex: startIndex, matching: { !$0.isWhitespaceOrCommentOrLinebreak }),
+            let firstToken = formatter.tokenAtIndex(firstTokenIndex),
+            firstToken.string == "let" || firstToken.string == "var" {
+            if  let unwrappedVariableName = formatter.nextNonWhitespaceOrCommentOrLinebreakToken(fromIndex: firstTokenIndex),
+                let assignementIndex = formatter.indexOfNextToken(fromIndex: firstTokenIndex, matching: { $0.type == .symbol && $0.string == "=" }),
                 let expressionIndex = formatter.indexOfNextToken(fromIndex: assignementIndex, matching: { $0.type != .whitespace }){
                 let optionalExpressionTokens = formatter.tokens[expressionIndex..<endIndex]
                 
@@ -53,12 +54,27 @@ class ControlFlowTransformer: Transformer {
                     formatter.replaceTokenAtIndex(assignementIndex, with: Token(.symbol, "!="))
                     formatter.replaceTokenAtIndex(endIndex - 1, with: Token(.identifier, "null"))
                     //Remove let and extra spacing
-                    formatter.removeTokenAtIndex(startIndex)
-                    formatter.removeSpacingTokensAtIndex(startIndex)
+                    formatter.removeTokenAtIndex(firstTokenIndex)
+                    formatter.removeSpacingTokensAtIndex(firstTokenIndex)
                 }
                 //This case needs an extra variable definition out of the "if"
                 else {
-                    //TODO:
+                    //Move conditional expresion out of the "if"
+                    let expressionTokens = formatter.tokens[firstTokenIndex..<endIndex]
+                    formatter.removeTokensInRange(Range(uncheckedBounds: (lower: firstTokenIndex, upper: endIndex)))
+                    let declarationIndex = formatter.indexOfPreviousToken(fromIndex: startIndex - 1, matching: { $0.type != .whitespace })!
+                    formatter.insertToken(Token(.linebreak, "\n"), atIndex: declarationIndex)
+                    expressionTokens.reversed().forEach {
+                        formatter.insertToken($0, atIndex: declarationIndex)
+                    }
+                    
+                    //Add null check
+                    let conditionTokenIndex = firstTokenIndex + expressionTokens.count
+                    formatter.insertToken(unwrappedVariableName, atIndex: conditionTokenIndex + 1)
+                    formatter.insertToken(Token(.whitespace, " "), atIndex: conditionTokenIndex + 2)
+                    formatter.insertToken(Token(.symbol, "!="), atIndex: conditionTokenIndex + 3)
+                    formatter.insertToken(Token(.whitespace, " "), atIndex: conditionTokenIndex + 4)
+                    formatter.insertToken(Token(.identifier, "null"), atIndex: conditionTokenIndex + 5)
                 }
             }
         }

@@ -44,7 +44,15 @@ class ControlFlowTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
-   
+
+    
+    func testIfLetStatementDifferentName() {
+        let swift = "if let number = method() {}"
+        let kotlin = "let number = method()\nif (number != null) {}"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+
     func testIfMultipleLetDeclaration() {
         let swift =
             "if let number = some.method(),\n" +
@@ -101,6 +109,19 @@ class ControlFlowTransformerTests: XCTestCase {
     func testGuardLetStatements() {
         let swift = "guard let number = number else { return }"
         let kotlin = "if (number == null) { return }"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+
+    func testGuardMultipleDeclaration() {
+        let swift =
+            "guard let result = some.method(),\n" +
+            "let param = result.number(),\n" +
+            "param > 1 else { return }"
+        let kotlin =
+            "let result = some.method()\n" +
+            "let param = result.number()\n" +
+            "if (result != null &&\nparam != null &&\nparam <= 1) { return }"
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
