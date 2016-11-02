@@ -9,7 +9,7 @@
 import Foundation
 
 
-class KeywordResplacementTransformer: Transformer {
+class KeywordReplacementTransformer: Transformer {
     let replacementIndetifierMap = [
         "protocol": "interface",
         "let": "val",

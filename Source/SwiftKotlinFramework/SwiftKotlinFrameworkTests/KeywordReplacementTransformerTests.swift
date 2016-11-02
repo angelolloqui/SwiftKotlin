@@ -9,11 +9,11 @@
 import XCTest
 
 class KeywordReplacementTransformerTests: XCTestCase {
-    var transformer: KeywordResplacementTransformer!
+    var transformer: KeywordReplacementTransformer!
     
     override func setUp() {
         super.setUp()
-        transformer = KeywordResplacementTransformer()
+        transformer = KeywordReplacementTransformer()
     }
     
     override func tearDown() {

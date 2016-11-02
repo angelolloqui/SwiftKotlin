@@ -26,6 +26,15 @@ class NameParametersTransformer: Transformer {
                     isMethodInvocation = false
                     break
                 }
+                //If new scope, check is not a clousure by assuming closures start with ( or [ (to be reviewed)
+                if (prevToken.type == .startOfScope && prevToken.string == "{") {
+                    let token = formatter.nextNonWhitespaceOrCommentOrLinebreakToken(fromIndex: index)
+                    if token?.string == "(" || token?.string == "[" {
+                        isMethodInvocation = false
+                        break
+                    }
+                }
+                //If finds a . assumes method invocacion, and -> assumes function body (to be reviewed)
                 if (prevToken.type == .symbol && prevToken.string == ".") ||
                     (prevToken.type == .symbol && prevToken.string == "->"){
                     break;

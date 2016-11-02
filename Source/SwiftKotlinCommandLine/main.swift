@@ -12,9 +12,10 @@ let swiftKotlin = SwiftKotlin()
 
 let pathViewModel = "/Users/agarcia/Documents/projects/OpenTable-iOS/OpenTableApps/OpenTable-iOS/Modules/Restaurants/List/ViewModel/RestaurantsListViewModel.swift"
 let pathService = "/Users/agarcia/Documents/projects/OpenTable-iOS/OpenTableFramework/OpenTableFramework/Services/RestaurantService.swift"
+let pathCoordinator = "/Users/agarcia/Documents/projects/OpenTable-iOS/OpenTableApps/OpenTable-iOS/Modules/Restaurants/Coordinators/RestaurantsCoordinator.swift"
 
 print("\n\n\n\n######### SWIFT CODE#######\n")
-let source = try! String(contentsOfFile: pathViewModel)
+let source = try! String(contentsOfFile: pathCoordinator)
 print(source)
 
 let translation = try! swiftKotlin.translate(content: source)

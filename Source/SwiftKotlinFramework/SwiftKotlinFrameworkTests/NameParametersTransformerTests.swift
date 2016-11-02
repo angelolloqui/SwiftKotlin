@@ -135,5 +135,15 @@ class NameParametersTransformerTests: XCTestCase {
         XCTAssertEqual(translate, kotlin)
     }
     
+    
+    func testMantainsClousureDeclarations() {
+        let swift = "service.find(country: \"US\", page: page).onCompletion { (result: RestaurantSearch?) in }"
+        let kotlin = "service.find(country = \"US\", page = page).onCompletion { (result: RestaurantSearch?) in }"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+    
+
+    
 
 }
