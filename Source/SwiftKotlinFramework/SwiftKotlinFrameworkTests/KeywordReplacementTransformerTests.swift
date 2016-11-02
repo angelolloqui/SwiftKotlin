@@ -96,6 +96,13 @@ class KeywordReplacementTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
+    
+    func testCoalescingOperator() {
+        let swift = "var nextPage = (stateValue.lastPage ?? 0) + 1"
+        let kotlin = "var nextPage = (stateValue.lastPage ?: 0) + 1"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
 
     
 }

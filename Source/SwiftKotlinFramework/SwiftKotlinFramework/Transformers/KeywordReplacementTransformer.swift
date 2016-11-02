@@ -10,17 +10,25 @@ import Foundation
 
 
 class KeywordResplacementTransformer: Transformer {
-    let replacementSymbolMap = [
+    let replacementIndetifierMap = [
         "protocol": "interface",
         "let": "val",
         "func": "fun",
         "self": "this",
         "$0": "it",
-        "nil": "null"
+        "nil": "null",
+    ]
+    
+    let replacementSymbolMap = [
+        "??": "?:"
     ]
     
     func transform(formatter: Formatter) throws {
         formatter.forEachToken(ofType: .identifier) { (i, token) in
+            guard let replace = self.replacementIndetifierMap[token.string] else { return }
+            formatter.replaceTokenAtIndex(i, with: Token(token.type, replace))
+        }
+        formatter.forEachToken(ofType: .symbol) { (i, token) in
             guard let replace = self.replacementSymbolMap[token.string] else { return }
             formatter.replaceTokenAtIndex(i, with: Token(token.type, replace))
         }
