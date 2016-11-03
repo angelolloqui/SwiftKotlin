@@ -174,13 +174,13 @@ func processInput(_ inputURL: URL, andWriteToOutput outputURL: URL) -> Int {
                     print("error: could not parse file: \(inputURL.path)")
                     return 0
                 }
-                if output != input {
-                    if (try? output.write(to: outputURL, atomically: true, encoding: String.Encoding.utf8)) != nil {
-                        return 1
-                    } else {
-                        print("error: failed to write file: \(outputURL.path)")
-                    }
+                
+                if (try? output.write(to: outputURL.deletingPathExtension().appendingPathExtension("kt"), atomically: true, encoding: String.Encoding.utf8)) != nil {
+                    return 1
+                } else {
+                    print("error: failed to write file: \(outputURL.path)")
                 }
+                
             } else {
                 print("error: failed to read file: \(inputURL.path)")
             }
