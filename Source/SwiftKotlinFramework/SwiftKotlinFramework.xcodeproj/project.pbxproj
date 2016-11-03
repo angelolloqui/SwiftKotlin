@@ -80,7 +80,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		784A9EE01DCA0FB800FFAE7D /* SwiftKotlinCommandLine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftKotlinCommandLine; sourceTree = BUILT_PRODUCTS_DIR; };
+		784A9EE01DCA0FB800FFAE7D /* swiftkotlin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swiftkotlin; sourceTree = BUILT_PRODUCTS_DIR; };
 		784A9EE81DCA0FEF00FFAE7D /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		784A9EF11DCA1C5B00FFAE7D /* PropertyTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyTransformerTests.swift; sourceTree = "<group>"; };
 		784A9EF31DCA1C7800FFAE7D /* StructTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StructTransformerTests.swift; sourceTree = "<group>"; };
@@ -204,7 +204,7 @@
 			children = (
 				78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */,
 				78F032D31D86C15400BE709A /* SwiftKotlinFrameworkTests.xctest */,
-				784A9EE01DCA0FB800FFAE7D /* SwiftKotlinCommandLine */,
+				784A9EE01DCA0FB800FFAE7D /* swiftkotlin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -286,7 +286,7 @@
 			);
 			name = SwiftKotlinCommandLine;
 			productName = SwiftKotlinCommandLine;
-			productReference = 784A9EE01DCA0FB800FFAE7D /* SwiftKotlinCommandLine */;
+			productReference = 784A9EE01DCA0FB800FFAE7D /* swiftkotlin */;
 			productType = "com.apple.product-type.tool";
 		};
 		78F032C81D86C15400BE709A /* SwiftKotlinFramework */ = {
@@ -464,8 +464,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				DEVELOPMENT_TEAM = P6X9Y77ULM;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = swiftKotlinCommand;
+				PRODUCT_NAME = swiftkotlin;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -476,8 +478,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				DEVELOPMENT_TEAM = P6X9Y77ULM;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = swiftKotlinCommand;
+				PRODUCT_NAME = swiftkotlin;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -647,6 +651,7 @@
 				784A9EE61DCA0FB800FFAE7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		78F032C31D86C15400BE709A /* Build configuration list for PBXProject "SwiftKotlinFramework" */ = {
 			isa = XCConfigurationList;
