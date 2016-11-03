@@ -17,11 +17,13 @@ class ControlFlowTransformer: Transformer {
     ]
     
     func transform(formatter: Formatter) throws {
-        transformGuard(formatter)
-        transformSwitch(formatter)
+        transformGuards(formatter)
         formatter.forEachToken(ofType: .identifier) { (i, token) in
             guard conditionals.contains(token.string) else { return }
             transformConditionStatement(formatter, index: i)
+            if token.string == "switch" {
+                transformSwitch(formatter, index: i)
+            }
         }
     }
     
@@ -82,13 +84,73 @@ class ControlFlowTransformer: Transformer {
         }
     }
     
-    func transformSwitch(_ formatter: Formatter) {
+    func transformSwitch(_ formatter: Formatter, index: Int) {
+        guard let bodyStartIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0.type == .startOfScope && $0.string == "{" }) else { return }
+
+        //Switch cases are special because they are not properly scoped. Fix it by just iterating on keywords to find all cases and body end
+        var caseIndexes = [Int]()
+        var colonIndexes = [Int]()
+        var defaultIndex: Int?
+        var scopeCount = 1
+        var tokenIndex = bodyStartIndex
+        var identifiersCount = 0
+        repeat {
+            tokenIndex += 1
+            guard let token = formatter.tokenAtIndex(tokenIndex) else { break }
+            
+            if token.type == .endOfScope && token.string == "}" {
+                scopeCount -= 1
+            }
+            else if token.type == .startOfScope && token.string == "{" {
+                scopeCount += 1
+            }
+            else if token.type == .startOfScope && token.string == ":" {
+                //Check if it is a single identifier, in which case remove "in" and space
+                if identifiersCount == 1 {
+                    let index = caseIndexes.removeLast()
+                    formatter.removeTokenAtIndex(index)
+                    formatter.removeTokenAtIndex(index)                    
+                    tokenIndex -= 2
+                }
+                colonIndexes.append(tokenIndex)
+            }
+            else if token.string == "case" {
+                caseIndexes.append(tokenIndex)
+                identifiersCount = 0
+            }
+            else if token.string == "default" {
+                defaultIndex = tokenIndex
+                identifiersCount = 0
+            }
+            else if !token.isWhitespaceOrCommentOrLinebreak {
+                identifiersCount += 1
+            }
+        } while  scopeCount > 0
+//        let bodyEndIndex = tokenIndex
+        
+
         // Replace "switch" by "when"
-        // Replace "case" inside {} by "in" and ":" by "->"
+        formatter.replaceTokenAtIndex(index, with: Token(.identifier, "when"))
+        
+        // Replace "case" inside {} by "in"
+        caseIndexes.forEach {
+            formatter.replaceTokenAtIndex($0, with: Token(.endOfScope, "in"))
+        }
+
         // Replace "default" inside {} by "else"
+        if let defaultIndex = defaultIndex {
+            formatter.replaceTokenAtIndex(defaultIndex, with:  Token(.endOfScope, "else"))
+        }
+        
+        // Replace ":" inside {} by "->" and add 1 space
+        colonIndexes.reversed().forEach {
+            formatter.replaceTokenAtIndex($0, with: Token(.startOfScope, "->"))
+            formatter.insertToken(Token(.whitespace, " "), atIndex: $0)
+        }
+
     }
     
-    func transformGuard(_ formatter: Formatter) {
+    func transformGuards(_ formatter: Formatter) {
         formatter.forEachToken("guard", ofType: .identifier) { (i, token) in
             formatter.replaceTokenAtIndex(i, with: Token(.identifier, "if"))
             if let elseIndex = formatter.indexOfNextToken(fromIndex: i, matching: { $0.string == "else" }) {

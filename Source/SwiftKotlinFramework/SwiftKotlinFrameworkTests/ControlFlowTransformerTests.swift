@@ -61,6 +61,12 @@ class ControlFlowTransformerTests: XCTestCase {
         XCTAssertEqual(translate, kotlin)
     }
 
+    func testIfCaseStatement() {
+        let swift = "if case .success(let res) = self {}"
+        let kotlin = "???"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
     
     func testIfMultipleLetDeclaration() {
         let swift =
@@ -134,5 +140,28 @@ class ControlFlowTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
+    
+    
+    func testSwitchStatement() {
+        let swift =
+        "switch nb {\n" +
+        "case 0...7, 8, 9: print(\"single digit\")\n" +
+        "case 10: print(\"double digits\")\n" +
+        "case 11...99: print(\"double digits\")\n" +
+        "default: print(\"three or more digits\")\n" +
+        "}"
+        
+        let kotlin =
+        "when (nb) {\n" +
+        "in 0...7, 8, 9 -> print(\"single digit\")\n" +
+        "10 -> print(\"double digits\")\n" +
+        "in 11...99 -> print(\"double digits\")\n" +
+        "else -> print(\"three or more digits\")\n" +
+        "}"
+        
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
+    
 
 }
