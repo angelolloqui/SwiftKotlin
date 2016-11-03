@@ -112,5 +112,11 @@ class KeywordReplacementTransformerTests: XCTestCase {
         XCTAssertEqual(translate, kotlin)
     }
 
+    func testFilePrivateAccessor() {
+        let swift = "fileprivate var number = 3"
+        let kotlin = "private var number = 3"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
     
 }

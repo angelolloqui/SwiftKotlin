@@ -52,4 +52,7 @@ class PropertyTransformerTests: XCTestCase {
         XCTFail()
     }
     
+    func testLateInitProperty() {
+        XCTFail()
+    }
 }

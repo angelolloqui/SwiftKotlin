@@ -17,6 +17,7 @@ class KeywordReplacementTransformer: Transformer {
         "self": "this",
         "$0": "it",
         "nil": "null",
+        "fileprivate": "private"
     ]
     
     let replacementSymbolMap = [
