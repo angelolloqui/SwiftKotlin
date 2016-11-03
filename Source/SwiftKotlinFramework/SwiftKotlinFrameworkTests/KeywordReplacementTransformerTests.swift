@@ -103,6 +103,14 @@ class KeywordReplacementTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         XCTAssertEqual(translate, kotlin)
     }
+    
+    
+    func testClosedRangeOperator() {
+        let swift = "for i in 1...3 {}"
+        let kotlin = "for i in 1..3 {}"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
+    }
 
     
 }

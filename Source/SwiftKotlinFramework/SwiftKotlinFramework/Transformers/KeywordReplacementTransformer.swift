@@ -20,7 +20,8 @@ class KeywordReplacementTransformer: Transformer {
     ]
     
     let replacementSymbolMap = [
-        "??": "?:"
+        "??": "?:",
+        "...": ".."
     ]
     
     func transform(formatter: Formatter) throws {
