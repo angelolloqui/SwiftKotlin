@@ -23,6 +23,7 @@ class SwiftKotlin {
         self.init(transformers: [
                 NameParametersTransformer(),
                 ControlFlowTransformer(),
+                PropertyTransformer(),
                 KeywordReplacementTransformer(),
         ])
     }

@@ -20,6 +20,9 @@
 		784A9EF61DCA1CB300FFAE7D /* StaticTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784A9EF51DCA1CB300FFAE7D /* StaticTransformerTests.swift */; };
 		784A9EF81DCA1CCF00FFAE7D /* ConstructorTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784A9EF71DCA1CCF00FFAE7D /* ConstructorTransformerTests.swift */; };
 		784A9EFA1DCA1D5800FFAE7D /* MemoryManagementTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784A9EF91DCA1D5800FFAE7D /* MemoryManagementTransformerTests.swift */; };
+		784A9EFC1DCB53FE00FFAE7D /* PropertyTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784A9EFB1DCB53FE00FFAE7D /* PropertyTransformer.swift */; };
+		784A9EFD1DCB53FE00FFAE7D /* PropertyTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784A9EFB1DCB53FE00FFAE7D /* PropertyTransformer.swift */; };
+		784A9EFE1DCB53FE00FFAE7D /* PropertyTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784A9EFB1DCB53FE00FFAE7D /* PropertyTransformer.swift */; };
 		78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
 		78A7E5B61DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
 		78A7E5B81DB8E36200D77182 /* KeywordReplacementTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B71DB8E36200D77182 /* KeywordReplacementTransformerTests.swift */; };
@@ -83,6 +86,7 @@
 		784A9EF51DCA1CB300FFAE7D /* StaticTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticTransformerTests.swift; sourceTree = "<group>"; };
 		784A9EF71DCA1CCF00FFAE7D /* ConstructorTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorTransformerTests.swift; sourceTree = "<group>"; };
 		784A9EF91DCA1D5800FFAE7D /* MemoryManagementTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryManagementTransformerTests.swift; sourceTree = "<group>"; };
+		784A9EFB1DCB53FE00FFAE7D /* PropertyTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyTransformer.swift; sourceTree = "<group>"; };
 		78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordReplacementTransformer.swift; sourceTree = "<group>"; };
 		78A7E5B71DB8E36200D77182 /* KeywordReplacementTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordReplacementTransformerTests.swift; sourceTree = "<group>"; };
 		78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamedParametersTransformer.swift; sourceTree = "<group>"; };
@@ -170,6 +174,7 @@
 				78E279711DC8D8DA002A62BF /* ControlFlowTransformer.swift */,
 				78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */,
 				78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */,
+				784A9EFB1DCB53FE00FFAE7D /* PropertyTransformer.swift */,
 			);
 			path = Transformers;
 			sourceTree = "<group>";
@@ -387,6 +392,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				784A9EED1DCA104200FFAE7D /* NamedParametersTransformer.swift in Sources */,
+				784A9EFE1DCB53FE00FFAE7D /* PropertyTransformer.swift in Sources */,
 				784A9EEB1DCA104200FFAE7D /* ControlFlowTransformer.swift in Sources */,
 				784A9EEE1DCA104A00FFAE7D /* SwiftKotlin.swift in Sources */,
 				784A9EEF1DCA104A00FFAE7D /* Formatter.swift in Sources */,
@@ -405,6 +411,7 @@
 				78CC67E91DC8B39C0039511C /* Tokenizer.swift in Sources */,
 				78E279721DC8D8DA002A62BF /* ControlFlowTransformer.swift in Sources */,
 				78A7E5BA1DB8FBC300D77182 /* NamedParametersTransformer.swift in Sources */,
+				784A9EFC1DCB53FE00FFAE7D /* PropertyTransformer.swift in Sources */,
 				78CC68091DC8B4E50039511C /* Formatter.swift in Sources */,
 				78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */,
 				78DC1FBD1D898021009E0283 /* SwiftKotlin.swift in Sources */,
@@ -425,6 +432,7 @@
 				784A9EF21DCA1C5B00FFAE7D /* PropertyTransformerTests.swift in Sources */,
 				784A9EF81DCA1CCF00FFAE7D /* ConstructorTransformerTests.swift in Sources */,
 				78A7E5B81DB8E36200D77182 /* KeywordReplacementTransformerTests.swift in Sources */,
+				784A9EFD1DCB53FE00FFAE7D /* PropertyTransformer.swift in Sources */,
 				784A9EFA1DCA1D5800FFAE7D /* MemoryManagementTransformerTests.swift in Sources */,
 				78A7E5C11DB9093A00D77182 /* NSRangeExtensions.swift in Sources */,
 				78A7E5BD1DB8FC1800D77182 /* NameParametersTransformerTests.swift in Sources */,

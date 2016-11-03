@@ -9,10 +9,11 @@
 import XCTest
 
 class PropertyTransformerTests: XCTestCase {
-
+    var transformer: PropertyTransformer!
+    
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        transformer = PropertyTransformer()
     }
     
     override func tearDown() {
@@ -20,9 +21,35 @@ class PropertyTransformerTests: XCTestCase {
         super.tearDown()
     }
 
-    func testsNotImplemented() {
-       XCTFail()
+    func testGetterProperty() {
+        let swift = "var stateObservable: Observable<RestaurantsListState> { return state.asObservable() }"
+        let kotlin = "val stateObservable: Observable<RestaurantsListState> get() = state.asObservable()"
+        let translate = try? transformer.translate(content: swift)
+        XCTAssertEqual(translate, kotlin)
     }
 
+    func testSetterProperty() {
+        XCTFail()
+    }
+    
+    func testGetterAndSetterProperty() {
+        XCTFail()
+    }
+    
+    func testPrivateSetterModifierProperty() {
+        XCTFail()
+    }
+    
+    func testDidSetProperty() {
+        XCTFail()
+    }
+    
+    func testWillSetProperty() {
+        XCTFail()
+    }
+    
+    func testLazyStoredProperty() {
+        XCTFail()
+    }
     
 }
