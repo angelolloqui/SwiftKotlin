@@ -64,8 +64,7 @@ class StaticTransformer: Transformer {
             
             //Insert declarations
             staticDeclarations.forEach {
-                tokens.append(.whitespace("\t"))
-                tokens.append(contentsOf: $0)
+                tokens.append(contentsOf: addExtraIndentToDeclarations($0))
             }
             tokens.append(contentsOf: [
                 indentation ?? .whitespace("\t"),
@@ -84,5 +83,18 @@ class StaticTransformer: Transformer {
         guard let bodyStartIndex = formatter.indexOfNextToken(fromIndex: atIndex + 1, matching: { $0 == .startOfScope("{") }) else { return nil }
         guard let bodyEndIndex = formatter.indexOfNextToken(fromIndex: bodyStartIndex, matching: { $0 == .endOfScope("}") }) else { return nil }
         return bodyEndIndex + 1
+    }
+    
+    func addExtraIndentToDeclarations(_ tokens:[Token]) -> [Token] {
+        var newLine = true
+        var newTokens: [Token] = []
+        tokens.forEach {
+            if newLine && !$0.isLinebreak {
+                newTokens.append(.whitespace("\t"))
+            }
+            newTokens.append($0)
+            newLine = $0.isLinebreak
+        }
+        return newTokens
     }
 }
