@@ -74,8 +74,8 @@ public func prettyDescriptionOfFirstDifferenceResult(_ firstDifferenceResult: Fi
         }
         
         // Show this many characters before and after the first difference
-        let windowPrefixLength = min(85, index)
-        let windowSuffixLength = 60
+        let windowPrefixLength = min(100, index)
+        let windowSuffixLength = 80
         
         let prefix1 = windowSubstring(s1, NSMakeRange(index - windowPrefixLength, windowPrefixLength), isPrefix: true)
         let suffix1 = windowSubstring(s1, NSMakeRange(index, windowSuffixLength), isSuffix: true)
