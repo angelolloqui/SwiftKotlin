@@ -18,19 +18,8 @@ class PropertyTransformer: Transformer {
         let computedProperties = findComputedPropertyBodyIndexes(formatter)
         
         computedProperties.forEach { index in
-            //Remove }
-            guard let bodyEndIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0.string == "}" }) else { return }
-            formatter.removeTokenAtIndex(bodyEndIndex)
-            formatter.removeSpacingTokensAtIndex(bodyEndIndex - 1)
             
-            //Remove "return"
-            if let returnIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0.string == "return" }) {
-                formatter.removeTokenAtIndex(returnIndex)
-                formatter.removeSpacingTokensAtIndex(returnIndex)
-            }
-            
-            //Replace "{" by "get() ="
-            formatter.replaceTokenAtIndex(index, with: .symbol("="))
+            //Add "get() " before the "{"
             formatter.insertToken(.whitespace(" "), atIndex: index)
             formatter.insertToken(.endOfScope(")"), atIndex: index)
             formatter.insertToken(.startOfScope("("), atIndex: index)
