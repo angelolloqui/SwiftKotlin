@@ -10,14 +10,17 @@ import Foundation
 
 
 class KeywordReplacementTransformer: Transformer {
-    let replacementIndetifierMap = [
-        "protocol": "interface",
+    let replacementKeywordMap = [
         "let": "val",
         "func": "fun",
+        "fileprivate": "private"
+    ]
+    
+    let replacementIndetifierMap = [
+        "protocol": "interface",
         "self": "this",
         "$0": "it",
         "nil": "null",
-        "fileprivate": "private"
     ]
     
     let replacementSymbolMap = [
@@ -26,13 +29,21 @@ class KeywordReplacementTransformer: Transformer {
     ]
     
     func transform(formatter: Formatter) throws {
-        formatter.forEachToken(ofType: .identifier) { (i, token) in
-            guard let replace = self.replacementIndetifierMap[token.string] else { return }
-            formatter.replaceTokenAtIndex(i, with: Token(token.type, replace))
-        }
-        formatter.forEachToken(ofType: .symbol) { (i, token) in
-            guard let replace = self.replacementSymbolMap[token.string] else { return }
-            formatter.replaceTokenAtIndex(i, with: Token(token.type, replace))
+        formatter.forEachToken { (i, token) in
+            let replace: String?
+            switch token {
+            case .keyword(let string):
+                replace = self.replacementKeywordMap[string]
+            case .identifier(let string):
+                replace = self.replacementIndetifierMap[string]
+            case .symbol(let string):
+                replace = self.replacementSymbolMap[string]
+            default:
+                replace = nil
+            }
+            if let replace = replace {
+                formatter.replaceTokenAtIndex(i, with: token.with(string: replace))
+            }
         }
     }
 }

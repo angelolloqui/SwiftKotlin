@@ -30,19 +30,20 @@ class PropertyTransformer: Transformer {
             }
             
             //Replace "{" by "get() ="
-            formatter.replaceTokenAtIndex(index, with: Token(.symbol, "="))
-            formatter.insertToken(Token(.whitespace, " "), atIndex: index)
-            formatter.insertToken(Token(.endOfScope, ")"), atIndex: index)
-            formatter.insertToken(Token(.startOfScope, "("), atIndex: index)
-            formatter.insertToken(Token(.identifier, "get"), atIndex: index)
+            formatter.replaceTokenAtIndex(index, with: .symbol("="))
+            formatter.insertToken(.whitespace(" "), atIndex: index)
+            formatter.insertToken(.endOfScope(")"), atIndex: index)
+            formatter.insertToken(.startOfScope("("), atIndex: index)
+            formatter.insertToken(.keyword("get"), atIndex: index)
+            
             //Add extra space if none
-            if formatter.tokenAtIndex(index - 1)?.type != .whitespace {
-                formatter.insertToken(Token(.whitespace, " "), atIndex: index)
+            if !(formatter.tokenAtIndex(index - 1)?.isWhitespace ?? false) {
+                formatter.insertToken(.whitespace(" "), atIndex: index)
             }
             
             //Replace var by val
             if let varIndex = formatter.indexOfPreviousToken(fromIndex: index, matching: { $0.string == "var" }) {
-                formatter.replaceTokenAtIndex(varIndex, with: Token(.identifier, "val"))
+                formatter.replaceTokenAtIndex(varIndex, with: .keyword("val"))
             }
         }
     }
@@ -52,7 +53,7 @@ class PropertyTransformer: Transformer {
         //Find properties with the type: "var <name>:<type> {"
         
         var indexes = [Int]()
-        formatter.forEachToken("var", ofType: .identifier) { (i, token) in
+        formatter.forEachToken(.keyword("var")) { (i, token) in
             var index = i + 1
             
             //Consume spaces
@@ -77,9 +78,9 @@ class PropertyTransformer: Transformer {
                 index += 1
             }
             
-            //Now consume identifiers, maps and generics
+            //Now consume identifiers, maps, optionals, unwrapping and generics
             while   let token = formatter.tokenAtIndex(index),
-                    token.type == .identifier || token.string == "<" || token.string == ">" || token.string == "[" || token.string == "]" || token.string == "?" || token.string == "." {
+                    token.isIdentifier || token.string == "<" || token.string == ">" || token.string == "[" || token.string == "]" || token.string == "?" || token.string == "!" || token.string == "." {
                 index += 1
             }
             
