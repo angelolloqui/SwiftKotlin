@@ -27,7 +27,7 @@ class NameParametersTransformerTests: XCTestCase {
         let kotlin = "restaurantService.findRestaurant(restaurantId = restaurant.id, param = param)"
         
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
 
     
@@ -43,7 +43,7 @@ class NameParametersTransformerTests: XCTestCase {
                 "endpoint = \"restaurants\")"
         
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     
@@ -62,7 +62,7 @@ class NameParametersTransformerTests: XCTestCase {
             " endpoint = \"restaurants/\")\n" +
             "}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
         
     
@@ -76,7 +76,7 @@ class NameParametersTransformerTests: XCTestCase {
             "var b, c, d: Int\n"
         
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     
@@ -84,7 +84,7 @@ class NameParametersTransformerTests: XCTestCase {
         let swift = "class A: B {}"
         let kotlin = "class A: B {}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     
@@ -92,7 +92,7 @@ class NameParametersTransformerTests: XCTestCase {
         let swift = "struct A: B {}"
         let kotlin = "struct A: B {}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     func testMantainsMethodDeclarations() {
@@ -108,7 +108,7 @@ class NameParametersTransformerTests: XCTestCase {
             "}\n"
         
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     
@@ -116,7 +116,7 @@ class NameParametersTransformerTests: XCTestCase {
         let swift = "extension Transformer where Self: KeywordResplacementTransformer {}"
         let kotlin = "extension Transformer where Self: KeywordResplacementTransformer {}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
 
     
@@ -132,7 +132,7 @@ class NameParametersTransformerTests: XCTestCase {
             "default: print(\"default\")\n" +
             "}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     
@@ -140,7 +140,7 @@ class NameParametersTransformerTests: XCTestCase {
         let swift = "service.find(country: \"US\", page: page).onCompletion { (result: RestaurantSearch?) in }"
         let kotlin = "service.find(country = \"US\", page = page).onCompletion { (result: RestaurantSearch?) in }"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
 

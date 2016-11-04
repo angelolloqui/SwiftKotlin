@@ -25,7 +25,7 @@ class PropertyTransformerTests: XCTestCase {
         let swift = "var stateObservable: Observable<RestaurantsListState> { return state.asObservable() }"
         let kotlin = "val stateObservable: Observable<RestaurantsListState> get() = state.asObservable()"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
 
     func testSetterProperty() {

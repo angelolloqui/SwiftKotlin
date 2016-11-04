@@ -33,7 +33,7 @@ class KeywordReplacementTransformerTests: XCTestCase {
             "val variableLet = \"string\"\n"
         
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     
@@ -49,7 +49,7 @@ class KeywordReplacementTransformerTests: XCTestCase {
             "override fun afunc (){}\n"
         
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     func testSelfReference() {
@@ -66,7 +66,7 @@ class KeywordReplacementTransformerTests: XCTestCase {
             "var selfA = a_self\n"
         
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     func testAnonymousClousureParameter() {
@@ -74,7 +74,7 @@ class KeywordReplacementTransformerTests: XCTestCase {
         let kotlin = "numbers.map { 3 * it.value }"
         
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     func testProtocolInterface() {
@@ -86,7 +86,7 @@ class KeywordReplacementTransformerTests: XCTestCase {
             "public interface protocolNameable_protocol {}"
         
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
 
     
@@ -94,14 +94,14 @@ class KeywordReplacementTransformerTests: XCTestCase {
         let swift = "var variable: Int? = nil"
         let kotlin = "var variable: Int? = null"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     func testCoalescingOperator() {
         let swift = "var nextPage = (stateValue.lastPage ?? 0) + 1"
         let kotlin = "var nextPage = (stateValue.lastPage ?: 0) + 1"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     
@@ -109,14 +109,14 @@ class KeywordReplacementTransformerTests: XCTestCase {
         let swift = "for i in 1...3 {}"
         let kotlin = "for i in 1..3 {}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
 
     func testFilePrivateAccessor() {
         let swift = "fileprivate var number = 3"
         let kotlin = "private var number = 3"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
 }

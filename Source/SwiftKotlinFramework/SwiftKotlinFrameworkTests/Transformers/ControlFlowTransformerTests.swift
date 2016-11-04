@@ -35,14 +35,14 @@ class ControlFlowTransformerTests: XCTestCase {
             "if (item is Movie) {}\n" +
             "if (!object.condition()) {}\n"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     func testIfLetStatements() {
         let swift = "if let number = number {}"
         let kotlin = "if (number != null) {}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
 
     
@@ -50,7 +50,7 @@ class ControlFlowTransformerTests: XCTestCase {
         let swift = "if let number = method() {}"
         let kotlin = "let number = method()\nif (number != null) {}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     
@@ -58,14 +58,14 @@ class ControlFlowTransformerTests: XCTestCase {
         let swift = "if let name = formatter.next(fromIndex: firstTokenIndex, matching: { $0.type == .symbol }, extra: true) {}"
         let kotlin = "let name = formatter.next(fromIndex: firstTokenIndex, matching: { $0.type == .symbol }, extra: true)\nif (name != null) {}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
 
     func testIfCaseStatement() {
         let swift = "if case .success(let res) = self {}"
         let kotlin = "???"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     func testIfMultipleLetDeclaration() {
@@ -77,7 +77,7 @@ class ControlFlowTransformerTests: XCTestCase {
             "let param = object.itemAt(number)" +
             "if (number != null &&\nparam != null) {}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
 
     
@@ -85,7 +85,7 @@ class ControlFlowTransformerTests: XCTestCase {
         let swift = "if numbers.flatMap({ $0 % 2}).count == 1 {}"
         let kotlin = "if (numbers.flatMap({ $0 % 2}).count == 1) {}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
 
     
@@ -93,7 +93,7 @@ class ControlFlowTransformerTests: XCTestCase {
         let swift = "for current in someObjects {}"
         let kotlin = "for (current in someObjects) {}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
 
     
@@ -101,7 +101,7 @@ class ControlFlowTransformerTests: XCTestCase {
         let swift = "while condition {}"
         let kotlin = "while (condition) {}"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     
@@ -117,7 +117,7 @@ class ControlFlowTransformerTests: XCTestCase {
             "if (!condition) { return }\n" +
             "if (condition) { return }\n"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     
@@ -125,7 +125,7 @@ class ControlFlowTransformerTests: XCTestCase {
         let swift = "guard let number = number else { return }"
         let kotlin = "if (number == null) { return }"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
 
     func testGuardMultipleDeclaration() {
@@ -138,7 +138,7 @@ class ControlFlowTransformerTests: XCTestCase {
             "let param = result.number()\n" +
             "if (result != null &&\nparam != null &&\nparam <= 1) { return }"
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     
@@ -160,7 +160,7 @@ class ControlFlowTransformerTests: XCTestCase {
         "}"
         
         let translate = try? transformer.translate(content: swift)
-        XCTAssertEqual(translate, kotlin)
+        AssertTranslateEquals(translate, kotlin)
     }
     
 

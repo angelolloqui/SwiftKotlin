@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import XCTest
 
 extension Transformer {
     func translate(content: String) throws -> String {
@@ -16,3 +17,19 @@ extension Transformer {
         return formatter.tokens.reduce("", { $0 + $1.string })
     }
 }
+
+
+func AssertTranslateEquals(_ translate: String?, _ expected: String) {
+    guard let translate = translate else {
+        XCTFail("Translation failed")
+        return
+    }
+    
+    if translate != expected {
+        //Find text difference
+        let difference = prettyFirstDifferenceBetweenStrings(translate as NSString, expected as NSString)
+        XCTFail(difference)
+    }
+}
+
+
