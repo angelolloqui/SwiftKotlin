@@ -16,4 +16,10 @@ extension Formatter {
             removeTokenAtIndex(index)
         }
     }
+    
+    public func insertTokens(_ tokens: [Token], atIndex index: Int) {
+        tokens.reversed().forEach {
+            insertToken($0, atIndex: index)
+        }
+    }
 }

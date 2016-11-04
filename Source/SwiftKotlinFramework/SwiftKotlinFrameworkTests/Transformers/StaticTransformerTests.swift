@@ -20,12 +20,12 @@ class StaticTransformerTests: XCTestCase {
     func testSingleStaticProperty() {
         let swift =
             "class A {\n" +
-                "\tstatic var myBool = true\n" +
+                "\tpublic static var myBool = true\n" +
             "}"
         let kotlin =
             "class A {\n" +
                 "\tcompanion object {\n" +
-                    "\t\tvar myBool = true\n" +
+                    "\t\tpublic var myBool = true\n" +
                 "\t}\n" +
             "}"
         let translate = try? transformer.translate(content: swift)
@@ -35,14 +35,14 @@ class StaticTransformerTests: XCTestCase {
     func testMultipleStaticProperties() {
         let swift =
             "class A {\n" +
-                "\tstatic var myBool = true\n" +
+                "\tstatic private var myBool = true\n" +
                 "\tstatic var myNum = 3\n" +
                 "\tstatic var myString = \"string\"\n" +
             "}"
         let kotlin =
             "class A {\n" +
                 "\tcompanion object {\n" +
-                    "\t\tvar myBool = true\n" +
+                    "\t\tprivate var myBool = true\n" +
                     "\t\tvar myNum = 3\n" +
                     "\t\tvar myString = \"string\"\n" +
                 "\t}\n" +

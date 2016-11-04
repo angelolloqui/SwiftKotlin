@@ -68,9 +68,7 @@ class ControlFlowTransformer: Transformer {
                     formatter.removeTokensInRange(Range(uncheckedBounds: (lower: firstTokenIndex, upper: endIndex)))
                     let declarationIndex = formatter.indexOfPreviousToken(fromIndex: startIndex - 1, matching: { !$0.isWhitespace })!
                     formatter.insertToken(.linebreak("\n"), atIndex: declarationIndex)
-                    expressionTokens.reversed().forEach {
-                        formatter.insertToken($0, atIndex: declarationIndex)
-                    }
+                    formatter.insertTokens(Array(expressionTokens), atIndex: declarationIndex)
                     
                     //Add null check
                     let conditionTokenIndex = firstTokenIndex + expressionTokens.count

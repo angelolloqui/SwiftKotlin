@@ -74,8 +74,8 @@ public func prettyDescriptionOfFirstDifferenceResult(_ firstDifferenceResult: Fi
         }
         
         // Show this many characters before and after the first difference
-        let windowPrefixLength = min(100, index)
-        let windowSuffixLength = 80
+        let windowPrefixLength = min(120, index)
+        let windowSuffixLength = 120
         
         let prefix1 = windowSubstring(s1, NSMakeRange(index - windowPrefixLength, windowPrefixLength), isPrefix: true)
         let suffix1 = windowSubstring(s1, NSMakeRange(index, windowSuffixLength), isSuffix: true)
@@ -83,7 +83,7 @@ public func prettyDescriptionOfFirstDifferenceResult(_ firstDifferenceResult: Fi
         let prefix2 = windowSubstring(s2, NSMakeRange(index - windowPrefixLength, windowPrefixLength), isPrefix: true)
         let suffix2 = windowSubstring(s2, NSMakeRange(index, windowSuffixLength), isSuffix: true)
 
-        return "Difference at index \(index):\n------\n\(prefix1)\(markerArrow)\(suffix1)\n------\n\(prefix2)\(markerArrow)\(suffix2)\n------\n"
+        return "Difference at index \(index):\n------ Result: \n\(prefix1)\(markerArrow)\(suffix1)\n------ Expected:\n\(prefix2)\(markerArrow)\(suffix2)\n------\n"
     }
     
     switch firstDifferenceResult {
