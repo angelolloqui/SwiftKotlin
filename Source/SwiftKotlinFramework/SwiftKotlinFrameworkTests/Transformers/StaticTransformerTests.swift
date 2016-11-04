@@ -88,18 +88,26 @@ class StaticTransformerTests: XCTestCase {
     }
     
     
-    func testMultipleStaticMethodsAndProperties() {
+    func testMultipleStaticMethodsLinesAndProperties() {
         let swift =
             "class A {\n" +
+                "\tvar name = \"string\"\n" +
                 "\tstatic var myBool = true\n" +
-                "\tstatic func method() {}\n" +
+                "\tstatic func method() {\n" +
+                    "\t\tif a {} else {}\n" +
+                "\t}\n" +
+                "\tfunc test() {}\n" +
             "}"
         let kotlin =
             "class A {\n" +
+                "\tvar name = \"string\"\n" +
                 "\tcompanion object {\n" +
                     "\t\tvar myBool = true\n" +
-                    "\t\tfunc method() {}\n" +
+                    "\t\tfunc method() {\n" +
+                        "\t\t\tif a {} else {}\n" +
+                    "\t\t}\n" +
                 "\t}\n" +
+                "\tfunc test() {}\n" +
             "}"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)

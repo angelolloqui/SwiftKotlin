@@ -22,4 +22,5 @@ extension Formatter {
             insertToken($0, atIndex: index)
         }
     }
+    
 }

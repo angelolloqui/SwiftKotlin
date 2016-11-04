@@ -78,10 +78,11 @@ class StaticTransformer: Transformer {
     
     func indexOfEndScopeForProperty(_ formatter: Formatter, atIndex: Int) -> Int? {
         return formatter.indexOfNextToken(fromIndex: atIndex, matching: { $0.isLinebreak })
-    }
-    
+    }    
     
     func indexOfEndScopeForFunction(_ formatter: Formatter, atIndex: Int) -> Int? {
-        return nil
+        guard let bodyStartIndex = formatter.indexOfNextToken(fromIndex: atIndex + 1, matching: { $0 == .startOfScope("{") }) else { return nil }
+        guard let bodyEndIndex = formatter.indexOfNextToken(fromIndex: bodyStartIndex, matching: { $0 == .endOfScope("}") }) else { return nil }
+        return bodyEndIndex + 1
     }
 }
