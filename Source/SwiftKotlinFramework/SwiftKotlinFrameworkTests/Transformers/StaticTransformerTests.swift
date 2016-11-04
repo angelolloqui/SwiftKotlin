@@ -10,17 +10,98 @@ import XCTest
 
 class StaticTransformerTests: XCTestCase {
 
+    var transformer: StaticTransformer!
+    
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        transformer = StaticTransformer()
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func testSingleStaticProperty() {
+        let swift =
+            "class A {\n" +
+                "\tstatic var myBool = true\n" +
+            "}"
+        let kotlin =
+            "class A {\n" +
+                "\tcompanion object {\n" +
+                    "\t\tvar myBool = true\n" +
+                "\t}\n" +
+            "}"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+
+    func testMultipleStaticProperties() {
+        let swift =
+            "class A {\n" +
+                "\tstatic var myBool = true\n" +
+                "\tstatic var myNum = 3\n" +
+                "\tstatic var myString = \"string\"\n" +
+            "}"
+        let kotlin =
+            "class A {\n" +
+                "\tcompanion object {\n" +
+                    "\t\tvar myBool = true\n" +
+                    "\t\tvar myNum = 3\n" +
+                    "\t\tvar myString = \"string\"\n" +
+                "\t}\n" +
+            "}"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+
+    
+    func testSingleStaticMethod() {
+        let swift =
+            "class A {\n" +
+                "\tstatic func method() {}\n" +
+            "}"
+        let kotlin =
+            "class A {\n" +
+                "\tcompanion object {\n" +
+                    "\t\tfunc method() {}\n" +
+                "\t}\n" +
+            "}"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
     }
     
-    func testsNotImplemented() {
-        XCTFail()
+    
+    func testMultipleStaticMethods() {
+        let swift =
+            "class A {\n" +
+                "\tstatic func method() {}\n" +
+                "\tstatic func create() -> A? { return nil }\n" +
+                "\tstatic func withParams(param: Int) -> A? { return nil }\n" +
+            "}"
+        let kotlin =
+            "class A {\n" +
+                "\tcompanion object {\n" +
+                    "\t\tfunc method() {}\n" +
+                    "\t\tfunc create() -> A? { return nil }\n" +
+                    "\t\tfunc withParams(param: Int) -> A? { return nil }\n" +
+                "\t}\n" +
+        "}"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    
+    func testMultipleStaticMethodsAndProperties() {
+        let swift =
+            "class A {\n" +
+                "\tstatic var myBool = true\n" +
+                "\tstatic func method() {}\n" +
+            "}"
+        let kotlin =
+            "class A {\n" +
+                "\tcompanion object {\n" +
+                    "\t\tvar myBool = true\n" +
+                    "\t\tfunc method() {}\n" +
+                "\t}\n" +
+            "}"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
     }
 }

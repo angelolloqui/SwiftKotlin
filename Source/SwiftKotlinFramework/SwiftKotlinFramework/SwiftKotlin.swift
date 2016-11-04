@@ -24,6 +24,8 @@ class SwiftKotlin {
                 NameParametersTransformer(),
                 ControlFlowTransformer(),
                 PropertyTransformer(),
+                StaticTransformer(),
+                ExtensionTransformer(),
                 KeywordReplacementTransformer(),
         ])
     }
