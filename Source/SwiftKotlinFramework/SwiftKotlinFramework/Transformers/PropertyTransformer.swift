@@ -12,6 +12,7 @@ class PropertyTransformer: Transformer {
     
     func transform(formatter: Formatter) throws {
         transformComputedProperties(formatter)
+        transformPrivateSetters(formatter)
     }
     
     func transformComputedProperties(_ formatter: Formatter) {
@@ -134,5 +135,32 @@ class PropertyTransformer: Transformer {
             return index
         }
         return nil
+    }
+    
+    func transformPrivateSetters(_ formatter: Formatter) {
+        //Look for "(set)" form
+        formatter.forEachToken( { $0 == .identifier("set") }) { (i, token) in
+            guard formatter.tokenAtIndex(i - 1) == .startOfScope("(") &&
+                formatter.tokenAtIndex(i + 1) == .endOfScope(")") else {
+                    return
+            }
+            guard let accessorIndex = formatter.indexOfPreviousToken(fromIndex: i - 1, matching: { !$0.isWhitespaceOrLinebreak}) else { return }
+            guard let lineBreak = formatter.indexOfNextToken(fromIndex: i + 1, matching: { $0.isLinebreak} ) else { return }
+            guard let nextWordIndex = formatter.indexOfNextToken(fromIndex: i + 1, matching: { !$0.isWhitespaceOrLinebreak }) else { return }
+            let indentation = formatter.indentTokenForLineAtIndex(accessorIndex) ?? .whitespace("\t")
+            
+            //Append the "private set" to the end
+            formatter.insertTokens([
+                .linebreak("\n"),
+                indentation,
+                .whitespace("\t"),
+                formatter.tokenAtIndex(accessorIndex)!,
+                .whitespace(" "),
+                .identifier("set")
+            ], atIndex: lineBreak)
+            
+            //Remove the old accessor
+            formatter.removeTokensInRange(Range(uncheckedBounds: (lower: accessorIndex, upper: nextWordIndex)))
+        }
     }
 }

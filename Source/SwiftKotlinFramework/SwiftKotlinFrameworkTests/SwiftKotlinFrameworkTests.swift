@@ -25,5 +25,36 @@ class SwiftKotlinFrameworkTests: XCTestCase {
         XCTAssertTrue(swiftKotlin.transformers.count > 0)
     }
     
+    func testUsesCustomTransformers() {
+        class CustomTransformer: Transformer {
+            var translated = false
+            func transform(formatter: Formatter) throws {
+                translated = true
+                formatter.insertToken(.identifier(" translated"), atIndex: formatter.tokens.count)
+            }
+        }
+        let transformer = CustomTransformer()
+        swiftKotlin = SwiftKotlin(transformers: [transformer])
+        let translate = try? swiftKotlin.translate(content: "let some text data")
+        XCTAssertEqual("let some text data translated", translate)
+        XCTAssertTrue(transformer.translated)
+    }
+
     
+    func testTransformerThrowingCausesError() {
+        enum CustomError: Error {
+            case generic
+        }
+        class CustomTransformer: Transformer {
+            func transform(formatter: Formatter) throws {
+                throw CustomError.generic
+            }
+        }
+        let transformer = CustomTransformer()
+        swiftKotlin = SwiftKotlin(transformers: [transformer])
+        let translate = try? swiftKotlin.translate(content: "let some text data")
+        XCTAssertNil(translate)
+        AssertTranslateEquals(translate, "let some text data")
+    }
+
 }

@@ -111,7 +111,10 @@ class PropertyTransformerTests: XCTestCase {
     }
     
     func testPrivateSetterModifierProperty() {
-        XCTFail()
+        let swift = "\tprivate(set) var numberOfEdits = 0\n"
+        let kotlin = "\tvar numberOfEdits = 0\n\t\tprivate set\n"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     func testDidSetProperty() {
@@ -127,6 +130,9 @@ class PropertyTransformerTests: XCTestCase {
     }
     
     func testLateInitProperty() {
-        XCTFail()
+        let swift = "var subject: TestSubject!"
+        let kotlin = "lateinit var subject: TestSubject"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
     }
 }
