@@ -70,7 +70,6 @@ class PropertyTransformerTests: XCTestCase {
                 "\t}\n"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
-
     }
     
     func testSetterPropertyWithNoName() {
@@ -87,11 +86,28 @@ class PropertyTransformerTests: XCTestCase {
                 "\t}\n"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
-        
     }
     
     func testGetterAndSetterProperty() {
-        XCTFail()
+        let swift =
+            "var center: Point {\n" +
+                "\tget {\n" +
+                    "\t\treturn Point(x: centerX, y: centerY)\n" +
+                "\t}\n" +
+                "\tset {\n" +
+                    "\t\torigin.x = newValue.x - 100\n" +
+                "\t}\n" +
+            "}"
+        let kotlin =
+            "var center: Point \n" +
+                "\tget() {\n" +
+                    "\t\treturn Point(x: centerX, y: centerY)\n" +
+                "\t}\n" +
+                "\tset(newValue) {\n" +
+                    "\t\torigin.x = newValue.x - 100\n" +
+                "\t}\n"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
     }
     
     func testPrivateSetterModifierProperty() {
