@@ -13,6 +13,7 @@ class PropertyTransformer: Transformer {
     func transform(formatter: Formatter) throws {
         transformComputedProperties(formatter)
         transformPrivateSetters(formatter)
+        transformLateInitProperties(formatter)
     }
     
     func transformComputedProperties(_ formatter: Formatter) {
@@ -45,7 +46,7 @@ class PropertyTransformer: Transformer {
                 formatter.removeTokenAtIndex(index)
             }
             
-            previousIndex = index
+            previousIndex = index + 1
         }
     }
     
@@ -163,4 +164,63 @@ class PropertyTransformer: Transformer {
             formatter.removeTokensInRange(Range(uncheckedBounds: (lower: accessorIndex, upper: nextWordIndex)))
         }
     }
+    
+    func transformLateInitProperties(_ formatter: Formatter) {
+        var previousIndex = 0
+        while let index = findFirstLateInitPropertyIndex(formatter, fromIndex: previousIndex) {
+            if let unwrappedIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .symbol("!") }) {
+                formatter.removeTokenAtIndex(unwrappedIndex)
+                formatter.insertTokens([
+                    .identifier("lateinit"),
+                    .whitespace(" ")
+                    ], atIndex: index)
+            }
+            previousIndex = index + 2
+        }
+    }
+    
+    func findFirstLateInitPropertyIndex(_ formatter: Formatter, fromIndex: Int) -> Int? {
+        //Look for "var <name>:<Type>!" form
+        for i in fromIndex..<formatter.tokens.count {
+            guard formatter.tokenAtIndex(i) == .keyword("var") else { continue }
+            
+            var index = i + 1
+            
+            //Consume spaces
+            while formatter.tokenAtIndex(index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+                index += 1
+            }
+            
+            //Check there is a name and consume
+            guard formatter.tokenAtIndex(index)?.isIdentifier ?? false else { continue }
+            index += 1
+            
+            //Consume possible spaces
+            while formatter.tokenAtIndex(index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+                index += 1
+            }
+            
+            //Check there is a : and consume
+            guard formatter.tokenAtIndex(index)?.string == ":" else { continue }
+            index += 1
+            
+            //Consume possible spaces
+            while formatter.tokenAtIndex(index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+                index += 1
+            }
+            
+            //Now consume identifiers, maps and generics
+            while  let token = formatter.tokenAtIndex(index),
+                token.isIdentifier || token.string == "<" || token.string == ">" || token.string == "[" || token.string == "]" || token.string == "." {
+                    index += 1
+            }
+            
+            //If there is a ! then return it
+            if formatter.tokenAtIndex(index) == .symbol("!") {
+                return i
+            }
+        }
+        return nil
+    }
+
 }

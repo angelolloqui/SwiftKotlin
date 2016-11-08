@@ -71,11 +71,11 @@ class ControlFlowTransformerTests: XCTestCase {
     func testIfMultipleLetDeclaration() {
         let swift =
             "if let number = some.method(),\n" +
-            "let param = object.itemAt(number) {}"
+            "  let param = object.itemAt(number) {}"
         let kotlin =
             "let number = some.method()\n" +
-            "let param = object.itemAt(number)" +
-            "if (number != null &&\nparam != null) {}"
+            "let param = object.itemAt(number)\n" +
+            "if (number != null &&\n  param != null) {}"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
     }
