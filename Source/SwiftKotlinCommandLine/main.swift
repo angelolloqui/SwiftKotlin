@@ -96,6 +96,7 @@ func execute(_ args: [String]) {
     }
     
     print("running swiftkotlin...")
+    print("output: \(outputURL!.absoluteString)")
     
     // Format the code
     let start = CFAbsoluteTimeGetCurrent()
