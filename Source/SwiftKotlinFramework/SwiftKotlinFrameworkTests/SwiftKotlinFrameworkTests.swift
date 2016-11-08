@@ -54,7 +54,6 @@ class SwiftKotlinFrameworkTests: XCTestCase {
         swiftKotlin = SwiftKotlin(transformers: [transformer])
         let translate = try? swiftKotlin.translate(content: "let some text data")
         XCTAssertNil(translate)
-        AssertTranslateEquals(translate, "let some text data")
     }
 
 }
