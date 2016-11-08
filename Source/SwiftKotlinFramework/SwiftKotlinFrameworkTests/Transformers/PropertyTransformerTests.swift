@@ -40,8 +40,21 @@ class PropertyTransformerTests: XCTestCase {
         AssertTranslateEquals(translate, kotlin)
     }
 
-    func testSetterProperty() {
-        XCTFail()
+    func testSetterPropertyWithName() {
+        let swift =
+            "var center: Point {\n" +
+                "\tset(value){\n" +
+                    "\t\torigin.x = newValue.x - 100\n" +
+                "\t}\n" +
+            "}"
+        let kotlin =
+            "var center: Point \n" +
+                "\tset(value){\n" +
+                    "\t\torigin.x = newValue.x - 100\n" +
+                "\t}\n"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+
     }
     
     func testGetterAndSetterProperty() {
