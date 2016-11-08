@@ -23,7 +23,12 @@ class PropertyTransformer: Transformer {
             
             //Convert the getter if a getter is defined or there is no setter
             if getIndex != nil || setIndex == nil {
-                transformaGetterProperty(formatter, index: getIndex ?? index)
+                transformGetterProperty(formatter, index: getIndex ?? index)
+            }
+            
+            //Convert the setter if defined
+            if let setIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .identifier("set")}) {
+                transformSetterProperty(formatter, index: setIndex)
             }
             
             //Replace var by val if no setter
@@ -43,17 +48,33 @@ class PropertyTransformer: Transformer {
         }
     }
     
-    func transformaGetterProperty(_ formatter: Formatter, index: Int) {
-        //Add "get() " before the "{"
-        formatter.insertToken(.whitespace(" "), atIndex: index)
-        formatter.insertToken(.endOfScope(")"), atIndex: index)
-        formatter.insertToken(.startOfScope("("), atIndex: index)
-        formatter.insertToken(.keyword("get"), atIndex: index)
+    func transformGetterProperty(_ formatter: Formatter, index: Int) {
+        let isExplicitGet = formatter.tokenAtIndex(index) == .identifier("get")
+        var position = index
+        var tokens:[Token] = [
+            .startOfScope("("),
+            .endOfScope(")"),
+        ]
         
+        //Add "get" keyword if no explicit getter
+        if isExplicitGet {
+            position += 1
+        }
+        else {
+            tokens.insert(.keyword("get"), at: 0)
+            tokens.append(.whitespace(" "))
+        }
+        
+        formatter.insertTokens(tokens, atIndex: position)
+       
         //Add extra space if none
         if !(formatter.tokenAtIndex(index - 1)?.isWhitespace ?? false) {
             formatter.insertToken(.whitespace(" "), atIndex: index)
         }
+    }
+    
+    func transformSetterProperty(_ formatter: Formatter, index: Int) {
+        
     }
     
     func findFirstPropertyBodyIndex(_ formatter: Formatter, fromIndex: Int) -> Int? {

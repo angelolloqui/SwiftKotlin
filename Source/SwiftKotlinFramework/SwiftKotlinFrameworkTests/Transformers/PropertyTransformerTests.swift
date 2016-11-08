@@ -40,21 +40,54 @@ class PropertyTransformerTests: XCTestCase {
         AssertTranslateEquals(translate, kotlin)
     }
 
+    func testExplicitGetterProperty() {
+        let swift =
+            "var stateObservable: Observable<RestaurantsListState> {\n" +
+                "\tget {\n" +
+                    "\t\treturn state.asObservable()\n" +
+                "\t}\n" +
+            "}"
+        let kotlin =
+            "val stateObservable: Observable<RestaurantsListState> \n" +
+                "\tget() {\n" +
+                    "\t\treturn state.asObservable()\n" +
+                "\t}\n"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
     func testSetterPropertyWithName() {
         let swift =
             "var center: Point {\n" +
-                "\tset(value){\n" +
+                "\tset(newValue){\n" +
                     "\t\torigin.x = newValue.x - 100\n" +
                 "\t}\n" +
             "}"
         let kotlin =
             "var center: Point \n" +
-                "\tset(value){\n" +
+                "\tset(newValue){\n" +
                     "\t\torigin.x = newValue.x - 100\n" +
                 "\t}\n"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
 
+    }
+    
+    func testSetterPropertyWithNoName() {
+        let swift =
+            "var center: Point {\n" +
+                "\tset {\n" +
+                    "\t\torigin.x = newValue.x - 100\n" +
+                "\t}\n" +
+            "}"
+        let kotlin =
+            "var center: Point \n" +
+                "\tset(newValue) {\n" +
+                    "\t\torigin.x = newValue.x - 100\n" +
+                "\t}\n"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+        
     }
     
     func testGetterAndSetterProperty() {
