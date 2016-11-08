@@ -74,7 +74,20 @@ class PropertyTransformer: Transformer {
     }
     
     func transformSetterProperty(_ formatter: Formatter, index: Int) {
+        //Consume spaces
+        var position = index + 1
+        while formatter.tokenAtIndex(position)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            position += 1
+        }
         
+        //Check if the setter has a variable name, otherwise create it with "newValue" as name (default for swift)
+        if formatter.tokenAtIndex(position) == .startOfScope("{") {
+            formatter.insertTokens([
+                .startOfScope("("),
+                .identifier("newValue"),
+                .endOfScope(")")
+            ], atIndex: index + 1)
+        }
     }
     
     func findFirstPropertyBodyIndex(_ formatter: Formatter, fromIndex: Int) -> Int? {
