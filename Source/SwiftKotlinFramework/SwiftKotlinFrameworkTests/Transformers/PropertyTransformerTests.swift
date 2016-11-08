@@ -21,9 +21,21 @@ class PropertyTransformerTests: XCTestCase {
         super.tearDown()
     }
 
-    func testGetterProperty() {
+    func testSingleGetterProperty() {
         let swift = "var stateObservable: Observable<RestaurantsListState> { return state.asObservable() }"
         let kotlin = "val stateObservable: Observable<RestaurantsListState> get() { return state.asObservable() }"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    func testMultipleGetterProperties() {
+        let swift =
+            "var stateObservable: Observable<RestaurantsListState> { return state.asObservable() }\n" +
+            "var loadingObservable: Observable<Bool> { return loadingSubject.asObservable() }"
+        let kotlin =
+            "val stateObservable: Observable<RestaurantsListState> get() { return state.asObservable() }\n" +
+            "val loadingObservable: Observable<Bool> get() { return loadingSubject.asObservable() }"
+        
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
     }

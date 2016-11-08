@@ -15,9 +15,8 @@ class PropertyTransformer: Transformer {
     }
     
     func transformComputedProperties(_ formatter: Formatter) {
-        let computedProperties = findComputedPropertyBodyIndexes(formatter)
-        
-        computedProperties.forEach { index in
+        var previousIndex = 0
+        while let index = findFirstPropertyBodyIndex(formatter, fromIndex: previousIndex) {
             
             //Add "get() " before the "{"
             formatter.insertToken(.whitespace(" "), atIndex: index)
@@ -34,15 +33,15 @@ class PropertyTransformer: Transformer {
             if let varIndex = formatter.indexOfPreviousToken(fromIndex: index, matching: { $0.string == "var" }) {
                 formatter.replaceTokenAtIndex(varIndex, with: .keyword("val"))
             }
+            previousIndex = index
         }
     }
     
     
-    func findComputedPropertyBodyIndexes(_ formatter: Formatter) -> [Int] {
+    func findFirstPropertyBodyIndex(_ formatter: Formatter, fromIndex: Int) -> Int? {
         //Find properties with the type: "var <name>:<type> {"
-        
-        var indexes = [Int]()
-        formatter.forEachToken(.keyword("var")) { (i, token) in
+        for i in fromIndex..<formatter.tokens.count {
+            guard formatter.tokenAtIndex(i) == .keyword("var") else { continue }
             var index = i + 1
             
             //Consume spaces
@@ -59,7 +58,7 @@ class PropertyTransformer: Transformer {
             }
             
             //Check there is a : and consume
-            guard formatter.tokenAtIndex(index)?.string == ":" else { return }
+            guard formatter.tokenAtIndex(index)?.string == ":" else { continue }
             index += 1
             
             //Consume possible spaces
@@ -79,9 +78,9 @@ class PropertyTransformer: Transformer {
             }
             
             //Check there is a { and add to list
-            guard formatter.tokenAtIndex(index)?.string == "{" else { return }
-            indexes.append(index)
+            guard formatter.tokenAtIndex(index)?.string == "{" else { continue }
+            return index
         }
-        return indexes
+        return nil
     }
 }
