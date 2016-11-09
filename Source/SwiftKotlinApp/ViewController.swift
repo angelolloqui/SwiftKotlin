@@ -90,7 +90,7 @@ extension Token {
         switch self {
         case .keyword(_):
             return [NSForegroundColorAttributeName: NSColor(red: 170.0/255.0, green: 13.0/255.0, blue: 145.0/255.0, alpha: 1)]
-        case .commentBody(_):
+        case .commentBody(_), .startOfScope("/*"), .endOfScope("*/"), .startOfScope("//"):
             return [NSForegroundColorAttributeName: NSColor(red: 0, green: 116.0/255.0, blue: 0, alpha: 1)]
         case .stringBody(_), .startOfScope("\""), .endOfScope("\""):
             return [NSForegroundColorAttributeName: NSColor(red: 196.0/255.0, green: 26.0/255.0, blue: 22.0/255.0, alpha: 1)]

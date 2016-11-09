@@ -171,7 +171,7 @@ class PropertyTransformer: Transformer {
             if let unwrappedIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .symbol("!") }) {
                 formatter.removeTokenAtIndex(unwrappedIndex)
                 formatter.insertTokens([
-                    .identifier("lateinit"),
+                    .keyword("lateinit"),
                     .whitespace(" ")
                     ], atIndex: index)
             }
