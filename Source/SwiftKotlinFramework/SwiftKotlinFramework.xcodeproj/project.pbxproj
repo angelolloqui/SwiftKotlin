@@ -43,6 +43,9 @@
 		7868A8B91DCCAF28006F4DDB /* StaticTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8B81DCCAF28006F4DDB /* StaticTransformer.swift */; };
 		7868A8BA1DCCAF28006F4DDB /* StaticTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8B81DCCAF28006F4DDB /* StaticTransformer.swift */; };
 		7868A8BB1DCCAF28006F4DDB /* StaticTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8B81DCCAF28006F4DDB /* StaticTransformer.swift */; };
+		7874964C1DD32DE400FA12AD /* StructTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874964B1DD32DE400FA12AD /* StructTransformer.swift */; };
+		7874964D1DD32DE400FA12AD /* StructTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874964B1DD32DE400FA12AD /* StructTransformer.swift */; };
+		7874964E1DD32DE400FA12AD /* StructTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874964B1DD32DE400FA12AD /* StructTransformer.swift */; };
 		78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
 		78A7E5B61DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
 		78A7E5BA1DB8FBC300D77182 /* NamedParametersTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */; };
@@ -113,6 +116,7 @@
 		7868A8B21DCCA990006F4DDB /* ExtensionTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionTransformerTests.swift; sourceTree = "<group>"; };
 		7868A8B41DCCAABC006F4DDB /* ExtensionTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionTransformer.swift; sourceTree = "<group>"; };
 		7868A8B81DCCAF28006F4DDB /* StaticTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticTransformer.swift; sourceTree = "<group>"; };
+		7874964B1DD32DE400FA12AD /* StructTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StructTransformer.swift; sourceTree = "<group>"; };
 		78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordReplacementTransformer.swift; sourceTree = "<group>"; };
 		78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamedParametersTransformer.swift; sourceTree = "<group>"; };
 		78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSRangeExtensions.swift; sourceTree = "<group>"; };
@@ -219,6 +223,7 @@
 				78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */,
 				784A9EFB1DCB53FE00FFAE7D /* PropertyTransformer.swift */,
 				7868A8B81DCCAF28006F4DDB /* StaticTransformer.swift */,
+				7874964B1DD32DE400FA12AD /* StructTransformer.swift */,
 			);
 			path = Transformers;
 			sourceTree = "<group>";
@@ -430,6 +435,7 @@
 			files = (
 				784A9EED1DCA104200FFAE7D /* NamedParametersTransformer.swift in Sources */,
 				784A9EFE1DCB53FE00FFAE7D /* PropertyTransformer.swift in Sources */,
+				7874964E1DD32DE400FA12AD /* StructTransformer.swift in Sources */,
 				7868A8981DCC8AD0006F4DDB /* FormatterExtensions.swift in Sources */,
 				7868A8941DCC8A49006F4DDB /* Formatter.swift in Sources */,
 				784A9EEB1DCA104200FFAE7D /* ControlFlowTransformer.swift in Sources */,
@@ -448,6 +454,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7874964C1DD32DE400FA12AD /* StructTransformer.swift in Sources */,
 				78A7E5C01DB9093A00D77182 /* NSRangeExtensions.swift in Sources */,
 				7868A8B91DCCAF28006F4DDB /* StaticTransformer.swift in Sources */,
 				7868A89A1DCC920C006F4DDB /* TokenizerExtensions.swift in Sources */,
@@ -467,6 +474,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7874964D1DD32DE400FA12AD /* StructTransformer.swift in Sources */,
 				78A7E5BB1DB8FBC300D77182 /* NamedParametersTransformer.swift in Sources */,
 				78DC1FBE1D898021009E0283 /* SwiftKotlin.swift in Sources */,
 				7868A8A91DCC9BA0006F4DDB /* ExceptionTransformerTests.swift in Sources */,
