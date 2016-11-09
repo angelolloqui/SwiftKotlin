@@ -90,8 +90,12 @@ class ControlFlowTransformerTests: XCTestCase {
 
     
     func testForStatement() {
-        let swift = "for current in someObjects {}"
-        let kotlin = "for (current in someObjects) {}"
+        let swift =
+            "for current in someObjects {}\n" +
+            "for i in 0..<count {}\n//Some comment"
+        let kotlin =
+            "for (current in someObjects) {}\n" +
+            "for (i in 0..<count) {}\n//Some comment"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
     }

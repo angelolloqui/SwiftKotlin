@@ -113,8 +113,12 @@ class NameParametersTransformerTests: XCTestCase {
     
     
     func testMantainsProtocolExtensionDeclarations() {
-        let swift = "extension Transformer where Self: KeywordResplacementTransformer {}"
-        let kotlin = "extension Transformer where Self: KeywordResplacementTransformer {}"
+        let swift =
+            "extension Transformer where Self: KeywordResplacementTransformer {}\n" +
+            "extension KeywordResplacementTransformer: Transformer {}\n"
+        let kotlin =
+            "extension Transformer where Self: KeywordResplacementTransformer {}\n" +
+            "extension KeywordResplacementTransformer: Transformer {}\n"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
     }
@@ -144,6 +148,14 @@ class NameParametersTransformerTests: XCTestCase {
     }
     
 
+    
+    func testRemovesEmptyMethodNames() {
+        let swift = "func greet(_ name: String,_ day: String) -> String {}"
+        let kotlin = "func greet(name: String, day: String) -> String {}"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
     
 
 }
