@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
@@ -682,22 +682,23 @@
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="SwiftKotlinApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
+                    <view key="view" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="680" height="480"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lxu-KE-Cuh">
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="Lxu-KE-Cuh">
                                 <rect key="frame" x="10" y="10" width="325" height="435"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="rBo-yE-51C">
                                     <rect key="frame" x="1" y="1" width="308" height="433"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Edu-qR-eKg">
+                                        <textView autoresizesSubviews="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" findStyle="panel" allowsUndo="YES" id="Edu-qR-eKg">
                                             <rect key="frame" x="0.0" y="0.0" width="308" height="433"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="minSize" width="308" height="433"/>
-                                            <size key="maxSize" width="463" height="10000000"/>
+                                            <size key="maxSize" width="6000" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <connections>
                                                 <outlet property="delegate" destination="XfG-lQ-9wD" id="Xb7-H8-aDh"/>
@@ -715,18 +716,19 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <scrollView wantsLayer="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MqM-2d-jmk">
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="MqM-2d-jmk">
                                 <rect key="frame" x="345" y="10" width="325" height="435"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="KeA-4w-mWI">
                                     <rect key="frame" x="1" y="1" width="308" height="433"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView editable="NO" importsGraphics="NO" richText="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="pog-tu-0qG">
+                                        <textView autoresizesSubviews="NO" editable="NO" drawsBackground="NO" importsGraphics="NO" findStyle="panel" id="pog-tu-0qG">
                                             <rect key="frame" x="0.0" y="-1" width="308" height="433"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="minSize" width="308" height="433"/>
-                                            <size key="maxSize" width="463" height="10000000"/>
+                                            <size key="maxSize" width="6000" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
                                     </subviews>
@@ -741,24 +743,27 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dcD-7I-qnl">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="dcD-7I-qnl">
                                 <rect key="frame" x="9" y="453" width="69" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Swift code" id="w80-5C-WF6">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LoM-Qb-g0g">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="LoM-Qb-g0g">
                                 <rect key="frame" x="344" y="453" width="72" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Kotlin code" id="3Mg-YV-9GT">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tOo-98-9N3">
+                            <button verticalHuggingPriority="750" id="tOo-98-9N3">
                                 <rect key="frame" x="87" y="444" width="131" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Open .swift file" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Rcd-NV-gdF">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -768,22 +773,6 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <constraints>
-                            <constraint firstItem="dcD-7I-qnl" firstAttribute="leading" secondItem="Edu-qR-eKg" secondAttribute="leading" id="06g-jH-Haz"/>
-                            <constraint firstAttribute="trailing" secondItem="MqM-2d-jmk" secondAttribute="trailing" constant="10" id="3Tc-6S-M9B"/>
-                            <constraint firstItem="Lxu-KE-Cuh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="10" id="Bcb-aX-t39"/>
-                            <constraint firstItem="MqM-2d-jmk" firstAttribute="top" secondItem="LoM-Qb-g0g" secondAttribute="bottom" constant="8" id="D3N-kC-6G4"/>
-                            <constraint firstItem="MqM-2d-jmk" firstAttribute="leading" secondItem="Lxu-KE-Cuh" secondAttribute="trailing" constant="10" id="GSu-ic-5rg"/>
-                            <constraint firstItem="Lxu-KE-Cuh" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="35" id="Gmr-z9-8kl"/>
-                            <constraint firstItem="MqM-2d-jmk" firstAttribute="width" secondItem="Lxu-KE-Cuh" secondAttribute="width" id="Kd7-hq-Iz5"/>
-                            <constraint firstAttribute="bottom" secondItem="Lxu-KE-Cuh" secondAttribute="bottom" constant="10" id="Lw5-wM-ISD"/>
-                            <constraint firstItem="Lxu-KE-Cuh" firstAttribute="top" secondItem="dcD-7I-qnl" secondAttribute="bottom" constant="8" id="OFH-Fo-KKt"/>
-                            <constraint firstItem="MqM-2d-jmk" firstAttribute="height" secondItem="Lxu-KE-Cuh" secondAttribute="height" id="P70-td-4h6"/>
-                            <constraint firstItem="LoM-Qb-g0g" firstAttribute="leading" secondItem="pog-tu-0qG" secondAttribute="leading" id="RD0-g3-I5o"/>
-                            <constraint firstItem="tOo-98-9N3" firstAttribute="centerY" secondItem="dcD-7I-qnl" secondAttribute="centerY" id="hcM-ms-WHi"/>
-                            <constraint firstItem="tOo-98-9N3" firstAttribute="leading" secondItem="dcD-7I-qnl" secondAttribute="trailing" constant="17" id="ra8-QL-Rhi"/>
-                            <constraint firstItem="MqM-2d-jmk" firstAttribute="bottom" secondItem="Lxu-KE-Cuh" secondAttribute="bottom" id="uf8-Rq-AYB"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="kotlinTextView" destination="pog-tu-0qG" id="oZF-pH-Sgu"/>
