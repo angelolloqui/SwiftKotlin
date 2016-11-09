@@ -46,6 +46,37 @@
 		7874964C1DD32DE400FA12AD /* StructTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874964B1DD32DE400FA12AD /* StructTransformer.swift */; };
 		7874964D1DD32DE400FA12AD /* StructTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874964B1DD32DE400FA12AD /* StructTransformer.swift */; };
 		7874964E1DD32DE400FA12AD /* StructTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874964B1DD32DE400FA12AD /* StructTransformer.swift */; };
+		787496561DD3342F00FA12AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787496551DD3342F00FA12AD /* AppDelegate.swift */; };
+		787496581DD3342F00FA12AD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787496571DD3342F00FA12AD /* ViewController.swift */; };
+		7874965A1DD3342F00FA12AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 787496591DD3342F00FA12AD /* Assets.xcassets */; };
+		7874965D1DD3342F00FA12AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7874965B1DD3342F00FA12AD /* Main.storyboard */; };
+		787496681DD3343000FA12AD /* SwiftKotlinAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787496671DD3343000FA12AD /* SwiftKotlinAppTests.swift */; };
+		787859731DD339610036D592 /* SwiftKotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */; };
+		787859741DD339620036D592 /* SwiftKotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */; };
+		787859751DD339680036D592 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8911DCC8A49006F4DDB /* Formatter.swift */; };
+		787859761DD339680036D592 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC67AA1DC8B39C0039511C /* Tokenizer.swift */; };
+		787859771DD339680036D592 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8911DCC8A49006F4DDB /* Formatter.swift */; };
+		787859781DD339680036D592 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC67AA1DC8B39C0039511C /* Tokenizer.swift */; };
+		787859791DD339700036D592 /* ControlFlowTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E279711DC8D8DA002A62BF /* ControlFlowTransformer.swift */; };
+		7878597A1DD339700036D592 /* ExtensionTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8B41DCCAABC006F4DDB /* ExtensionTransformer.swift */; };
+		7878597B1DD339700036D592 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
+		7878597C1DD339700036D592 /* NamedParametersTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */; };
+		7878597D1DD339700036D592 /* PropertyTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784A9EFB1DCB53FE00FFAE7D /* PropertyTransformer.swift */; };
+		7878597E1DD339700036D592 /* StaticTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8B81DCCAF28006F4DDB /* StaticTransformer.swift */; };
+		7878597F1DD339700036D592 /* StructTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874964B1DD32DE400FA12AD /* StructTransformer.swift */; };
+		787859801DD339700036D592 /* ControlFlowTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E279711DC8D8DA002A62BF /* ControlFlowTransformer.swift */; };
+		787859811DD339700036D592 /* ExtensionTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8B41DCCAABC006F4DDB /* ExtensionTransformer.swift */; };
+		787859821DD339700036D592 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
+		787859831DD339700036D592 /* NamedParametersTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */; };
+		787859841DD339700036D592 /* PropertyTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784A9EFB1DCB53FE00FFAE7D /* PropertyTransformer.swift */; };
+		787859851DD339700036D592 /* StaticTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8B81DCCAF28006F4DDB /* StaticTransformer.swift */; };
+		787859861DD339700036D592 /* StructTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874964B1DD32DE400FA12AD /* StructTransformer.swift */; };
+		787859871DD339750036D592 /* FormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8951DCC8AD0006F4DDB /* FormatterExtensions.swift */; };
+		787859881DD339750036D592 /* NSRangeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */; };
+		787859891DD339750036D592 /* TokenizerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8991DCC920C006F4DDB /* TokenizerExtensions.swift */; };
+		7878598A1DD339760036D592 /* FormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8951DCC8AD0006F4DDB /* FormatterExtensions.swift */; };
+		7878598B1DD339760036D592 /* NSRangeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */; };
+		7878598C1DD339760036D592 /* TokenizerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868A8991DCC920C006F4DDB /* TokenizerExtensions.swift */; };
 		78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
 		78A7E5B61DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
 		78A7E5BA1DB8FBC300D77182 /* NamedParametersTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */; };
@@ -66,6 +97,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		787496641DD3343000FA12AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 78F032C01D86C15400BE709A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 787496521DD3342F00FA12AD;
+			remoteInfo = SwiftKotlinApp;
+		};
 		78F032D51D86C15400BE709A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78F032C01D86C15400BE709A /* Project object */;
@@ -117,6 +155,15 @@
 		7868A8B41DCCAABC006F4DDB /* ExtensionTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionTransformer.swift; sourceTree = "<group>"; };
 		7868A8B81DCCAF28006F4DDB /* StaticTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticTransformer.swift; sourceTree = "<group>"; };
 		7874964B1DD32DE400FA12AD /* StructTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StructTransformer.swift; sourceTree = "<group>"; };
+		787496531DD3342F00FA12AD /* SwiftKotlinApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftKotlinApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		787496551DD3342F00FA12AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		787496571DD3342F00FA12AD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		787496591DD3342F00FA12AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7874965C1DD3342F00FA12AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7874965E1DD3342F00FA12AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		787496631DD3343000FA12AD /* SwiftKotlinAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftKotlinAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		787496671DD3343000FA12AD /* SwiftKotlinAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftKotlinAppTests.swift; sourceTree = "<group>"; };
+		787496691DD3343000FA12AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordReplacementTransformer.swift; sourceTree = "<group>"; };
 		78A7E5B91DB8FBC300D77182 /* NamedParametersTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamedParametersTransformer.swift; sourceTree = "<group>"; };
 		78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSRangeExtensions.swift; sourceTree = "<group>"; };
@@ -135,6 +182,20 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		784A9EDD1DCA0FB800FFAE7D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		787496501DD3342F00FA12AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		787496601DD3343000FA12AD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -183,6 +244,29 @@
 				7868A8A61DCC9BA0006F4DDB /* StructTransformerTests.swift */,
 			);
 			path = Transformers;
+			sourceTree = "<group>";
+		};
+		787496541DD3342F00FA12AD /* SwiftKotlinApp */ = {
+			isa = PBXGroup;
+			children = (
+				787496551DD3342F00FA12AD /* AppDelegate.swift */,
+				787496571DD3342F00FA12AD /* ViewController.swift */,
+				787496591DD3342F00FA12AD /* Assets.xcassets */,
+				7874965B1DD3342F00FA12AD /* Main.storyboard */,
+				7874965E1DD3342F00FA12AD /* Info.plist */,
+			);
+			name = SwiftKotlinApp;
+			path = ../SwiftKotlinApp;
+			sourceTree = "<group>";
+		};
+		787496661DD3343000FA12AD /* SwiftKotlinAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				787496671DD3343000FA12AD /* SwiftKotlinAppTests.swift */,
+				787496691DD3343000FA12AD /* Info.plist */,
+			);
+			name = SwiftKotlinAppTests;
+			path = ../SwiftKotlinAppTests;
 			sourceTree = "<group>";
 		};
 		78A7E5BE1DB9092F00D77182 /* Extensions */ = {
@@ -241,6 +325,8 @@
 				78F032CB1D86C15400BE709A /* SwiftKotlinFramework */,
 				78F032D71D86C15400BE709A /* SwiftKotlinFrameworkTests */,
 				784A9EE71DCA0FEF00FFAE7D /* SwiftKotlinCommandLine */,
+				787496541DD3342F00FA12AD /* SwiftKotlinApp */,
+				787496661DD3343000FA12AD /* SwiftKotlinAppTests */,
 				78F032CA1D86C15400BE709A /* Products */,
 				78F032EE1D86C29400BE709A /* Frameworks */,
 			);
@@ -252,6 +338,8 @@
 				78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */,
 				78F032D31D86C15400BE709A /* SwiftKotlinFrameworkTests.xctest */,
 				784A9EE01DCA0FB800FFAE7D /* swiftkotlin */,
+				787496531DD3342F00FA12AD /* SwiftKotlinApp.app */,
+				787496631DD3343000FA12AD /* SwiftKotlinAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -328,6 +416,41 @@
 			productReference = 784A9EE01DCA0FB800FFAE7D /* swiftkotlin */;
 			productType = "com.apple.product-type.tool";
 		};
+		787496521DD3342F00FA12AD /* SwiftKotlinApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7874966A1DD3343000FA12AD /* Build configuration list for PBXNativeTarget "SwiftKotlinApp" */;
+			buildPhases = (
+				7874964F1DD3342F00FA12AD /* Sources */,
+				787496501DD3342F00FA12AD /* Frameworks */,
+				787496511DD3342F00FA12AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftKotlinApp;
+			productName = SwiftKotlinApp;
+			productReference = 787496531DD3342F00FA12AD /* SwiftKotlinApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		787496621DD3343000FA12AD /* SwiftKotlinAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7874966D1DD3343000FA12AD /* Build configuration list for PBXNativeTarget "SwiftKotlinAppTests" */;
+			buildPhases = (
+				7874965F1DD3343000FA12AD /* Sources */,
+				787496601DD3343000FA12AD /* Frameworks */,
+				787496611DD3343000FA12AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				787496651DD3343000FA12AD /* PBXTargetDependency */,
+			);
+			name = SwiftKotlinAppTests;
+			productName = SwiftKotlinAppTests;
+			productReference = 787496631DD3343000FA12AD /* SwiftKotlinAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		78F032C81D86C15400BE709A /* SwiftKotlinFramework */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 78F032DD1D86C15400BE709A /* Build configuration list for PBXNativeTarget "SwiftKotlinFramework" */;
@@ -380,6 +503,17 @@
 						DevelopmentTeam = P6X9Y77ULM;
 						ProvisioningStyle = Automatic;
 					};
+					787496521DD3342F00FA12AD = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = P6X9Y77ULM;
+						ProvisioningStyle = Automatic;
+					};
+					787496621DD3343000FA12AD = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = P6X9Y77ULM;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 787496521DD3342F00FA12AD;
+					};
 					78F032C81D86C15400BE709A = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 0800;
@@ -406,11 +540,29 @@
 				78F032C81D86C15400BE709A /* SwiftKotlinFramework */,
 				78F032D21D86C15400BE709A /* SwiftKotlinFrameworkTests */,
 				784A9EDF1DCA0FB800FFAE7D /* SwiftKotlinCommandLine */,
+				787496521DD3342F00FA12AD /* SwiftKotlinApp */,
+				787496621DD3343000FA12AD /* SwiftKotlinAppTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		787496511DD3342F00FA12AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7874965A1DD3342F00FA12AD /* Assets.xcassets in Resources */,
+				7874965D1DD3342F00FA12AD /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		787496611DD3343000FA12AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78F032C71D86C15400BE709A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -447,6 +599,49 @@
 				7868A8B71DCCAABC006F4DDB /* ExtensionTransformer.swift in Sources */,
 				784A9EEC1DCA104200FFAE7D /* KeywordReplacementTransformer.swift in Sources */,
 				784A9EE91DCA0FEF00FFAE7D /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7874964F1DD3342F00FA12AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7878597D1DD339700036D592 /* PropertyTransformer.swift in Sources */,
+				787496581DD3342F00FA12AD /* ViewController.swift in Sources */,
+				787859891DD339750036D592 /* TokenizerExtensions.swift in Sources */,
+				787859871DD339750036D592 /* FormatterExtensions.swift in Sources */,
+				7878597A1DD339700036D592 /* ExtensionTransformer.swift in Sources */,
+				787859881DD339750036D592 /* NSRangeExtensions.swift in Sources */,
+				787859761DD339680036D592 /* Tokenizer.swift in Sources */,
+				787496561DD3342F00FA12AD /* AppDelegate.swift in Sources */,
+				787859791DD339700036D592 /* ControlFlowTransformer.swift in Sources */,
+				7878597F1DD339700036D592 /* StructTransformer.swift in Sources */,
+				787859751DD339680036D592 /* Formatter.swift in Sources */,
+				7878597C1DD339700036D592 /* NamedParametersTransformer.swift in Sources */,
+				7878597E1DD339700036D592 /* StaticTransformer.swift in Sources */,
+				7878597B1DD339700036D592 /* KeywordReplacementTransformer.swift in Sources */,
+				787859731DD339610036D592 /* SwiftKotlin.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7874965F1DD3343000FA12AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				787859771DD339680036D592 /* Formatter.swift in Sources */,
+				7878598C1DD339760036D592 /* TokenizerExtensions.swift in Sources */,
+				787859841DD339700036D592 /* PropertyTransformer.swift in Sources */,
+				787859781DD339680036D592 /* Tokenizer.swift in Sources */,
+				787859801DD339700036D592 /* ControlFlowTransformer.swift in Sources */,
+				787859821DD339700036D592 /* KeywordReplacementTransformer.swift in Sources */,
+				787859861DD339700036D592 /* StructTransformer.swift in Sources */,
+				787859851DD339700036D592 /* StaticTransformer.swift in Sources */,
+				787859811DD339700036D592 /* ExtensionTransformer.swift in Sources */,
+				7878598A1DD339760036D592 /* FormatterExtensions.swift in Sources */,
+				7878598B1DD339760036D592 /* NSRangeExtensions.swift in Sources */,
+				787859741DD339620036D592 /* SwiftKotlin.swift in Sources */,
+				787859831DD339700036D592 /* NamedParametersTransformer.swift in Sources */,
+				787496681DD3343000FA12AD /* SwiftKotlinAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,12 +701,28 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		787496651DD3343000FA12AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 787496521DD3342F00FA12AD /* SwiftKotlinApp */;
+			targetProxy = 787496641DD3343000FA12AD /* PBXContainerItemProxy */;
+		};
 		78F032D61D86C15400BE709A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 78F032C81D86C15400BE709A /* SwiftKotlinFramework */;
 			targetProxy = 78F032D51D86C15400BE709A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7874965B1DD3342F00FA12AD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7874965C1DD3342F00FA12AD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		784A9EE51DCA0FB800FFAE7D /* Debug */ = {
@@ -539,6 +750,82 @@
 				PRODUCT_MODULE_NAME = swiftKotlinCommand;
 				PRODUCT_NAME = swiftkotlin;
 				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		7874966B1DD3343000FA12AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = P6X9Y77ULM;
+				INFOPLIST_FILE = "$(SRCROOT)/../SwiftKotlinApp/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.angelolloqui.SwiftKotlinApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		7874966C1DD3343000FA12AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = P6X9Y77ULM;
+				INFOPLIST_FILE = "$(SRCROOT)/../SwiftKotlinApp/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.angelolloqui.SwiftKotlinApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		7874966E1DD3343000FA12AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = P6X9Y77ULM;
+				INFOPLIST_FILE = SwiftKotlinAppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.angelolloqui.SwiftKotlinAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftKotlinApp.app/Contents/MacOS/SwiftKotlinApp";
+			};
+			name = Debug;
+		};
+		7874966F1DD3343000FA12AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = P6X9Y77ULM;
+				INFOPLIST_FILE = SwiftKotlinAppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.angelolloqui.SwiftKotlinAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftKotlinApp.app/Contents/MacOS/SwiftKotlinApp";
 			};
 			name = Release;
 		};
@@ -705,6 +992,24 @@
 			buildConfigurations = (
 				784A9EE51DCA0FB800FFAE7D /* Debug */,
 				784A9EE61DCA0FB800FFAE7D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7874966A1DD3343000FA12AD /* Build configuration list for PBXNativeTarget "SwiftKotlinApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7874966B1DD3343000FA12AD /* Debug */,
+				7874966C1DD3343000FA12AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7874966D1DD3343000FA12AD /* Build configuration list for PBXNativeTarget "SwiftKotlinAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7874966E1DD3343000FA12AD /* Debug */,
+				7874966F1DD3343000FA12AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
