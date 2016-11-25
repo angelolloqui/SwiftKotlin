@@ -64,19 +64,26 @@ class ControlFlowTransformer: Transformer {
                 //This case needs an extra variable definition out of the "if"
                 else {
                     //Move conditional expresion out of the "if"
+                    var insertedTokens = 1
                     let expressionTokens = formatter.tokens[firstTokenIndex..<endIndex]
                     formatter.removeTokensInRange(Range(uncheckedBounds: (lower: firstTokenIndex, upper: endIndex)))
                     let declarationIndex = formatter.indexOfPreviousToken(fromIndex: startIndex - 1, matching: { !$0.isWhitespace })!
+                    if let indentationToken = formatter.indentTokenForLineAtIndex(declarationIndex) {
+                        formatter.insertToken(indentationToken, atIndex: declarationIndex)
+                        insertedTokens += 1
+                    }
                     formatter.insertToken(.linebreak("\n"), atIndex: declarationIndex)
                     formatter.insertTokens(Array(expressionTokens), atIndex: declarationIndex)
                     
                     //Add null check
-                    let conditionTokenIndex = firstTokenIndex + expressionTokens.count
-                    formatter.insertToken(unwrappedVariableName, atIndex: conditionTokenIndex + 1)
-                    formatter.insertToken(.whitespace(" "), atIndex: conditionTokenIndex + 2)
-                    formatter.insertToken(.symbol("!="), atIndex: conditionTokenIndex + 3)
-                    formatter.insertToken(.whitespace(" "), atIndex: conditionTokenIndex + 4)
-                    formatter.insertToken(.identifier("null"), atIndex: conditionTokenIndex + 5)
+                    let conditionTokenIndex = firstTokenIndex + expressionTokens.count + insertedTokens
+                    formatter.insertTokens([
+                        unwrappedVariableName,
+                        .whitespace(" "),
+                        .symbol("!="),
+                        .whitespace(" "),
+                        .identifier("null")
+                    ], atIndex: conditionTokenIndex)
                 }
             }
         }

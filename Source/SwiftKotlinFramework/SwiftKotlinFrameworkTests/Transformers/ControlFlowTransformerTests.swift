@@ -53,6 +53,13 @@ class ControlFlowTransformerTests: XCTestCase {
         AssertTranslateEquals(translate, kotlin)
     }
     
+    func testIfLetStatementKeepsIndentation() {
+        let swift = "\t\t//Something\n\t\tif let number = method() {}"
+        let kotlin = "\t\t//Something\n\t\tlet number = method()\n\t\tif (number != null) {}"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+
     
     func testIfLetStatementWithClousure() {
         let swift = "if let name = formatter.next(fromIndex: firstTokenIndex, matching: { $0.type == .symbol }, extra: true) {}"

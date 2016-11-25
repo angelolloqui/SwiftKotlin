@@ -25,7 +25,7 @@ Kotlin is a great language, it is to Android/Java what Swift is to iOS/Objective
 
 **If you are a Swift developer**, you will love Kotlin. It provides the most important Swift features (optionals, extensions, generics, lambdas,...) and a very similar syntax. You can check a [side by side comparison of Swift and Kotlin here](https://nilhcem.github.io/swift-is-like-kotlin/).
 
-**If you are a Java developer**, you will find in Kotlin a much more modern and safer language (optionals!). It is a pleasure to write Kotlin code, much more readable and compact that the Java counterpart. You can check some of the [benefits and differences in Kotlin official documentation](https://kotlinlang.org/docs/reference/comparison-to-java.html)
+**If you are a Java developer**, you will find in Kotlin a much more modern and safer language (optionals and mutation). It is a pleasure to write Kotlin code, much more readable and compact that the Java counterpart. You can check some of the [benefits and differences in Kotlin official documentation](https://kotlinlang.org/docs/reference/comparison-to-java.html) and a [nice list of reasons to chose Kotlin over Java](https://medium.freecodecamp.com/why-kotlin-is-my-next-programming-language-c25c001e26e3#.hjam7bscd)
 
 Moreover, Kotlin is fully integrated in IntelliJ (Android Studio), so you can keep using the "de facto" IDE for Android with all the added benefits brought by Google, and it even have a Java to Kotlin converter if you want to update your legacy Java.
 
