@@ -1,5 +1,5 @@
 //
-//  NamedParametersTransformer.swift
+//  FunctionParametersTransformer.swift
 //  SwiftKotlinFramework
 //
 //  Created by Angel Garcia on 20/10/16.
@@ -8,16 +8,21 @@
 
 import Foundation
 
-class NameParametersTransformer: Transformer {
+class FunctionParametersTransformer: Transformer {
     let declarationTokens = ["var", "let", "class", "struct", "enum", "Self", "init", "func"]
     
     func transform(formatter: Formatter) throws {
-        
+        transformNamedParameterCalls(formatter)
+        removeNamedParametersDeclarations(formatter)
+        transformFunctionReturns(formatter)
+    }
+    
+    func transformNamedParameterCalls(_ formatter: Formatter) {
         formatter.forEachToken(.symbol(":")) { (i, token) in
             //Check previous tokens:
-                //when -> var, let -> then variable declaration, must not change
-                //when -> class, struct, enum, Self -> then type declaration, must not change
-                //when -> init, func -> then method declaration, must not change
+            //when -> var, let -> then variable declaration, must not change
+            //when -> class, struct, enum, Self -> then type declaration, must not change
+            //when -> init, func -> then method declaration, must not change
             
             var isMethodInvocation = true
             var index = i - 1
@@ -48,5 +53,14 @@ class NameParametersTransformer: Transformer {
             }
         }
     }
+    
+    func transformFunctionReturns(_ formatter: Formatter) {
+        
+    }
+    
+    func removeNamedParametersDeclarations(_ formatter: Formatter) {
+        
+    }
+    
     
 }

@@ -8,12 +8,12 @@
 
 import XCTest
 
-class NameParametersTransformerTests: XCTestCase {
-    var transformer: NameParametersTransformer!
+class FunctionParametersTransformerTests: XCTestCase {
+    var transformer: FunctionParametersTransformer!
     
     override func setUp() {
         super.setUp()
-        transformer = NameParametersTransformer()
+        transformer = FunctionParametersTransformer()
     }
     
     override func tearDown() {
@@ -147,15 +147,29 @@ class NameParametersTransformerTests: XCTestCase {
         AssertTranslateEquals(translate, kotlin)
     }
     
-
     
-    func testRemovesEmptyMethodNames() {
+    func testRemovesEmptyParameterNames() {
         let swift = "func greet(_ name: String,_ day: String) -> String {}"
         let kotlin = "func greet(name: String, day: String) -> String {}"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
     }
     
+    func testRemovesNamedParameters() {
+        let swift = "func greet(aName name: String, aDay day: String) {}"
+        let kotlin = "func greet(name: String, day: String) {}"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
     
+    
+    func testChangesFunctionReturn() {
+        let swift = "func method() -> Bool {}\n" +
+                    "\tfunc method2()\n\t->Bool\n{}\n"
+        let kotlin = "func method(): Bool {}\n" +
+                    "\tfunc method2(): Bool\n{}\n"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
 
 }
