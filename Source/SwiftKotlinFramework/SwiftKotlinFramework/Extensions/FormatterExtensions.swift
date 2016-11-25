@@ -16,11 +16,23 @@ extension Formatter {
             removeTokenAtIndex(index)
         }
     }
+
     
+    public func removeSpacingOrLinebreakTokensAtIndex(_ index: Int) {
+        while tokenAtIndex(index)?.isWhitespaceOrLinebreak ?? false {
+            removeTokenAtIndex(index)
+        }
+    }
+
     public func insertTokens(_ tokens: [Token], atIndex index: Int) {
         tokens.reversed().forEach {
             insertToken($0, atIndex: index)
         }
+    }
+    
+    public func insertSpacingTokenIfNoneAtIndex(_ index: Int) {
+        guard !(tokenAtIndex(index)?.isWhitespace ?? false) else { return }
+        insertToken(.whitespace(" "), atIndex: index)
     }
     
 }

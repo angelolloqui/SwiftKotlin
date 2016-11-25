@@ -56,7 +56,7 @@ class FunctionParametersTransformerTests: XCTestCase {
             "}"
         
         let kotlin =
-            "func findRestaurant(restaurantId: Int) -> ServiceTask<Restaurant> {\n" +
+            "func findRestaurant(restaurantId: Int): ServiceTask<Restaurant> {\n" +
             " return NetworkRequestServiceTask<Restaurant>(\n" +
             " networkSession = networkSession,\n" +
             " endpoint = \"restaurants/\")\n" +
@@ -164,9 +164,9 @@ class FunctionParametersTransformerTests: XCTestCase {
     
     
     func testChangesFunctionReturn() {
-        let swift = "func method() -> Bool {}\n" +
+        let swift = "func method(param: String) -> Bool {}\n" +
                     "\tfunc method2()\n\t->Bool\n{}\n"
-        let kotlin = "func method(): Bool {}\n" +
+        let kotlin = "func method(param: String): Bool {}\n" +
                     "\tfunc method2(): Bool\n{}\n"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
