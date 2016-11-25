@@ -149,15 +149,15 @@ class FunctionParametersTransformerTests: XCTestCase {
     
     
     func testRemovesEmptyParameterNames() {
-        let swift = "func greet(_ name: String,_ day: String) -> String {}"
-        let kotlin = "func greet(name: String, day: String) -> String {}"
+        let swift = "func greet(_ name: String,_ day: String) {}"
+        let kotlin = "func greet(name: String,day: String) {}"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
     }
     
-    func testRemovesNamedParameters() {
-        let swift = "func greet(aName name: String, aDay day: String) {}"
-        let kotlin = "func greet(name: String, day: String) {}"
+    func testRemovesNamedParametersWithDefaults() {
+        let swift = "func greet(aName name: String = \"value\", day: String, other value: Int) {}"
+        let kotlin = "func greet(name: String = \"value\", day: String, value: Int) {}"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
     }

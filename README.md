@@ -69,8 +69,7 @@ The project is in active development, with many rules still to be implemented. S
 - [ ] Extensions
 - [x] Keyword replacements (`val`, `this`, `fun`, ...)
 - [ ] Memory management
-- [x] Parameter names
-- [ ] Function returns and named parameters
+- [x] Function returns and named parameters
 - [x] Property transfromers
 - [x] Static to Companion
 - [x] Struct to data class

@@ -77,7 +77,27 @@ class FunctionParametersTransformer: Transformer {
     }
     
     func removeNamedParametersDeclarations(_ formatter: Formatter) {
-        
+        var index = 0
+        while index < formatter.tokens.count {
+            if formatter.tokenAtIndex(index) == .keyword("func") {
+                var parameterPairIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .startOfScope("(") })
+                while parameterPairIndex != nil {
+                    //Find first 2 tokens
+                    if  let firstTokenIndex = formatter.indexOfNextToken(fromIndex: parameterPairIndex!, matching: { !$0.isWhitespaceOrCommentOrLinebreak }),
+                        let secondToken = formatter.nextToken(fromIndex: firstTokenIndex, matching: { !$0.isWhitespaceOrCommentOrLinebreak }) {
+                        
+                        //If second token is an identifier then is because is a named parameter. Remove external name
+                        if secondToken.isIdentifier {
+                            formatter.removeTokenAtIndex(firstTokenIndex)
+                            formatter.removeSpacingOrLinebreakTokensAtIndex(firstTokenIndex)
+                        }
+                    }
+                    parameterPairIndex = formatter.indexOfNextToken(fromIndex: parameterPairIndex!, matching: { $0 == .symbol(",") })
+                }
+            }
+            index = index + 1
+        }
+
     }
     
     
