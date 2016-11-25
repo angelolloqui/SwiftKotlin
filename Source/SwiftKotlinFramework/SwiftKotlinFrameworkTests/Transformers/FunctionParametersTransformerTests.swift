@@ -165,9 +165,9 @@ class FunctionParametersTransformerTests: XCTestCase {
     
     func testChangesFunctionReturn() {
         let swift = "func method(param: String) -> Bool {}\n" +
-                    "\tfunc method2()\n\t->Bool\n{}\n"
+                    "class A {\n\tfunc method2()\n\t->Bool\n{}\n}"
         let kotlin = "func method(param: String): Bool {}\n" +
-                    "\tfunc method2(): Bool\n{}\n"
+                    "class A {\n\tfunc method2(): Bool\n{}\n}"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
     }

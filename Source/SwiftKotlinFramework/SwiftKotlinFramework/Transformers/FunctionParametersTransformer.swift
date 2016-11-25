@@ -55,23 +55,25 @@ class FunctionParametersTransformer: Transformer {
     }
     
     func transformFunctionReturns(_ formatter: Formatter) {
-        var index = -1
-        while let funcIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .keyword("func") }) {
-            if let returnIndex = formatter.indexOfNextToken(fromIndex: funcIndex, matching: { $0 == .symbol("->") }) {
-                //Replace -> by :
-                formatter.replaceTokenAtIndex(returnIndex, with: .symbol(":"))
-                
-                //Insert whitespace after : if none
-                formatter.insertSpacingTokenIfNoneAtIndex(returnIndex + 1)
-                
-                //Remove extra whitespace before :
-                if let prevToken = formatter.indexOfPreviousToken(fromIndex: returnIndex, matching: { !$0.isWhitespaceOrLinebreak }) {
-                    formatter.removeSpacingOrLinebreakTokensAtIndex(prevToken + 1)
+        var index = 0
+        while index < formatter.tokens.count {
+            if formatter.tokenAtIndex(index) == .keyword("func") {
+                if let returnIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .symbol("->") }) {
+                    //Replace -> by :
+                    formatter.replaceTokenAtIndex(returnIndex, with: .symbol(":"))
+                    
+                    //Insert whitespace after : if none
+                    formatter.insertSpacingTokenIfNoneAtIndex(returnIndex + 1)
+                    
+                    //Remove extra whitespace before :
+                    if let prevToken = formatter.indexOfPreviousToken(fromIndex: returnIndex, matching: { !$0.isWhitespaceOrLinebreak }) {
+                        formatter.removeSpacingOrLinebreakTokensAtIndex(prevToken + 1)
+                    }
+                    index = returnIndex
                 }
             }
-            index = funcIndex + 1
+            index = index + 1
         }
-        
     }
     
     func removeNamedParametersDeclarations(_ formatter: Formatter) {
