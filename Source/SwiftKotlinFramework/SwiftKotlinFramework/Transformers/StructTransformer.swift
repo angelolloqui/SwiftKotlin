@@ -11,12 +11,12 @@ import Foundation
 class StructTransformer: Transformer {
     func transform(formatter: Formatter) throws {
         formatter.forEachToken { (i, token) in
-            if token == .keyword("struct") {
-                formatter.replaceTokenAtIndex(i, with: .keyword("class"))
+            if token == .keyword("struct") {                
+                formatter.replaceToken(at: i, with: .keyword("class"))
                 formatter.insertTokens([
                     .keyword("data"),
-                    .whitespace(" "),
-                ], atIndex: i)
+                    .space(" "),
+                ], at: i)
             }
         }
     }

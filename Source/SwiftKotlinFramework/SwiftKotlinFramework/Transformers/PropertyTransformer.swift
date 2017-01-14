@@ -36,14 +36,14 @@ class PropertyTransformer: Transformer {
             //Replace var by val if no setter
             if  setIndex == nil,
                 let varIndex = formatter.indexOfPreviousToken(fromIndex: index, matching: { $0.string == "var" }) {
-                formatter.replaceTokenAtIndex(varIndex, with: .keyword("val"))
+                formatter.replaceToken(at: varIndex, with: .keyword("val"))
             }
             
             //If there is a "get" or "set" then remove the {} from the property
             if  getIndex != nil || setIndex != nil,
                 let closeIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .endOfScope("}") }) {
-                formatter.removeTokenAtIndex(closeIndex)
-                formatter.removeTokenAtIndex(index)
+                formatter.removeToken(at: closeIndex)
+                formatter.removeToken(at: index)
             }
             
             previousIndex = index + 1
@@ -51,7 +51,7 @@ class PropertyTransformer: Transformer {
     }
     
     func transformGetterProperty(_ formatter: Formatter, index: Int) {
-        let isExplicitGet = formatter.tokenAtIndex(index) == .identifier("get")
+        let isExplicitGet = formatter.token(at: index) == .identifier("get")
         var position = index
         var tokens:[Token] = [
             .startOfScope("("),
@@ -64,42 +64,42 @@ class PropertyTransformer: Transformer {
         }
         else {
             tokens.insert(.keyword("get"), at: 0)
-            tokens.append(.whitespace(" "))
+            tokens.append(.space(" "))
         }
         
         formatter.insertTokens(tokens, atIndex: position)
        
         //Add extra space if none
-        if !(formatter.tokenAtIndex(index - 1)?.isWhitespace ?? false) {
-            formatter.insertToken(.whitespace(" "), atIndex: index)
+        if !(formatter.token(at: index - 1)?.isWhitespace ?? false) {
+            formatter.insertToken(.space(" "), at: index)
         }
     }
     
     func transformSetterProperty(_ formatter: Formatter, index: Int) {
         //Consume spaces
         var position = index + 1
-        while formatter.tokenAtIndex(position)?.isWhitespaceOrCommentOrLinebreak ?? false {
+        while formatter.token(at: position)?.isWhitespaceOrCommentOrLinebreak ?? false {
             position += 1
         }
         
         //Check if the setter has a variable name, otherwise create it with "newValue" as name (default for swift)
-        if formatter.tokenAtIndex(position) == .startOfScope("{") {
+        if formatter.token(at: position) == .startOfScope("{") {
             formatter.insertTokens([
                 .startOfScope("("),
                 .identifier("newValue"),
                 .endOfScope(")")
-            ], atIndex: index + 1)
+            ], at: index + 1)
         }
     }
     
     func findFirstPropertyBodyIndex(_ formatter: Formatter, fromIndex: Int) -> Int? {
         //Find properties with the type: "var <name>:<type> {"
         for i in fromIndex..<formatter.tokens.count {
-            guard formatter.tokenAtIndex(i) == .keyword("var") else { continue }
+            guard formatter.token(at: i) == .keyword("var") else { continue }
             var index = i + 1
             
             //Consume spaces
-            while formatter.tokenAtIndex(index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
@@ -107,32 +107,32 @@ class PropertyTransformer: Transformer {
             index += 1
             
             //Consume possible spaces
-            while formatter.tokenAtIndex(index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
             //Check there is a : and consume
-            guard formatter.tokenAtIndex(index)?.string == ":" else { continue }
+            guard formatter.token(at: index)?.string == ":" else { continue }
             index += 1
             
             //Consume possible spaces
-            while formatter.tokenAtIndex(index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
             //Now consume identifiers, maps, optionals, unwrapping and generics
-            while   let token = formatter.tokenAtIndex(index),
+            while   let token = formatter.token(at: index),
                     token.isIdentifier || token.string == "<" || token.string == ">" || token.string == "[" || token.string == "]" || token.string == "?" || token.string == "!" || token.string == "." {
                 index += 1
             }
             
             //Consume possible spaces
-            while formatter.tokenAtIndex(index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
             //Check there is a { and add to list
-            guard formatter.tokenAtIndex(index)?.string == "{" else { continue }
+            guard formatter.token(at: index)?.string == "{" else { continue }
             return index
         }
         return nil
@@ -140,28 +140,28 @@ class PropertyTransformer: Transformer {
     
     func transformPrivateSetters(_ formatter: Formatter) {
         //Look for "(set)" form
-        formatter.forEachToken( { $0 == .identifier("set") }) { (i, token) in
-            guard formatter.tokenAtIndex(i - 1) == .startOfScope("(") &&
-                formatter.tokenAtIndex(i + 1) == .endOfScope(")") else {
+        formatter.forEach( { $0 == .identifier("set") }) { (i, token) in
+            guard formatter.token(at: i - 1) == .startOfScope("(") &&
+                formatter.token(at: i + 1) == .endOfScope(")") else {
                     return
             }
             guard let accessorIndex = formatter.indexOfPreviousToken(fromIndex: i - 1, matching: { !$0.isWhitespaceOrLinebreak}) else { return }
             guard let lineBreak = formatter.indexOfNextToken(fromIndex: i + 1, matching: { $0.isLinebreak} ) else { return }
             guard let nextWordIndex = formatter.indexOfNextToken(fromIndex: i + 1, matching: { !$0.isWhitespaceOrLinebreak }) else { return }
-            let indentation = formatter.indentTokenForLineAtIndex(accessorIndex) ?? .whitespace("\t")
+            let indentation = formatter.indentTokenForLineAtIndex(accessorIndex) ?? .space("\t")
             
             //Append the "private set" to the end
             formatter.insertTokens([
                 .linebreak("\n"),
                 indentation,
-                .whitespace("\t"),
-                formatter.tokenAtIndex(accessorIndex)!,
-                .whitespace(" "),
+                .space("\t"),
+                formatter.token(at: accessorIndex)!,
+                .space(" "),
                 .identifier("set")
-            ], atIndex: lineBreak)
+            ], at: lineBreak)
             
             //Remove the old accessor
-            formatter.removeTokensInRange(Range(uncheckedBounds: (lower: accessorIndex, upper: nextWordIndex)))
+            formatter.removeTokens(inRange: Range(uncheckedBounds: (lower: accessorIndex, upper: nextWordIndex)))
         }
     }
     
@@ -169,11 +169,11 @@ class PropertyTransformer: Transformer {
         var previousIndex = 0
         while let index = findFirstLateInitPropertyIndex(formatter, fromIndex: previousIndex) {
             if let unwrappedIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .symbol("!") }) {
-                formatter.removeTokenAtIndex(unwrappedIndex)
+                formatter.removeToken(at: unwrappedIndex)
                 formatter.insertTokens([
                     .keyword("lateinit"),
-                    .whitespace(" ")
-                    ], atIndex: index)
+                    .space(" ")
+                    ], at: index)
             }
             previousIndex = index + 2
         }
@@ -182,41 +182,41 @@ class PropertyTransformer: Transformer {
     func findFirstLateInitPropertyIndex(_ formatter: Formatter, fromIndex: Int) -> Int? {
         //Look for "var <name>:<Type>!" form
         for i in fromIndex..<formatter.tokens.count {
-            guard formatter.tokenAtIndex(i) == .keyword("var") else { continue }
+            guard formatter.token(at: i) == .keyword("var") else { continue }
             
             var index = i + 1
             
             //Consume spaces
-            while formatter.tokenAtIndex(index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
             //Check there is a name and consume
-            guard formatter.tokenAtIndex(index)?.isIdentifier ?? false else { continue }
+            guard formatter.token(at: index)?.isIdentifier ?? false else { continue }
             index += 1
             
             //Consume possible spaces
-            while formatter.tokenAtIndex(index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
             //Check there is a : and consume
-            guard formatter.tokenAtIndex(index)?.string == ":" else { continue }
+            guard formatter.token(at: index)?.string == ":" else { continue }
             index += 1
             
             //Consume possible spaces
-            while formatter.tokenAtIndex(index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
             //Now consume identifiers, maps and generics
-            while  let token = formatter.tokenAtIndex(index),
+            while  let token = formatter.token(at: index),
                 token.isIdentifier || token.string == "<" || token.string == ">" || token.string == "[" || token.string == "]" || token.string == "." {
                     index += 1
             }
             
             //If there is a ! then return it
-            if formatter.tokenAtIndex(index) == .symbol("!") {
+            if formatter.token(at: index) == .symbol("!") {
                 return i
             }
         }

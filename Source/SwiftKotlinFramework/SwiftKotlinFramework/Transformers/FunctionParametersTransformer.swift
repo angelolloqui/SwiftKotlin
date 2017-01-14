@@ -18,7 +18,7 @@ class FunctionParametersTransformer: Transformer {
     }
     
     func transformNamedParameterCalls(_ formatter: Formatter) {
-        formatter.forEachToken(.symbol(":")) { (i, token) in
+        formatter.forEach(.symbol(":")) { (i, token) in
             //Check previous tokens:
             //when -> var, let -> then variable declaration, must not change
             //when -> class, struct, enum, Self -> then type declaration, must not change
@@ -26,7 +26,7 @@ class FunctionParametersTransformer: Transformer {
             
             var isMethodInvocation = true
             var index = i - 1
-            while let prevToken = formatter.tokenAtIndex(index) {
+            while let prevToken = formatter.token(at: index) {
                 guard !declarationTokens.contains(prevToken.string) else {
                     isMethodInvocation = false
                     break
@@ -48,8 +48,8 @@ class FunctionParametersTransformer: Transformer {
             }
             
             if isMethodInvocation {
-                formatter.replaceTokenAtIndex(i, with: .symbol("="))
-                formatter.insertToken(.whitespace(" "), atIndex: i)
+                formatter.replaceToken(at: i, with: .symbol("="))
+                formatter.insertToken(.space(" "), at: i)
             }
         }
     }
@@ -57,10 +57,10 @@ class FunctionParametersTransformer: Transformer {
     func transformFunctionReturns(_ formatter: Formatter) {
         var index = 0
         while index < formatter.tokens.count {
-            if formatter.tokenAtIndex(index) == .keyword("func") {
+            if formatter.token(at: index) == .keyword("func") {
                 if let returnIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .symbol("->") }) {
                     //Replace -> by :
-                    formatter.replaceTokenAtIndex(returnIndex, with: .symbol(":"))
+                    formatter.replaceToken(at: returnIndex, with: .symbol(":"))
                     
                     //Insert whitespace after : if none
                     formatter.insertSpacingTokenIfNoneAtIndex(returnIndex + 1)
@@ -79,7 +79,7 @@ class FunctionParametersTransformer: Transformer {
     func removeNamedParametersDeclarations(_ formatter: Formatter) {
         var index = 0
         while index < formatter.tokens.count {
-            if formatter.tokenAtIndex(index) == .keyword("func") {
+            if formatter.token(at: index) == .keyword("func") {
                 var parameterPairIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .startOfScope("(") })
                 while parameterPairIndex != nil {
                     //Find first 2 tokens
@@ -88,7 +88,7 @@ class FunctionParametersTransformer: Transformer {
                         
                         //If second token is an identifier then is because is a named parameter. Remove external name
                         if secondToken.isIdentifier {
-                            formatter.removeTokenAtIndex(firstTokenIndex)
+                            formatter.removeToken(at: firstTokenIndex)
                             formatter.removeSpacingOrLinebreakTokensAtIndex(firstTokenIndex)
                         }
                     }

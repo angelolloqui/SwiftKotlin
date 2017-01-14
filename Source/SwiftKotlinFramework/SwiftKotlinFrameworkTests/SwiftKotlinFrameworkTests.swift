@@ -30,7 +30,7 @@ class SwiftKotlinFrameworkTests: XCTestCase {
             var translated = false
             func transform(formatter: Formatter) throws {
                 translated = true
-                formatter.insertToken(.identifier(" translated"), atIndex: formatter.tokens.count)
+                formatter.insertToken(.identifier(" translated"), at: formatter.tokens.count)
             }
         }
         let transformer = CustomTransformer()

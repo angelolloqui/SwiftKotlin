@@ -1,3 +1,3 @@
 [submodule "Source/SwiftKotlinFramework/External/SwiftFormat"]
 	path = Source/SwiftKotlinFramework/External/SwiftFormat
-	url = git@github.com:nicklockwood/SwiftFormat.git
+	url = git@github.com:angelolloqui/SwiftFormat.git

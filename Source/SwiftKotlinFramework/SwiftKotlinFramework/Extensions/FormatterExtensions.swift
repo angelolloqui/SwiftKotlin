@@ -26,13 +26,13 @@ extension Formatter {
 
     public func insertTokens(_ tokens: [Token], atIndex index: Int) {
         tokens.reversed().forEach {
-            insertToken($0, atIndex: index)
+            insertToken($0, at: index)
         }
     }
     
     public func insertSpacingTokenIfNoneAtIndex(_ index: Int) {
         guard !(tokenAtIndex(index)?.isWhitespace ?? false) else { return }
-        insertToken(.whitespace(" "), atIndex: index)
+        insertToken(.space(" "), at: index)
     }
     
 }

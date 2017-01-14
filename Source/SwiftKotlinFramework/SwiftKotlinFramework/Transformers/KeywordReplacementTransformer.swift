@@ -42,7 +42,7 @@ class KeywordReplacementTransformer: Transformer {
                 replace = nil
             }
             if let replace = replace {
-                formatter.replaceTokenAtIndex(i, with: token.with(string: replace))
+                formatter.replaceToken(at: i, with: token.with(string: replace))
             }
         }
     }
