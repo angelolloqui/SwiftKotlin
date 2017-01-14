@@ -35,7 +35,7 @@ On top of that, if you consider the similarities between Swift and Kotlin, you c
 ### Benefits over shared code accross platforms
 There are many alternatives for making multiplatform projects or sharing code between them. Some alternatives are [Xamarin](https://www.xamarin.com/), [ReactNative](https://facebook.github.io/react-native/), [Cordova](https://cordova.apache.org/) or low level C++ libraries.
 
-The main issue with all of them is that once you chose to use them, you need to keep in there boundaries, including specific tools and libraries, introducing a steep learning curve and a big risk in terms of dependency to that 3rd party. Besides that, in many of those options the resulting app will lack the quality of a fully native app.
+The main issue with all of them is that once you chose to use them, you need to keep in their boundaries, including specific tools and libraries, introducing a steep learning curve and a big risk in terms of dependency to that 3rd party. Besides that, in many of those options the resulting app will lack the quality of a fully native app.
 
 On the other hand, by using Kotlin, you will still have 2 fully native applications, with all the benefits (best quality, performance, best tools per platform -Xcode/Android Studio-, follow platform conventions,...) but at the same time keep very low the extra work required to translate between them due to its similarity to Swift. 
 
@@ -43,7 +43,7 @@ In fact, [I explored an actual example using MVVM+Rx](http://angelolloqui.com/bl
 
 
 ## Limitations
-Despite the similarities, Swift and Kotlin are different languages, with some intrinsic differences in them that can not be fully translated. Besides that, they both run in different environments and have access very different frameworks and system libraries.
+Despite the similarities, Swift and Kotlin are different languages, with some intrinsic differences in them that can not be fully translated. Besides that, they both run in different environments and have access to very different frameworks and system libraries.
 
 Because of that, this **tool does not have as a goal to produce production ready Kotlin code**, but just a Kotlin translation that **will require manual edition**. For example, things as simple as adding a new item to an array has different method names:
 
@@ -73,6 +73,7 @@ The project is in active development, with many rules still to be implemented. S
 - [x] Property transfromers
 - [x] Static to Companion
 - [x] Struct to data class
+- [ ] String interpolators
 - ...
 
 However, with the implemented rules you can get already a pretty decent Kotlin output for many of your classes. The rest will come in future releases.
