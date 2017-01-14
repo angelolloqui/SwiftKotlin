@@ -36,5 +36,70 @@ class FoundationTypeTransformerTests: XCTestCase {
         AssertTranslateEquals(translate, kotlin)
     }
 
+    func testsSimpleArrayDeclarationBecomesGenericArray() {
+        let swift = "var array: [String]?"
+        let kotlin = "var array: Array<String>?"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    func testsGenericArrayDeclarationBecomesGenericArray() {
+        let swift = "var array: Promise<[String]>?"
+        let kotlin = "var array: Promise<Array<String>>?"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    func testsNestedGenericArraysDeclarationBecomesNestedGenericArrays() {
+        let swift = "var array: [Promise<[String]>]"
+        let kotlin = "var array: Array<Promise<Array<String>>>"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+
+    func testsArrayValueDeclarationIsChanged() {
+        let swift = "var array = [\"1\", \"2\"]"
+        let kotlin = "var array = arrayOf(\"1\", \"2\")"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    
+    func testsSimpleDictDeclarationBecomesGenericMap() {
+        let swift = "var map: [Int: String]?"
+        let kotlin = "var map: Map<Int, String>?"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    func testsGenericDictDeclarationBecomesGenericMap() {
+        let swift = "var map: Promise<[Int: String]>?"
+        let kotlin = "var map: Promise<Map<Int, String>>?"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    func testsNestedGenericDictDeclarationBecomesNestedGenericMaps() {
+        let swift = "var map: [Int: Promise<[String: String]>]"
+        let kotlin = "var map: Map<Int, Promise<Map<String, String>>>"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    func testsMapValueDeclarationIsChanged() {
+        let swift = "var map = [1: \"a\", 2: \"b\"]"
+        let kotlin = "var map = mapOf(1 to \"a\", 2 to \"b\")"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+
 
 }

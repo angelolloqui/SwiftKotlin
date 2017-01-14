@@ -27,7 +27,9 @@ class SwiftKotlin {
                 StaticTransformer(),
                 ExtensionTransformer(),
                 StructTransformer(),
+                StringInterpolatorTransformer(),
                 KeywordReplacementTransformer(),
+                FoundationTypeTransformer()
         ])
     }
     

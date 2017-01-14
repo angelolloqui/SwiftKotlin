@@ -83,6 +83,12 @@
 		787D805B1E2A9AB50094747C /* FoundationTypeTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D80581E2A99B90094747C /* FoundationTypeTransformer.swift */; };
 		787D805C1E2A9AB60094747C /* FoundationTypeTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D80581E2A99B90094747C /* FoundationTypeTransformer.swift */; };
 		787D805D1E2A9AB70094747C /* FoundationTypeTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D80581E2A99B90094747C /* FoundationTypeTransformer.swift */; };
+		787D805F1E2A9C5A0094747C /* StringInterpolatorTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D805E1E2A9C5A0094747C /* StringInterpolatorTransformerTests.swift */; };
+		787D80611E2A9CDD0094747C /* StringInterpolatorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D80601E2A9CDD0094747C /* StringInterpolatorTransformer.swift */; };
+		787D80621E2A9CDF0094747C /* StringInterpolatorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D80601E2A9CDD0094747C /* StringInterpolatorTransformer.swift */; };
+		787D80631E2A9CE00094747C /* StringInterpolatorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D80601E2A9CDD0094747C /* StringInterpolatorTransformer.swift */; };
+		787D80641E2A9CE00094747C /* StringInterpolatorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D80601E2A9CDD0094747C /* StringInterpolatorTransformer.swift */; };
+		787D80651E2A9CE10094747C /* StringInterpolatorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D80601E2A9CDD0094747C /* StringInterpolatorTransformer.swift */; };
 		78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
 		78A7E5B61DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */; };
 		78A7E5BA1DB8FBC300D77182 /* FunctionParametersTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7E5B91DB8FBC300D77182 /* FunctionParametersTransformer.swift */; };
@@ -172,6 +178,8 @@
 		787496691DD3343000FA12AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		787D80561E2A999A0094747C /* FoundationTypeTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationTypeTransformerTests.swift; sourceTree = "<group>"; };
 		787D80581E2A99B90094747C /* FoundationTypeTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationTypeTransformer.swift; sourceTree = "<group>"; };
+		787D805E1E2A9C5A0094747C /* StringInterpolatorTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringInterpolatorTransformerTests.swift; sourceTree = "<group>"; };
+		787D80601E2A9CDD0094747C /* StringInterpolatorTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringInterpolatorTransformer.swift; sourceTree = "<group>"; };
 		78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordReplacementTransformer.swift; sourceTree = "<group>"; };
 		78A7E5B91DB8FBC300D77182 /* FunctionParametersTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionParametersTransformer.swift; sourceTree = "<group>"; };
 		78A7E5BF1DB9093A00D77182 /* NSRangeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSRangeExtensions.swift; sourceTree = "<group>"; };
@@ -250,6 +258,7 @@
 				7868A8A31DCC9BA0006F4DDB /* FunctionParametersTransformerTests.swift */,
 				7868A8A41DCC9BA0006F4DDB /* PropertyTransformerTests.swift */,
 				7868A8A51DCC9BA0006F4DDB /* StaticTransformerTests.swift */,
+				787D805E1E2A9C5A0094747C /* StringInterpolatorTransformerTests.swift */,
 				7868A8A61DCC9BA0006F4DDB /* StructTransformerTests.swift */,
 			);
 			path = Transformers;
@@ -317,6 +326,7 @@
 				78A7E5B91DB8FBC300D77182 /* FunctionParametersTransformer.swift */,
 				784A9EFB1DCB53FE00FFAE7D /* PropertyTransformer.swift */,
 				7868A8B81DCCAF28006F4DDB /* StaticTransformer.swift */,
+				787D80601E2A9CDD0094747C /* StringInterpolatorTransformer.swift */,
 				7874964B1DD32DE400FA12AD /* StructTransformer.swift */,
 			);
 			path = Transformers;
@@ -598,6 +608,7 @@
 				784A9EED1DCA104200FFAE7D /* FunctionParametersTransformer.swift in Sources */,
 				784A9EFE1DCB53FE00FFAE7D /* PropertyTransformer.swift in Sources */,
 				787D805B1E2A9AB50094747C /* FoundationTypeTransformer.swift in Sources */,
+				787D80631E2A9CE00094747C /* StringInterpolatorTransformer.swift in Sources */,
 				7874964E1DD32DE400FA12AD /* StructTransformer.swift in Sources */,
 				7868A8981DCC8AD0006F4DDB /* FormatterExtensions.swift in Sources */,
 				7868A8941DCC8A49006F4DDB /* Formatter.swift in Sources */,
@@ -621,6 +632,7 @@
 				787496581DD3342F00FA12AD /* ViewController.swift in Sources */,
 				787859891DD339750036D592 /* TokenizerExtensions.swift in Sources */,
 				787859871DD339750036D592 /* FormatterExtensions.swift in Sources */,
+				787D80641E2A9CE00094747C /* StringInterpolatorTransformer.swift in Sources */,
 				7878597A1DD339700036D592 /* ExtensionTransformer.swift in Sources */,
 				787859881DD339750036D592 /* NSRangeExtensions.swift in Sources */,
 				787D805C1E2A9AB60094747C /* FoundationTypeTransformer.swift in Sources */,
@@ -643,6 +655,7 @@
 				787859771DD339680036D592 /* Formatter.swift in Sources */,
 				7878598C1DD339760036D592 /* TokenizerExtensions.swift in Sources */,
 				787D805D1E2A9AB70094747C /* FoundationTypeTransformer.swift in Sources */,
+				787D80651E2A9CE10094747C /* StringInterpolatorTransformer.swift in Sources */,
 				787859841DD339700036D592 /* PropertyTransformer.swift in Sources */,
 				787859781DD339680036D592 /* Tokenizer.swift in Sources */,
 				787859801DD339700036D592 /* ControlFlowTransformer.swift in Sources */,
@@ -673,6 +686,7 @@
 				7868A8B51DCCAABC006F4DDB /* ExtensionTransformer.swift in Sources */,
 				78A7E5BA1DB8FBC300D77182 /* FunctionParametersTransformer.swift in Sources */,
 				787D80591E2A99B90094747C /* FoundationTypeTransformer.swift in Sources */,
+				787D80611E2A9CDD0094747C /* StringInterpolatorTransformer.swift in Sources */,
 				784A9EFC1DCB53FE00FFAE7D /* PropertyTransformer.swift in Sources */,
 				78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */,
 				78DC1FBD1D898021009E0283 /* SwiftKotlin.swift in Sources */,
@@ -693,6 +707,8 @@
 				7868A8931DCC8A49006F4DDB /* Formatter.swift in Sources */,
 				78E279731DC8D8DA002A62BF /* ControlFlowTransformer.swift in Sources */,
 				7868A8A71DCC9BA0006F4DDB /* ConstructorTransformerTests.swift in Sources */,
+				787D805F1E2A9C5A0094747C /* StringInterpolatorTransformerTests.swift in Sources */,
+				787D80621E2A9CDF0094747C /* StringInterpolatorTransformer.swift in Sources */,
 				787D805A1E2A9AB50094747C /* FoundationTypeTransformer.swift in Sources */,
 				78CC67EA1DC8B39C0039511C /* Tokenizer.swift in Sources */,
 				78F032D91D86C15400BE709A /* SwiftKotlinFrameworkTests.swift in Sources */,
