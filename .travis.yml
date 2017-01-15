@@ -8,4 +8,4 @@ before_install:
     - sed -i '.gitmodules' 's|git@github.com:|https://github.com/|' '.gitmodules'
     - git submodule update --init --recursive
 script:
-- xcodebuild test -scheme SwiftKotlin
+- xcodebuild test -scheme SwiftKotlinFramework
