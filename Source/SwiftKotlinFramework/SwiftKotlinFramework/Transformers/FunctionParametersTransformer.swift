@@ -18,7 +18,7 @@ class FunctionParametersTransformer: Transformer {
     }
     
     func transformNamedParameterCalls(_ formatter: Formatter) {
-        formatter.forEach(.symbol(":", .prefix)) { (i, token) in
+        formatter.forEach(.delimiter(":")) { (i, token) in
             //Check previous tokens:
             //when -> var, let -> then variable declaration, must not change
             //when -> class, struct, enum, Self -> then type declaration, must not change
@@ -33,7 +33,7 @@ class FunctionParametersTransformer: Transformer {
                 }
                 //If new scope, check is not a clousure by assuming closures start with ( or [ (to be reviewed)
                 if prevToken == .startOfScope("{") {
-                    let token = formatter.nextToken(after: index, where: { $0.isSpaceOrCommentOrLinebreak})
+                    let token = formatter.nextToken(after: index, where: { !$0.isSpaceOrCommentOrLinebreak})
                     if token?.string == "(" || token?.string == "[" {
                         isMethodInvocation = false
                         break
@@ -92,7 +92,7 @@ class FunctionParametersTransformer: Transformer {
                             formatter.removeSpacingOrLinebreakTokens(at: firstTokenIndex)
                         }
                     }
-                    parameterPairIndex = formatter.index(after: parameterPairIndex!, where: { $0.isSymbol(",") })
+                    parameterPairIndex = formatter.index(of: .delimiter(","), after: parameterPairIndex!)
                 }
             }
             index = index + 1

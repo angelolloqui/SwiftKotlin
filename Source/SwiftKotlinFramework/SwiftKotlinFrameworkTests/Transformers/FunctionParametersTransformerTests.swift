@@ -149,8 +149,8 @@ class FunctionParametersTransformerTests: XCTestCase {
     
     
     func testRemovesEmptyParameterNames() {
-        let swift = "func greet(_ name: String,_ day: String) {}"
-        let kotlin = "func greet(name: String,day: String) {}"
+        let swift = "func greet(_ name: String, _ day: String) {}"
+        let kotlin = "func greet(name: String, day: String) {}"
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
     }

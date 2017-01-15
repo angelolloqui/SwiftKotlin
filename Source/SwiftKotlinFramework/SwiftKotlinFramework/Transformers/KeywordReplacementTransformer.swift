@@ -11,13 +11,13 @@ import Foundation
 
 class KeywordReplacementTransformer: Transformer {
     let replacementKeywordMap = [
+        "protocol": "interface",
         "let": "val",
         "func": "fun",
         "fileprivate": "private"
     ]
     
     let replacementIndetifierMap = [
-        "protocol": "interface",
         "self": "this",
         "$0": "it",
         "nil": "null",
