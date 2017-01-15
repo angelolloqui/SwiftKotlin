@@ -1,5 +1,6 @@
 ![](Assets/logo_small.png)
 
+![status](https://travis-ci.org/angelolloqui/SwiftKotlin.svg?branch=develop)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg?maxAge=2592000)](https://opensource.org/licenses/MIT)
 [![Twitter](https://img.shields.io/badge/twitter-@angelolloqui-blue.svg?maxAge=2592000)](http://twitter.com/angelolloqui)
 
