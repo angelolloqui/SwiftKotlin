@@ -73,7 +73,8 @@ The project is in active development, with many rules still to be implemented. S
 - [x] Property transfromers
 - [x] Static to Companion
 - [x] Struct to data class
-- [ ] String interpolators
+- [x] String interpolators
+- [ ] Foundation types
 - ...
 
 However, with the implemented rules you can get already a pretty decent Kotlin output for many of your classes. The rest will come in future releases.
@@ -107,7 +108,7 @@ MIT licensed.
 
 Forks, patches and other feedback are always welcome.
 
-//TODO: Contribution guideline
+For a list of missing features, check the disabled Unit Tests.
 
 
 ## Credits

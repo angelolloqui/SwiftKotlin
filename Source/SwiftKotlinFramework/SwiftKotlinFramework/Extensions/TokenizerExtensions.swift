@@ -18,6 +18,13 @@ extension Token {
         return false
     }
     
+    public var isStringBody: Bool {
+        if case .stringBody = self {
+            return true
+        }
+        return false
+    }
+    
     func with(string: String) -> Token {
         switch self {
         case .number(_, let type): return .number(string, type)
