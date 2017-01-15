@@ -24,12 +24,12 @@ class StaticTransformer: Transformer {
                 firstStaticIndex = startIndex
             }
             if indentation == nil {
-                indentation = formatter.indentTokenForLineAtIndex(startIndex)
+                indentation = .space(formatter.indentForLine(at: startIndex))
             }
             
             //Remove static keyword
             formatter.removeToken(at: i)
-            formatter.removeSpacingTokensAtIndex(i)
+            formatter.removeSpacingTokens(at: i)
             
             //Check if it is a func or a var/let and get the scope end index for it
             var scopeEndIndex: Int? = nil
@@ -77,12 +77,12 @@ class StaticTransformer: Transformer {
     }
     
     func indexOfEndScopeForProperty(_ formatter: Formatter, at: Int) -> Int? {
-        return formatter.indexOfNextToken(fromIndex: atIndex, matching: { $0.isLinebreak })
+        return formatter.index(of: .linebreak, after: at)
     }    
     
     func indexOfEndScopeForFunction(_ formatter: Formatter, at: Int) -> Int? {
-        guard let bodyStartIndex = formatter.indexOfNextToken(fromIndex: atIndex + 1, matching: { $0 == .startOfScope("{") }) else { return nil }
-        guard let bodyEndIndex = formatter.indexOfNextToken(fromIndex: bodyStartIndex, matching: { $0 == .endOfScope("}") }) else { return nil }
+        guard let bodyStartIndex = formatter.index(of: .startOfScope("{"), after: at + 1) else { return nil }
+        guard let bodyEndIndex = formatter.index(of: .endOfScope("}"), after: bodyStartIndex) else { return nil }
         return bodyEndIndex + 1
     }
     

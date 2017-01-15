@@ -36,7 +36,7 @@ class KeywordReplacementTransformer: Transformer {
                 replace = self.replacementKeywordMap[string]
             case .identifier(let string):
                 replace = self.replacementIndetifierMap[string]
-            case .symbol(let string):
+            case .symbol(let string, _):
                 replace = self.replacementSymbolMap[string]
             default:
                 replace = nil

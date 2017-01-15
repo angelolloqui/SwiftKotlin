@@ -20,8 +20,8 @@ class PropertyTransformer: Transformer {
         var previousIndex = 0
         while let index = findFirstPropertyBodyIndex(formatter, fromIndex: previousIndex) {
             //Find a get or set keyword
-            let getIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .identifier("get")})
-            let setIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .identifier("set")})
+            let getIndex = formatter.index(of: .identifier("get"), after: index)
+            let setIndex = formatter.index(of: .identifier("set"), after: index)
             
             //Convert the getter if a getter is defined or there is no setter
             if getIndex != nil || setIndex == nil {
@@ -29,19 +29,19 @@ class PropertyTransformer: Transformer {
             }
             
             //Convert the setter if defined
-            if let setIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .identifier("set")}) {
+            if let setIndex = formatter.index(of: .identifier("set"), after: index) {
                 transformSetterProperty(formatter, index: setIndex)
             }
             
             //Replace var by val if no setter
             if  setIndex == nil,
-                let varIndex = formatter.indexOfPreviousToken(fromIndex: index, matching: { $0.string == "var" }) {
+                let varIndex = formatter.index(before: index, where: { $0.string == "var" }) {
                 formatter.replaceToken(at: varIndex, with: .keyword("val"))
             }
             
             //If there is a "get" or "set" then remove the {} from the property
             if  getIndex != nil || setIndex != nil,
-                let closeIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .endOfScope("}") }) {
+                let closeIndex = formatter.index(of: .endOfScope("}"), after: index) {
                 formatter.removeToken(at: closeIndex)
                 formatter.removeToken(at: index)
             }
@@ -67,10 +67,10 @@ class PropertyTransformer: Transformer {
             tokens.append(.space(" "))
         }
         
-        formatter.insertTokens(tokens, atIndex: position)
+        formatter.insertTokens(tokens, at: position)
        
         //Add extra space if none
-        if !(formatter.token(at: index - 1)?.isWhitespace ?? false) {
+        if !(formatter.token(at: index - 1)?.isSpace ?? false) {
             formatter.insertToken(.space(" "), at: index)
         }
     }
@@ -78,7 +78,7 @@ class PropertyTransformer: Transformer {
     func transformSetterProperty(_ formatter: Formatter, index: Int) {
         //Consume spaces
         var position = index + 1
-        while formatter.token(at: position)?.isWhitespaceOrCommentOrLinebreak ?? false {
+        while formatter.token(at: position)?.isSpaceOrCommentOrLinebreak ?? false {
             position += 1
         }
         
@@ -99,7 +99,7 @@ class PropertyTransformer: Transformer {
             var index = i + 1
             
             //Consume spaces
-            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isSpaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
@@ -107,7 +107,7 @@ class PropertyTransformer: Transformer {
             index += 1
             
             //Consume possible spaces
-            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isSpaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
@@ -116,7 +116,7 @@ class PropertyTransformer: Transformer {
             index += 1
             
             //Consume possible spaces
-            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isSpaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
@@ -127,7 +127,7 @@ class PropertyTransformer: Transformer {
             }
             
             //Consume possible spaces
-            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isSpaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
@@ -140,21 +140,20 @@ class PropertyTransformer: Transformer {
     
     func transformPrivateSetters(_ formatter: Formatter) {
         //Look for "(set)" form
-        formatter.forEach( { $0 == .identifier("set") }) { (i, token) in
+        formatter.forEach(.identifier("set")) { (i, token) in
             guard formatter.token(at: i - 1) == .startOfScope("(") &&
                 formatter.token(at: i + 1) == .endOfScope(")") else {
                     return
             }
-            guard let accessorIndex = formatter.indexOfPreviousToken(fromIndex: i - 1, matching: { !$0.isWhitespaceOrLinebreak}) else { return }
-            guard let lineBreak = formatter.indexOfNextToken(fromIndex: i + 1, matching: { $0.isLinebreak} ) else { return }
-            guard let nextWordIndex = formatter.indexOfNextToken(fromIndex: i + 1, matching: { !$0.isWhitespaceOrLinebreak }) else { return }
-            let indentation = formatter.indentTokenForLineAtIndex(accessorIndex) ?? .space("\t")
+            guard let accessorIndex = formatter.index(before: i - 1, where:  { !$0.isSpaceOrLinebreak}) else { return }
+            guard let lineBreak = formatter.index(after: i + 1, where: { $0.isLinebreak}) else { return }
+            guard let nextWordIndex = formatter.index(after: i + 1, where: { !$0.isSpaceOrLinebreak }) else { return }
+            let indentation = formatter.indentForLine(at: accessorIndex)
             
             //Append the "private set" to the end
             formatter.insertTokens([
                 .linebreak("\n"),
-                indentation,
-                .space("\t"),
+                .space("\(indentation)\t"),
                 formatter.token(at: accessorIndex)!,
                 .space(" "),
                 .identifier("set")
@@ -168,7 +167,7 @@ class PropertyTransformer: Transformer {
     func transformLateInitProperties(_ formatter: Formatter) {
         var previousIndex = 0
         while let index = findFirstLateInitPropertyIndex(formatter, fromIndex: previousIndex) {
-            if let unwrappedIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .symbol("!") }) {
+            if let unwrappedIndex = formatter.index(after: index, where: { $0.isSymbol("!") }) {
                 formatter.removeToken(at: unwrappedIndex)
                 formatter.insertTokens([
                     .keyword("lateinit"),
@@ -187,7 +186,7 @@ class PropertyTransformer: Transformer {
             var index = i + 1
             
             //Consume spaces
-            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isSpaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
@@ -196,7 +195,7 @@ class PropertyTransformer: Transformer {
             index += 1
             
             //Consume possible spaces
-            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isSpaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
@@ -205,7 +204,7 @@ class PropertyTransformer: Transformer {
             index += 1
             
             //Consume possible spaces
-            while formatter.token(at: index)?.isWhitespaceOrCommentOrLinebreak ?? false {
+            while formatter.token(at: index)?.isSpaceOrCommentOrLinebreak ?? false {
                 index += 1
             }
             
@@ -216,7 +215,7 @@ class PropertyTransformer: Transformer {
             }
             
             //If there is a ! then return it
-            if formatter.token(at: index) == .symbol("!") {
+            if formatter.token(at: index)?.isSymbol("!") ?? false {
                 return i
             }
         }

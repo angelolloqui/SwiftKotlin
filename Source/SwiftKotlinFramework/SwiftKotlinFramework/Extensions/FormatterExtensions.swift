@@ -7,31 +7,31 @@
 
 
 import Foundation
-struct FormatOptions {}
+public struct FormatOptions {}
 
 extension Formatter {
     
-    public func removeSpacingTokensAtIndex(_ index: Int) {
-        while tokenAtIndex(index)?.isWhitespace ?? false {
-            removeTokenAtIndex(index)
+    public func removeSpacingTokens(at index: Int) {
+        while token(at: index)?.isSpace ?? false {
+            removeToken(at: index)
         }
     }
 
     
-    public func removeSpacingOrLinebreakTokensAtIndex(_ index: Int) {
-        while tokenAtIndex(index)?.isWhitespaceOrLinebreak ?? false {
-            removeTokenAtIndex(index)
+    public func removeSpacingOrLinebreakTokens(at index: Int) {
+        while token(at: index)?.isSpaceOrLinebreak ?? false {
+            removeToken(at: index)
         }
     }
 
-    public func insertTokens(_ tokens: [Token], atIndex index: Int) {
+    public func insertTokens(_ tokens: [Token], at index: Int) {
         tokens.reversed().forEach {
             insertToken($0, at: index)
         }
     }
     
-    public func insertSpacingTokenIfNoneAtIndex(_ index: Int) {
-        guard !(tokenAtIndex(index)?.isWhitespace ?? false) else { return }
+    public func insertSpacingTokenIfNone(at index: Int) {
+        guard !(token(at: index)?.isSpace ?? false) else { return }
         insertToken(.space(" "), at: index)
     }
     

@@ -29,9 +29,9 @@ class ControlFlowTransformer: Transformer {
     
     func transformConditionStatement(_ formatter: Formatter, index: Int) {
         
-        if  let conditionStartIndex = formatter.indexOfNextToken(fromIndex: index, matching: { !$0.isWhitespace }),
-            let scopeStartIndex = formatter.indexOfNextToken(fromIndex: conditionStartIndex, matching: { $0.string == "{" }),
-            var conditionEndIndex = formatter.indexOfPreviousToken(fromIndex: scopeStartIndex, matching: { !$0.isWhitespaceOrCommentOrLinebreak }) {
+        if  let conditionStartIndex = formatter.index(after: index, where: { !$0.isSpace }),
+            let scopeStartIndex = formatter.index(after: conditionStartIndex, where: { $0.string == "{" }),
+            var conditionEndIndex = formatter.index(before: scopeStartIndex, where: { !$0.isSpaceOrCommentOrLinebreak }) {
             if formatter.token(at: conditionStartIndex)?.string != "(" || formatter.token(at: conditionEndIndex)?.string != ")" {
                 formatter.insertToken(.endOfScope(")"), at: conditionEndIndex + 1)
                 formatter.insertToken(.startOfScope("("), at: conditionStartIndex)
@@ -44,22 +44,22 @@ class ControlFlowTransformer: Transformer {
     func transformConditionalLetStatement(_ formatter: Formatter, startIndex: Int, endIndex: Int) {
         //TODO: Split condition in multiple statementes separated by , if needed
         
-        if  let firstTokenIndex = formatter.indexOfNextToken(fromIndex: startIndex, matching: { !$0.isWhitespaceOrCommentOrLinebreak }),
+        if  let firstTokenIndex = formatter.index(after: startIndex, where: { !$0.isSpaceOrCommentOrLinebreak }),
             let firstToken = formatter.token(at: firstTokenIndex),
             firstToken.string == "let" || firstToken.string == "var" {
-            if  let unwrappedVariableName = formatter.nextNonWhitespaceOrCommentOrLinebreakToken(fromIndex: firstTokenIndex),
-                let assignementIndex = formatter.indexOfNextToken(fromIndex: firstTokenIndex, matching: { $0 == .symbol("=") }),
-                let expressionIndex = formatter.indexOfNextToken(fromIndex: assignementIndex, matching: { !$0.isWhitespace }){
+            if  let unwrappedVariableName = formatter.nextToken(after: firstTokenIndex, where: { !$0.isSpaceOrCommentOrLinebreak }),
+                let assignementIndex = formatter.index(of: .symbol("=", .infix), after: firstTokenIndex),
+                let expressionIndex = formatter.index(after: assignementIndex, where: { !$0.isSpace }){
                 let optionalExpressionTokens = formatter.tokens[expressionIndex..<endIndex]
                 
                 //When only unwrapping same variable name, in kotlin can be replaced by null check
                 if optionalExpressionTokens.count == 1 && optionalExpressionTokens.first == unwrappedVariableName {
                     //Replace = and variable name by null check
-                    formatter.replaceToken(at: assignementIndex, with: .symbol("!="))
+                    formatter.replaceToken(at: assignementIndex, with: .symbol("!=", .infix))
                     formatter.replaceToken(at: endIndex - 1, with: .identifier("null"))
                     //Remove let and extra spacing
                     formatter.removeToken(at: firstTokenIndex)
-                    formatter.removeSpacingTokensAtIndex(firstTokenIndex)
+                    formatter.removeSpacingTokens(at: firstTokenIndex)
                 }
                 //This case needs an extra variable definition out of the "if"
                 else {
@@ -67,11 +67,13 @@ class ControlFlowTransformer: Transformer {
                     var insertedTokens = 1
                     let expressionTokens = formatter.tokens[firstTokenIndex..<endIndex]
                     formatter.removeTokens(inRange: Range(uncheckedBounds: (lower: firstTokenIndex, upper: endIndex)))
-                    let declarationIndex = formatter.indexOfPreviousToken(fromIndex: startIndex - 1, matching: { !$0.isWhitespace })!
-                    if let indentationToken = formatter.indentTokenForLineAtIndex(declarationIndex) {
-                        formatter.insertToken(indentationToken, at: declarationIndex)
-                        insertedTokens += 1
-                    }
+                    let declarationIndex = formatter.index(before: startIndex - 1, where: { !$0.isSpace })!
+                    
+                    //Indent
+                    let indentation = formatter.indentForLine(at: declarationIndex)
+                    formatter.insertToken(.space(indentation), at: declarationIndex)
+                    insertedTokens += 1
+                    
                     formatter.insertToken(.linebreak("\n"), at: declarationIndex)
                     formatter.insertTokens(Array(expressionTokens), at: declarationIndex)
                     
@@ -80,7 +82,7 @@ class ControlFlowTransformer: Transformer {
                     formatter.insertTokens([
                         unwrappedVariableName,
                         .space(" "),
-                        .symbol("!="),
+                        .symbol("!=", .infix),
                         .space(" "),
                         .identifier("null")
                     ], at: conditionTokenIndex)
@@ -90,7 +92,7 @@ class ControlFlowTransformer: Transformer {
     }
     
     func transformSwitch(_ formatter: Formatter, index: Int) {
-        guard let bodyStartIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0 == .startOfScope("{") }) else { return }
+        guard let bodyStartIndex = formatter.index(of: .startOfScope("{"), after: index) else { return }
 
         //Switch cases are special because they are not properly scoped. Fix it by just iterating on keywords to find all cases and body end
         var caseIndexes = [Int]()
@@ -127,7 +129,7 @@ class ControlFlowTransformer: Transformer {
                 defaultIndex = tokenIndex
                 identifiersCount = 0
             }
-            else if !token.isWhitespaceOrCommentOrLinebreak {
+            else if !token.isSpaceOrCommentOrLinebreak {
                 identifiersCount += 1
             }
         } while  scopeCount > 0
@@ -158,9 +160,9 @@ class ControlFlowTransformer: Transformer {
     func transformGuards(_ formatter: Formatter) {
         formatter.forEach(.keyword("guard")) { (i, token) in
             formatter.replaceToken(at: i, with: .keyword("if"))
-            if let elseIndex = formatter.indexOfNextToken(fromIndex: i, matching: { $0.string == "else" }) {
+            if let elseIndex = formatter.index(after: i, where: { $0.string == "else" }) {
                 formatter.removeToken(at: elseIndex)
-                formatter.removeSpacingTokensAtIndex(elseIndex)
+                formatter.removeSpacingTokens(at: elseIndex)
             }
             transformConditionStatement(formatter, index: i)
             negateCondition(formatter, index: i)
@@ -168,22 +170,22 @@ class ControlFlowTransformer: Transformer {
     }
     
     func negateCondition(_ formatter: Formatter, index: Int) {
-        guard let scopeStartIndex = formatter.indexOfNextToken(fromIndex: index, matching: { $0.isStartOfScope }) else { return }
+        guard let scopeStartIndex = formatter.index(after: index, where: { $0.isStartOfScope }) else { return }
         let negationMap = ["==": "!=", "!=": "==", ">": "<=", "<": ">=", ">=": "<", "<=": ">"]
-        if  let conditionIndex = formatter.indexOfNextToken(fromIndex: scopeStartIndex, matching: { negationMap.keys.contains($0.string) }),
+        if  let conditionIndex = formatter.index(after: scopeStartIndex, where: { negationMap.keys.contains($0.string) }),
             let condition = formatter.token(at: conditionIndex)?.string,
             let negation = negationMap[condition] {
-            formatter.replaceToken(at: conditionIndex, with: .symbol(negation))
+            formatter.replaceToken(at: conditionIndex, with: .symbol(negation, .infix))
         }
         else {
             //Negate the whole condition by using ! (or remove the !)
-            if  let firstTokenIndex = formatter.indexOfNextToken(fromIndex: scopeStartIndex, matching: { !$0.isWhitespace }),
+            if  let firstTokenIndex = formatter.index(after: scopeStartIndex, where: { !$0.isSpace }),
                 let firstToken = formatter.token(at: firstTokenIndex),
                 firstToken.string == "!" {
                 formatter.removeToken(at: firstTokenIndex)
             }
             else {
-                formatter.insertToken(.symbol("!"), at: scopeStartIndex + 1)
+                formatter.insertToken(.symbol("!", .prefix), at: scopeStartIndex + 1)
             }
         }        
     }
