@@ -104,7 +104,6 @@
 		78E279731DC8D8DA002A62BF /* ControlFlowTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E279711DC8D8DA002A62BF /* ControlFlowTransformer.swift */; };
 		78F032D41D86C15400BE709A /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */; };
 		78F032D91D86C15400BE709A /* SwiftKotlinFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F032D81D86C15400BE709A /* SwiftKotlinFrameworkTests.swift */; };
-		78F032E61D86C1C400BE709A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78F032E41D86C1C400BE709A /* Info.plist */; };
 		78F032E71D86C1C400BE709A /* SwiftKotlinFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 78F032E51D86C1C400BE709A /* SwiftKotlinFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -587,7 +586,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78F032E61D86C1C400BE709A /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
