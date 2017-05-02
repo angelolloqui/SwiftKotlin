@@ -105,6 +105,11 @@
 		78F032D41D86C15400BE709A /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */; };
 		78F032D91D86C15400BE709A /* SwiftKotlinFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F032D81D86C15400BE709A /* SwiftKotlinFrameworkTests.swift */; };
 		78F032E71D86C1C400BE709A /* SwiftKotlinFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 78F032E51D86C1C400BE709A /* SwiftKotlinFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCE34AFC1EB74AAB00681164 /* ConstructorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */; };
+		FCE34AFD1EB74B9200681164 /* ConstructorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */; };
+		FCE34AFE1EB74B9300681164 /* ConstructorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */; };
+		FCE34AFF1EB74B9300681164 /* ConstructorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */; };
+		FCE34B001EB74B9400681164 /* ConstructorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,6 +198,7 @@
 		78F032DA1D86C15400BE709A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78F032E41D86C1C400BE709A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78F032E51D86C1C400BE709A /* SwiftKotlinFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftKotlinFramework.h; sourceTree = "<group>"; };
+		FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorTransformer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,11 +324,12 @@
 		78DC1FBA1D897FED009E0283 /* Transformers */ = {
 			isa = PBXGroup;
 			children = (
+				FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */,
 				78E279711DC8D8DA002A62BF /* ControlFlowTransformer.swift */,
 				7868A8B41DCCAABC006F4DDB /* ExtensionTransformer.swift */,
-				78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */,
 				787D80581E2A99B90094747C /* FoundationTypeTransformer.swift */,
 				78A7E5B91DB8FBC300D77182 /* FunctionParametersTransformer.swift */,
+				78A7E5B41DB8E0C900D77182 /* KeywordReplacementTransformer.swift */,
 				784A9EFB1DCB53FE00FFAE7D /* PropertyTransformer.swift */,
 				7868A8B81DCCAF28006F4DDB /* StaticTransformer.swift */,
 				787D80601E2A9CDD0094747C /* StringInterpolatorTransformer.swift */,
@@ -613,6 +620,7 @@
 				784A9EEB1DCA104200FFAE7D /* ControlFlowTransformer.swift in Sources */,
 				7868A8BB1DCCAF28006F4DDB /* StaticTransformer.swift in Sources */,
 				784A9EEE1DCA104A00FFAE7D /* SwiftKotlin.swift in Sources */,
+				FCE34AFE1EB74B9300681164 /* ConstructorTransformer.swift in Sources */,
 				784A9EEA1DCA103D00FFAE7D /* NSRangeExtensions.swift in Sources */,
 				7868A89C1DCC920C006F4DDB /* TokenizerExtensions.swift in Sources */,
 				784A9EF01DCA104E00FFAE7D /* Tokenizer.swift in Sources */,
@@ -628,6 +636,7 @@
 			files = (
 				7878597D1DD339700036D592 /* PropertyTransformer.swift in Sources */,
 				787496581DD3342F00FA12AD /* ViewController.swift in Sources */,
+				FCE34AFF1EB74B9300681164 /* ConstructorTransformer.swift in Sources */,
 				787859891DD339750036D592 /* TokenizerExtensions.swift in Sources */,
 				787859871DD339750036D592 /* FormatterExtensions.swift in Sources */,
 				787D80641E2A9CE00094747C /* StringInterpolatorTransformer.swift in Sources */,
@@ -660,6 +669,7 @@
 				787859821DD339700036D592 /* KeywordReplacementTransformer.swift in Sources */,
 				787859861DD339700036D592 /* StructTransformer.swift in Sources */,
 				787859851DD339700036D592 /* StaticTransformer.swift in Sources */,
+				FCE34B001EB74B9400681164 /* ConstructorTransformer.swift in Sources */,
 				787859811DD339700036D592 /* ExtensionTransformer.swift in Sources */,
 				7878598A1DD339760036D592 /* FormatterExtensions.swift in Sources */,
 				7878598B1DD339760036D592 /* NSRangeExtensions.swift in Sources */,
@@ -673,6 +683,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCE34AFC1EB74AAB00681164 /* ConstructorTransformer.swift in Sources */,
 				7874964C1DD32DE400FA12AD /* StructTransformer.swift in Sources */,
 				78A7E5C01DB9093A00D77182 /* NSRangeExtensions.swift in Sources */,
 				7868A8B91DCCAF28006F4DDB /* StaticTransformer.swift in Sources */,
@@ -713,6 +724,7 @@
 				7868A89B1DCC920C006F4DDB /* TokenizerExtensions.swift in Sources */,
 				7868A8AB1DCC9BA0006F4DDB /* MemoryManagementTransformerTests.swift in Sources */,
 				784A9EFD1DCB53FE00FFAE7D /* PropertyTransformer.swift in Sources */,
+				FCE34AFD1EB74B9200681164 /* ConstructorTransformer.swift in Sources */,
 				78A7E5C11DB9093A00D77182 /* NSRangeExtensions.swift in Sources */,
 				7868A8B11DCC9C66006F4DDB /* StringDifference.swift in Sources */,
 				7868A8AD1DCC9BA0006F4DDB /* PropertyTransformerTests.swift in Sources */,
