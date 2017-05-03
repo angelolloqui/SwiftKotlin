@@ -26,5 +26,14 @@ open class SomeError : BaseError
 		super.init(message: message, cause: "")
 	}
 
+	public init(_ anonparam: Int)
+	{
+		super.init(message: "\(anonparam)", cause: "")
+	}
+
 }
 
+public func someFunc(_ foo: String)
+{
+	print("ok: \(foo)")
+}

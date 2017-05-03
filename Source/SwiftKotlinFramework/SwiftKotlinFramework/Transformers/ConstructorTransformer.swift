@@ -15,9 +15,11 @@ class ConstructorTransformer: Transformer {
 
     
     func transform(formatter: Formatter) throws {
-        print(formatter)
+        //formatter.print()
         
         transformInitKeyword(formatter)
+        
+        
     }
     
     func transformInitKeyword(_ formatter: Formatter) {
@@ -69,18 +71,40 @@ class ConstructorTransformer: Transformer {
                                     // replace x:y call syntax with x=y
                                     t = .symbol("=", .infix)
                                 }
+
                                 newTokens.append( t )
                             }
                             
                             
                             formatter.removeTokens(inRange: bodyIndex...paramRange.upperBound)
                             
+                            
+                            
                             if let cpr = constructorParamsRange
                             {
                                 formatter.insertTokens(newTokens, at: cpr.upperBound + 1)
+                                
                             }
+                            
+
                         }
                     }
+                }
+            }
+            
+            
+        }
+        
+        if let cpr = constructorParamsRange
+        {
+            // remove anon params
+            for i in cpr.lowerBound..<cpr.upperBound
+            {
+                let t = formatter.tokens[i]
+                if t == .identifier("_")
+                {
+                    formatter.removeToken(at: i)
+                    formatter.removeSpacingTokens(at: i)
                 }
             }
         }
@@ -104,17 +128,6 @@ class ConstructorTransformer: Transformer {
         }
     }
     
-    /*
-    func print(_ formatter: Formatter) {
-        var index = 0
-        while index < formatter.tokens.count {
-            let t = formatter.token(at: index)
-            Swift.print(t.debugDescription)
-            index = index + 1
-        }
-        
-    }
-    */
 
     
     

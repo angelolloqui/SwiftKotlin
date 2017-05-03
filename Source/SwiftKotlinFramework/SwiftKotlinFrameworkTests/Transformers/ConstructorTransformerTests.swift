@@ -26,6 +26,14 @@ class ConstructorTransformerTests: XCTestCase {
         AssertTranslateEquals(translate, kotlin)
     }
     
+    func testConstructorWithAnonParam() {
+        let swift = "init(_ foo: bar) {}"
+        let kotlin = "constructor(foo: bar) {}"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
     func testConvenienceAndRequired() {
         let swift = "public convenience init() {}\n" +
                     "required public init() {}\n" +

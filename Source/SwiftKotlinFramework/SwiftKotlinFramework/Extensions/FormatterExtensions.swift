@@ -71,5 +71,13 @@ extension Formatter {
         return ClosedRange<Int>(uncheckedBounds: (bodyStartIndex, tokenIndex))
     }
     
-    
+    func print() {
+        var index = 0
+        while index < self.tokens.count {
+            let t = self.token(at: index)
+            Swift.print("\(t)")
+            index = index + 1
+        }
+        
+    }
 }
