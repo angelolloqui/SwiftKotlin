@@ -34,43 +34,42 @@ extension Formatter {
         guard !(token(at: index)?.isSpace ?? false) else { return }
         insertToken(.space(" "), at: index)
     }
-    
-    extension Formatter {
+
         
-        /// Finds the next matched pair of { } after the given index. Indices are inclusive.
-        func nextBlockScope(after index: Int) -> ClosedRange<Int>?
-        {
-            return nextScope(after: index, start: .startOfScope("{"), end: .endOfScope("}"))
-        }
-        
-        /// Finds the next matched pair of ( ) after the given index. Indices are inclusive.
-        func nextBracketScope(after index: Int) -> ClosedRange<Int>?
-        {
-            return nextScope(after: index, start: .startOfScope("("), end: .endOfScope(")"))
-        }
-        
-        /// Finds the next matched pair of { } after the given index. Indices are inclusive.
-        func nextScope(after index: Int, start: Token, end: Token) -> ClosedRange<Int>?
-        {
-            
-            guard let bodyStartIndex = self.index(of: start, after: index) else { return nil }
-            
-            var scopeCount = 1
-            var tokenIndex = bodyStartIndex
-            repeat {
-                tokenIndex += 1
-                guard let token = self.token(at: tokenIndex) else { return nil }
-                
-                if token == end {
-                    scopeCount -= 1
-                }
-                else if token == start {
-                    scopeCount += 1
-                }
-            } while  scopeCount > 0
-            
-            return ClosedRange<Int>(uncheckedBounds: (bodyStartIndex, tokenIndex))
-        }
+    /// Finds the next matched pair of { } after the given index. Indices are inclusive.
+    public func nextBlockScope(after index: Int) -> ClosedRange<Int>?
+    {
+        return nextScope(after: index, start: .startOfScope("{"), end: .endOfScope("}"))
     }
+    
+    /// Finds the next matched pair of ( ) after the given index. Indices are inclusive.
+    public func nextBracketScope(after index: Int) -> ClosedRange<Int>?
+    {
+        return nextScope(after: index, start: .startOfScope("("), end: .endOfScope(")"))
+    }
+    
+    /// Finds the next matched pair of { } after the given index. Indices are inclusive.
+    public func nextScope(after index: Int, start: Token, end: Token) -> ClosedRange<Int>?
+    {
+        
+        guard let bodyStartIndex = self.index(of: start, after: index) else { return nil }
+        
+        var scopeCount = 1
+        var tokenIndex = bodyStartIndex
+        repeat {
+            tokenIndex += 1
+            guard let token = self.token(at: tokenIndex) else { return nil }
+            
+            if token == end {
+                scopeCount -= 1
+            }
+            else if token == start {
+                scopeCount += 1
+            }
+        } while  scopeCount > 0
+        
+        return ClosedRange<Int>(uncheckedBounds: (bodyStartIndex, tokenIndex))
+    }
+    
     
 }
