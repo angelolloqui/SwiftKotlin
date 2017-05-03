@@ -22,6 +22,7 @@ class SwiftKotlin {
     convenience init() {
         self.init(transformers: [
                 FunctionParametersTransformer(),
+                ConstructorTransformer(), 
                 ControlFlowTransformer(),
                 PropertyTransformer(),
                 StaticTransformer(),

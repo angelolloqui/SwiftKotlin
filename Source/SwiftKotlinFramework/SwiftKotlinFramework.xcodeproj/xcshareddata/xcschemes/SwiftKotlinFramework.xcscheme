@@ -40,9 +40,6 @@
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "ConstructorTransformerTests">
-               </Test>
-               <Test
                   Identifier = "ControlFlowTransformerTests/testGuardMultipleDeclaration()">
                </Test>
                <Test
