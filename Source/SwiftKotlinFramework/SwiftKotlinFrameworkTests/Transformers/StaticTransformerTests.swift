@@ -112,4 +112,19 @@ class StaticTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
     }
+    
+    func testSingleClassFuncMethod() {
+        let swift =
+            "class A {\n" +
+                "\tclass func method() {}\n" +
+        "}"
+        let kotlin =
+            "class A {\n" +
+                "\tcompanion object {\n" +
+                "\t\tfunc method() {}\n" +
+                "\t}\n" +
+        "}"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
 }
