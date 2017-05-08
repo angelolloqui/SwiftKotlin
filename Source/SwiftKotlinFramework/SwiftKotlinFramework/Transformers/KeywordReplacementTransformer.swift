@@ -14,7 +14,10 @@ class KeywordReplacementTransformer: Transformer {
         "protocol": "interface",
         "let": "val",
         "func": "fun",
-        "fileprivate": "private"
+        "fileprivate": "private",
+        "@escaping": "",
+        "@noescape": "",
+        "@discardableResult": "",
     ]
     
     let replacementIndetifierMap = [
@@ -30,6 +33,7 @@ class KeywordReplacementTransformer: Transformer {
     
     func transform(formatter: Formatter) throws {
         formatter.forEachToken { (i, token) in
+            
             let replace: String?
             switch token {
             case .keyword(let string):
