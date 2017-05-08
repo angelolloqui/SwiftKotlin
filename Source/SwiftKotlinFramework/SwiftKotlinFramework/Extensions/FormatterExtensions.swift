@@ -80,4 +80,11 @@ extension Formatter {
         }
         
     }
+    
+    func isArgumentToken(at index: Int) -> Bool {
+        if let nextToken = self.next(.nonSpaceOrCommentOrLinebreak, after: index) {
+            return [.symbol("->", .infix), .keyword("throws"), .keyword("rethrows")].contains(nextToken)
+        }
+        return false
+    }
 }
