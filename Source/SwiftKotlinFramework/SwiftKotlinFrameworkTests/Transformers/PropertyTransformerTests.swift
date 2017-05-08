@@ -135,4 +135,19 @@ class PropertyTransformerTests: XCTestCase {
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
     }
+    
+    func testProtocolProperties() {
+        let swift = "protocol Hello {\n" +
+                        "var foo: String { get }\n" +
+                        "var bar: String { get set }\n" +
+                        "}"
+
+        let kotlin = "protocol Hello {\n" + // protocol to interface is done by teh KeywordTransformer
+            "val foo: String  \n" +
+            "var bar: String  \n" +
+        "}"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
 }
