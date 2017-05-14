@@ -14,6 +14,7 @@ let arguments = [
     "output",
     "help",
     "version",
+    "define"
 ]
 
 func showHelp() {
@@ -23,6 +24,7 @@ func showHelp() {
     print("usage: swiftkotlin [<file>] [--output path]")
     print("")
     print(" <file>            input file or directory path")
+    print(" --define          define conditional compilation flags (comma separated)")
     print(" --output          output path (defaults to input path)")
     print(" --help            this help page")
     print(" --version         version information")
@@ -95,12 +97,21 @@ func execute(_ args: [String]) {
         return
     }
     
+    var options = TransformOptions()
+    
+    if let define = args["define"]
+    {
+        print(define)
+        let arr = define.components(separatedBy: ",")
+        options.defines = arr
+    }
+    
     print("running swiftkotlin...")
     print("output: \(outputURL!.absoluteString)")
     
     // Format the code
     let start = CFAbsoluteTimeGetCurrent()
-    let filesWritten = processInput(inputURL!, andWriteToOutput: outputURL!)
+    let filesWritten = processInput(inputURL!, andWriteToOutput: outputURL!, options: options)
     let time = CFAbsoluteTimeGetCurrent() - start
     print("swiftkotlin completed. \(filesWritten) file\(filesWritten == 1 ? "" : "s") updated in \(String(format: "%.2f", time))s.")
 }
@@ -141,6 +152,7 @@ func preprocessArguments(_ args: [String], _ names: [String]) -> [String: String
             name = String(anonymousArgs)
             anonymousArgs += 1
         }
+        
         namedArgs[name] = arg
         name = ""
     }
@@ -148,7 +160,7 @@ func preprocessArguments(_ args: [String], _ names: [String]) -> [String: String
 }
 
 
-func processInput(_ inputURL: URL, andWriteToOutput outputURL: URL) -> Int {
+func processInput(_ inputURL: URL, andWriteToOutput outputURL: URL, options: TransformOptions) -> Int {
     let manager = FileManager.default
     var isDirectory: ObjCBool = false
     if manager.fileExists(atPath: inputURL.path, isDirectory: &isDirectory) {
@@ -160,7 +172,7 @@ func processInput(_ inputURL: URL, andWriteToOutput outputURL: URL) -> Int {
                     let path = outputURL.path + url.path.substring(from: inputDirectory.characters.endIndex)
                     let outputDirectory = path.components(separatedBy: "/").dropLast().joined(separator: "/")
                     if (try? manager.createDirectory(atPath: outputDirectory, withIntermediateDirectories: true, attributes: nil)) != nil {
-                        filesWritten += processInput(url, andWriteToOutput: URL(fileURLWithPath: path))
+                        filesWritten += processInput(url, andWriteToOutput: URL(fileURLWithPath: path), options: options)
                     } else {
                         print("error: failed to create directory at: \(outputDirectory)")
                     }
@@ -171,7 +183,7 @@ func processInput(_ inputURL: URL, andWriteToOutput outputURL: URL) -> Int {
             }
         } else if inputURL.pathExtension == "swift" {
             if let input = try? String(contentsOf: inputURL) {
-                guard let output = try? swiftKotlin.translate(content: input) else {
+                guard let output = try? swiftKotlin.translate(content: input, options: options) else {
                     print("error: could not parse file: \(inputURL.path)")
                     return 0
                 }

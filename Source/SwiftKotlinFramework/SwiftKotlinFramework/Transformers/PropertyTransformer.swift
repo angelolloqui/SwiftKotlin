@@ -10,7 +10,7 @@ import Foundation
 
 class PropertyTransformer: Transformer {
     
-    func transform(formatter: Formatter) throws {
+    func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
         transformComputedProperties(formatter)
         transformPrivateSetters(formatter)
         transformLateInitProperties(formatter)

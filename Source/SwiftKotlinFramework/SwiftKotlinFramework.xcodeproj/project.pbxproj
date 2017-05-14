@@ -105,6 +105,17 @@
 		78F032D41D86C15400BE709A /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F032C91D86C15400BE709A /* SwiftKotlinFramework.framework */; };
 		78F032D91D86C15400BE709A /* SwiftKotlinFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F032D81D86C15400BE709A /* SwiftKotlinFrameworkTests.swift */; };
 		78F032E71D86C1C400BE709A /* SwiftKotlinFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 78F032E51D86C1C400BE709A /* SwiftKotlinFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCDB55B51EC7E39500195B26 /* ConditionalCompilationTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB55B41EC7E39500195B26 /* ConditionalCompilationTransformer.swift */; };
+		FCDB55B61EC7E39500195B26 /* ConditionalCompilationTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB55B41EC7E39500195B26 /* ConditionalCompilationTransformer.swift */; };
+		FCDB55B71EC7E39500195B26 /* ConditionalCompilationTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB55B41EC7E39500195B26 /* ConditionalCompilationTransformer.swift */; };
+		FCDB55B81EC7E39500195B26 /* ConditionalCompilationTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB55B41EC7E39500195B26 /* ConditionalCompilationTransformer.swift */; };
+		FCDB55B91EC7E39500195B26 /* ConditionalCompilationTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB55B41EC7E39500195B26 /* ConditionalCompilationTransformer.swift */; };
+		FCDB55BB1EC7E42400195B26 /* ConditionalCompilationTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB55BA1EC7E42400195B26 /* ConditionalCompilationTransformerTests.swift */; };
+		FCDB55BD1EC81BF000195B26 /* TransformOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB55BC1EC81BF000195B26 /* TransformOptions.swift */; };
+		FCDB55BE1EC81CA500195B26 /* TransformOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB55BC1EC81BF000195B26 /* TransformOptions.swift */; };
+		FCDB55BF1EC81CA500195B26 /* TransformOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB55BC1EC81BF000195B26 /* TransformOptions.swift */; };
+		FCDB55C01EC81CA600195B26 /* TransformOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB55BC1EC81BF000195B26 /* TransformOptions.swift */; };
+		FCDB55C11EC81CA600195B26 /* TransformOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB55BC1EC81BF000195B26 /* TransformOptions.swift */; };
 		FCE34AFC1EB74AAB00681164 /* ConstructorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */; };
 		FCE34AFD1EB74B9200681164 /* ConstructorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */; };
 		FCE34AFE1EB74B9300681164 /* ConstructorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */; };
@@ -198,6 +209,9 @@
 		78F032DA1D86C15400BE709A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78F032E41D86C1C400BE709A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78F032E51D86C1C400BE709A /* SwiftKotlinFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftKotlinFramework.h; sourceTree = "<group>"; };
+		FCDB55B41EC7E39500195B26 /* ConditionalCompilationTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionalCompilationTransformer.swift; sourceTree = "<group>"; };
+		FCDB55BA1EC7E42400195B26 /* ConditionalCompilationTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionalCompilationTransformerTests.swift; sourceTree = "<group>"; };
+		FCDB55BC1EC81BF000195B26 /* TransformOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformOptions.swift; sourceTree = "<group>"; };
 		FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorTransformer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -253,14 +267,15 @@
 		7868A89D1DCC9BA0006F4DDB /* Transformers */ = {
 			isa = PBXGroup;
 			children = (
+				FCDB55BA1EC7E42400195B26 /* ConditionalCompilationTransformerTests.swift */,
 				7868A89E1DCC9BA0006F4DDB /* ConstructorTransformerTests.swift */,
 				7868A89F1DCC9BA0006F4DDB /* ControlFlowTransformerTests.swift */,
 				7868A8A01DCC9BA0006F4DDB /* ExceptionTransformerTests.swift */,
 				7868A8B21DCCA990006F4DDB /* ExtensionTransformerTests.swift */,
-				7868A8A11DCC9BA0006F4DDB /* KeywordReplacementTransformerTests.swift */,
-				7868A8A21DCC9BA0006F4DDB /* MemoryManagementTransformerTests.swift */,
 				787D80561E2A999A0094747C /* FoundationTypeTransformerTests.swift */,
 				7868A8A31DCC9BA0006F4DDB /* FunctionParametersTransformerTests.swift */,
+				7868A8A11DCC9BA0006F4DDB /* KeywordReplacementTransformerTests.swift */,
+				7868A8A21DCC9BA0006F4DDB /* MemoryManagementTransformerTests.swift */,
 				7868A8A41DCC9BA0006F4DDB /* PropertyTransformerTests.swift */,
 				7868A8A51DCC9BA0006F4DDB /* StaticTransformerTests.swift */,
 				787D805E1E2A9C5A0094747C /* StringInterpolatorTransformerTests.swift */,
@@ -324,6 +339,7 @@
 		78DC1FBA1D897FED009E0283 /* Transformers */ = {
 			isa = PBXGroup;
 			children = (
+				FCDB55B41EC7E39500195B26 /* ConditionalCompilationTransformer.swift */,
 				FCE34AFB1EB74AAB00681164 /* ConstructorTransformer.swift */,
 				78E279711DC8D8DA002A62BF /* ControlFlowTransformer.swift */,
 				7868A8B41DCCAABC006F4DDB /* ExtensionTransformer.swift */,
@@ -379,6 +395,7 @@
 				78F032E31D86C1C400BE709A /* SupportingFiles */,
 				78DC1FBC1D898021009E0283 /* SwiftKotlin.swift */,
 				78CC67861DC8B39C0039511C /* External */,
+				FCDB55BC1EC81BF000195B26 /* TransformOptions.swift */,
 			);
 			path = SwiftKotlinFramework;
 			sourceTree = "<group>";
@@ -617,6 +634,7 @@
 				7874964E1DD32DE400FA12AD /* StructTransformer.swift in Sources */,
 				7868A8981DCC8AD0006F4DDB /* FormatterExtensions.swift in Sources */,
 				7868A8941DCC8A49006F4DDB /* Formatter.swift in Sources */,
+				FCDB55BF1EC81CA500195B26 /* TransformOptions.swift in Sources */,
 				784A9EEB1DCA104200FFAE7D /* ControlFlowTransformer.swift in Sources */,
 				7868A8BB1DCCAF28006F4DDB /* StaticTransformer.swift in Sources */,
 				784A9EEE1DCA104A00FFAE7D /* SwiftKotlin.swift in Sources */,
@@ -624,6 +642,7 @@
 				784A9EEA1DCA103D00FFAE7D /* NSRangeExtensions.swift in Sources */,
 				7868A89C1DCC920C006F4DDB /* TokenizerExtensions.swift in Sources */,
 				784A9EF01DCA104E00FFAE7D /* Tokenizer.swift in Sources */,
+				FCDB55B71EC7E39500195B26 /* ConditionalCompilationTransformer.swift in Sources */,
 				7868A8B71DCCAABC006F4DDB /* ExtensionTransformer.swift in Sources */,
 				784A9EEC1DCA104200FFAE7D /* KeywordReplacementTransformer.swift in Sources */,
 				784A9EE91DCA0FEF00FFAE7D /* main.swift in Sources */,
@@ -647,9 +666,11 @@
 				787496561DD3342F00FA12AD /* AppDelegate.swift in Sources */,
 				787859791DD339700036D592 /* ControlFlowTransformer.swift in Sources */,
 				7878597F1DD339700036D592 /* StructTransformer.swift in Sources */,
+				FCDB55B81EC7E39500195B26 /* ConditionalCompilationTransformer.swift in Sources */,
 				787859751DD339680036D592 /* Formatter.swift in Sources */,
 				7878597C1DD339700036D592 /* FunctionParametersTransformer.swift in Sources */,
 				7878597E1DD339700036D592 /* StaticTransformer.swift in Sources */,
+				FCDB55C01EC81CA600195B26 /* TransformOptions.swift in Sources */,
 				7878597B1DD339700036D592 /* KeywordReplacementTransformer.swift in Sources */,
 				787859731DD339610036D592 /* SwiftKotlin.swift in Sources */,
 			);
@@ -666,6 +687,7 @@
 				787859841DD339700036D592 /* PropertyTransformer.swift in Sources */,
 				787859781DD339680036D592 /* Tokenizer.swift in Sources */,
 				787859801DD339700036D592 /* ControlFlowTransformer.swift in Sources */,
+				FCDB55C11EC81CA600195B26 /* TransformOptions.swift in Sources */,
 				787859821DD339700036D592 /* KeywordReplacementTransformer.swift in Sources */,
 				787859861DD339700036D592 /* StructTransformer.swift in Sources */,
 				787859851DD339700036D592 /* StaticTransformer.swift in Sources */,
@@ -673,6 +695,7 @@
 				787859811DD339700036D592 /* ExtensionTransformer.swift in Sources */,
 				7878598A1DD339760036D592 /* FormatterExtensions.swift in Sources */,
 				7878598B1DD339760036D592 /* NSRangeExtensions.swift in Sources */,
+				FCDB55B91EC7E39500195B26 /* ConditionalCompilationTransformer.swift in Sources */,
 				787859741DD339620036D592 /* SwiftKotlin.swift in Sources */,
 				787859831DD339700036D592 /* FunctionParametersTransformer.swift in Sources */,
 				787496681DD3343000FA12AD /* SwiftKotlinAppTests.swift in Sources */,
@@ -689,12 +712,14 @@
 				7868A8B91DCCAF28006F4DDB /* StaticTransformer.swift in Sources */,
 				7868A89A1DCC920C006F4DDB /* TokenizerExtensions.swift in Sources */,
 				78CC67E91DC8B39C0039511C /* Tokenizer.swift in Sources */,
+				FCDB55B51EC7E39500195B26 /* ConditionalCompilationTransformer.swift in Sources */,
 				78E279721DC8D8DA002A62BF /* ControlFlowTransformer.swift in Sources */,
 				7868A8961DCC8AD0006F4DDB /* FormatterExtensions.swift in Sources */,
 				7868A8921DCC8A49006F4DDB /* Formatter.swift in Sources */,
 				7868A8B51DCCAABC006F4DDB /* ExtensionTransformer.swift in Sources */,
 				78A7E5BA1DB8FBC300D77182 /* FunctionParametersTransformer.swift in Sources */,
 				787D80591E2A99B90094747C /* FoundationTypeTransformer.swift in Sources */,
+				FCDB55BD1EC81BF000195B26 /* TransformOptions.swift in Sources */,
 				787D80611E2A9CDD0094747C /* StringInterpolatorTransformer.swift in Sources */,
 				784A9EFC1DCB53FE00FFAE7D /* PropertyTransformer.swift in Sources */,
 				78A7E5B51DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */,
@@ -714,6 +739,7 @@
 				7868A8B31DCCA990006F4DDB /* ExtensionTransformerTests.swift in Sources */,
 				7868A8BA1DCCAF28006F4DDB /* StaticTransformer.swift in Sources */,
 				7868A8931DCC8A49006F4DDB /* Formatter.swift in Sources */,
+				FCDB55B61EC7E39500195B26 /* ConditionalCompilationTransformer.swift in Sources */,
 				78E279731DC8D8DA002A62BF /* ControlFlowTransformer.swift in Sources */,
 				7868A8A71DCC9BA0006F4DDB /* ConstructorTransformerTests.swift in Sources */,
 				787D805F1E2A9C5A0094747C /* StringInterpolatorTransformerTests.swift in Sources */,
@@ -730,12 +756,14 @@
 				7868A8AD1DCC9BA0006F4DDB /* PropertyTransformerTests.swift in Sources */,
 				78A7E5B61DB8E0C900D77182 /* KeywordReplacementTransformer.swift in Sources */,
 				787D80571E2A999A0094747C /* FoundationTypeTransformerTests.swift in Sources */,
+				FCDB55BE1EC81CA500195B26 /* TransformOptions.swift in Sources */,
 				78CC680D1DC8BB940039511C /* TestExtensions.swift in Sources */,
 				7868A8AA1DCC9BA0006F4DDB /* KeywordReplacementTransformerTests.swift in Sources */,
 				7868A8AE1DCC9BA0006F4DDB /* StaticTransformerTests.swift in Sources */,
 				7868A8AC1DCC9BA0006F4DDB /* FunctionParametersTransformerTests.swift in Sources */,
 				7868A8B61DCCAABC006F4DDB /* ExtensionTransformer.swift in Sources */,
 				7868A8A81DCC9BA0006F4DDB /* ControlFlowTransformerTests.swift in Sources */,
+				FCDB55BB1EC7E42400195B26 /* ConditionalCompilationTransformerTests.swift in Sources */,
 				7868A8AF1DCC9BA0006F4DDB /* StructTransformerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

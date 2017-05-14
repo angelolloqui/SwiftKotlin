@@ -10,7 +10,7 @@ import Foundation
 
 class StringInterpolatorTransformer: Transformer {
     
-    func transform(formatter: Formatter) throws {
+    func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
         formatter.forEach(.startOfScope("\"")) { (i, token) in
             if let endOfString = formatter.index(of: .endOfScope("\""), after: i) {
                 transformInterpolator(formatter, startIndex: i, endIndex: endOfString)

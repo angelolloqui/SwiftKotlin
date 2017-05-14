@@ -10,13 +10,13 @@ echo "Compiling tool..."
 xcodebuild  -workspace ../SwiftKotlin.xcworkspace -scheme SwiftKotlinCommandLine SYMROOT=$BUILD > $BUILD/xcodebuild.log
 
 echo "Compiling swift..."
-swiftc constructors.swift -o $BUILD/swiftout
+swiftc src/constructors.swift src/conditional.swift -o $BUILD/swiftout -emit-module -module-name test
 
 echo "Transpiling swift..."
-$BUILD/Debug/swiftkotlin constructors.swift --output $BUILD/kt/constructors.kt
+$BUILD/Debug/swiftkotlin --define KOTLIN src --output $BUILD/kt
 
 echo "Compiling kotlin..."
-kotlinc hello.kt $BUILD/kt/constructors.kt -include-runtime -d $BUILD/jar/test.jar
+kotlinc src/hello.kt $BUILD/kt -include-runtime -d $BUILD/jar/test.jar
 
 echo "Running jar..."
 java -Xverify:all -jar $BUILD/jar/test.jar

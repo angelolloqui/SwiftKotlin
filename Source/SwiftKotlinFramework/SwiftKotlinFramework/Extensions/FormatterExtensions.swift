@@ -74,8 +74,10 @@ extension Formatter {
     func print() {
         var index = 0
         while index < self.tokens.count {
-            let t = self.token(at: index)
-            Swift.print("\(t)")
+            if let t = self.token(at: index)
+            {
+                Swift.print("Token: \(t)")
+            }
             index = index + 1
         }
         
@@ -86,5 +88,21 @@ extension Formatter {
             return [.symbol("->", .infix), .keyword("throws"), .keyword("rethrows")].contains(nextToken)
         }
         return false
+    }
+    
+    func toString(_ range: Range<Int>) -> String
+    {
+        return tokens[range].reduce("", { $0 + $1.string })
+        
+    }
+    
+    /// Returns the index of the next linebreak token, or the end of the tokens
+    func endOfLine(after: Int) -> Int
+    {
+        if let endOfLine = self.index(of: .linebreak, after: after)
+        {
+            return endOfLine
+        }
+        return tokens.count
     }
 }
