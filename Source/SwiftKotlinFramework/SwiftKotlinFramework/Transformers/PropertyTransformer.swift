@@ -16,27 +16,66 @@ class PropertyTransformer: Transformer {
         transformLateInitProperties(formatter)
     }
     
+    /// Go backwards to the previous class/struct/protocol definition - this doesnt guarantee we are in it!
+    func lastClassStructOrProtocol(_ formatter: Formatter, before index: Int) -> Token?
+    {
+        guard let s = formatter.index(of: .startOfScope("{"), before: index) else {return nil }
+        
+        return formatter.lastToken(before: s, where: { $0 == .keyword("class") || $0 == .keyword("struct") || $0 == .keyword("protocol")  })
+    }
+    
     func transformComputedProperties(_ formatter: Formatter) {
         var previousIndex = 0
         while let index = findFirstPropertyBodyIndex(formatter, fromIndex: previousIndex) {
+            
+            let classStructProtocol = lastClassStructOrProtocol(formatter, before: index)
+            
             //Find a get or set keyword
             let getIndex = formatter.index(of: .identifier("get"), after: index)
             let setIndex = formatter.index(of: .identifier("set"), after: index)
             
-            //Convert the getter if a getter is defined or there is no setter
-            if getIndex != nil || setIndex == nil {
-                transformGetterProperty(formatter, index: getIndex ?? index)
-            }
-            
-            //Convert the setter if defined
-            if let setIndex = formatter.index(of: .identifier("set"), after: index) {
-                transformSetterProperty(formatter, index: setIndex)
-            }
+
             
             //Replace var by val if no setter
             if  setIndex == nil,
                 let varIndex = formatter.index(before: index, where: { $0.string == "var" }) {
                 formatter.replaceToken(at: varIndex, with: .keyword("val"))
+            }            
+
+            
+            if classStructProtocol == .keyword("protocol")
+            {
+                // protocol
+                
+                // remove the get / set
+                if let gi = getIndex
+                {
+                    formatter.removeToken(at: gi)
+                    formatter.removeSpacingTokens(at: gi)
+                    
+                }
+                if let si = setIndex
+                {
+                    if let siNow = formatter.index(of: .identifier("set"), after: index)
+                    {
+                        formatter.removeToken(at: siNow)
+                        formatter.removeSpacingTokens(at: siNow)
+                    }
+                }
+            }
+            else
+            {
+                // class/struct/global
+            
+                //Convert the getter if a getter is defined or there is no setter
+                if getIndex != nil || setIndex == nil {
+                    transformGetterProperty(formatter, index: getIndex ?? index)
+                }
+                
+                //Convert the setter if defined
+                if let setIndex = formatter.index(of: .identifier("set"), after: index) {
+                    transformSetterProperty(formatter, index: setIndex)
+                }
             }
             
             //If there is a "get" or "set" then remove the {} from the property
