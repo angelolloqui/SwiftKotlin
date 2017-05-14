@@ -48,11 +48,13 @@ import JavaScriptCore
 /// Executes #if / #else / #endif conditional compilation by evaulating conditions and removing blocks
 class ConditionalCompilationTransformer: Transformer {
 
-    
+    /// We use a JSContext to evaluate the #if expressions.
+    /// This is the only place where we need to evaluate an expression, so seemed like overkill implementing a parser and intepreter for these expressions when we could use JS to evaluate the very limited grammar.
     lazy var jsContext: JSContext = {
         let context = JSContext()
         let _ = context?.evaluateScript("function os() { return false };\n" +
                                         "function arch() { return false };\n" +
+                                        // TODO: swift version function. Would need preprocessing due to the weird munted syntax.
                                         "var macOS, iOS, watchOS, tvOS, Linux, x86_64, arm, arm64, i386 = 0;\n"
             
         )

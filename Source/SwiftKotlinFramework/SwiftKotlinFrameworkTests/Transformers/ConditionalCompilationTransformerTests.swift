@@ -122,4 +122,54 @@ class ConditionalCompilationTransformerTests: XCTestCase {
         AssertTranslateEquals(translate1, kotlin1)
         
     }
+    
+    func testConditionalIfWithOr() {
+        
+        var options = TransformOptions()
+        
+        let swift =
+            "#if SOMETHING || SOMETHING2\n" +
+            "print(\"hello\")\n" +
+            "#endif\n"
+        
+        let kotlin1 = ""
+        let translate1 = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate1, kotlin1)
+        
+        // now define the condition
+        options.defines.append("SOMETHING")
+        
+        // now it should all compile
+        let kotlin2 = "print(\"hello\")\n"
+        let translate2 = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate2, kotlin2)
+    }
+    
+    func testConditionalIfWithAnd() {
+        
+        var options = TransformOptions()
+        
+        let swift =
+            "#if SOMETHING && SOMETHING2\n" +
+            "print(\"hello\")\n" +
+            "#endif\n"
+        
+        let kotlin1 = ""
+        let translate1 = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate1, kotlin1)
+        
+        // now define the condition
+        options.defines.append("SOMETHING2")
+        
+        // still nothing
+        let kotlin2 = ""
+        let translate2 = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate2, kotlin2)
+        
+        options.defines = ["SOMETHING", "SOMETHING2"];
+        
+        let kotlin3 = "print(\"hello\")\n"
+        let translate3 = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate3, kotlin3)
+    }
 }
