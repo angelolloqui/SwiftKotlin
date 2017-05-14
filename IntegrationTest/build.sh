@@ -13,7 +13,7 @@ echo "Compiling swift..."
 swiftc src/constructors.swift src/conditional.swift -o $BUILD/swiftout -emit-module -module-name test
 
 echo "Transpiling swift..."
-$BUILD/Debug/swiftkotlin src --output $BUILD/kt
+$BUILD/Debug/swiftkotlin --define KOTLIN src --output $BUILD/kt
 
 echo "Compiling kotlin..."
 kotlinc src/hello.kt $BUILD/kt -include-runtime -d $BUILD/jar/test.jar

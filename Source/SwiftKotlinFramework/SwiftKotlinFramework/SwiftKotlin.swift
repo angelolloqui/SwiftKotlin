@@ -36,7 +36,7 @@ class SwiftKotlin {
     }
     
     func translate(content: String, options: TransformOptions? = nil) throws -> String {
-        let tokens = try translate(tokens: tokenize(content))
+        let tokens = try translate(tokens: tokenize(content), options: options)
         return tokens.reduce("", { $0 + $1.string })
     }
     
