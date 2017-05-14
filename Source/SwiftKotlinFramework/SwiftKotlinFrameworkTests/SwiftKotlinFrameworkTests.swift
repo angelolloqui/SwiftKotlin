@@ -28,7 +28,7 @@ class SwiftKotlinFrameworkTests: XCTestCase {
     func testUsesCustomTransformers() {
         class CustomTransformer: Transformer {
             var translated = false
-            func transform(formatter: Formatter) throws {
+            func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
                 translated = true
                 formatter.insertToken(.identifier(" translated"), at: formatter.tokens.count)
             }
@@ -46,7 +46,7 @@ class SwiftKotlinFrameworkTests: XCTestCase {
             case generic
         }
         class CustomTransformer: Transformer {
-            func transform(formatter: Formatter) throws {
+            func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
                 throw CustomError.generic
             }
         }

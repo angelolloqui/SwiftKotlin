@@ -49,71 +49,123 @@ import JavaScriptCore
 class ConditionalCompilationTransformer: Transformer {
 
     
-    static var jsContext: JSContext = {
+    lazy var jsContext: JSContext = {
         let context = JSContext()
-        let _ = context?.evaluateScript("function os() { return false }\n" +
-                                        "function arch() { return false }\n")
+        let _ = context?.evaluateScript("function os() { return false };\n" +
+                                        "function arch() { return false };\n" +
+                                        "var macOS, iOS, watchOS, tvOS, Linux, x86_64, arm, arm64, i386 = 0;\n"
+            
+        )
         return context!;
     }()
 
+    let start = Token.startOfScope("#if")
+    let end = Token.endOfScope("#endif")
     
     func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
         formatter.print()
         
-        let start = Token.startOfScope("#if")
-        let end = Token.endOfScope("#endif")
+
+        
+        var addedDefines = false
         
         // find all #if blocks
         formatter.forEach(start) {
             (i, token) in
             
-            // find the entire construct
-            guard let fullScope = formatter.nextScope(after: i-1, start: .startOfScope("#if"), end: .endOfScope("#endif")) else { return }
+            // we add in the defines lazily, no need to do this if there are no #if
+            if let opts = options
+            {
+                if !addedDefines
+                {
+                    addDefines(options: opts)
+                    addedDefines = true
+                }
+            }
             
-            // we run a little state machine to evaluate the entire block, while not messing with nested #if/#else
-            var buffer = Array<Token>()
-            var appending = false
-            var scope = 0
-            var tokenIndex = i-1
-            repeat {
-                tokenIndex += 1
-                guard let token = formatter.token(at: tokenIndex) else { break }
-                
-                if token == end {
-                    scope -= 1
-                }
-                else if token == start {
-                    scope += 1
-                    
-                    if scope == 1
-                    {
-                        // evaluate the condition
-                        let expr = evaluateCondition(formatter: formatter, index: tokenIndex)
-                        appending = expr // if it evaluated true, we are now appending
-                        // skip to EOL
-                        tokenIndex = formatter.endOfLine(after: tokenIndex)
-                    }
-                }
-                else if scope == 1 && token == .keyword("#elseif")
-                {
-                    
-                }
-                else if scope == 1 && token == .keyword("#else")
-                {
-                    
-                }
-                else
-                {
-                    if appending
-                    {
-                        buffer.append(token)
-                    }
-                }
-                
-            } while  scope > 0
+            handleIfDefBlock(formatter: formatter, startIndex: i)
+
+        }
+    }
+    
+    func handleIfDefBlock(formatter: Formatter, startIndex: Int)
+    {
+        
+        // we run a little state machine to evaluate the entire block, while not messing with nested #if/#else
+        var buffer = Array<Token>()
+        var appending = false
+        var hadTrueExpression = false
+        var scope = 0
+        var tokenIndex = startIndex-1
+        repeat {
+            tokenIndex += 1
+            guard let token = formatter.token(at: tokenIndex) else { break }
             
-            // replace the whole block with the buffer
-            formatter.replaceTokens(inRange: i...tokenIndex, with: buffer)
+            if token == end {
+                scope -= 1
+                
+                tokenIndex = formatter.endOfLine(after: tokenIndex) // skip to EOL
+            }
+            else if token == start {
+                scope += 1
+                
+                if scope == 1
+                {
+                    // evaluate the condition
+                    let expr = evaluateCondition(formatter: formatter, index: tokenIndex)
+                    if expr == true
+                    {
+                        appending = true // if it evaluated true, we are now appending
+                        hadTrueExpression = true
+                    }
+                    
+                    tokenIndex = formatter.endOfLine(after: tokenIndex) // skip to EOL
+                }
+            }
+            else if scope == 1 && token == .keyword("#elseif")
+            {
+                appending = false // off by default
+                
+                if !hadTrueExpression // if we already had a true part,  this can't eval
+                {
+                    // evaluate the condition
+                    let expr = evaluateCondition(formatter: formatter, index: tokenIndex)
+                    if expr == true
+                    {
+                        appending = true // if it evaluated true, we are now appending
+                        hadTrueExpression = true
+                    }
+                    
+                }
+                
+                tokenIndex = formatter.endOfLine(after: tokenIndex) // skip to EOL
+            }
+            else if scope == 1 && token == .keyword("#else")
+            {
+                appending = !hadTrueExpression // we do the final #else if we havent done anything yet.
+                
+                tokenIndex = formatter.endOfLine(after: tokenIndex) // skip to EOL
+            }
+            else
+            {
+                if appending
+                {
+                    buffer.append(token)
+                }
+            }
+            
+        } while  scope > 0
+        
+        // replace the whole block with the buffer
+        formatter.replaceTokens(inRange: startIndex...tokenIndex, with: buffer)
+    }
+
+    func addDefines(options: TransformOptions)
+    {
+        let jsc = jsContext
+        for d in options.defines
+        {
+            jsc.evaluateScript("var \(d) = true;")
         }
     }
     
@@ -123,7 +175,7 @@ class ConditionalCompilationTransformer: Transformer {
         
         let expression = formatter.toString(index+1..<endOfLine)
         
-        let jsc = ConditionalCompilationTransformer.jsContext
+        let jsc = jsContext
         
         let script = "!!(\(expression))" // the !! is a simple coerce to boolean in JS
         guard let jsv = jsc.evaluateScript(script) else { return false }

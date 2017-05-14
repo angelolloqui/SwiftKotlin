@@ -10,10 +10,10 @@ import Foundation
 import XCTest
 
 extension Transformer {
-    func translate(content: String) throws -> String {
+    func translate(content: String, options: TransformOptions? = nil) throws -> String {
         let tokens =  tokenize(content)
         let formatter = Formatter(tokens)
-        try self.transform(formatter: formatter)
+        try self.transform(formatter: formatter, options: options)
         return formatter.tokens.reduce("", { $0 + $1.string })
     }
 }

@@ -12,6 +12,16 @@ import XCTest
 class ConditionalCompilationTransformerTests: XCTestCase {
     var transformer: ConditionalCompilationTransformer!
     
+    
+    let ifElseTest =
+        "#if SOMETHING1\n" +
+        "print(\"hello 1\")\n" +
+        "#elseif SOMETHING2\n" +
+        "print(\"hello 2\")\n" +
+        "#else\n" +
+        "print(\"hello 0\")\n" +
+        "#endif\n"
+    
     override func setUp() {
         super.setUp()
         transformer = ConditionalCompilationTransformer()
@@ -23,28 +33,93 @@ class ConditionalCompilationTransformerTests: XCTestCase {
     }
     
     func testConditionalIf() {
+        
+        var options = TransformOptions()
+        
         let swift =
             "#if SOMETHING\n" +
             "print(\"hello\")\n" +
             "#endif\n"
         
-        let kotlin = "\n" 
-        let translate = try? transformer.translate(content: swift)
+        let kotlin1 = ""
+        let translate1 = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate1, kotlin1)
+        
+        // now define the condition
+        options.defines.append("SOMETHING")
+        
+        // now it should all compile
+        let kotlin2 = "print(\"hello\")\n"
+        let translate2 = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate2, kotlin2)
+    }
+    
+    func testConditionalIfElse0() {
+        let options = TransformOptions()
+        let swift = ifElseTest
+        
+        let kotlin = "print(\"hello 0\")\n" // with nothing defined
+        let translate = try? transformer.translate(content: swift, options: options)
         AssertTranslateEquals(translate, kotlin)
     }
     
-    func testConditionalIfElse() {
+    func testConditionalIfElse1() {
+        var options = TransformOptions()
+        let swift = ifElseTest
+        options.defines.append("SOMETHING1")
+        let kotlin = "print(\"hello 1\")\n" // with SOMETHING1 defined
+        let translate = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    func testConditionalIfElse2() {
+        var options = TransformOptions()
+        let swift = ifElseTest
+        options.defines.append("SOMETHING2")
+        let kotlin = "print(\"hello 2\")\n" // with SOMETHING2 defined
+        let translate = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    func testConditionalOs1() {
+        
+        let options = TransformOptions()
         let swift =
-            "#if SOMETHING\n" +
-            "print(\"hello 1\")\n" +
-            "#elseif SSOMETHINGELSE\n" +
-            "print(\"hello 2\")\n" +
-            "#else\n" +
-            "print(\"hello 3\")\n" +
+            "#if os(iOS)\n" +
+            "print(\"hello\")\n" +
             "#endif\n"
         
-        let kotlin = "print(\"hello 3\")\n"
-        let translate = try? transformer.translate(content: swift)
-        AssertTranslateEquals(translate, kotlin)
+        let kotlin1 = ""
+        let translate1 = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate1, kotlin1)
+        
+    }
+    
+    func testConditionalOs2() {
+        
+        let options = TransformOptions()
+        let swift =
+            "#if os(iOS) || os(macOS)\n" +
+            "print(\"hello\")\n" +
+            "#endif\n"
+        
+        let kotlin1 = ""
+        let translate1 = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate1, kotlin1)
+        
+    }
+    
+    func testConditionalOs3() {
+        
+        var options = TransformOptions()
+        let swift =
+            "#if os(iOS) || SOMETHING\n" +
+            "print(\"hello\")\n" +
+            "#endif\n"
+        options.defines.append("SOMETHING")
+        let kotlin1 = "print(\"hello\")\n"
+        let translate1 = try? transformer.translate(content: swift, options: options)
+        AssertTranslateEquals(translate1, kotlin1)
+        
     }
 }
