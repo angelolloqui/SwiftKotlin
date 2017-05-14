@@ -9,7 +9,7 @@
 import Foundation
 
 class StructTransformer: Transformer {
-    func transform(formatter: Formatter) throws {
+    func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
         formatter.forEachToken { (i, token) in
             if token == .keyword("struct") {                
                 formatter.replaceToken(at: i, with: .keyword("class"))

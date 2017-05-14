@@ -10,7 +10,7 @@ import Foundation
 
 class StaticTransformer: Transformer {
     
-    func transform(formatter: Formatter) throws {
+    func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
         
         //Extract all static declarations
         var firstStaticIndex: Int?

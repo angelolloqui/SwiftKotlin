@@ -9,7 +9,7 @@
 import Foundation
 
 protocol Transformer {
-    func transform(formatter: Formatter) throws
+    func transform(formatter: Formatter, options: TransformOptions?) throws
 }
 
 class SwiftKotlin {
@@ -35,15 +35,15 @@ class SwiftKotlin {
         ])
     }
     
-    func translate(content: String) throws -> String {
+    func translate(content: String, options: TransformOptions? = nil) throws -> String {
         let tokens = try translate(tokens: tokenize(content))
         return tokens.reduce("", { $0 + $1.string })
     }
     
-    func translate(tokens: [Token]) throws -> [Token] {
+    func translate(tokens: [Token], options: TransformOptions? = nil) throws -> [Token] {
         let formatter = Formatter(tokens)
         try transformers.forEach {
-            try $0.transform(formatter: formatter)
+            try $0.transform(formatter: formatter, options: options)
         }
         return formatter.tokens
     }

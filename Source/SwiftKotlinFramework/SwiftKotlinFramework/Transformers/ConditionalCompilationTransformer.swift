@@ -57,7 +57,7 @@ class ConditionalCompilationTransformer: Transformer {
     }()
 
     
-    func transform(formatter: Formatter) throws {
+    func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
         formatter.print()
         
         let start = Token.startOfScope("#if")

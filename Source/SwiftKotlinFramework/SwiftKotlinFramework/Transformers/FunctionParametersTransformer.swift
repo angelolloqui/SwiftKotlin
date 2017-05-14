@@ -11,7 +11,7 @@ import Foundation
 class FunctionParametersTransformer: Transformer {
     let declarationTokens = ["var", "let", "class", "struct", "enum", "Self", "init", "func"]
     
-    func transform(formatter: Formatter) throws {
+    func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
         transformNamedParameterCalls(formatter)
         removeNamedParametersDeclarations(formatter)
         transformFunctionReturns(formatter)

@@ -31,7 +31,7 @@ class KeywordReplacementTransformer: Transformer {
         "...": ".."
     ]
     
-    func transform(formatter: Formatter) throws {
+    func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
         formatter.forEachToken { (i, token) in
             
             let replace: String?
