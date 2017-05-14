@@ -8,5 +8,8 @@ fun main(args: Array<String>) {
     println("ok: constructor with anon param ${e2.message}")
 
     someFunc("anon param")
+
+	conditionalFunc1()
+	conditionalFunc2()
 }
 

@@ -65,9 +65,7 @@ class ConditionalCompilationTransformer: Transformer {
     let end = Token.endOfScope("#endif")
     
     func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
-        formatter.print()
-        
-
+        //formatter.print()
         
         var addedDefines = false
         

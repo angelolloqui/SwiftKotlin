@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ConditionalCompilationTransformerTests.swift
 //  SwiftKotlinFramework
 //
 //  Created by Jon Nermut on 14/05/2017.

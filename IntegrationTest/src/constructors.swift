@@ -35,5 +35,5 @@ open class SomeError : BaseError
 
 public func someFunc(_ foo: String)
 {
-	print("ok: \(foo)")
+	print("ok: \(foo)\n")
 }
