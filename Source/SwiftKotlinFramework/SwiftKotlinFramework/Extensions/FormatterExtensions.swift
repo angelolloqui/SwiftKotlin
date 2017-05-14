@@ -89,4 +89,20 @@ extension Formatter {
         }
         return false
     }
+    
+    func toString(_ range: Range<Int>) -> String
+    {
+        return tokens[range].reduce("", { $0 + $1.string })
+        
+    }
+    
+    /// Returns the index of the next linebreak token, or the end of the tokens
+    func endOfLine(after: Int) -> Int
+    {
+        if let endOfLine = self.index(of: .linebreak, after: after)
+        {
+            return endOfLine
+        }
+        return tokens.count
+    }
 }

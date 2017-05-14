@@ -25,8 +25,8 @@ class ConditionalCompilationTransformerTests: XCTestCase {
     func testConditionalIf() {
         let swift =
             "#if SOMETHING\n" +
-                "print(\"hello\")\n" +
-                "#endif\n"
+            "print(\"hello\")\n" +
+            "#endif\n"
         
         let kotlin = "\n" 
         let translate = try? transformer.translate(content: swift)
@@ -36,12 +36,12 @@ class ConditionalCompilationTransformerTests: XCTestCase {
     func testConditionalIfElse() {
         let swift =
             "#if SOMETHING\n" +
-                "print(\"hello 1\")\n" +
-                "#elseif SSOMETHINGELSE\n" +
-                "print(\"hello 2\")\n" +
-                "#else\n" +
-                "print(\"hello 3\")\n" +
-                "#endif\n"
+            "print(\"hello 1\")\n" +
+            "#elseif SSOMETHINGELSE\n" +
+            "print(\"hello 2\")\n" +
+            "#else\n" +
+            "print(\"hello 3\")\n" +
+            "#endif\n"
         
         let kotlin = "print(\"hello 3\")\n"
         let translate = try? transformer.translate(content: swift)
