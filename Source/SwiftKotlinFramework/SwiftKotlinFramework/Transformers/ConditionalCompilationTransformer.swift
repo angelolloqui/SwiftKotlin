@@ -157,6 +157,10 @@ class ConditionalCompilationTransformer: Transformer {
         } while  scope > 0
         
         // replace the whole block with the buffer
+        if tokenIndex >= formatter.tokens.count
+        {
+            tokenIndex = formatter.tokens.count-1
+        }
         formatter.replaceTokens(inRange: startIndex...tokenIndex, with: buffer)
     }
 
