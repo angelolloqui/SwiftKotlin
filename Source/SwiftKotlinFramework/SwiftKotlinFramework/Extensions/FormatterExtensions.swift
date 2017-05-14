@@ -74,8 +74,10 @@ extension Formatter {
     func print() {
         var index = 0
         while index < self.tokens.count {
-            let t = self.token(at: index)
-            Swift.print("\(t)")
+            if let t = self.token(at: index)
+            {
+                Swift.print("Token: \(t)")
+            }
             index = index + 1
         }
         
