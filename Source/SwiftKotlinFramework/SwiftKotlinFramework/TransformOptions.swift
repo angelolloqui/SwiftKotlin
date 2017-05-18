@@ -8,8 +8,7 @@
 
 import Foundation
 
-public struct TransformOptions
-{
+public struct TransformOptions {
     /// Array of conditional compilation flags
     var defines: Array<String> = []
 }

@@ -17,8 +17,7 @@ class PropertyTransformer: Transformer {
     }
     
     /// Go backwards to the previous class/struct/protocol definition - this doesnt guarantee we are in it!
-    func lastClassStructOrProtocol(_ formatter: Formatter, before index: Int) -> Token?
-    {
+    func lastClassStructOrProtocol(_ formatter: Formatter, before index: Int) -> Token? {
         guard let s = formatter.index(of: .startOfScope("{"), before: index) else {return nil }
         
         return formatter.lastToken(before: s, where: { $0 == .keyword("class") || $0 == .keyword("struct") || $0 == .keyword("protocol")  })
@@ -34,7 +33,6 @@ class PropertyTransformer: Transformer {
             let getIndex = formatter.index(of: .identifier("get"), after: index)
             let setIndex = formatter.index(of: .identifier("set"), after: index)
             
-
             
             //Replace var by val if no setter
             if  setIndex == nil,
@@ -43,28 +41,21 @@ class PropertyTransformer: Transformer {
             }            
 
             
-            if classStructProtocol == .keyword("protocol")
-            {
-                // protocol
-                
+            if classStructProtocol == .keyword("protocol") {
                 // remove the get / set
-                if let gi = getIndex
-                {
+                if let gi = getIndex {
                     formatter.removeToken(at: gi)
                     formatter.removeSpacingTokens(at: gi)
                     
                 }
-                if let si = setIndex
-                {
-                    if let siNow = formatter.index(of: .identifier("set"), after: index)
-                    {
+                if setIndex != nil {
+                    if let siNow = formatter.index(of: .identifier("set"), after: index) {
                         formatter.removeToken(at: siNow)
                         formatter.removeSpacingTokens(at: siNow)
                     }
                 }
             }
-            else
-            {
+            else {
                 // class/struct/global
             
                 //Convert the getter if a getter is defined or there is no setter

@@ -12,7 +12,6 @@ import XCTest
 class ConditionalCompilationTransformerTests: XCTestCase {
     var transformer: ConditionalCompilationTransformer!
     
-    
     let ifElseTest =
         "#if SOMETHING1\n" +
         "print(\"hello 1\")\n" +
@@ -82,7 +81,6 @@ class ConditionalCompilationTransformerTests: XCTestCase {
     }
     
     func testConditionalOs1() {
-        
         let options = TransformOptions()
         let swift =
             "#if os(iOS)\n" +
@@ -92,11 +90,9 @@ class ConditionalCompilationTransformerTests: XCTestCase {
         let kotlin1 = ""
         let translate1 = try? transformer.translate(content: swift, options: options)
         AssertTranslateEquals(translate1, kotlin1)
-        
     }
     
     func testConditionalOs2() {
-        
         let options = TransformOptions()
         let swift =
             "#if os(iOS) || os(macOS)\n" +
@@ -106,11 +102,9 @@ class ConditionalCompilationTransformerTests: XCTestCase {
         let kotlin1 = ""
         let translate1 = try? transformer.translate(content: swift, options: options)
         AssertTranslateEquals(translate1, kotlin1)
-        
     }
     
     func testConditionalOs3() {
-        
         var options = TransformOptions()
         let swift =
             "#if os(iOS) || SOMETHING\n" +
@@ -120,11 +114,9 @@ class ConditionalCompilationTransformerTests: XCTestCase {
         let kotlin1 = "print(\"hello\")\n"
         let translate1 = try? transformer.translate(content: swift, options: options)
         AssertTranslateEquals(translate1, kotlin1)
-        
     }
     
     func testConditionalIfWithOr() {
-        
         var options = TransformOptions()
         
         let swift =
@@ -146,7 +138,6 @@ class ConditionalCompilationTransformerTests: XCTestCase {
     }
     
     func testConditionalIfWithAnd() {
-        
         var options = TransformOptions()
         
         let swift =
@@ -166,7 +157,7 @@ class ConditionalCompilationTransformerTests: XCTestCase {
         let translate2 = try? transformer.translate(content: swift, options: options)
         AssertTranslateEquals(translate2, kotlin2)
         
-        options.defines = ["SOMETHING", "SOMETHING2"];
+        options.defines = ["SOMETHING", "SOMETHING2"]
         
         let kotlin3 = "print(\"hello\")\n"
         let translate3 = try? transformer.translate(content: swift, options: options)

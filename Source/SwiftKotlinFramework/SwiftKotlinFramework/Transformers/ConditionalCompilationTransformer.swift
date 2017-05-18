@@ -58,38 +58,31 @@ class ConditionalCompilationTransformer: Transformer {
                                         "var macOS, iOS, watchOS, tvOS, Linux, x86_64, arm, arm64, i386 = 0;\n"
             
         )
-        return context!;
+        return context!
     }()
 
     let start = Token.startOfScope("#if")
     let end = Token.endOfScope("#endif")
     
     func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
-        //formatter.print()
-        
         var addedDefines = false
         
         // find all #if blocks
-        formatter.forEach(start) {
-            (i, token) in
+        formatter.forEach(start) { (i, token) in
             
             // we add in the defines lazily, no need to do this if there are no #if
-            if let opts = options
-            {
-                if !addedDefines
-                {
+            if let opts = options {
+                if !addedDefines {
                     addDefines(options: opts)
                     addedDefines = true
                 }
             }
             
             handleIfDefBlock(formatter: formatter, startIndex: i)
-
         }
     }
     
-    func handleIfDefBlock(formatter: Formatter, startIndex: Int)
-    {
+    func handleIfDefBlock(formatter: Formatter, startIndex: Int) {
         
         // we run a little state machine to evaluate the entire block, while not messing with nested #if/#else
         var buffer = Array<Token>()
@@ -103,18 +96,14 @@ class ConditionalCompilationTransformer: Transformer {
             
             if token == end {
                 scope -= 1
-                
                 tokenIndex = formatter.endOfLine(after: tokenIndex) // skip to EOL
+                
             }
             else if token == start {
                 scope += 1
                 
-                if scope == 1
-                {
-                    // evaluate the condition
-                    let expr = evaluateCondition(formatter: formatter, index: tokenIndex)
-                    if expr == true
-                    {
+                if scope == 1 {
+                    if evaluateCondition(formatter: formatter, index: tokenIndex) {
                         appending = true // if it evaluated true, we are now appending
                         hadTrueExpression = true
                     }
@@ -122,34 +111,25 @@ class ConditionalCompilationTransformer: Transformer {
                     tokenIndex = formatter.endOfLine(after: tokenIndex) // skip to EOL
                 }
             }
-            else if scope == 1 && token == .keyword("#elseif")
-            {
+            else if scope == 1 && token == .keyword("#elseif") {
                 appending = false // off by default
                 
-                if !hadTrueExpression // if we already had a true part,  this can't eval
-                {
-                    // evaluate the condition
-                    let expr = evaluateCondition(formatter: formatter, index: tokenIndex)
-                    if expr == true
-                    {
+                if !hadTrueExpression { // if we already had a true part,  this can't eval
+                    if evaluateCondition(formatter: formatter, index: tokenIndex) {
                         appending = true // if it evaluated true, we are now appending
                         hadTrueExpression = true
                     }
-                    
                 }
                 
                 tokenIndex = formatter.endOfLine(after: tokenIndex) // skip to EOL
             }
-            else if scope == 1 && token == .keyword("#else")
-            {
+            else if scope == 1 && token == .keyword("#else") {
                 appending = !hadTrueExpression // we do the final #else if we havent done anything yet.
                 
                 tokenIndex = formatter.endOfLine(after: tokenIndex) // skip to EOL
             }
-            else
-            {
-                if appending
-                {
+            else {
+                if appending {
                     buffer.append(token)
                 }
             }
@@ -157,24 +137,20 @@ class ConditionalCompilationTransformer: Transformer {
         } while  scope > 0
         
         // replace the whole block with the buffer
-        if tokenIndex >= formatter.tokens.count
-        {
-            tokenIndex = formatter.tokens.count-1
+        if tokenIndex >= formatter.tokens.count {
+            tokenIndex = formatter.tokens.count - 1
         }
         formatter.replaceTokens(inRange: startIndex...tokenIndex, with: buffer)
     }
 
-    func addDefines(options: TransformOptions)
-    {
+    func addDefines(options: TransformOptions) {
         let jsc = jsContext
-        for d in options.defines
-        {
+        for d in options.defines {
             jsc.evaluateScript("var \(d) = true;")
         }
     }
     
-    func evaluateCondition(formatter: Formatter, index: Int) -> Bool
-    {
+    func evaluateCondition(formatter: Formatter, index: Int) -> Bool {
         let endOfLine = formatter.endOfLine(after: index)
         
         let expression = formatter.toString(index+1..<endOfLine)
@@ -185,9 +161,7 @@ class ConditionalCompilationTransformer: Transformer {
         guard let jsv = jsc.evaluateScript(script) else { return false }
         
         let ret = jsv.isBoolean && jsv.toBool()
-        
-        print("Evaluated expression: \(expression) as \(ret)")
-        
+                
         return ret
     }
 }

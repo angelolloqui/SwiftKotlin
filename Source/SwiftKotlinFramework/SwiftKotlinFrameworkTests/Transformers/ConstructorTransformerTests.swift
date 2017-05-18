@@ -9,8 +9,6 @@
 import XCTest
 
 class ConstructorTransformerTests: XCTestCase {
-
-    
     var transformer: ConstructorTransformer!
     
     override func setUp() {

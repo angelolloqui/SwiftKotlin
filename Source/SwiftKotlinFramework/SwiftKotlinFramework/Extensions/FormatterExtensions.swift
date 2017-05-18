@@ -37,20 +37,17 @@ extension Formatter {
 
         
     /// Finds the next matched pair of { } after the given index. Indices are inclusive.
-    public func nextBlockScope(after index: Int) -> ClosedRange<Int>?
-    {
+    public func nextBlockScope(after index: Int) -> ClosedRange<Int>? {
         return nextScope(after: index, start: .startOfScope("{"), end: .endOfScope("}"))
     }
     
     /// Finds the next matched pair of ( ) after the given index. Indices are inclusive.
-    public func nextBracketScope(after index: Int) -> ClosedRange<Int>?
-    {
+    public func nextBracketScope(after index: Int) -> ClosedRange<Int>? {
         return nextScope(after: index, start: .startOfScope("("), end: .endOfScope(")"))
     }
     
     /// Finds the next matched pair of { } after the given index. Indices are inclusive.
-    public func nextScope(after index: Int, start: Token, end: Token) -> ClosedRange<Int>?
-    {
+    public func nextScope(after index: Int, start: Token, end: Token) -> ClosedRange<Int>? {
         
         guard let bodyStartIndex = self.index(of: start, after: index) else { return nil }
         
@@ -71,17 +68,6 @@ extension Formatter {
         return ClosedRange<Int>(uncheckedBounds: (bodyStartIndex, tokenIndex))
     }
     
-    func print() {
-        var index = 0
-        while index < self.tokens.count {
-            if let t = self.token(at: index)
-            {
-                Swift.print("Token: \(t)")
-            }
-            index = index + 1
-        }
-        
-    }
     
     func isArgumentToken(at index: Int) -> Bool {
         if let nextToken = self.next(.nonSpaceOrCommentOrLinebreak, after: index) {
@@ -90,17 +76,13 @@ extension Formatter {
         return false
     }
     
-    func toString(_ range: Range<Int>) -> String
-    {
+    func toString(_ range: Range<Int>) -> String {
         return tokens[range].reduce("", { $0 + $1.string })
-        
     }
     
     /// Returns the index of the next linebreak token, or the end of the tokens
-    func endOfLine(after: Int) -> Int
-    {
-        if let endOfLine = self.index(of: .linebreak, after: after)
-        {
+    func endOfLine(after: Int) -> Int {
+        if let endOfLine = self.index(of: .linebreak, after: after) {
             return endOfLine
         }
         return tokens.count

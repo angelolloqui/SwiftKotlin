@@ -99,9 +99,7 @@ func execute(_ args: [String]) {
     
     var options = TransformOptions()
     
-    if let define = args["define"]
-    {
-        print(define)
+    if let define = args["define"] {
         let arr = define.components(separatedBy: ",")
         options.defines = arr
     }

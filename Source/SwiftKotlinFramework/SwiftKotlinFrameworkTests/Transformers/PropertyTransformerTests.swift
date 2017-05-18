@@ -142,7 +142,7 @@ class PropertyTransformerTests: XCTestCase {
                         "var bar: String { get set }\n" +
                         "}"
 
-        let kotlin = "protocol Hello {\n" + // protocol to interface is done by teh KeywordTransformer
+        let kotlin = "protocol Hello {\n" + // protocol to interface is done by the KeywordTransformer
             "val foo: String  \n" +
             "var bar: String  \n" +
         "}"
