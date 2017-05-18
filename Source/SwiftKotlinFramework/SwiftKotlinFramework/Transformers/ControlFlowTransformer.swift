@@ -16,7 +16,7 @@ class ControlFlowTransformer: Transformer {
         "switch"
     ]
     
-    func transform(formatter: Formatter) throws {
+    func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
         transformGuards(formatter)
         formatter.forEachToken { (i, token) in
             guard case .keyword(let string) = token, conditionals.contains(string) else { return }

@@ -34,5 +34,57 @@ extension Formatter {
         guard !(token(at: index)?.isSpace ?? false) else { return }
         insertToken(.space(" "), at: index)
     }
+
+        
+    /// Finds the next matched pair of { } after the given index. Indices are inclusive.
+    public func nextBlockScope(after index: Int) -> ClosedRange<Int>? {
+        return nextScope(after: index, start: .startOfScope("{"), end: .endOfScope("}"))
+    }
     
+    /// Finds the next matched pair of ( ) after the given index. Indices are inclusive.
+    public func nextBracketScope(after index: Int) -> ClosedRange<Int>? {
+        return nextScope(after: index, start: .startOfScope("("), end: .endOfScope(")"))
+    }
+    
+    /// Finds the next matched pair of { } after the given index. Indices are inclusive.
+    public func nextScope(after index: Int, start: Token, end: Token) -> ClosedRange<Int>? {
+        
+        guard let bodyStartIndex = self.index(of: start, after: index) else { return nil }
+        
+        var scopeCount = 1
+        var tokenIndex = bodyStartIndex
+        repeat {
+            tokenIndex += 1
+            guard let token = self.token(at: tokenIndex) else { return nil }
+            
+            if token == end {
+                scopeCount -= 1
+            }
+            else if token == start {
+                scopeCount += 1
+            }
+        } while  scopeCount > 0
+        
+        return ClosedRange<Int>(uncheckedBounds: (bodyStartIndex, tokenIndex))
+    }
+    
+    
+    func isArgumentToken(at index: Int) -> Bool {
+        if let nextToken = self.next(.nonSpaceOrCommentOrLinebreak, after: index) {
+            return [.symbol("->", .infix), .keyword("throws"), .keyword("rethrows")].contains(nextToken)
+        }
+        return false
+    }
+    
+    func toString(_ range: Range<Int>) -> String {
+        return tokens[range].reduce("", { $0 + $1.string })
+    }
+    
+    /// Returns the index of the next linebreak token, or the end of the tokens
+    func endOfLine(after: Int) -> Int {
+        if let endOfLine = self.index(of: .linebreak, after: after) {
+            return endOfLine
+        }
+        return tokens.count
+    }
 }

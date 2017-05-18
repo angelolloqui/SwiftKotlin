@@ -40,9 +40,6 @@
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "ConstructorTransformerTests">
-               </Test>
-               <Test
                   Identifier = "ControlFlowTransformerTests/testGuardMultipleDeclaration()">
                </Test>
                <Test
@@ -92,9 +89,6 @@
                </Test>
                <Test
                   Identifier = "PropertyTransformerTests/testWillSetProperty()">
-               </Test>
-               <Test
-                  Identifier = "StringInterpolatorTransformerTests">
                </Test>
             </SkippedTests>
          </TestableReference>

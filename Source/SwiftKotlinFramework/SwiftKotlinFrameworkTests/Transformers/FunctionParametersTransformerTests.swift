@@ -172,4 +172,15 @@ class FunctionParametersTransformerTests: XCTestCase {
         AssertTranslateEquals(translate, kotlin)
     }
 
+    
+    func testChangesVoidReturn() {
+        let swift = "func method(param: String) -> () {}\n" +
+                    "func method(param: ()->() ) {}\n" +
+                    "class A {\n\tfunc method2()\n\t->()\n{}\n}"
+        let kotlin = "func method(param: String): void {}\n" +
+                    "func method(param: ()->void ) {}\n" +
+                    "class A {\n\tfunc method2(): void\n{}\n}"
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
 }

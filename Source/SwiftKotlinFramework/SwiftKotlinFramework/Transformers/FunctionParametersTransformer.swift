@@ -11,7 +11,7 @@ import Foundation
 class FunctionParametersTransformer: Transformer {
     let declarationTokens = ["var", "let", "class", "struct", "enum", "Self", "init", "func"]
     
-    func transform(formatter: Formatter) throws {
+    func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
         transformNamedParameterCalls(formatter)
         removeNamedParametersDeclarations(formatter)
         transformFunctionReturns(formatter)
@@ -74,7 +74,20 @@ class FunctionParametersTransformer: Transformer {
             }
             index = index + 1
         }
+        
+        // transform ->() to ->void
+        formatter.forEach(.startOfScope("(")) { i, _ in
+            if (formatter.last(.nonSpaceOrCommentOrLinebreak, before: i) == .symbol("->", .infix)
+                || formatter.last(.nonSpaceOrCommentOrLinebreak, before: i) == .symbol(":", .infix)),
+                let nextIndex = formatter.index(of: .nonSpaceOrLinebreak, after: i, if: {
+                    $0 == .endOfScope(")") }), !formatter.isArgumentToken(at: nextIndex) {
+                // Replace with Void
+                formatter.replaceTokens(inRange: i ... nextIndex, with: [.identifier("void")])
+            }
+        }
     }
+    
+
     
     func removeNamedParametersDeclarations(_ formatter: Formatter) {
         var index = 0

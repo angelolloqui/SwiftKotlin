@@ -9,19 +9,62 @@
 import XCTest
 
 class ConstructorTransformerTests: XCTestCase {
-
+    var transformer: ConstructorTransformer!
+    
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        transformer = ConstructorTransformer()
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func testMostBasicConstructor() {
+        let swift = "init() {}"
+        let kotlin = "constructor() {}"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
     }
     
-    func testsNotImplemented() {
-        XCTFail()
+    func testConstructorWithAnonParam() {
+        let swift = "init(_ foo: bar) {}"
+        let kotlin = "constructor(foo: bar) {}"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    func testConvenienceAndRequired() {
+        let swift = "public convenience init() {}\n" +
+                    "required public init() {}\n" +
+                    "required convenience init() {}"
+        let kotlin = "public constructor() {}\n" +
+                    "public constructor() {}\n" +
+                    "constructor() {}"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
+    
+    func testSuperInit() {
+        let swift = "init() { super.init() }\n" +
+                    "init() { super.init(foo) }\n" +
+                    "init() { super.init(foo: bar) }"
+        let kotlin = "constructor() : super() {  }\n" +
+                    "constructor() : super(foo) {  }\n" +  // param transformation should be done be FunctionParameterTransformer
+                    "constructor() : super(foo = bar) {  }"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
     }
 
+    func testSelfInit() {
+        let swift = "init() { self.init() }\n" +
+                    "init() { self.init(foo) }\n" +
+                    "init() { self.init(foo: bar) }"
+        let kotlin = "constructor() : self() {  }\n" +     //`self` transformed by keyword transfomer
+                    "constructor() : self(foo) {  }\n" +  // param transformation should be done be FunctionParameterTransformer
+                    "constructor() : self(foo = bar) {  }"
+        
+        let translate = try? transformer.translate(content: swift)
+        AssertTranslateEquals(translate, kotlin)
+    }
 }

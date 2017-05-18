@@ -73,3 +73,5 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
+test.swiftdoc
+test.swiftmodule

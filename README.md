@@ -63,19 +63,21 @@ The scope of this project is not mapping all existing methods and data types to 
 ## Status
 The project is in active development, with many rules still to be implemented. Some of them include:
 
-- [ ] Constructors
+- [x] Constructors
 - [x] Simple Control flow statments (`guard`, `if`, `for`, `while`, `switch`)
-- [ ] Composed Control flow statments (multiple `guard`, `if` let)
+- [ ] Composed Control flow statments (multiple `guard`, `if let`)
 - [ ] Exception handling
 - [ ] Extensions
 - [x] Keyword replacements (`val`, `this`, `fun`, ...)
-- [ ] Memory management
+- [x] Basic memory management
+- [ ] Advanced memory management
 - [x] Function returns and named parameters
-- [x] Property transfromers
+- [x] Basic property transfromers
+- [ ] Advance property transformers (`lazy`, `didSet`,...)
 - [x] Static to Companion
 - [x] Struct to data class
 - [x] String interpolators
-- [ ] Foundation types
+- [ ] Foundation types (arrays, maps,...)
 - ...
 
 However, with the implemented rules you can get already a pretty decent Kotlin output for many of your classes. The rest will come in future releases.
@@ -118,12 +120,11 @@ SwiftKotlin uses [SwiftFormat](https://github.com/nicklockwood/SwiftFormat/) for
 
 SwiftKotlin is brought to you by [Angel Garcia Olloqui](http://angelolloqui.com). You can contact me on:
 
-Project Page: [SwiftKotlin](https://github.com/angelolloqui/SwiftKotlin)
+- Project Page: [SwiftKotlin](https://github.com/angelolloqui/SwiftKotlin)
+- Personal webpage: [angelolloqui.com](http://angelolloqui.com)
+- Twitter: [@angelolloqui](http://twitter.com/angelolloqui)
+- LinkedIn: [angelolloqui](http://www.linkedin.com/in/angelolloqui)
 
-Personal webpage: [angelolloqui.com](http://angelolloqui.com)
+And special credits for the contributors:
 
-Twitter: [@angelolloqui](http://twitter.com/angelolloqui)
-
-LinkedIn: [angelolloqui](http://www.linkedin.com/in/angelolloqui)
-
-
+- [jonnermut](https://github.com/jonnermut)

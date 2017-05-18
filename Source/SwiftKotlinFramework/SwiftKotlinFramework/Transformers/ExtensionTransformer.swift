@@ -10,7 +10,7 @@ import Foundation
 
 class ExtensionTransformer: Transformer {
     
-    func transform(formatter: Formatter) throws {
+    func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
     }
     
 }

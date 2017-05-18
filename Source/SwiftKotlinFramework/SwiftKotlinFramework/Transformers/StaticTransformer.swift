@@ -10,12 +10,23 @@ import Foundation
 
 class StaticTransformer: Transformer {
     
-    func transform(formatter: Formatter) throws {
+    func transform(formatter: Formatter, options: TransformOptions? = nil) throws {
         
         //Extract all static declarations
         var firstStaticIndex: Int?
         var indentation: Token?
         var staticDeclarations = [[Token]]()
+        
+        // first of all replace class func decls with static func
+        formatter.forEach(.keyword("func")) {  (i, token) in
+            guard let lineBreakIndex = formatter.index(of: .linebreak, before: i) else { return }
+            for idx in lineBreakIndex..<i {
+                if formatter.token(at: idx) == .keyword("class") {
+                    // class func -> static func
+                    formatter.replaceToken(at: idx, with: .keyword("static"))
+                }
+            }
+        }
         
         formatter.forEach(.keyword("static")) {  (i, token) in
             guard let lineBreakIndex = formatter.index(of: .linebreak, before: i) else { return }
