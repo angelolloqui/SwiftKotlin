@@ -87,7 +87,7 @@ The project comes with 2 executable targets:
 - **SwiftKotlinCommandLine**
 - **SwiftKotlinApp**
 
-You can download the project and execute them in XCode8+ or just go to the download page to get the most recent compiled versions of the project.
+Make sure you run `git submodule update` before building them with XCode8+; ~~or just go to the download page to get the most recent compiled versions of the project~~.
 
 Copy the executables in a directory with executable rights. Typically, you could use:
 
