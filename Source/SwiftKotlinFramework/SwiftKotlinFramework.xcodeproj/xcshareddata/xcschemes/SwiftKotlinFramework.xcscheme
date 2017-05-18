@@ -90,9 +90,6 @@
                <Test
                   Identifier = "PropertyTransformerTests/testWillSetProperty()">
                </Test>
-               <Test
-                  Identifier = "StringInterpolatorTransformerTests">
-               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>
