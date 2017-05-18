@@ -50,7 +50,7 @@ class ConstructorTransformerTests: XCTestCase {
                     "init() { super.init(foo: bar) }"
         let kotlin = "constructor() : super() {  }\n" +
                     "constructor() : super(foo) {  }\n" +  // param transformation should be done be FunctionParameterTransformer
-                    "constructor() : super(foo= bar) {  }"
+                    "constructor() : super(foo = bar) {  }"
         
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)
@@ -60,9 +60,9 @@ class ConstructorTransformerTests: XCTestCase {
         let swift = "init() { self.init() }\n" +
                     "init() { self.init(foo) }\n" +
                     "init() { self.init(foo: bar) }"
-        let kotlin = "constructor() : this() {  }\n" +
-                    "constructor() : this(foo) {  }\n" +  // param transformation should be done be FunctionParameterTransformer
-                    "constructor() : this(foo= bar) {  }"
+        let kotlin = "constructor() : self() {  }\n" +     //`self` transformed by keyword transfomer
+                    "constructor() : self(foo) {  }\n" +  // param transformation should be done be FunctionParameterTransformer
+                    "constructor() : self(foo = bar) {  }"
         
         let translate = try? transformer.translate(content: swift)
         AssertTranslateEquals(translate, kotlin)

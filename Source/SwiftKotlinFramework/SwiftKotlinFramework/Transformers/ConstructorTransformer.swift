@@ -44,24 +44,19 @@ class ConstructorTransformer: Transformer {
                     if (token0 == .identifier("super") || token0 == .identifier("self"))
                         && token1 == .symbol(".", .infix)
                         && token2 == .identifier("init") {
-                        
-                        var delegateToken = token0
-                        if delegateToken == .identifier("self") {
-                            delegateToken = .identifier("this")
-                        }
-                        
+                                                
                         if let paramRange = formatter.nextBracketScope(after: bodyIndex) {
-                            var newTokens: [Token] = [.space(" "), .symbol(":", .infix), .space(" "), delegateToken]
+                            var newTokens: [Token] = [.space(" "), .symbol(":", .infix), .space(" "), token0]
                             for i in paramRange.lowerBound...paramRange.upperBound {
                                 var t = formatter.tokens[i]
                                 if t == .delimiter(":") {
-                                    // replace x:y call syntax with x=y
+                                    // replace x: y call syntax with x =y
                                     t = .symbol("=", .infix)
+                                    newTokens.append(.space(" "))
                                 }
 
                                 newTokens.append(t)
                             }
-                            
                             
                             formatter.removeTokens(inRange: bodyIndex...paramRange.upperBound)
                             
