@@ -48,12 +48,12 @@ Despite the similarities, Swift and Kotlin are different languages, with some in
 
 Because of that, this **tool does not have as a goal to produce production ready Kotlin code**, but just a Kotlin translation that **will require manual edition**. For example, things as simple as adding a new item to an array has different method names:
 
-```
-//Swift 3
+```swift
+// Swift 3
 array.append("This is in Swift")
 ```
-```
-//Kotlin
+```kotlin
+// Kotlin
 array.add("This is in Kotlin")
 ```
 
