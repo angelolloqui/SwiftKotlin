@@ -7,10 +7,13 @@
 //
 
 import Cocoa
+import SwiftKotlinFramework
+import Transform
 
 class ViewController: NSViewController {
 
-    let swiftKotlin = SwiftKotlin()
+    let swiftTokenizer = SwiftTokenizer()
+    let kotlinTokenizer = KotlinTokenizer()
     
     @IBOutlet var swiftTextView: NSTextView!
     @IBOutlet var kotlinTextView: NSTextView!
@@ -28,13 +31,12 @@ class ViewController: NSViewController {
         oPanel.allowedFileTypes = ["swift"]
         oPanel.prompt = "Open"
         
-        oPanel.beginSheetModal(for: self.view.window!, completionHandler: { (button : Int) -> Void in
-            if button == NSFileHandlingPanelOKButton {
-                
+        oPanel.beginSheetModal(for: self.view.window!, completionHandler: { (button: NSApplication.ModalResponse) -> Void in
+            if button == NSApplication.ModalResponse.OK {
                 let filePath = oPanel.urls.first!.path
                 let fileHandle = FileHandle(forReadingAtPath: filePath)
                 if let data = fileHandle?.readDataToEndOfFile() {
-                    self.swiftTextView.string = String(data: data, encoding: .utf8)
+                    self.swiftTextView.string = String(data: data, encoding: .utf8) ?? ""
                     self.translateSwift()
                 }
             }
@@ -42,10 +44,9 @@ class ViewController: NSViewController {
     }
     
     func translateSwift(withSwiftFormatting: Bool = true, withKotlinFormatting: Bool = true) {
-        
-        let swift = swiftTextView.string ?? ""
-        let swiftTokens = tokenize(swift)
-        let kotlinTokens = (try? self.swiftKotlin.translate(tokens: swiftTokens)) ?? []
+        let swift = swiftTextView.string
+        let swiftTokens = (try? swiftTokenizer.translate(content: swift)) ?? []
+        let kotlinTokens = (try? kotlinTokenizer.translate(content: swift)) ?? []
         
         DispatchQueue.main.async {
             self.swiftTextView.textStorage?.beginEditing()
@@ -55,13 +56,16 @@ class ViewController: NSViewController {
                 let formatted = self.attributedStringFromTokens(tokens: swiftTokens)
                 self.swiftTextView.textStorage?.setAttributedString(formatted)
             }
+            else {
+                self.swiftTextView.string = swiftTokens.joinedValues()
+            }
 
             if withKotlinFormatting {
                 let formatted = self.attributedStringFromTokens(tokens: kotlinTokens)
                 self.kotlinTextView.textStorage?.setAttributedString(formatted)                
             }
             else {
-                self.kotlinTextView.string = kotlinTokens.reduce("", { $0! + $1.string })
+                self.kotlinTextView.string = kotlinTokens.joinedValues()
             }
             
             self.swiftTextView.textStorage?.endEditing()
@@ -86,21 +90,21 @@ extension ViewController: NSTextViewDelegate {
 
 
 extension Token {
-    var attributes: [String : Any] {
-        switch self {
-        case .keyword(_), .identifier("override"), .identifier("this"), .identifier("self"), .identifier("nil"), .identifier("null"), .endOfScope("case"), .endOfScope("default"), .endOfScope("in"), .endOfScope("else"):
-            return [NSForegroundColorAttributeName: NSColor(red: 170.0/255.0, green: 13.0/255.0, blue: 145.0/255.0, alpha: 1)]
-        case .commentBody(_), .startOfScope("/*"), .endOfScope("*/"), .startOfScope("//"):
-            return [NSForegroundColorAttributeName: NSColor(red: 0, green: 116.0/255.0, blue: 0, alpha: 1)]
-        case .stringBody(_), .startOfScope("\""), .endOfScope("\""):
-            return [NSForegroundColorAttributeName: NSColor(red: 196.0/255.0, green: 26.0/255.0, blue: 22.0/255.0, alpha: 1)]
+    var attributes: [NSAttributedStringKey : Any] {
+        switch self.kind {
+        case .keyword:
+            return [NSAttributedStringKey.foregroundColor: NSColor(red: 170.0/255.0, green: 13.0/255.0, blue: 145.0/255.0, alpha: 1)]
+        case .number, .string:
+            return [NSAttributedStringKey.foregroundColor: NSColor(red: 0, green: 116.0/255.0, blue: 0, alpha: 1)]
+        case .comment:
+            return [NSAttributedStringKey.foregroundColor: NSColor(red: 196.0/255.0, green: 26.0/255.0, blue: 22.0/255.0, alpha: 1)]
         default:
             return [:]
         }
     }
     
     var attributedString: NSAttributedString {
-        return NSAttributedString(string: self.string, attributes: self.attributes)
+        return NSAttributedString(string: self.value, attributes: self.attributes)
     }
 }
 

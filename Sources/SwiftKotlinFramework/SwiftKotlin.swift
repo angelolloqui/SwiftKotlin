@@ -7,46 +7,16 @@
 //
 
 import Foundation
+import Transform
+import AST
+import Source
+import Parser
 
-protocol Transformer {
-    func transform(formatter: Formatter, options: TransformOptions?) throws
+public class KotlinTokenizer: Tokenizer {
+    
 }
 
-class SwiftKotlin {
-    let transformers: [Transformer]
-    
-    init(transformers: [Transformer]) {
-        self.transformers = transformers
-    }
-    
-    convenience init() {
-        self.init(transformers: [
-                ConditionalCompilationTransformer(),
-                FunctionParametersTransformer(),
-                ConstructorTransformer(), 
-                ControlFlowTransformer(),
-                PropertyTransformer(),
-                StaticTransformer(),
-                ExtensionTransformer(),
-                StructTransformer(),
-                StringInterpolatorTransformer(),
-                KeywordReplacementTransformer(),
-                FoundationTypeTransformer()
-        ])
-    }
-    
-    func translate(content: String, options: TransformOptions? = nil) throws -> String {
-        let tokens = try translate(tokens: tokenize(content), options: options)
-        return tokens.reduce("", { $0 + $1.string })
-    }
-    
-    func translate(tokens: [Token], options: TransformOptions? = nil) throws -> [Token] {
-        let formatter = Formatter(tokens)
-        try transformers.forEach {
-            try $0.transform(formatter: formatter, options: options)
-        }
-        return formatter.tokens
-    }
+public class SwiftTokenizer: Tokenizer {
 
 }
 

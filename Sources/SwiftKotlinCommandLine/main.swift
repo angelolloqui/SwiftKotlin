@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import SwiftKotlinFramework
 
-let swiftKotlin = SwiftKotlin()
+let kotlinTokenizer = KotlinTokenizer()
 let version = "0.1"
 let arguments = [
     "output",
@@ -31,13 +32,20 @@ func showHelp() {
     print("")
 }
 
+
+@available(OSX 10.11, *)
 func expandPath(_ path: String) -> URL {
     let path = NSString(string: path).expandingTildeInPath
     let directoryURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
     return URL(fileURLWithPath: path, relativeTo: directoryURL)
 }
 
+
 func execute(_ args: [String]) {
+    guard #available(OSX 10.11, *) else {
+        print("swiftkotlin requires MacOSX 10.11 or higher")
+        return
+    }
     guard let args = preprocessArguments(args, arguments) else {
         return
     }
@@ -55,8 +63,8 @@ func execute(_ args: [String]) {
     }
     
     // Get input / output paths
-    let inputURL = args["1"].map { expandPath($0) }
-    let outputURL = (args["output"] ?? args["1"]).map { expandPath($0) }
+    let inputURL = args["1"].map(expandPath)
+    let outputURL = (args["output"] ?? args["1"]).map(expandPath)
     
     // If no input file, try stdin
     if inputURL == nil {
@@ -67,7 +75,7 @@ func execute(_ args: [String]) {
                 input = (input ?? "") + line
             }
             if let input = input {
-                guard let output = try? swiftKotlin.translate(content: input) else {
+                guard let output = try? kotlinTokenizer.translate(content: input).joinedValues() else {
                     print("error: could not parse input")
                     finished = true
                     return
@@ -97,19 +105,12 @@ func execute(_ args: [String]) {
         return
     }
     
-    var options = TransformOptions()
-    
-    if let define = args["define"] {
-        let arr = define.components(separatedBy: ",")
-        options.defines = arr
-    }
-    
     print("running swiftkotlin...")
     print("output: \(outputURL!.absoluteString)")
     
     // Format the code
     let start = CFAbsoluteTimeGetCurrent()
-    let filesWritten = processInput(inputURL!, andWriteToOutput: outputURL!, options: options)
+    let filesWritten = processInput(inputURL!, andWriteToOutput: outputURL!)
     let time = CFAbsoluteTimeGetCurrent() - start
     print("swiftkotlin completed. \(filesWritten) file\(filesWritten == 1 ? "" : "s") updated in \(String(format: "%.2f", time))s.")
 }
@@ -158,7 +159,7 @@ func preprocessArguments(_ args: [String], _ names: [String]) -> [String: String
 }
 
 
-func processInput(_ inputURL: URL, andWriteToOutput outputURL: URL, options: TransformOptions) -> Int {
+func processInput(_ inputURL: URL, andWriteToOutput outputURL: URL) -> Int {
     let manager = FileManager.default
     var isDirectory: ObjCBool = false
     if manager.fileExists(atPath: inputURL.path, isDirectory: &isDirectory) {
@@ -170,7 +171,7 @@ func processInput(_ inputURL: URL, andWriteToOutput outputURL: URL, options: Tra
                     let path = outputURL.path + url.path.substring(from: inputDirectory.characters.endIndex)
                     let outputDirectory = path.components(separatedBy: "/").dropLast().joined(separator: "/")
                     if (try? manager.createDirectory(atPath: outputDirectory, withIntermediateDirectories: true, attributes: nil)) != nil {
-                        filesWritten += processInput(url, andWriteToOutput: URL(fileURLWithPath: path), options: options)
+                        filesWritten += processInput(url, andWriteToOutput: URL(fileURLWithPath: path))
                     } else {
                         print("error: failed to create directory at: \(outputDirectory)")
                     }
@@ -180,20 +181,15 @@ func processInput(_ inputURL: URL, andWriteToOutput outputURL: URL, options: Tra
                 print("error: failed to read contents of directory at: \(inputURL.path)")
             }
         } else if inputURL.pathExtension == "swift" {
-            if let input = try? String(contentsOf: inputURL) {
-                guard let output = try? swiftKotlin.translate(content: input, options: options) else {
-                    print("error: could not parse file: \(inputURL.path)")
-                    return 0
-                }
-                
-                if (try? output.write(to: outputURL.deletingPathExtension().appendingPathExtension("kt"), atomically: true, encoding: String.Encoding.utf8)) != nil {
-                    return 1
-                } else {
-                    print("error: failed to write file: \(outputURL.path)")
-                }
-                
+            guard let output = try? kotlinTokenizer.translate(path: inputURL).joinedValues() else {
+                print("error: could not parse file: \(inputURL.path)")
+                return 0
+            }
+
+            if (try? output.write(to: outputURL.deletingPathExtension().appendingPathExtension("kt"), atomically: true, encoding: String.Encoding.utf8)) != nil {
+                return 1
             } else {
-                print("error: failed to read file: \(inputURL.path)")
+                print("error: failed to write file: \(outputURL.path)")
             }
         }
     } else {
