@@ -12,12 +12,15 @@ let package = Package(
         "SwiftKotlinCommandLine",
       ]
     ),
+/* Mac OSX apps not supported. Do manually:
+ https://stackoverflow.com/a/45138790/378433
     .executable(
         name: "SwiftKotlinApp",
         targets: [
             "SwiftKotlinApp",
         ]
     ),
+ */
     .library(
       name: "SwiftKotlinFramework",
       targets: [
@@ -38,12 +41,14 @@ let package = Package(
         "swift-transform",
       ]
     ),
+    /*
     .target(
         name: "SwiftKotlinApp",
         dependencies: [
             "SwiftKotlinFramework",
         ]
     ),
+ */
     .target(
         name: "SwiftKotlinCommandLine",
         dependencies: [
