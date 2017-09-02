@@ -44,33 +44,35 @@ class ViewController: NSViewController {
     }
     
     func translateSwift(withSwiftFormatting: Bool = true, withKotlinFormatting: Bool = true) {
-        let swift = swiftTextView.string
-        let swiftTokens = (try? swiftTokenizer.translate(content: swift)) ?? []
-        let kotlinTokens = (try? kotlinTokenizer.translate(content: swift)) ?? []
-        
-        DispatchQueue.main.async {
-            self.swiftTextView.textStorage?.beginEditing()
-            self.kotlinTextView.textStorage?.beginEditing()
-            
-            if withSwiftFormatting {
-                let formatted = self.attributedStringFromTokens(tokens: swiftTokens)
-                self.swiftTextView.textStorage?.setAttributedString(formatted)
-            }
-            else {
-                self.swiftTextView.string = swiftTokens.joinedValues()
-            }
+        do {
+            let swift = swiftTextView.string
+            let swiftTokens = try swiftTokenizer.translate(content: swift)
+            let kotlinTokens = try kotlinTokenizer.translate(content: swift)
 
-            if withKotlinFormatting {
-                let formatted = self.attributedStringFromTokens(tokens: kotlinTokens)
-                self.kotlinTextView.textStorage?.setAttributedString(formatted)                
+            DispatchQueue.main.async {
+                self.swiftTextView.textStorage?.beginEditing()
+                self.kotlinTextView.textStorage?.beginEditing()
+
+                if withSwiftFormatting {
+                    let formatted = self.attributedStringFromTokens(tokens: swiftTokens)
+                    self.swiftTextView.textStorage?.setAttributedString(formatted)
+                }
+                else {
+                    self.swiftTextView.string = swiftTokens.joinedValues()
+                }
+
+                if withKotlinFormatting {
+                    let formatted = self.attributedStringFromTokens(tokens: kotlinTokens)
+                    self.kotlinTextView.textStorage?.setAttributedString(formatted)
+                }
+                else {
+                    self.kotlinTextView.string = kotlinTokens.joinedValues()
+                }
+
+                self.swiftTextView.textStorage?.endEditing()
+                self.kotlinTextView.textStorage?.endEditing()
             }
-            else {
-                self.kotlinTextView.string = kotlinTokens.joinedValues()
-            }
-            
-            self.swiftTextView.textStorage?.endEditing()
-            self.kotlinTextView.textStorage?.endEditing()
-        }
+        } catch {}
     }
     
     func attributedStringFromTokens(tokens: [Token]) -> NSAttributedString {

@@ -13,11 +13,8 @@ import Source
 import Parser
 
 public class KotlinTokenizer: Tokenizer {
-    
-}
-
-public class SwiftTokenizer: Tokenizer {
+    public init() {
+    }
 
 }
-
 

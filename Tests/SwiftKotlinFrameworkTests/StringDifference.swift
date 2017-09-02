@@ -1,33 +1,32 @@
 
 import Foundation
 
-
 /// Find first differing character between two strings
 ///
 /// :param: s1 First String
 /// :param: s2 Second String
 ///
 /// :returns: .DifferenceAtIndex(i) or .NoDifference
-public func firstDifferenceBetweenStrings(_ s1: NSString, _ s2: NSString) -> FirstDifferenceResult {
-    let len1 = s1.length
-    let len2 = s2.length
-    
+public func firstDifferenceBetweenStrings(_ s1: String, _ s2: String) -> FirstDifferenceResult {
+    let len1 = s1.characters.count
+    let len2 = s2.characters.count
+
     let lenMin = min(len1, len2)
-    
+
     for i in 0..<lenMin {
-        if s1.character(at: i) != s2.character(at: i) {
+        if s1.characters[s1.index(s1.startIndex, offsetBy: i)] != s2.characters[s2.index(s2.startIndex, offsetBy: i)] {
             return .DifferenceAtIndex(i)
         }
     }
-    
+
     if len1 < len2 {
         return .DifferenceAtIndex(len1)
     }
-    
+
     if len2 < len1 {
         return .DifferenceAtIndex(len2)
     }
-    
+
     return .NoDifference
 }
 
@@ -38,7 +37,7 @@ public func firstDifferenceBetweenStrings(_ s1: NSString, _ s2: NSString) -> Fir
 /// :param: s2 Second string
 ///
 /// :returns: a string, possibly containing significant whitespace and newlines
-public func prettyFirstDifferenceBetweenStrings(_ s1: NSString, _ s2: NSString) -> String {
+public func prettyFirstDifferenceBetweenStrings(_ s1: String, _ s2: String) -> String {
     let firstDifferenceResult = firstDifferenceBetweenStrings(s1, s2)
     return prettyDescriptionOfFirstDifferenceResult(firstDifferenceResult, s1, s2)
 }
@@ -51,41 +50,23 @@ public func prettyFirstDifferenceBetweenStrings(_ s1: NSString, _ s2: NSString) 
 /// :param: s2 Second string used in generation of firstDifferenceResult
 ///
 /// :returns: a printable string, possibly containing significant whitespace and newlines
-public func prettyDescriptionOfFirstDifferenceResult(_ firstDifferenceResult: FirstDifferenceResult, _ s1: NSString, _ s2: NSString) -> String {
-    
-    func diffString(_ index: Int, _ s1: NSString, _ s2: NSString) -> String {
-        let markerArrow = "👉"
-        let ellipsis    = "…"
-        /// Given a string and a range, return a string representing that substring.
-        ///
-        /// If the range starts at a position other than 0, an ellipsis
-        /// will be included at the beginning.
-        ///
-        /// If the range ends before the actual end of the string,
-        /// an ellipsis is added at the end.
-        func windowSubstring(_ s: NSString, _ range: NSRange, isPrefix: Bool = false, isSuffix: Bool = false) -> String {
-            let validRange = NSMakeRange(range.location, min(range.length, s.length - range.location))
-            let substring = s.substring(with: validRange)
-            
-            let prefix = isPrefix && range.location > 0 ? ellipsis : ""
-            let suffix = isSuffix && (s.length - range.location > range.length) ? ellipsis : ""
-            
-            return "\(prefix)\(substring)\(suffix)"
-        }
-        
-        // Show this many characters before and after the first difference
-        let windowPrefixLength = min(120, index)
-        let windowSuffixLength = 120
-        
-        let prefix1 = windowSubstring(s1, NSMakeRange(index - windowPrefixLength, windowPrefixLength), isPrefix: true)
-        let suffix1 = windowSubstring(s1, NSMakeRange(index, windowSuffixLength), isSuffix: true)
-        
-        let prefix2 = windowSubstring(s2, NSMakeRange(index - windowPrefixLength, windowPrefixLength), isPrefix: true)
-        let suffix2 = windowSubstring(s2, NSMakeRange(index, windowSuffixLength), isSuffix: true)
+public func prettyDescriptionOfFirstDifferenceResult(
+    _ firstDifferenceResult: FirstDifferenceResult,
+    _ s1: String,
+    _ s2: String) -> String {
 
-        return "Difference at index \(index):\n------ Result: \n\(prefix1)\(markerArrow)\(suffix1)\n------ Expected:\n\(prefix2)\(markerArrow)\(suffix2)\n------\n"
+    func diffString(_ index: Int, _ s1: String, _ s2: String) -> String {
+        let markerArrow: Character = "👉"
+
+        var string1 = s1
+        string1.insert(markerArrow, at: string1.index(string1.startIndex, offsetBy: index))
+
+        var string2 = s2
+        string2.insert(markerArrow, at: string2.index(string2.startIndex, offsetBy: index))
+
+        return "Difference at index \(index):\n------ Result: \n\(string1)\n------ Expected:\n\(string2)\n------\n"
     }
-    
+
     switch firstDifferenceResult {
     case .NoDifference:                 return "No difference"
     case .DifferenceAtIndex(let index): return diffString(index, s1, s2)
@@ -97,7 +78,7 @@ public func prettyDescriptionOfFirstDifferenceResult(_ firstDifferenceResult: Fi
 public enum FirstDifferenceResult {
     /// Strings are identical
     case NoDifference
-    
+
     /// Strings differ at the specified index.
     ///
     /// This could mean that characters at the specified index are different,

@@ -38,6 +38,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		78C45D3A1F51ED4D001C257A /* KotlinTokenizer+Declaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F2FB831F51E5CF009DAAC6 /* KotlinTokenizer+Declaration.swift */; };
 		78F2FAF41F51D410009DAAC6 /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; };
 		78F2FAF51F51D410009DAAC6 /* SwiftKotlinFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		78F2FAF81F51D410009DAAC6 /* Transform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-transform::Transform::Product" /* Transform.framework */; };
@@ -62,6 +63,7 @@
 		78F2FB281F51D45A009DAAC6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F2FB261F51D450009DAAC6 /* ViewController.swift */; };
 		78F2FB291F51D45F009DAAC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78F2FB211F51D450009DAAC6 /* Assets.xcassets */; };
 		78F2FB2A1F51D4D4009DAAC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78F2FB221F51D450009DAAC6 /* Main.storyboard */; };
+		78F2FB801F51DC8D009DAAC6 /* SwiftKotlinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F2FB7F1F51DC8D009DAAC6 /* SwiftKotlinTests.swift */; };
 		OBJ_271 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_277 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* Package.swift */; };
 		OBJ_283 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_236 /* Package.swift */; };
@@ -1019,6 +1021,9 @@
 		78F2FB241F51D450009DAAC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78F2FB251F51D450009DAAC6 /* SwiftKotlinApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftKotlinApp.entitlements; sourceTree = "<group>"; };
 		78F2FB261F51D450009DAAC6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		78F2FB7F1F51DC8D009DAAC6 /* SwiftKotlinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftKotlinTests.swift; sourceTree = "<group>"; };
+		78F2FB811F51DCCE009DAAC6 /* Tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tests; sourceTree = "<group>"; };
+		78F2FB831F51E5CF009DAAC6 /* KotlinTokenizer+Declaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KotlinTokenizer+Declaration.swift"; sourceTree = "<group>"; };
 		OBJ_10 /* Tokenizer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tokenizer+Extensions.swift"; sourceTree = "<group>"; };
 		OBJ_100 /* StructDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructDeclaration.swift; sourceTree = "<group>"; };
 		OBJ_101 /* SubscriptDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptDeclaration.swift; sourceTree = "<group>"; };
@@ -1098,7 +1103,6 @@
 		OBJ_177 /* ThrowsKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowsKind.swift; sourceTree = "<group>"; };
 		OBJ_178 /* TopLevelDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLevelDeclaration.swift; sourceTree = "<group>"; };
 		OBJ_179 /* Type.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Type.swift; sourceTree = "<group>"; };
-		OBJ_18 /* IntegrationTest */ = {isa = PBXFileReference; lastKnownFileType = folder; path = IntegrationTest; sourceTree = SOURCE_ROOT; };
 		OBJ_181 /* AnyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyType.swift; sourceTree = "<group>"; };
 		OBJ_182 /* ArrayType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayType.swift; sourceTree = "<group>"; };
 		OBJ_183 /* DictionaryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryType.swift; sourceTree = "<group>"; };
@@ -1439,6 +1443,14 @@
 			path = Sources/SwiftKotlinApp;
 			sourceTree = "<group>";
 		};
+		78F2FB821F51E5B9009DAAC6 /* Transformers */ = {
+			isa = PBXGroup;
+			children = (
+				78F2FB831F51E5CF009DAAC6 /* KotlinTokenizer+Declaration.swift */,
+			);
+			path = Transformers;
+			sourceTree = "<group>";
+		};
 		OBJ_105 /* Expression */ = {
 			isa = PBXGroup;
 			children = (
@@ -1528,7 +1540,9 @@
 		OBJ_15 /* SwiftKotlinFrameworkTests */ = {
 			isa = PBXGroup;
 			children = (
+				78F2FB811F51DCCE009DAAC6 /* Tests */,
 				OBJ_16 /* StringDifference.swift */,
+				78F2FB7F1F51DC8D009DAAC6 /* SwiftKotlinTests.swift */,
 			);
 			name = SwiftKotlinFrameworkTests;
 			path = Tests/SwiftKotlinFrameworkTests;
@@ -1847,18 +1861,16 @@
 			path = ".build/checkouts/swift-ast--6091406344627272003/Sources/Source";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_14 /* Tests */,
 				OBJ_17 /* Assets */,
-				OBJ_18 /* IntegrationTest */,
 				OBJ_19 /* Dependencies */,
 				OBJ_252 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_57 /* Diagnostic */ = {
@@ -1960,6 +1972,7 @@
 		OBJ_8 /* SwiftKotlinFramework */ = {
 			isa = PBXGroup;
 			children = (
+				78F2FB821F51E5B9009DAAC6 /* Transformers */,
 				OBJ_9 /* SwiftKotlin.swift */,
 				OBJ_10 /* Tokenizer+Extensions.swift */,
 				OBJ_11 /* TransformOptions.swift */,
@@ -2387,7 +2400,7 @@
 				en,
 				Base,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_252 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -2482,6 +2495,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				78F2FB801F51DC8D009DAAC6 /* SwiftKotlinTests.swift in Sources */,
 				OBJ_334 /* StringDifference.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2493,6 +2507,7 @@
 				OBJ_361 /* SwiftKotlin.swift in Sources */,
 				OBJ_362 /* Tokenizer+Extensions.swift in Sources */,
 				OBJ_363 /* TransformOptions.swift in Sources */,
+				78C45D3A1F51ED4D001C257A /* KotlinTokenizer+Declaration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
