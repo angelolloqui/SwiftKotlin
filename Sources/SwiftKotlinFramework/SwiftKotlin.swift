@@ -12,6 +12,9 @@ import AST
 import Source
 import Parser
 
+public class SwiftTokenizer: Tokenizer {
+}
+
 public class KotlinTokenizer: Tokenizer {
     public init() {
     }
