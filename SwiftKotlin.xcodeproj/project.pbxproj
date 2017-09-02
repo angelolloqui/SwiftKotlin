@@ -38,6 +38,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		78266A6B1F5ACA3E00F08378 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78266A641F5ACA3900F08378 /* AppDelegate.swift */; };
+		78266A6C1F5ACA4900F08378 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78266A661F5ACA3900F08378 /* Main.storyboard */; };
+		78266A6D1F5ACA4D00F08378 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78266A681F5ACA3900F08378 /* Info.plist */; };
+		78266A6E1F5ACA5700F08378 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78266A6A1F5ACA3900F08378 /* ViewController.swift */; };
+		78266A6F1F5ACA5B00F08378 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78266A651F5ACA3900F08378 /* Assets.xcassets */; };
+		78266A701F5ACAF400F08378 /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; };
+		78266A711F5ACAF400F08378 /* SwiftKotlinFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		OBJ_266 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_272 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* Package.swift */; };
 		OBJ_278 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_231 /* Package.swift */; };
@@ -887,9 +894,37 @@
 			remoteGlobalIDString = "swift-ast::Tooling";
 			remoteInfo = Tooling;
 		};
+		78266A721F5ACAF400F08378 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftKotlin::SwiftKotlinFramework";
+			remoteInfo = SwiftKotlinFramework;
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		78266A741F5ACAF400F08378 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				78266A711F5ACAF400F08378 /* SwiftKotlinFramework.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		78266A4B1F5AC9F800F08378 /* SwiftKotlinApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftKotlinApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		78266A641F5ACA3900F08378 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		78266A651F5ACA3900F08378 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		78266A671F5ACA3900F08378 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		78266A681F5ACA3900F08378 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		78266A691F5ACA3900F08378 /* SwiftKotlinApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftKotlinApp.entitlements; sourceTree = "<group>"; };
+		78266A6A1F5ACA3900F08378 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		OBJ_10 /* Tokenizer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tokenizer+Extensions.swift"; sourceTree = "<group>"; };
 		OBJ_101 /* AssignmentOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentOperatorExpression.swift; sourceTree = "<group>"; };
 		OBJ_102 /* BinaryOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryOperatorExpression.swift; sourceTree = "<group>"; };
@@ -1017,7 +1052,6 @@
 		OBJ_226 /* ToolAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolAction.swift; sourceTree = "<group>"; };
 		OBJ_227 /* ToolActionOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolActionOptions.swift; sourceTree = "<group>"; };
 		OBJ_228 /* ToolActionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolActionResult.swift; sourceTree = "<group>"; };
-		OBJ_23 /* SwiftKotlinApp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SwiftKotlinApp; sourceTree = SOURCE_ROOT; };
 		OBJ_231 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/agarcia/Documents/ios/SwiftKotlin/.build/checkouts/swift-ast--6091406344627272003/Package.swift"; sourceTree = "<group>"; };
 		OBJ_235 /* CLIOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLIOption.swift; sourceTree = "<group>"; };
 		OBJ_237 /* DotYanagiba+Merge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DotYanagiba+Merge.swift"; sourceTree = "<group>"; };
@@ -1095,7 +1129,7 @@
 		OBJ_98 /* VariableDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableDeclaration.swift; sourceTree = "<group>"; };
 		OBJ_99 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		"SwiftKotlin::SwiftKotlinCommandLine::Product" /* SwiftKotlinCommandLine */ = {isa = PBXFileReference; lastKnownFileType = text; path = SwiftKotlinCommandLine; sourceTree = BUILT_PRODUCTS_DIR; };
-		"SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwiftKotlinFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftKotlinFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"SwiftKotlin::SwiftKotlinFrameworkTests::Product" /* SwiftKotlinFrameworkTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = SwiftKotlinFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		"bocho::Bocho::Product" /* Bocho.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Bocho.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"swift-ast::AST::Product" /* AST.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AST.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1105,11 +1139,19 @@
 		"swift-ast::Sema::Product" /* Sema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"swift-ast::Source::Product" /* Source.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Source.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"swift-ast::Tooling::Product" /* Tooling.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Tooling.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"swift-transform::Transform::Product" /* Transform.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Transform.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"swift-transform::Transform::Product" /* Transform.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Transform.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"swift-transform::swift-transform::Product" /* swift-transform */ = {isa = PBXFileReference; lastKnownFileType = text; path = "swift-transform"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		78266A481F5AC9F800F08378 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78266A701F5ACAF400F08378 /* SwiftKotlinFramework.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		OBJ_291 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
@@ -1275,6 +1317,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		78266A631F5ACA3900F08378 /* SwiftKotlinApp */ = {
+			isa = PBXGroup;
+			children = (
+				78266A641F5ACA3900F08378 /* AppDelegate.swift */,
+				78266A651F5ACA3900F08378 /* Assets.xcassets */,
+				78266A661F5ACA3900F08378 /* Main.storyboard */,
+				78266A681F5ACA3900F08378 /* Info.plist */,
+				78266A691F5ACA3900F08378 /* SwiftKotlinApp.entitlements */,
+				78266A6A1F5ACA3900F08378 /* ViewController.swift */,
+			);
+			name = SwiftKotlinApp;
+			path = Sources/SwiftKotlinApp;
+			sourceTree = "<group>";
+		};
 		OBJ_100 /* Expression */ = {
 			isa = PBXGroup;
 			children = (
@@ -1593,6 +1649,7 @@
 				"swift-ast::Diagnostic::Product" /* Diagnostic.framework */,
 				"swift-ast::Source::Product" /* Source.framework */,
 				"bocho::Bocho::Product" /* Bocho.framework */,
+				78266A4B1F5AC9F800F08378 /* SwiftKotlinApp.app */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -1677,7 +1734,6 @@
 				OBJ_14 /* Tests */,
 				OBJ_21 /* Assets */,
 				OBJ_22 /* build */,
-				OBJ_23 /* SwiftKotlinApp */,
 				OBJ_24 /* Dependencies */,
 				OBJ_247 /* Products */,
 			);
@@ -1763,6 +1819,7 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				78266A631F5ACA3900F08378 /* SwiftKotlinApp */,
 				OBJ_8 /* SwiftKotlinFramework */,
 				OBJ_12 /* SwiftKotlinCommandLine */,
 			);
@@ -1821,6 +1878,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		78266A4A1F5AC9F800F08378 /* SwiftKotlinApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78266A581F5AC9F800F08378 /* Build configuration list for PBXNativeTarget "SwiftKotlinApp" */;
+			buildPhases = (
+				78266A471F5AC9F800F08378 /* Sources */,
+				78266A481F5AC9F800F08378 /* Frameworks */,
+				78266A491F5AC9F800F08378 /* Resources */,
+				78266A741F5ACAF400F08378 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				78266A731F5ACAF400F08378 /* PBXTargetDependency */,
+			);
+			name = SwiftKotlinApp;
+			productName = SwiftKotlinApp;
+			productReference = 78266A4B1F5AC9F800F08378 /* SwiftKotlinApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		"SwiftKotlin::SwiftKotlinCommandLine" /* SwiftKotlinCommandLine */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_286 /* Build configuration list for PBXNativeTarget "SwiftKotlinCommandLine" */;
@@ -2165,7 +2241,13 @@
 		OBJ_1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					78266A4A1F5AC9F800F08378 = {
+						CreatedOnToolsVersion = 9.0;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "SwiftKotlin" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2173,6 +2255,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = OBJ_5 /*  */;
 			productRefGroup = OBJ_247 /* Products */;
@@ -2198,11 +2281,34 @@
 				"bocho::Bocho" /* Bocho */,
 				"SwiftKotlin::SwiftKotlinPackageTests::ProductTarget" /* SwiftKotlinPackageTests */,
 				"swift-ast::SwiftAST+Tooling::ProductTarget" /* SwiftAST+Tooling */,
+				78266A4A1F5AC9F800F08378 /* SwiftKotlinApp */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		78266A491F5AC9F800F08378 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78266A6D1F5ACA4D00F08378 /* Info.plist in Resources */,
+				78266A6F1F5ACA5B00F08378 /* Assets.xcassets in Resources */,
+				78266A6C1F5ACA4900F08378 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		78266A471F5AC9F800F08378 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78266A6E1F5ACA5700F08378 /* ViewController.swift in Sources */,
+				78266A6B1F5ACA3E00F08378 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		OBJ_265 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
@@ -2526,6 +2632,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		78266A731F5ACAF400F08378 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftKotlin::SwiftKotlinFramework" /* SwiftKotlinFramework */;
+			targetProxy = 78266A721F5ACAF400F08378 /* PBXContainerItemProxy */;
+		};
 		OBJ_302 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "SwiftKotlin::SwiftKotlinFramework" /* SwiftKotlinFramework */;
@@ -2938,7 +3049,131 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		78266A661F5ACA3900F08378 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				78266A671F5ACA3900F08378 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		78266A591F5AC9F800F08378 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Sources/SwiftKotlinApp/SwiftKotlinApp.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/SwiftKotlinApp/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.angelolloqui.SwiftKotlinApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		78266A5A1F5AC9F800F08378 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Sources/SwiftKotlinApp/SwiftKotlinApp.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/SwiftKotlinApp/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.angelolloqui.SwiftKotlinApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 		OBJ_263 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3110,6 +3345,7 @@
 		OBJ_356 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3132,6 +3368,7 @@
 		OBJ_357 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3632,6 +3869,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		78266A581F5AC9F800F08378 /* Build configuration list for PBXNativeTarget "SwiftKotlinApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78266A591F5AC9F800F08378 /* Debug */,
+				78266A5A1F5AC9F800F08378 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		OBJ_2 /* Build configuration list for PBXProject "SwiftKotlin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
