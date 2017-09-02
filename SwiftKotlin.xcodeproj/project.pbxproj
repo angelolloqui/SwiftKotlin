@@ -62,8 +62,6 @@
 		OBJ_300 /* Bocho.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "bocho::Bocho::Product" /* Bocho.framework */; };
 		OBJ_328 /* StringDifference.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* StringDifference.swift */; };
 		OBJ_329 /* SwiftKotlinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* SwiftKotlinTests.swift */; };
-		OBJ_330 /* conditional.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* conditional.swift */; };
-		OBJ_331 /* constructors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* constructors.swift */; };
 		OBJ_333 /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; };
 		OBJ_334 /* Transform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-transform::Transform::Product" /* Transform.framework */; };
 		OBJ_335 /* Tooling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Tooling::Product" /* Tooling.framework */; };
@@ -925,6 +923,7 @@
 		78266AE01F5AD05100F08378 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78266AE11F5AD05100F08378 /* SwiftKotlinApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftKotlinApp.entitlements; sourceTree = "<group>"; };
 		78266AE21F5AD05100F08378 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		78266AED1F5AE4C200F08378 /* Tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tests; sourceTree = "<group>"; };
 		OBJ_10 /* Tokenizer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tokenizer+Extensions.swift"; sourceTree = "<group>"; };
 		OBJ_100 /* AssignmentOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentOperatorExpression.swift; sourceTree = "<group>"; };
 		OBJ_101 /* BinaryOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryOperatorExpression.swift; sourceTree = "<group>"; };
@@ -1013,7 +1012,6 @@
 		OBJ_186 /* TypeIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeIdentifier.swift; sourceTree = "<group>"; };
 		OBJ_187 /* TypeInheritanceClause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeInheritanceClause.swift; sourceTree = "<group>"; };
 		OBJ_188 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
-		OBJ_19 /* conditional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = conditional.swift; sourceTree = "<group>"; };
 		OBJ_190 /* Char.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Char.swift; sourceTree = "<group>"; };
 		OBJ_191 /* Lexer+Checkpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Lexer+Checkpoint.swift"; sourceTree = "<group>"; };
 		OBJ_192 /* Lexer+Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Lexer+Comment.swift"; sourceTree = "<group>"; };
@@ -1024,7 +1022,6 @@
 		OBJ_197 /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		OBJ_198 /* Role+Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Role+Lexer.swift"; sourceTree = "<group>"; };
 		OBJ_199 /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
-		OBJ_20 /* constructors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = constructors.swift; sourceTree = "<group>"; };
 		OBJ_200 /* Scanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scanner.swift; sourceTree = "<group>"; };
 		OBJ_201 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		OBJ_202 /* TokenInvalidReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInvalidReason.swift; sourceTree = "<group>"; };
@@ -1384,9 +1381,9 @@
 		OBJ_15 /* SwiftKotlinFrameworkTests */ = {
 			isa = PBXGroup;
 			children = (
+				78266AED1F5AE4C200F08378 /* Tests */,
 				OBJ_16 /* StringDifference.swift */,
 				OBJ_17 /* SwiftKotlinTests.swift */,
-				OBJ_18 /* Tests */,
 			);
 			name = SwiftKotlinFrameworkTests;
 			path = Tests/SwiftKotlinFrameworkTests;
@@ -1443,15 +1440,6 @@
 				OBJ_187 /* TypeInheritanceClause.swift */,
 			);
 			path = Type;
-			sourceTree = "<group>";
-		};
-		OBJ_18 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_19 /* conditional.swift */,
-				OBJ_20 /* constructors.swift */,
-			);
-			path = Tests;
 			sourceTree = "<group>";
 		};
 		OBJ_189 /* Lexer */ = {
@@ -2355,8 +2343,6 @@
 			files = (
 				OBJ_328 /* StringDifference.swift in Sources */,
 				OBJ_329 /* SwiftKotlinTests.swift in Sources */,
-				OBJ_330 /* conditional.swift in Sources */,
-				OBJ_331 /* constructors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

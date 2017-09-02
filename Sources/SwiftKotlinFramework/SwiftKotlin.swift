@@ -19,5 +19,10 @@ public class KotlinTokenizer: Tokenizer {
     public init() {
     }
 
+
+    public override func tokenize(_ declaration: StructDeclaration) -> [Token] {
+        return super.tokenize(declaration) +
+            [declaration.newToken(.comment, "//Works")]
+    }
 }
 

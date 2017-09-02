@@ -11,28 +11,41 @@ import SwiftKotlinFramework
 class SwiftKotlinTests: XCTestCase {
     let kotlinTokenizer = KotlinTokenizer()
 
-    func testAll() throws {
-        let directoryPath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent("Tests").path
+    func testSpecificFile() {
+        try! testSource(file: "control_flow")
+    }
 
-        let files = try FileManager().contentsOfDirectory(atPath: directoryPath)
+    func testAll() {
+        let files = try! FileManager().contentsOfDirectory(atPath: self.testFilePath)
         let swiftFiles = files
             .filter { $0.contains(".swift") }
             .map { $0.replacingOccurrences(of: ".swift", with: "")}
 
         for file in swiftFiles {
-            let swiftURL = URL(fileURLWithPath: "\(directoryPath)/\(file).swift")
-            let kotlinURL = URL(fileURLWithPath: "\(directoryPath)/\(file).kt")
-
-            let expected = try String(contentsOf: kotlinURL).trimmingCharacters(in: .whitespacesAndNewlines)
-            let translated = try kotlinTokenizer.translate(path: swiftURL).joinedValues().trimmingCharacters(in: .whitespacesAndNewlines)
-
-            if translated != expected {
-                let difference = prettyFirstDifferenceBetweenStrings(translated, expected)
-                XCTFail("\nTest failed translating file: \(file) -> \(difference)")
-            }
+            try! testSource(file: file)
         }
     }
 
+    private func testSource(path: String? = nil, file: String) throws {
+        let path = path ?? self.testFilePath
+        let swiftURL = URL(fileURLWithPath: "\(path)/\(file).swift")
+        let kotlinURL = URL(fileURLWithPath: "\(path)/\(file).kt")
+
+        let expected = try String(contentsOf: kotlinURL).trimmingCharacters(in: .whitespacesAndNewlines)
+        let translated = try kotlinTokenizer.translate(path: swiftURL).joinedValues().trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if translated != expected {
+            let difference = prettyFirstDifferenceBetweenStrings(translated, expected)
+            XCTFail("\nTest failed translating file: \(file) -> \(difference)")
+        }
+    }
+
+    var testFilePath: String {
+        return URL(fileURLWithPath: #file)
+            .deletingLastPathComponent()
+            .appendingPathComponent("Tests")
+            .path
+    }
 }
 
 
