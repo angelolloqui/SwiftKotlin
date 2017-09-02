@@ -21,10 +21,10 @@
       },
       {
         "package": "swift-transform",
-        "repositoryURL": "https://github.com/yanagiba/swift-transform",
+        "repositoryURL": "https://github.com/angelolloqui/swift-transform",
         "state": {
           "branch": null,
-          "revision": "bcd99a671f5376ef7d3c7f8d45a0297a94678785",
+          "revision": "94be4ebbda8cbb4e85dba1904371812ada0345a0",
           "version": null
         }
       }
