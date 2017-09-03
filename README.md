@@ -61,6 +61,9 @@ The scope of this project is not mapping all existing methods and data types to 
 
 
 ## Status
+
+**Attention: The project is going through a majar refactor to use a AST instead of a tokenizer. Work is being done under the `feature/swift-tranform` branch. It will be integrated into the main one as soon as it is in a comparable state, which will be ending september or beginning of october**
+
 The project is in active development, with many rules still to be implemented. Some of them include:
 
 - [x] Constructors
