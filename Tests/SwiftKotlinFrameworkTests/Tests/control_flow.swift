@@ -19,6 +19,7 @@ if numbers.flatMap({ $0 % 2}).count == 1 {}
 // For loops
 for current in someObjects {}
 for i in 0..<count {}
+for i in 1...3 {}
 
 // Whiles
 while condition {}

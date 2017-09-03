@@ -14,7 +14,8 @@ val param = object.itemAt(number)
 if (number != null && param != null) {}
 if (numbers.flatMap({ it % 2}).count == 1) {}
 for (current in someObjects) {}
-for (i in 0..<count) {}
+for (i in 0 until count) {}
+for (i in 1..3) {}
 while (condition) {}
 while (condition) {}
 if (number != 3) {
