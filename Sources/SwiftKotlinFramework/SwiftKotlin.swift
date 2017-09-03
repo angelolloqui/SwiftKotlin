@@ -82,7 +82,22 @@ public class KotlinTokenizer: SwiftTokenizer {
             node)]
     }
 
+    // MARK: - Statements
 
+    open override func tokenize(_ statement: GuardStatement) -> [Token] {
+        return
+            tokenizeDeclarationConditions(statement.conditionList, node: statement) +
+            [
+                [statement.newToken(.keyword, "if")],
+                invertConditions(tokenize(statement.conditionList, node: statement)),
+                tokenize(statement.codeBlock)
+            ].joined(token: statement.newToken(.space, " "))
+    }
+
+    open override func tokenize(_ statement: IfStatement) -> [Token] {
+        return tokenizeDeclarationConditions(statement.conditionList, node: statement) +
+            super.tokenize(statement)
+    }
 
     // MARK: - Expressions
 
@@ -151,5 +166,77 @@ public class KotlinTokenizer: SwiftTokenizer {
                        with: [type.newToken(.identifier, "Unit", node)])
     }
 
+    // MARK: - Utils
+
+    open override func tokenize(_ conditions: ConditionList, node: ASTNode) -> [Token] {
+        return conditions.map { tokenize($0, node: node) }
+            .joined(token: node.newToken(.delimiter, " && "))
+            .prefix(with: node.newToken(.startOfScope, "("))
+            .suffix(with: node.newToken(.endOfScope, ")"))
+    }
+
+    open override func tokenize(_ condition: Condition, node: ASTNode) -> [Token] {
+        switch condition {
+        case let .let(pattern, _):
+            return tokenizeNullCheck(pattern: pattern, condition: condition, node: node)
+        case let .var(pattern, _):
+            return tokenizeNullCheck(pattern: pattern, condition: condition, node: node)
+        default:
+            return super.tokenize(condition, node: node)
+        }
+    }
+
+
+    // MARK: - Private helpers
+
+    private func tokenizeDeclarationConditions(_ conditions: ConditionList, node: ASTNode) -> [Token] {
+        var declarationTokens = [Token]()
+        for condition in conditions {
+            switch condition {
+            case .let, .var:
+                declarationTokens.append(contentsOf: super.tokenize(condition, node: node))
+                declarationTokens.append(condition.newToken(.linebreak, "\n", node))
+            default: continue
+            }
+        }
+        return declarationTokens
+    }
+
+    private func tokenizeNullCheck(pattern: AST.Pattern, condition: Condition, node: ASTNode) -> [Token] {
+        return [
+            tokenize(pattern, node: node),
+            [condition.newToken(.symbol, "!=", node)],
+            [condition.newToken(.keyword, "null", node)],
+        ].joined(token: condition.newToken(.space, " ", node))
+    }
+
+    private func invertConditions(_ tokens: [Token]) -> [Token] {
+        return tokens.map { token in
+            guard let origin = token.origin, let node = token.node else { return token }
+            switch token.value {
+            case "==":
+                return origin.newToken(token.kind, "!=", node)
+            case "!=":
+                return origin.newToken(token.kind, "==", node)
+            case ">":
+                return origin.newToken(token.kind, "<=", node)
+            case ">=":
+                return origin.newToken(token.kind, "<", node)
+            case "<":
+                return origin.newToken(token.kind, ">=", node)
+            case "<=":
+                return origin.newToken(token.kind, ">", node)
+            case " && ":
+                return origin.newToken(token.kind, " || ", node)
+            case "&&":
+                return origin.newToken(token.kind, "&&", node)
+            case "||":
+                return origin.newToken(token.kind, "&&", node)
+            // TODO: binary negation ex: !value
+            default:
+                return token
+            }
+        }
+    }
 }
 

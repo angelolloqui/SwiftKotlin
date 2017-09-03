@@ -1,6 +1,7 @@
 
 if (number == 3) {}
-if (number == 3) {}
+if (number > 3 && number != 6) {}
+if (number > 3 || number == 0) {}
 if (number == null) {}
 if (item is Movie) {}
 if (!object.condition()) {}
@@ -12,12 +13,14 @@ if (name != null) {}
 val number = some.method()
 val param = object.itemAt(number)
 if (number != null && param != null) {}
+if (obj is Movie) {}
+val movie = obj2 as? Movie
+if (movie != null) {}
 if (numbers.flatMap({ it % 2}).count == 1) {}
 for (current in someObjects) {}
 for (i in 0 until count) {}
 for (i in 1..3) {}
-while (condition) {}
-while (condition) {}
+while (a > 1 && b < 2) {}
 if (number != 3) {
     return
 }

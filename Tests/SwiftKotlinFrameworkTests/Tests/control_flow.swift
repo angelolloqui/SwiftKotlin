@@ -1,17 +1,20 @@
 
 if number == 3 {}
-if (number == 3) {}
+if number > 3 && number != 6 {}
+if number > 3 || number == 0 {}
 if number == nil {}
 if item is Movie {}
 if !object.condition() {}
 
 // If let constructions
 if let number = number {}
-if let number = method() {}
+if let number = self.method() {}
 if let name = formatter.next(fromIndex: firstTokenIndex) {}
 //if case .success(let res) = self {}
 if let number = some.method(),
     let param = object.itemAt(number) {}
+if let obj = obj as? Movie {}
+if let movie = obj2 as? Movie {}
 
 // If nested closures
 if numbers.flatMap({ $0 % 2}).count == 1 {}
@@ -22,8 +25,7 @@ for i in 0..<count {}
 for i in 1...3 {}
 
 // Whiles
-while condition {}
-while (condition) {}
+while a > 1 && b < 2 {}
 
 // Guard statements with no statements
 guard number == 3 else { return }
