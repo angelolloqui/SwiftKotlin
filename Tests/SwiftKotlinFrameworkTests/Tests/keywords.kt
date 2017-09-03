@@ -3,8 +3,8 @@ val variable = "string"
 var variable: Int? = null
 fun test() {}
 private fun funcTest() {}
-override fun afunc () {}
-self.method()
+override fun afunc() {}
+this.method()
 var strongSelf = this
 numbers.map { 3 * it.value }
 interface Nameable {}
