@@ -36,7 +36,8 @@ class SwiftKotlinTests: XCTestCase {
 
         if translated != expected {
             let difference = prettyFirstDifferenceBetweenStrings(translated, expected)
-            XCTFail("\nTest failed translating file: \(file) -> \(difference)")
+            NSLog("❌ \(file)")
+            XCTFail(difference)
         } else {
             NSLog("✅ \(file)")
         }

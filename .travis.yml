@@ -1,11 +1,6 @@
 language: objective-c
-osx_image: xcode8.2
-# Handle git submodules yourself
-git:
-    submodules: false
-# Use sed to replace the SSH URL with the public URL, then initialize submodules
-before_install:
-    - sed -i '.gitmodules' 's|git@github.com:|https://github.com/|' '.gitmodules'
-    - git submodule update --init --recursive
+osx_image: xcode9
+install:
+- swift package resolve
 script:
-- xcodebuild test -scheme SwiftKotlinFramework
+- xcodebuild test -scheme SwiftKotlin-Package
