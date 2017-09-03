@@ -1,6 +1,6 @@
 var boolean: Boolean
-var anyObject: Object? = nil
-var any: Object? = nil
+var anyObject: Any? = null
+var any: Any? = null
 var array: List<String>?
 var array: Promise<List<String>>?
 var array: List<Promise<List<String>>>

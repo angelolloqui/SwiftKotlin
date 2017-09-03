@@ -12,7 +12,7 @@ class SwiftKotlinTests: XCTestCase {
     let kotlinTokenizer = KotlinTokenizer()
 
     func testSpecificFile() {
-        try! testSource(file: "functions")
+        try! testSource(file: "foundation_types")
     }
 
     func testAll() {
@@ -37,6 +37,8 @@ class SwiftKotlinTests: XCTestCase {
         if translated != expected {
             let difference = prettyFirstDifferenceBetweenStrings(translated, expected)
             XCTFail("\nTest failed translating file: \(file) -> \(difference)")
+        } else {
+            NSLog("✅ \(file)")
         }
     }
 

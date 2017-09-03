@@ -108,7 +108,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             return [expression.newToken(.keyword, "null")]
         case .array(let exprs):
             return
-                expression.newToken(.identifier, "arrayOf") +
+                expression.newToken(.identifier, "listOf") +
                 expression.newToken(.startOfScope, "(") +
                 exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", ")) +
                 expression.newToken(.endOfScope, ")")
@@ -160,12 +160,42 @@ public class KotlinTokenizer: SwiftTokenizer {
 
 
     // MARK: - Types
+    open override func tokenize(_ type: ArrayType, node: ASTNode) -> [Token] {
+        return
+            type.newToken(.identifier, "List", node) +
+            type.newToken(.startOfScope, "<", node) +
+            tokenize(type.elementType, node: node) +
+            type.newToken(.endOfScope, ">", node)
+    }
+
+    open override func tokenize(_ type: DictionaryType, node: ASTNode) -> [Token] {
+        let keyTokens = tokenize(type.keyType, node: node)
+        let valueTokens = tokenize(type.valueType, node: node)
+        return
+            [type.newToken(.identifier, "Map", node), type.newToken(.startOfScope, "<", node)] +
+            keyTokens +
+            [type.newToken(.delimiter, ", ", node)] +
+            valueTokens +
+            [type.newToken(.endOfScope, ">", node)]
+    }
 
     open override func tokenize(_ type: FunctionType, node: ASTNode) -> [Token] {
         return super.tokenize(type, node: node)
             .replacing({ $0.value == "Void" && $0.kind == .identifier },
                        with: [type.newToken(.identifier, "Unit", node)])
     }
+
+    open override func tokenize(_ type: TypeIdentifier.TypeName, node: ASTNode) -> [Token] {
+        let typeMap = [
+            "Bool": "Boolean",
+            "AnyObject": "Any"
+        ]
+        return type.newToken(.identifier, typeMap[type.name] ?? type.name, node) +
+            type.genericArgumentClause.map { tokenize($0, node: node) }
+    }
+
+    // MARK: - Patterns
+
 
     // MARK: - Utils
 
