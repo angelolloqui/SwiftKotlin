@@ -20,9 +20,62 @@ public class KotlinTokenizer: Tokenizer {
     }
 
 
-    public override func tokenize(_ declaration: StructDeclaration) -> [Token] {
-        return super.tokenize(declaration) +
-            [declaration.newToken(.comment, "//Works")]
+    // MARK: - Declarations
+
+    open override func tokenize(_ constant: ConstantDeclaration) -> [Token] {
+        return super.tokenize(constant)
+            .replacing({ $0.value == "let"},
+                       with: [constant.newToken(.keyword, "val")])
     }
+
+    open override func tokenize(_ declaration: FunctionDeclaration) -> [Token] {
+        return super.tokenize(declaration)
+            .replacing({ $0.value == "func"},
+                       with: [declaration.newToken(.keyword, "fun")])
+    }
+
+    open override func tokenize(_ member: ProtocolDeclaration.MethodMember, node: ASTNode) -> [Token] {
+        return super.tokenize(member, node: node)
+            .replacing({ $0.value == "func"},
+                       with: [member.newToken(.keyword, "fun", node)])
+    }
+
+    public override func tokenize(_ declaration: StructDeclaration) -> [Token] {
+        return super.tokenize(declaration)
+            .replacing({ $0.value == "struct"},
+                       with: [declaration.newToken(.keyword, "data class")])
+    }
+
+
+    // MARK: - Expressions
+
+    open override func tokenize(_ expression: LiteralExpression) -> [Token] {
+        switch expression.kind {
+        case .nil:
+            return [expression.newToken(.keyword, "null")]
+        case .array(let exprs):
+            return
+                expression.newToken(.identifier, "arrayOf") +
+                expression.newToken(.startOfScope, "(") +
+                exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", ")) +
+                expression.newToken(.endOfScope, ")")
+        case .dictionary(let entries):
+            return
+                expression.newToken(.identifier, "mapOf") +
+                expression.newToken(.startOfScope, "(") +
+                entries.map { tokenize($0, node: expression) }
+                    .joined(token: expression.newToken(.delimiter, ", ")) +
+                expression.newToken(.endOfScope, ")")
+        default:
+            return super.tokenize(expression)
+        }
+    }
+
+    open override func tokenize(_ entry: DictionaryEntry, node: ASTNode) -> [Token] {
+        return tokenize(entry.key) +
+            entry.newToken(.delimiter, " to ", node) +
+            tokenize(entry.value)
+    }
+    
 }
 

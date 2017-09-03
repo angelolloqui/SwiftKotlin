@@ -45,6 +45,7 @@
 		78266AE71F5AD06C00F08378 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78266ADD1F5AD05100F08378 /* Assets.xcassets */; };
 		78266AE81F5AD0B800F08378 /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; };
 		78266AE91F5AD0B800F08378 /* SwiftKotlinFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78266AEF1F5C3ECA00F08378 /* Token+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78266AEE1F5C3ECA00F08378 /* Token+Operations.swift */; };
 		OBJ_265 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_271 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* Package.swift */; };
 		OBJ_277 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_230 /* Package.swift */; };
@@ -924,6 +925,7 @@
 		78266AE11F5AD05100F08378 /* SwiftKotlinApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftKotlinApp.entitlements; sourceTree = "<group>"; };
 		78266AE21F5AD05100F08378 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		78266AED1F5AE4C200F08378 /* Tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tests; sourceTree = "<group>"; };
+		78266AEE1F5C3ECA00F08378 /* Token+Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Token+Operations.swift"; sourceTree = "<group>"; };
 		OBJ_10 /* Tokenizer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tokenizer+Extensions.swift"; sourceTree = "<group>"; };
 		OBJ_100 /* AssignmentOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentOperatorExpression.swift; sourceTree = "<group>"; };
 		OBJ_101 /* BinaryOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryOperatorExpression.swift; sourceTree = "<group>"; };
@@ -1803,6 +1805,7 @@
 				OBJ_9 /* SwiftKotlin.swift */,
 				OBJ_10 /* Tokenizer+Extensions.swift */,
 				OBJ_11 /* TransformOptions.swift */,
+				78266AEE1F5C3ECA00F08378 /* Token+Operations.swift */,
 			);
 			name = SwiftKotlinFramework;
 			path = Sources/SwiftKotlinFramework;
@@ -2351,6 +2354,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_358 /* SwiftKotlin.swift in Sources */,
+				78266AEF1F5C3ECA00F08378 /* Token+Operations.swift in Sources */,
 				OBJ_359 /* Tokenizer+Extensions.swift in Sources */,
 				OBJ_360 /* TransformOptions.swift in Sources */,
 			);
