@@ -13,12 +13,12 @@ import Source
 import Parser
 
 public class SwiftTokenizer: Tokenizer {
+    override open var indentation: String {
+        return "    "
+    }
 }
 
-public class KotlinTokenizer: Tokenizer {
-    public init() {
-    }
-
+public class KotlinTokenizer: SwiftTokenizer {
 
     // MARK: - Declarations
 
@@ -34,6 +34,29 @@ public class KotlinTokenizer: Tokenizer {
                        with: [declaration.newToken(.keyword, "fun")])
     }
 
+    open override func tokenize(_ parameter: FunctionSignature.Parameter, node: ASTNode) -> [Token] {
+        let nameTokens = [
+            parameter.newToken(.identifier, parameter.localName, node)
+        ]
+        let typeAnnoTokens = tokenize(parameter.typeAnnotation, node: node)
+        let defaultTokens = parameter.defaultArgumentClause.map {
+            return parameter.newToken(.symbol, " = ", node) + tokenize($0)
+        }
+        let varargsTokens = parameter.isVarargs ? [parameter.newToken(.symbol, "...", node)] : []
+
+        return
+            nameTokens +
+                typeAnnoTokens +
+                defaultTokens +
+        varargsTokens
+    }
+
+    open override func tokenize(_ result: FunctionResult, node: ASTNode) -> [Token] {
+        return super.tokenize(result, node: node)
+            .replacing({ $0.value == "->"},
+                       with: [result.newToken(.symbol, ":", node)])
+    }
+    
     open override func tokenize(_ member: ProtocolDeclaration.MethodMember, node: ASTNode) -> [Token] {
         return super.tokenize(member, node: node)
             .replacing({ $0.value == "func"},
@@ -58,6 +81,7 @@ public class KotlinTokenizer: Tokenizer {
             modifier.rawValue.replacingOccurrences(of: "fileprivate", with: "private"),
             node)]
     }
+
 
 
     // MARK: - Expressions
@@ -111,5 +135,21 @@ public class KotlinTokenizer: Tokenizer {
             .replacing({ $0.value == "??"},
                        with: [expression.newToken(.symbol, "?:")])
     }
+
+    open override func tokenize(_ expression: FunctionCallExpression.Argument, node: ASTNode) -> [Token] {
+        return super.tokenize(expression, node: node)
+            .replacing({ $0.value == ": " && $0.kind == .delimiter },
+                       with: [expression.newToken(.delimiter, " = ", node)])
+    }
+
+
+    // MARK: - Types
+
+    open override func tokenize(_ type: FunctionType, node: ASTNode) -> [Token] {
+        return super.tokenize(type, node: node)
+            .replacing({ $0.value == "Void" && $0.kind == .identifier },
+                       with: [type.newToken(.identifier, "Unit", node)])
+    }
+
 }
 
