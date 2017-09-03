@@ -85,11 +85,12 @@ public class KotlinTokenizer: SwiftTokenizer {
     // MARK: - Statements
 
     open override func tokenize(_ statement: GuardStatement) -> [Token] {
+        let invertedConditions = statement.conditionList.map(InvertedCondition.init)
         return
             tokenizeDeclarationConditions(statement.conditionList, node: statement) +
             [
                 [statement.newToken(.keyword, "if")],
-                invertConditions(tokenize(statement.conditionList, node: statement)),
+                tokenize(invertedConditions, node: statement),
                 tokenize(statement.codeBlock)
             ].joined(token: statement.newToken(.space, " "))
     }
@@ -210,33 +211,62 @@ public class KotlinTokenizer: SwiftTokenizer {
         ].joined(token: condition.newToken(.space, " ", node))
     }
 
-    private func invertConditions(_ tokens: [Token]) -> [Token] {
-        return tokens.map { token in
-            guard let origin = token.origin, let node = token.node else { return token }
-            switch token.value {
-            case "==":
-                return origin.newToken(token.kind, "!=", node)
-            case "!=":
-                return origin.newToken(token.kind, "==", node)
-            case ">":
-                return origin.newToken(token.kind, "<=", node)
-            case ">=":
-                return origin.newToken(token.kind, "<", node)
-            case "<":
-                return origin.newToken(token.kind, ">=", node)
-            case "<=":
-                return origin.newToken(token.kind, ">", node)
-            case " && ":
-                return origin.newToken(token.kind, " || ", node)
-            case "&&":
-                return origin.newToken(token.kind, "&&", node)
-            case "||":
-                return origin.newToken(token.kind, "&&", node)
-            // TODO: binary negation ex: !value
-            default:
-                return token
-            }
-        }
+
+    open func tokenize(_ conditions: InvertedConditionList, node: ASTNode) -> [Token] {
+        return conditions.map { tokenize($0, node: node) }
+            .joined(token: node.newToken(.delimiter, " || "))
+            .prefix(with: node.newToken(.startOfScope, "("))
+            .suffix(with: node.newToken(.endOfScope, ")"))
     }
+
+    private func tokenize(_ condition: InvertedCondition, node: ASTNode) -> [Token] {
+        let tokens = tokenize(condition.condition, node: node)
+        var invertedTokens = [Token]()
+        var inverted = false
+        var lastExpressionIndex = 0
+        for token in tokens {
+            if let origin = token.origin, let node = token.node {
+                if origin is SequenceExpression || origin is BinaryExpression || origin is Condition {
+                    let inversionMap = [
+                        "==": "!=",
+                        "!=": "==",
+                        ">": "<=",
+                        ">=": "<",
+                        "<": ">=",
+                        "<=": ">",
+                        "is": "!is",
+                    ]
+                    if let newValue = inversionMap[token.value] {
+                        inverted = true
+                        invertedTokens.append(origin.newToken(token.kind, newValue, node))
+                        continue
+                    } else if token.value == "&&" || token.value == "||" {
+                        if !inverted {
+                            invertedTokens.insert(origin.newToken(.symbol, "!", node), at: lastExpressionIndex)
+                        }
+                        inverted = false
+                        invertedTokens.append(origin.newToken(token.kind, token.value == "&&" ? "||" : "&&", node))
+                        lastExpressionIndex = invertedTokens.count + 1
+                        continue
+                    }
+                } else if origin is PrefixOperatorExpression {
+                    if token.value == "!" {
+                        inverted = true
+                        continue
+                    }
+                }
+            }
+            invertedTokens.append(token)
+        }
+        if !inverted {
+            invertedTokens.insert(condition.newToken(.symbol, "!", node), at: lastExpressionIndex)
+        }
+        return invertedTokens
+    }
+}
+
+public typealias InvertedConditionList = [InvertedCondition]
+public struct InvertedCondition: ASTTokenizable {
+    public let condition: Condition
 }
 

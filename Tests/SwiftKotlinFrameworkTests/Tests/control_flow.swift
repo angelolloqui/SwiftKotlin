@@ -33,7 +33,9 @@ guard value() >= 3 else { return }
 guard condition else { return }
 guard !condition else { return }
 guard number == 3 && value() >= 3 else { return }
+guard number == 3 && !disabled && enabled && value() >= 3 && (a == 1 || a == 2) else { return }
 guard number == 3 || value() >= 3 else { return }
+
 
 // Guard statements with statements
 guard number == 3 else {
