@@ -46,6 +46,24 @@
 		78266AE81F5AD0B800F08378 /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; };
 		78266AE91F5AD0B800F08378 /* SwiftKotlinFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		78266AEF1F5C3ECA00F08378 /* Token+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78266AEE1F5C3ECA00F08378 /* Token+Operations.swift */; };
+		78266AF01F5CA62C00F08378 /* Transform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-transform::Transform::Product" /* Transform.framework */; };
+		78266AF11F5CA62C00F08378 /* Transform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-transform::Transform::Product" /* Transform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78266AF41F5CA62C00F08378 /* Tooling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Tooling::Product" /* Tooling.framework */; };
+		78266AF51F5CA62C00F08378 /* Tooling.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Tooling::Product" /* Tooling.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78266AF81F5CA62C00F08378 /* Sema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Sema::Product" /* Sema.framework */; };
+		78266AF91F5CA62C00F08378 /* Sema.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Sema::Product" /* Sema.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78266AFC1F5CA62C00F08378 /* Parser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Parser::Product" /* Parser.framework */; };
+		78266AFD1F5CA62C00F08378 /* Parser.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Parser::Product" /* Parser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78266B001F5CA62C00F08378 /* Lexer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Lexer::Product" /* Lexer.framework */; };
+		78266B011F5CA62C00F08378 /* Lexer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Lexer::Product" /* Lexer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78266B041F5CA62D00F08378 /* AST.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::AST::Product" /* AST.framework */; };
+		78266B051F5CA62D00F08378 /* AST.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::AST::Product" /* AST.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78266B081F5CA62D00F08378 /* Diagnostic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Diagnostic::Product" /* Diagnostic.framework */; };
+		78266B091F5CA62D00F08378 /* Diagnostic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Diagnostic::Product" /* Diagnostic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78266B0C1F5CA62D00F08378 /* Source.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Source::Product" /* Source.framework */; };
+		78266B0D1F5CA62D00F08378 /* Source.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Source::Product" /* Source.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78266B101F5CA62D00F08378 /* Bocho.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "bocho::Bocho::Product" /* Bocho.framework */; };
+		78266B111F5CA62D00F08378 /* Bocho.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "bocho::Bocho::Product" /* Bocho.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		OBJ_265 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_271 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* Package.swift */; };
 		OBJ_277 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_230 /* Package.swift */; };
@@ -900,6 +918,69 @@
 			remoteGlobalIDString = "SwiftKotlin::SwiftKotlinFramework";
 			remoteInfo = SwiftKotlinFramework;
 		};
+		78266AF21F5CA62C00F08378 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "swift-transform::Transform";
+			remoteInfo = Transform;
+		};
+		78266AF61F5CA62C00F08378 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "swift-ast::Tooling";
+			remoteInfo = Tooling;
+		};
+		78266AFA1F5CA62C00F08378 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "swift-ast::Sema";
+			remoteInfo = Sema;
+		};
+		78266AFE1F5CA62C00F08378 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "swift-ast::Parser";
+			remoteInfo = Parser;
+		};
+		78266B021F5CA62C00F08378 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "swift-ast::Lexer";
+			remoteInfo = Lexer;
+		};
+		78266B061F5CA62D00F08378 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "swift-ast::AST";
+			remoteInfo = AST;
+		};
+		78266B0A1F5CA62D00F08378 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "swift-ast::Diagnostic";
+			remoteInfo = Diagnostic;
+		};
+		78266B0E1F5CA62D00F08378 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "swift-ast::Source";
+			remoteInfo = Source;
+		};
+		78266B121F5CA62D00F08378 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "bocho::Bocho";
+			remoteInfo = Bocho;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -909,7 +990,16 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				78266AF91F5CA62C00F08378 /* Sema.framework in Embed Frameworks */,
 				78266AE91F5AD0B800F08378 /* SwiftKotlinFramework.framework in Embed Frameworks */,
+				78266AF11F5CA62C00F08378 /* Transform.framework in Embed Frameworks */,
+				78266B011F5CA62C00F08378 /* Lexer.framework in Embed Frameworks */,
+				78266B111F5CA62D00F08378 /* Bocho.framework in Embed Frameworks */,
+				78266B0D1F5CA62D00F08378 /* Source.framework in Embed Frameworks */,
+				78266AFD1F5CA62C00F08378 /* Parser.framework in Embed Frameworks */,
+				78266B091F5CA62D00F08378 /* Diagnostic.framework in Embed Frameworks */,
+				78266AF51F5CA62C00F08378 /* Tooling.framework in Embed Frameworks */,
+				78266B051F5CA62D00F08378 /* AST.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -917,7 +1007,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		78266ACB1F5AD03F00F08378 /* SwiftKotlinApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftKotlinApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		78266ACB1F5AD03F00F08378 /* SwiftKotlin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftKotlin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78266ADC1F5AD05100F08378 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78266ADD1F5AD05100F08378 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78266ADF1F5AD05100F08378 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -1147,7 +1237,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78266AF81F5CA62C00F08378 /* Sema.framework in Frameworks */,
 				78266AE81F5AD0B800F08378 /* SwiftKotlinFramework.framework in Frameworks */,
+				78266AF01F5CA62C00F08378 /* Transform.framework in Frameworks */,
+				78266B001F5CA62C00F08378 /* Lexer.framework in Frameworks */,
+				78266B101F5CA62D00F08378 /* Bocho.framework in Frameworks */,
+				78266B0C1F5CA62D00F08378 /* Source.framework in Frameworks */,
+				78266AFC1F5CA62C00F08378 /* Parser.framework in Frameworks */,
+				78266B081F5CA62D00F08378 /* Diagnostic.framework in Frameworks */,
+				78266AF41F5CA62C00F08378 /* Tooling.framework in Frameworks */,
+				78266B041F5CA62D00F08378 /* AST.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1613,7 +1712,7 @@
 				"swift-ast::Diagnostic::Product" /* Diagnostic.framework */,
 				"swift-ast::Source::Product" /* Source.framework */,
 				"bocho::Bocho::Product" /* Bocho.framework */,
-				78266ACB1F5AD03F00F08378 /* SwiftKotlinApp.app */,
+				78266ACB1F5AD03F00F08378 /* SwiftKotlin.app */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -1882,10 +1981,19 @@
 			);
 			dependencies = (
 				78266AEB1F5AD0B800F08378 /* PBXTargetDependency */,
+				78266AF31F5CA62C00F08378 /* PBXTargetDependency */,
+				78266AF71F5CA62C00F08378 /* PBXTargetDependency */,
+				78266AFB1F5CA62C00F08378 /* PBXTargetDependency */,
+				78266AFF1F5CA62C00F08378 /* PBXTargetDependency */,
+				78266B031F5CA62C00F08378 /* PBXTargetDependency */,
+				78266B071F5CA62D00F08378 /* PBXTargetDependency */,
+				78266B0B1F5CA62D00F08378 /* PBXTargetDependency */,
+				78266B0F1F5CA62D00F08378 /* PBXTargetDependency */,
+				78266B131F5CA62D00F08378 /* PBXTargetDependency */,
 			);
 			name = SwiftKotlinApp;
 			productName = SwiftKotlinApp;
-			productReference = 78266ACB1F5AD03F00F08378 /* SwiftKotlinApp.app */;
+			productReference = 78266ACB1F5AD03F00F08378 /* SwiftKotlin.app */;
 			productType = "com.apple.product-type.application";
 		};
 		"SwiftKotlin::SwiftKotlinCommandLine" /* SwiftKotlinCommandLine */ = {
@@ -2627,6 +2735,51 @@
 			target = "SwiftKotlin::SwiftKotlinFramework" /* SwiftKotlinFramework */;
 			targetProxy = 78266AEA1F5AD0B800F08378 /* PBXContainerItemProxy */;
 		};
+		78266AF31F5CA62C00F08378 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "swift-transform::Transform" /* Transform */;
+			targetProxy = 78266AF21F5CA62C00F08378 /* PBXContainerItemProxy */;
+		};
+		78266AF71F5CA62C00F08378 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "swift-ast::Tooling" /* Tooling */;
+			targetProxy = 78266AF61F5CA62C00F08378 /* PBXContainerItemProxy */;
+		};
+		78266AFB1F5CA62C00F08378 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "swift-ast::Sema" /* Sema */;
+			targetProxy = 78266AFA1F5CA62C00F08378 /* PBXContainerItemProxy */;
+		};
+		78266AFF1F5CA62C00F08378 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "swift-ast::Parser" /* Parser */;
+			targetProxy = 78266AFE1F5CA62C00F08378 /* PBXContainerItemProxy */;
+		};
+		78266B031F5CA62C00F08378 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "swift-ast::Lexer" /* Lexer */;
+			targetProxy = 78266B021F5CA62C00F08378 /* PBXContainerItemProxy */;
+		};
+		78266B071F5CA62D00F08378 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "swift-ast::AST" /* AST */;
+			targetProxy = 78266B061F5CA62D00F08378 /* PBXContainerItemProxy */;
+		};
+		78266B0B1F5CA62D00F08378 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "swift-ast::Diagnostic" /* Diagnostic */;
+			targetProxy = 78266B0A1F5CA62D00F08378 /* PBXContainerItemProxy */;
+		};
+		78266B0F1F5CA62D00F08378 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "swift-ast::Source" /* Source */;
+			targetProxy = 78266B0E1F5CA62D00F08378 /* PBXContainerItemProxy */;
+		};
+		78266B131F5CA62D00F08378 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "bocho::Bocho" /* Bocho */;
+			targetProxy = 78266B121F5CA62D00F08378 /* PBXContainerItemProxy */;
+		};
 		OBJ_301 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "SwiftKotlin::SwiftKotlinFramework" /* SwiftKotlinFramework */;
@@ -3104,7 +3257,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.angelolloqui.SwiftKotlinApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SwiftKotlin;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 4.0;
 			};
@@ -3159,7 +3312,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.angelolloqui.SwiftKotlinApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SwiftKotlin;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
@@ -3439,6 +3592,7 @@
 		OBJ_408 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3461,6 +3615,7 @@
 		OBJ_409 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3483,6 +3638,7 @@
 		OBJ_438 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3505,6 +3661,7 @@
 		OBJ_439 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3527,6 +3684,7 @@
 		OBJ_460 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3549,6 +3707,7 @@
 		OBJ_461 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3571,6 +3730,7 @@
 		OBJ_475 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3593,6 +3753,7 @@
 		OBJ_476 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3615,6 +3776,7 @@
 		OBJ_502 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3637,6 +3799,7 @@
 		OBJ_503 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3659,6 +3822,7 @@
 		OBJ_531 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3681,6 +3845,7 @@
 		OBJ_532 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3703,6 +3868,7 @@
 		OBJ_662 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3725,6 +3891,7 @@
 		OBJ_663 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3747,6 +3914,7 @@
 		OBJ_675 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3769,6 +3937,7 @@
 		OBJ_676 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3791,6 +3960,7 @@
 		OBJ_691 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3813,6 +3983,7 @@
 		OBJ_692 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
