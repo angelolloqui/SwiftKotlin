@@ -5,21 +5,12 @@ class A {
             return state.asObservable()
         }
     }
-    var stateObservable2: Observable<RestaurantsListState> {
+    var stateObservable3: Observable<RestaurantsListState> {
         NSLog("Multiple statements")
         return state.asObservable()
     }
-    var center1: Point {
-        set(newValue) {
-            origin.x = newValue.x - 100
-        }
-    }
-    var center2: Point {
-        set {
-            origin.x = newValue.x - 100
-        }
-    }
-    var center3: Point {
+    
+    var center: Point {
         get {
             return Point(x: centerX, y: centerY)
         }
