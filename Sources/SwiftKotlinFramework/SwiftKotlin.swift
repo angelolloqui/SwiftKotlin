@@ -82,6 +82,37 @@ public class KotlinTokenizer: SwiftTokenizer {
             node)]
     }
 
+    open override func tokenize(_ statement: SwitchStatement) -> [Token] {
+        var tokens = super.tokenize(statement)
+        if let startIndex = tokens.index(where: { $0.origin is Expression }),
+            let endIndex = tokens.index(where: { $0.value == "{"}) {
+            tokens.insert(statement.newToken(.endOfScope, ")"), at: endIndex - 1)
+            tokens.insert(statement.newToken(.startOfScope, "("), at: startIndex)
+        }
+        return tokens.replacing({ $0.value == "switch" },
+                       with: [statement.newToken(.keyword, "when")])
+    }
+
+    open override func tokenize(_ statement: SwitchStatement.Case, node: ASTNode) -> [Token] {
+        let separatorTokens =  [
+            statement.newToken(.space, " ", node),
+            statement.newToken(.delimiter, "->", node),
+            statement.newToken(.linebreak, "\n", node)
+        ]
+        switch statement {
+        case let .case(itemList, stmts):
+            let prefix = itemList.count > 1 ? [statement.newToken(.keyword, "in", node), statement.newToken(.space, " ", node)] : []
+            let conditions = itemList.map { tokenize($0, node: node) }.joined(token: statement.newToken(.delimiter, ", ", node))
+            return prefix + conditions + separatorTokens + indent(tokenize(stmts, node: node))
+
+        case .default(let stmts):
+            return
+                [statement.newToken(.keyword, "else", node)] +
+                    separatorTokens +
+                    indent(tokenize(stmts, node: node))
+        }
+    }
+
     // MARK: - Statements
 
     open override func tokenize(_ statement: GuardStatement) -> [Token] {
