@@ -82,6 +82,25 @@ public class KotlinTokenizer: SwiftTokenizer {
             node)]
     }
 
+    // MARK: - Statements
+
+    open override func tokenize(_ statement: GuardStatement) -> [Token] {
+        let invertedConditions = statement.conditionList.map(InvertedCondition.init)
+        return
+            tokenizeDeclarationConditions(statement.conditionList, node: statement) +
+            [
+                [statement.newToken(.keyword, "if")],
+                tokenize(invertedConditions, node: statement),
+                tokenize(statement.codeBlock)
+            ].joined(token: statement.newToken(.space, " "))
+    }
+
+    open override func tokenize(_ statement: IfStatement) -> [Token] {
+        return tokenizeDeclarationConditions(statement.conditionList, node: statement) +
+            super.tokenize(statement)
+    }
+
+
     open override func tokenize(_ statement: SwitchStatement) -> [Token] {
         var tokens = super.tokenize(statement)
         if let startIndex = tokens.index(where: { $0.origin is Expression }),
@@ -90,7 +109,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             tokens.insert(statement.newToken(.startOfScope, "("), at: startIndex)
         }
         return tokens.replacing({ $0.value == "switch" },
-                       with: [statement.newToken(.keyword, "when")])
+                                with: [statement.newToken(.keyword, "when")])
     }
 
     open override func tokenize(_ statement: SwitchStatement.Case, node: ASTNode) -> [Token] {
@@ -113,22 +132,13 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
     }
 
-    // MARK: - Statements
-
-    open override func tokenize(_ statement: GuardStatement) -> [Token] {
-        let invertedConditions = statement.conditionList.map(InvertedCondition.init)
-        return
-            tokenizeDeclarationConditions(statement.conditionList, node: statement) +
-            [
-                [statement.newToken(.keyword, "if")],
-                tokenize(invertedConditions, node: statement),
-                tokenize(statement.codeBlock)
-            ].joined(token: statement.newToken(.space, " "))
-    }
-
-    open override func tokenize(_ statement: IfStatement) -> [Token] {
-        return tokenizeDeclarationConditions(statement.conditionList, node: statement) +
-            super.tokenize(statement)
+    open override func tokenize(_ statement: ForInStatement) -> [Token] {
+        var tokens = super.tokenize(statement)
+        if let endIndex = tokens.index(where: { $0.value == "{"}) {
+            tokens.insert(statement.newToken(.endOfScope, ")"), at: endIndex - 1)
+            tokens.insert(statement.newToken(.startOfScope, "("), at: 2)
+        }
+        return tokens
     }
 
     // MARK: - Expressions

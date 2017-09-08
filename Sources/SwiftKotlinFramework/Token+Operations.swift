@@ -9,15 +9,18 @@ import Transform
 
 
 extension Array where Iterator.Element == Token {
-    func replacing(_ condition: (Token) -> Bool, with tokens: [Token]) -> [Token] {
+    func replacing(_ condition: (Token) -> Bool, with tokens: [Token], amount: Int = Int.max) -> [Token] {
+        var count = 0
         var newTokens = [Token]()
         for token in self {
-            if condition(token) {
+            if count < amount && condition(token) {
                 newTokens.append(contentsOf: tokens)
+                count+=1
             } else {
                 newTokens.append(token)
             }
         }
         return newTokens
     }
+
 }
