@@ -209,6 +209,40 @@ public class KotlinTokenizer: SwiftTokenizer {
         return tokens
     }
 
+    open override func tokenize(_ expression: TryOperatorExpression) -> [Token] {
+        switch expression.kind {
+        case .try(let expr):
+            return tokenize(expr)
+        case .forced(let expr):
+            return tokenize(expr)
+        case .optional(let expr):
+            let catchSignature = [
+                expression.newToken(.startOfScope, "("),
+                expression.newToken(.identifier, "e"),
+                expression.newToken(.delimiter, ":"),
+                expression.newToken(.space, " "),
+                expression.newToken(.identifier, "Throwable"),
+                expression.newToken(.endOfScope, ")"),
+            ]
+            let catchBodyTokens = [
+                expression.newToken(.startOfScope, "{"),
+                expression.newToken(.space, " "),
+                expression.newToken(.keyword, "null"),
+                expression.newToken(.space, " "),
+                expression.newToken(.endOfScope, "}"),
+            ]
+            return [
+                [expression.newToken(.keyword, "try")],
+                [expression.newToken(.startOfScope, "{")],
+                tokenize(expr),
+                [expression.newToken(.endOfScope, "}")],
+                [expression.newToken(.keyword, "catch")],
+                catchSignature,
+                catchBodyTokens
+            ].joined(token: expression.newToken(.space, " "))
+        }
+    }
+
     // MARK: - Types
     open override func tokenize(_ type: ArrayType, node: ASTNode) -> [Token] {
         return
