@@ -12,7 +12,7 @@ class SwiftKotlinTests: XCTestCase {
     let kotlinTokenizer = KotlinTokenizer()
 
     func testSpecificFile() {
-        try! testSource(file: "foundation_types")
+        try! testSource(file: "statics")
     }
 
     func testAll() {

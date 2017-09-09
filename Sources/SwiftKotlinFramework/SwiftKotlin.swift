@@ -63,10 +63,50 @@ public class KotlinTokenizer: SwiftTokenizer {
                        with: [member.newToken(.keyword, "fun", node)])
     }
 
+    open override func tokenize(_ declaration: ClassDeclaration) -> [Token] {
+        let staticMembers = declaration.members.filter({ $0.isStatic })
+        let newClass = ClassDeclaration(
+            attributes: declaration.attributes,
+            accessLevelModifier: declaration.accessLevelModifier,
+            isFinal: declaration.isFinal,
+            name: declaration.name,
+            genericParameterClause: declaration.genericParameterClause,
+            typeInheritanceClause: declaration.typeInheritanceClause,
+            genericWhereClause: declaration.genericWhereClause,
+            members: declaration.members.filter({ !$0.isStatic }))
+        var tokens = super.tokenize(newClass)
+        if !staticMembers.isEmpty, let bodyStart = tokens.index(where: { $0.value == "{"}) {
+            let companionTokens = indent(tokenizeCompanion(staticMembers, node: declaration))
+                .prefix(with: declaration.newToken(.linebreak, "\n"))
+                .suffix(with: declaration.newToken(.linebreak, "\n"))
+            tokens.insert(contentsOf: companionTokens, at: bodyStart + 1)
+        }
+
+        return tokens
+    }
+
     open override func tokenize(_ declaration: StructDeclaration) -> [Token] {
-        return super.tokenize(declaration)
+        let staticMembers = declaration.members.filter({ $0.isStatic })
+        let newStruct = StructDeclaration(
+            attributes: declaration.attributes,
+            accessLevelModifier: declaration.accessLevelModifier,
+            name: declaration.name,
+            genericParameterClause: declaration.genericParameterClause,
+            typeInheritanceClause: declaration.typeInheritanceClause,
+            genericWhereClause: declaration.genericWhereClause,
+            members: declaration.members.filter({ !$0.isStatic }))
+        var tokens = super.tokenize(newStruct)
             .replacing({ $0.value == "struct"},
                        with: [declaration.newToken(.keyword, "data class")])
+
+        if !staticMembers.isEmpty, let bodyStart = tokens.index(where: { $0.value == "{"}) {
+            let companionTokens = indent(tokenizeCompanion(staticMembers, node: declaration))
+                .prefix(with: declaration.newToken(.linebreak, "\n"))
+                .suffix(with: declaration.newToken(.linebreak, "\n"))
+            tokens.insert(contentsOf: companionTokens, at: bodyStart + 1)
+        }
+
+        return tokens
     }
 
     open override func tokenize(_ declaration: ProtocolDeclaration) -> [Token] {
@@ -87,6 +127,16 @@ public class KotlinTokenizer: SwiftTokenizer {
             .replacing({ $0.value == "init"},
                        with: [declaration.newToken(.keyword, "constructor")])
     }
+
+    open override func tokenize(_ modifier: DeclarationModifier, node: ASTNode) -> [Token] {
+        switch modifier {
+        case .static, .unowned, .unownedSafe, .unownedUnsafe, .weak:
+            return []
+        default:
+            return super.tokenize(modifier, node: node)
+        }
+    }
+
 
     // MARK: - Statements
 
@@ -216,7 +266,7 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ expression: ClosureExpression.Signature, node: ASTNode) -> [Token] {
-        return expression.parameterClause.map { tokenize($0, node: node) } ?? []        
+        return expression.parameterClause.map { tokenize($0, node: node) } ?? []
     }
 
     open override func tokenize(_ expression: ClosureExpression.Signature.ParameterClause, node: ASTNode) -> [Token] {
@@ -402,6 +452,45 @@ public class KotlinTokenizer: SwiftTokenizer {
             invertedTokens.insert(condition.newToken(.symbol, "!", node), at: lastExpressionIndex)
         }
         return invertedTokens
+    }
+
+
+    private func tokenizeCompanion(_ members: [StructDeclaration.Member], node: ASTNode) -> [Token] {
+        let membersTokens = indent(members.map(tokenize)
+            .joined(token: node.newToken(.linebreak, "\n")))
+
+        return [
+            [
+                node.newToken(.keyword, "companion"),
+                node.newToken(.space, " "),
+                node.newToken(.keyword, "object"),
+                node.newToken(.space, " "),
+                node.newToken(.startOfScope, "{")
+            ],
+            membersTokens,
+            [
+                node.newToken(.endOfScope, "}")
+            ]
+            ].joined(token: node.newToken(.linebreak, "\n"))
+    }
+
+    private func tokenizeCompanion(_ members: [ClassDeclaration.Member], node: ASTNode) -> [Token] {
+        let membersTokens = indent(members.map(tokenize)
+            .joined(token: node.newToken(.linebreak, "\n")))
+
+        return [
+            [
+                node.newToken(.keyword, "companion"),
+                node.newToken(.space, " "),
+                node.newToken(.keyword, "object"),
+                node.newToken(.space, " "),
+                node.newToken(.startOfScope, "{")
+            ],
+            membersTokens,
+            [
+                node.newToken(.endOfScope, "}")
+            ]
+        ].joined(token: node.newToken(.linebreak, "\n"))
     }
 }
 

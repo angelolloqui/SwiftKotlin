@@ -64,6 +64,7 @@
 		78266B0D1F5CA62D00F08378 /* Source.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Source::Product" /* Source.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		78266B101F5CA62D00F08378 /* Bocho.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "bocho::Bocho::Product" /* Bocho.framework */; };
 		78266B111F5CA62D00F08378 /* Bocho.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "bocho::Bocho::Product" /* Bocho.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7868E5711F6437CB0039235C /* AST+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7868E5701F6437CB0039235C /* AST+Operations.swift */; };
 		OBJ_265 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_271 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* Package.swift */; };
 		OBJ_277 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_230 /* Package.swift */; };
@@ -1016,6 +1017,7 @@
 		78266AE21F5AD05100F08378 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		78266AED1F5AE4C200F08378 /* Tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tests; sourceTree = "<group>"; };
 		78266AEE1F5C3ECA00F08378 /* Token+Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Token+Operations.swift"; sourceTree = "<group>"; };
+		7868E5701F6437CB0039235C /* AST+Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AST+Operations.swift"; sourceTree = "<group>"; };
 		OBJ_10 /* Tokenizer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tokenizer+Extensions.swift"; sourceTree = "<group>"; };
 		OBJ_100 /* AssignmentOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentOperatorExpression.swift; sourceTree = "<group>"; };
 		OBJ_101 /* BinaryOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryOperatorExpression.swift; sourceTree = "<group>"; };
@@ -1779,7 +1781,7 @@
 			path = ".build/checkouts/swift-ast--6091406344627272003/Sources/Source";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -1790,7 +1792,6 @@
 				OBJ_23 /* Dependencies */,
 				OBJ_246 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_51 /* Diagnostic */ = {
@@ -1905,6 +1906,7 @@
 				OBJ_10 /* Tokenizer+Extensions.swift */,
 				OBJ_11 /* TransformOptions.swift */,
 				78266AEE1F5C3ECA00F08378 /* Token+Operations.swift */,
+				7868E5701F6437CB0039235C /* AST+Operations.swift */,
 			);
 			name = SwiftKotlinFramework;
 			path = Sources/SwiftKotlinFramework;
@@ -2356,7 +2358,7 @@
 				en,
 				Base,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_246 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -2465,6 +2467,7 @@
 				78266AEF1F5C3ECA00F08378 /* Token+Operations.swift in Sources */,
 				OBJ_359 /* Tokenizer+Extensions.swift in Sources */,
 				OBJ_360 /* TransformOptions.swift in Sources */,
+				7868E5711F6437CB0039235C /* AST+Operations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

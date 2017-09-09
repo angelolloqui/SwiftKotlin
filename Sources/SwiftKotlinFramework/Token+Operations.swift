@@ -7,7 +7,6 @@
 
 import Transform
 
-
 extension Array where Iterator.Element == Token {
     func replacing(_ condition: (Token) -> Bool, with tokens: [Token], amount: Int = Int.max) -> [Token] {
         var count = 0
@@ -24,3 +23,4 @@ extension Array where Iterator.Element == Token {
     }
 
 }
+

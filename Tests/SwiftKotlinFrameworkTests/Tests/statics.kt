@@ -4,7 +4,6 @@ class A {
         public var myBool = true
     }
 }
-
 class A {
     companion object {
         private var myBool = true
@@ -12,30 +11,37 @@ class A {
         var myString = "string"
     }
 }
-
 class A {
     companion object {
         fun method() {}
     }
 }
-
 class A {
     companion object {
         fun method() {}
-        fun create(): A? {
+        fun create() : A? {
             return null
         }
-        fun withParams(param: Int): A? {
+        fun withParams(param: Int) : A? {
             return null
         }
     }
 }
-
 class A {
-    var name = "string"
     companion object {
         var myBool = true
         fun method() {}
     }
-    func test() {}
+
+    var name = "string"
+    fun test() {}
+}
+data class A {
+    companion object {
+        var myBool = true
+        fun method() {}
+    }
+
+    var name = "string"
+    fun test() {}
 }

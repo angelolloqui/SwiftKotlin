@@ -25,3 +25,10 @@ class A {
     static func method() {}
     func test() {}
 }
+
+struct A {
+    var name = "string"
+    static var myBool = true
+    static func method() {}
+    func test() {}
+}
