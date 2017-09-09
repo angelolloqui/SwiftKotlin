@@ -199,6 +199,15 @@ public class KotlinTokenizer: SwiftTokenizer {
                        with: [expression.newToken(.delimiter, " = ", node)])
     }
 
+    open override func tokenize(_ expression: ClosureExpression) -> [Token] {
+        var tokens = super.tokenize(expression)
+        if expression.signature != nil {
+            tokens = tokens.replacing({ $0.value == "in" },
+                                      with: [expression.newToken(.symbol, " -> ")],
+                                      amount: 1)
+        }
+        return tokens
+    }
 
     // MARK: - Types
     open override func tokenize(_ type: ArrayType, node: ASTNode) -> [Token] {
@@ -266,7 +275,10 @@ public class KotlinTokenizer: SwiftTokenizer {
         for condition in conditions {
             switch condition {
             case .let, .var:
-                declarationTokens.append(contentsOf: super.tokenize(condition, node: node))
+                declarationTokens.append(contentsOf:
+                    super.tokenize(condition, node: node)
+                        .replacing({ $0.value == "let" },
+                                   with: [condition.newToken(.keyword, "val", node)]))
                 declarationTokens.append(condition.newToken(.linebreak, "\n", node))
             default: continue
             }
