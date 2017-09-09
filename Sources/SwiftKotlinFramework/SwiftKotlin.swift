@@ -216,12 +216,7 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ expression: ClosureExpression.Signature, node: ASTNode) -> [Token] {
-        let parameterTokens = expression.parameterClause.map { tokenize($0, node: node) } ?? []
-        let resultTokens = expression.functionResult.map { tokenize($0, node: node) } ?? []
-        return [
-            parameterTokens,
-            resultTokens,
-        ].joined(token: expression.newToken(.space, " ", node))
+        return expression.parameterClause.map { tokenize($0, node: node) } ?? []        
     }
 
     open override func tokenize(_ expression: ClosureExpression.Signature.ParameterClause, node: ASTNode) -> [Token] {
@@ -231,6 +226,10 @@ public class KotlinTokenizer: SwiftTokenizer {
         default:
             return super.tokenize(expression, node: node)
         }
+    }
+
+    open override func tokenize(_ expression: ClosureExpression.Signature.ParameterClause.Parameter, node: ASTNode) -> [Token] {
+        return [expression.newToken(.identifier, expression.name, node)]
     }
 
     open override func tokenize(_ expression: TryOperatorExpression) -> [Token] {
