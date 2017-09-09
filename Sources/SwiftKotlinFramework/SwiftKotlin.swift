@@ -82,6 +82,12 @@ public class KotlinTokenizer: SwiftTokenizer {
             node)]
     }
 
+    open override func tokenize(_ declaration: InitializerDeclaration) -> [Token] {
+        return super.tokenize(declaration)
+            .replacing({ $0.value == "init"},
+                       with: [declaration.newToken(.keyword, "constructor")])
+    }
+
     // MARK: - Statements
 
     open override func tokenize(_ statement: GuardStatement) -> [Token] {
@@ -207,6 +213,24 @@ public class KotlinTokenizer: SwiftTokenizer {
                                       amount: 1)
         }
         return tokens
+    }
+
+    open override func tokenize(_ expression: ClosureExpression.Signature, node: ASTNode) -> [Token] {
+        let parameterTokens = expression.parameterClause.map { tokenize($0, node: node) } ?? []
+        let resultTokens = expression.functionResult.map { tokenize($0, node: node) } ?? []
+        return [
+            parameterTokens,
+            resultTokens,
+        ].joined(token: expression.newToken(.space, " ", node))
+    }
+
+    open override func tokenize(_ expression: ClosureExpression.Signature.ParameterClause, node: ASTNode) -> [Token] {
+        switch expression {
+        case .parameterList(let params):
+            return params.map { tokenize($0, node: node) }.joined(token: expression.newToken(.delimiter, ", ", node))
+        default:
+            return super.tokenize(expression, node: node)
+        }
     }
 
     open override func tokenize(_ expression: TryOperatorExpression) -> [Token] {
