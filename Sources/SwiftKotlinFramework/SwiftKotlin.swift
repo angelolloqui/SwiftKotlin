@@ -203,6 +203,8 @@ public class KotlinTokenizer: SwiftTokenizer {
         switch expression.kind {
         case .nil:
             return [expression.newToken(.keyword, "null")]
+        case let .interpolatedString(_, rawText):
+            return tokenizeInterpolatedString(rawText, node: expression)
         case .array(let exprs):
             return
                 expression.newToken(.identifier, "listOf") +
@@ -456,25 +458,14 @@ public class KotlinTokenizer: SwiftTokenizer {
 
 
     private func tokenizeCompanion(_ members: [StructDeclaration.Member], node: ASTNode) -> [Token] {
-        let membersTokens = indent(members.map(tokenize)
-            .joined(token: node.newToken(.linebreak, "\n")))
-
-        return [
-            [
-                node.newToken(.keyword, "companion"),
-                node.newToken(.space, " "),
-                node.newToken(.keyword, "object"),
-                node.newToken(.space, " "),
-                node.newToken(.startOfScope, "{")
-            ],
-            membersTokens,
-            [
-                node.newToken(.endOfScope, "}")
-            ]
-            ].joined(token: node.newToken(.linebreak, "\n"))
+        return tokenizeCompanion(members.flatMap { $0.declaration }, node: node)
     }
 
     private func tokenizeCompanion(_ members: [ClassDeclaration.Member], node: ASTNode) -> [Token] {
+        return tokenizeCompanion(members.flatMap { $0.declaration }, node: node)
+    }
+
+    private func tokenizeCompanion(_ members: [Declaration], node: ASTNode) -> [Token] {
         let membersTokens = indent(members.map(tokenize)
             .joined(token: node.newToken(.linebreak, "\n")))
 
@@ -491,6 +482,78 @@ public class KotlinTokenizer: SwiftTokenizer {
                 node.newToken(.endOfScope, "}")
             ]
         ].joined(token: node.newToken(.linebreak, "\n"))
+    }
+
+    private func tokenizeInterpolatedString(_ rawText: String, node: ASTNode) -> [Token] {
+        var remainingText = rawText
+        var interpolatedString = ""
+
+        while let startRange = remainingText.range(of: "\\(") {
+            interpolatedString += remainingText[..<startRange.lowerBound]
+            remainingText = String(remainingText[startRange.upperBound...])
+
+            var scopes = 1
+            var i = 1
+            while i < remainingText.count && scopes > 0 {
+                let index = remainingText.index(remainingText.startIndex, offsetBy: i)
+                i += 1
+                switch remainingText[index] {
+                case "(": scopes += 1
+                case ")": scopes -= 1
+                default: continue
+                }
+            }
+            let expression = String(remainingText[..<remainingText.index(remainingText.startIndex, offsetBy: i - 1)])
+            let computedExpression = (try? translate(content: expression).joinedValues().replacingOccurrences(of: "\n", with: "")) ?? expression
+            interpolatedString += "${\(computedExpression)}"
+            remainingText = String(remainingText[remainingText.index(remainingText.startIndex, offsetBy: i)...])
+        }
+
+        interpolatedString += remainingText
+        return [node.newToken(.string, interpolatedString)]
+
+//
+//        var interpolated = ""
+//        var escaping = false
+//        var inExpression = false
+//        var scopeCount = 0
+//        for c in rawText {
+//            switch c {
+//            case "\\":
+//                escaping = true
+//            case "(":
+//                if escaping {
+//                    interpolated += "${"
+//                    scopeCount = 1
+//                    escaping = false
+//                    inExpression = true
+//                } else {
+//                    if inExpression {
+//                        scopeCount += 1
+//                    }
+//                    interpolated += "("
+//                }
+//            case ")":
+//                if inExpression {
+//                    scopeCount -= 1
+//                    if scopeCount == 0 {
+//                        inExpression = false
+//                        interpolated += "}"
+//                    } else {
+//                        interpolated += ")"
+//                    }
+//                } else {
+//                    interpolated += ")"
+//                }
+//            default:
+//                if escaping {
+//                    escaping = false
+//                    interpolated += "\\"
+//                }
+//                interpolated += String(c)
+//            }
+//        }
+//        return [node.newToken(.string, interpolated)]
     }
 }
 

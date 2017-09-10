@@ -21,7 +21,7 @@ extension FunctionDeclaration {
 
 extension StructDeclaration.Member {
     var isStatic: Bool {
-        guard case .declaration(let declaration) = self else { return false }
+        guard let declaration = self.declaration else { return false }
         if let variable = declaration as? VariableDeclaration {
             return variable.isStatic
         }
@@ -30,11 +30,16 @@ extension StructDeclaration.Member {
         }
         return false
     }
+
+    var declaration: Declaration? {
+        guard case .declaration(let declaration) = self else { return nil }
+        return declaration
+    }
 }
 
 extension ClassDeclaration.Member {
     var isStatic: Bool {
-        guard case .declaration(let declaration) = self else { return false }
+        guard let declaration = self.declaration else { return false }
         if let variable = declaration as? VariableDeclaration {
             return variable.isStatic
         }
@@ -42,6 +47,11 @@ extension ClassDeclaration.Member {
             return function.isStatic
         }
         return false
+    }
+
+    var declaration: Declaration? {
+        guard case .declaration(let declaration) = self else { return nil }
+        return declaration
     }
 }
 
