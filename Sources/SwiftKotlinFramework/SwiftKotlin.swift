@@ -511,49 +511,6 @@ public class KotlinTokenizer: SwiftTokenizer {
 
         interpolatedString += remainingText
         return [node.newToken(.string, interpolatedString)]
-
-//
-//        var interpolated = ""
-//        var escaping = false
-//        var inExpression = false
-//        var scopeCount = 0
-//        for c in rawText {
-//            switch c {
-//            case "\\":
-//                escaping = true
-//            case "(":
-//                if escaping {
-//                    interpolated += "${"
-//                    scopeCount = 1
-//                    escaping = false
-//                    inExpression = true
-//                } else {
-//                    if inExpression {
-//                        scopeCount += 1
-//                    }
-//                    interpolated += "("
-//                }
-//            case ")":
-//                if inExpression {
-//                    scopeCount -= 1
-//                    if scopeCount == 0 {
-//                        inExpression = false
-//                        interpolated += "}"
-//                    } else {
-//                        interpolated += ")"
-//                    }
-//                } else {
-//                    interpolated += ")"
-//                }
-//            default:
-//                if escaping {
-//                    escaping = false
-//                    interpolated += "\\"
-//                }
-//                interpolated += String(c)
-//            }
-//        }
-//        return [node.newToken(.string, interpolated)]
     }
 }
 
