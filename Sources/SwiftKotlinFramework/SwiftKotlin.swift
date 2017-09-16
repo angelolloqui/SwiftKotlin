@@ -119,6 +119,18 @@ public class KotlinTokenizer: SwiftTokenizer {
                        with: [declaration.newToken(.keyword, "interface")])
     }
 
+    open override func tokenize(_ member: ProtocolDeclaration.PropertyMember, node: ASTNode) -> [Token] {
+        let attrsTokens = tokenize(member.attributes, node: node)
+        let modifiersTokens = tokenize(member.modifiers, node: node)
+
+        return [
+            attrsTokens,
+            modifiersTokens,
+            [member.newToken(.keyword, member.getterSetterKeywordBlock.setter == nil ? "val" : "var", node)],
+            member.newToken(.identifier, member.name, node) + tokenize(member.typeAnnotation, node: node),
+        ].joined(token: member.newToken(.space, " ", node))
+    }
+
     open override func tokenize(_ modifier: AccessLevelModifier, node: ASTNode) -> [Token] {
         return [modifier.newToken(
             .keyword,
@@ -184,6 +196,13 @@ public class KotlinTokenizer: SwiftTokenizer {
         if readOnly {
             tokens = tokens.replacing({ $0.value == "var" }, with: [declaration.body.newToken(.keyword, "val", declaration)], amount: 1)
         }
+
+        if declaration.isImplicitlyUnwrapped {
+            tokens.insert(contentsOf: [
+                declaration.newToken(.keyword, "lateinit"),
+                declaration.newToken(.space, " ")
+            ], at: 0)
+        }
         return tokens
     }
 
@@ -201,27 +220,6 @@ public class KotlinTokenizer: SwiftTokenizer {
                     getterTokens +
                     tokenize(codeBlock)
                 )
-//        case let .getterSetterBlock(name, typeAnnotation, block):
-//            return body.newToken(.identifier, name, node) +
-//                tokenize(typeAnnotation, node: node) +
-//                body.newToken(.linebreak, "\n", node) +
-//                indent(
-//                    getterTokens +
-//                    tokenize(block, node: node)
-//                )
-//        case let .getterSetterKeywordBlock(name, typeAnnotation, block):
-//            return body.newToken(.identifier, name, node) +
-//                tokenize(typeAnnotation, node: node) +
-//                body.newToken(.space, " ", node) +
-//                tokenize(block, node: node)
-//        case let .willSetDidSetBlock(name, typeAnnotation, initExpr, block):
-//            let typeAnnoTokens = typeAnnotation.map { tokenize($0, node: node) } ?? []
-//            let initTokens = initExpr.map { body.newToken(.symbol, " = ", node) + tokenize($0) } ?? []
-//            return [body.newToken(.identifier, name, node)] +
-//                typeAnnoTokens +
-//                initTokens +
-//                [body.newToken(.space, " ", node)] +
-//                tokenize(block, node: node)
         default:
             return super.tokenize(body, node: node).removingTrailingSpaces()
         }
@@ -459,6 +457,10 @@ public class KotlinTokenizer: SwiftTokenizer {
         ]
         return type.newToken(.identifier, typeMap[type.name] ?? type.name, node) +
             type.genericArgumentClause.map { tokenize($0, node: node) }
+    }
+
+    open override func tokenize(_ type: ImplicitlyUnwrappedOptionalType, node: ASTNode) -> [Token] {
+        return tokenize(type.wrappedType, node: node)
     }
 
     // MARK: - Patterns

@@ -1,3 +1,7 @@
+interface Hello {
+    val foo: String
+    var bar: String
+}
 class A {
     val stateObservable1: Observable<RestaurantsListState>
         get() {
@@ -27,11 +31,5 @@ class A {
             origin.y = 0
             origin.x = val.x
         }
-    var numberOfEdits = 0
-        private set
     lateinit var subject: TestSubject
-}
-interface Hello {
-    val foo: String
-    var bar: String
 }

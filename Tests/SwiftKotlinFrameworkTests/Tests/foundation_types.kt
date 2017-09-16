@@ -1,11 +1,11 @@
-var boolean: Boolean
+lateinit var boolean: Boolean
 var anyObject: Any? = null
 var any: Any? = null
-var array: List<String>?
-var array: Promise<List<String>>?
-var array: List<Promise<List<String>>>
+lateinit var array: List<String>?
+lateinit var array: Promise<List<String>>?
+lateinit var array: List<Promise<List<String>>>
 var array = listOf("1", "2")
-var map: Map<Int, String>?
-var map: Promise<Map<Int, String>>?
-var map: Map<Int, Promise<Map<String, String>>>
+lateinit var map: Map<Int, String>?
+lateinit var map: Promise<Map<Int, String>>?
+lateinit var map: Map<Int, Promise<Map<String, String>>>
 var map = mapOf(1 to "a", 2 to "b")

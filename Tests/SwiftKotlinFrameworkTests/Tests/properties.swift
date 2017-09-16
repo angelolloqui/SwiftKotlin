@@ -1,3 +1,9 @@
+
+protocol Hello {
+    var foo: String { get }
+    var bar: String { get set }
+}
+
 class A {
     var stateObservable1: Observable<RestaurantsListState> { return state.asObservable() }
     var stateObservable2: Observable<RestaurantsListState> {
@@ -29,12 +35,23 @@ class A {
         }
     }
 
-    private(set) var numberOfEdits = 0
-
     var subject: TestSubject!
+
+//    private(set) var numberOfEdits = 0
+//    lazy var importer = DataImporter()
+
 }
 
-protocol Hello {
-    var foo: String { get }
-    var bar: String { get set }
-}
+//class StepCounter {
+//    var totalSteps: Int = 0 {
+//        willSet(newTotalSteps) {
+//            print("About to set totalSteps to \(newTotalSteps)")
+//        }
+//        didSet {
+//            if totalSteps > oldValue  {
+//                print("Added \(totalSteps - oldValue) steps")
+//            }
+//        }
+//    }
+//}
+

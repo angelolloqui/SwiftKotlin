@@ -1,9 +1,11 @@
-var Double.km: Double {
-    return this * 1000.0
-}
-var Double.m: Double {
-    return this
-}
+val Double.km: Double
+    get() {
+        return this * 1000.0
+    }
+val Double.m: Double
+    get() {
+        return this
+    }
 open fun Double.toKm() : Double {
     return this * 1000.0
 }
@@ -13,6 +15,7 @@ fun Double.toMeter() : Double {
 public fun Double.Companion.toKm() : Double {
     return this * 1000.0
 }
-public var Double.Companion.m: Double {
-    return this
-}
+public val Double.Companion.m: Double
+    get() {
+        return this
+    }

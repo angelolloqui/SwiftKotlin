@@ -11,6 +11,14 @@ extension VariableDeclaration {
     var isStatic: Bool {
         return modifiers.isStatic
     }
+    var isImplicitlyUnwrapped: Bool {
+        switch body {
+        case .initializerList(let patters):
+            return patters.first?.initializerExpression == nil
+        default:
+            return false
+        }
+    }
 }
 
 extension FunctionDeclaration {
