@@ -55,6 +55,24 @@ extension ClassDeclaration.Member {
     }
 }
 
+extension ExtensionDeclaration.Member {
+    var isStatic: Bool {
+        guard let declaration = self.declaration else { return false }
+        if let variable = declaration as? VariableDeclaration {
+            return variable.isStatic
+        }
+        if let function = declaration as? FunctionDeclaration {
+            return function.isStatic
+        }
+        return false
+    }
+
+    var declaration: Declaration? {
+        guard case .declaration(let declaration) = self else { return nil }
+        return declaration
+    }
+}
+
 extension Collection where Iterator.Element == DeclarationModifier {
     var isStatic: Bool {
         return self.contains(where: { $0.isStatic })

@@ -16,6 +16,10 @@ public class SwiftTokenizer: Tokenizer {
     override open var indentation: String {
         return "    "
     }
+
+    open func unsupportedTokens(message: String, element: ASTTokenizable, node: ASTNode) -> [Token] {
+        return [element.newToken(.comment, "//FIXME: @SwiftKotlin - \(message)", node)]
+    }
 }
 
 public class KotlinTokenizer: SwiftTokenizer {
@@ -137,6 +141,35 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
     }
 
+    open override func tokenize(_ declaration: ExtensionDeclaration) -> [Token] {
+        let inheritanceTokens = declaration.typeInheritanceClause.map {
+            self.unsupportedTokens(message: "Kotlin does not support inheritance clauses in extensions:  \($0)", element: $0, node: declaration)
+        } ?? []
+        let whereTokens = declaration.genericWhereClause.map {
+            self.unsupportedTokens(message: "Kotlin does not support where clauses in extensions:  \($0)", element: $0, node: declaration)
+        } ?? []
+        let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) }?
+            .suffix(with: declaration.newToken(.space, " ")) ?? []
+        let typeTokens = tokenize(declaration.type, node: declaration)
+
+        let memberTokens = declaration.members.map { member in
+            var tokens = tokenize(member)
+            tokens.insert(contentsOf: modifierTokens, at: 0)
+            if let index = tokens.index(where: { $0.kind == .identifier }) {
+                if member.isStatic {
+                    tokens.insert(contentsOf: [declaration.newToken(.keyword, "Companion"), declaration.newToken(.delimiter, ".")], at: index)
+                }
+                tokens.insert(contentsOf: typeTokens + declaration.newToken(.delimiter, "."), at: index)
+            }
+            return tokens
+        }.joined(token: declaration.newToken(.linebreak, "\n"))
+
+        return [
+            inheritanceTokens,
+            whereTokens,
+            memberTokens
+        ].joined(token: declaration.newToken(.linebreak, "\n"))
+    }
 
     // MARK: - Statements
 

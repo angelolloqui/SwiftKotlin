@@ -3,10 +3,10 @@ extension Double {
     var m: Double { return self }
 }
 extension Double {
-    func toKm() -> Double { return self * 1000.0 }
+    open func toKm() -> Double { return self * 1000.0 }
     func toMeter() -> Double { return self }
 }
-extension Double {
+public extension Double {
     static func toKm() -> Double { return self * 1000.0 }
     static var m: Double { return self }
 }
