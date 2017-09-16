@@ -19,6 +19,16 @@ class A {
         }
     }
 
+    var top: Point {
+        get {
+            return Point(x: topX, y: topY)
+        }
+        set(val) {
+            origin.y = 0
+            origin.x = val.x
+        }
+    }
+
     private(set) var numberOfEdits = 0
 
     var subject: TestSubject!

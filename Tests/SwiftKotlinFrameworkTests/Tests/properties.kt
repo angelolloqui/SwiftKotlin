@@ -1,24 +1,37 @@
 class A {
     val stateObservable1: Observable<RestaurantsListState>
-        get() = state.asObservable()
+        get() {
+            return state.asObservable()
+        }
     val stateObservable2: Observable<RestaurantsListState>
-        get() = state.asObservable()
+        get() {
+            return state.asObservable()
+        }
     val stateObservable3: Observable<RestaurantsListState>
         get() {
             NSLog("Multiple statements")
             return state.asObservable()
         }
-    var center: Point {
-        get() = Point(x: centerX, y: centerY)
+    var center: Point
+        get() {
+            return Point(x = centerX, y = centerY)
+        }
         set(newValue) {
             origin.x = newValue.x - 100
         }
-    }
+    var top: Point
+        get() {
+            return Point(x = topX, y = topY)
+        }
+        set(val) {
+            origin.y = 0
+            origin.x = val.x
+        }
     var numberOfEdits = 0
         private set
     lateinit var subject: TestSubject
 }
-protocol Hello {
+interface Hello {
     val foo: String
     var bar: String
 }

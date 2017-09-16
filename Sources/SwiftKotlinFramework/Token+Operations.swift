@@ -22,5 +22,22 @@ extension Array where Iterator.Element == Token {
         return newTokens
     }
 
+    func removingTrailingSpaces() -> [Token] {
+        var lastToken: Token?
+        var newTokens = [Token]()
+        for token in self {
+            if token.kind == .linebreak && lastToken?.kind == .space {
+                lastToken = nil
+            }
+            if lastToken != nil {
+                newTokens.append(lastToken!)
+            }
+            lastToken = token
+        }
+        if lastToken != nil {
+            newTokens.append(lastToken!)
+        }
+        return newTokens
+    }
 }
 

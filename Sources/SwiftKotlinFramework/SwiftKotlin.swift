@@ -171,6 +171,81 @@ public class KotlinTokenizer: SwiftTokenizer {
         ].joined(token: declaration.newToken(.linebreak, "\n"))
     }
 
+    open override func tokenize(_ declaration: VariableDeclaration) -> [Token] {
+        var tokens = super.tokenize(declaration)
+
+        let readOnly: Bool
+        switch declaration.body {
+        case .codeBlock: readOnly = true
+        case .getterSetterBlock(_, _, let block) where block.setter == nil: readOnly = true
+        default: readOnly = false
+        }
+
+        if readOnly {
+            tokens = tokens.replacing({ $0.value == "var" }, with: [declaration.body.newToken(.keyword, "val", declaration)], amount: 1)
+        }
+        return tokens
+    }
+
+    open override func tokenize(_ body: VariableDeclaration.Body, node: ASTNode) -> [Token] {
+        let getterTokens = [
+            body.newToken(.keyword, "get()", node),
+            body.newToken(.space, " ", node)
+        ]
+        switch body {
+        case let .codeBlock(name, typeAnnotation, codeBlock):
+            return body.newToken(.identifier, name, node) +
+                tokenize(typeAnnotation, node: node) +
+                body.newToken(.linebreak, "\n", node) +
+                indent(
+                    getterTokens +
+                    tokenize(codeBlock)
+                )
+//        case let .getterSetterBlock(name, typeAnnotation, block):
+//            return body.newToken(.identifier, name, node) +
+//                tokenize(typeAnnotation, node: node) +
+//                body.newToken(.linebreak, "\n", node) +
+//                indent(
+//                    getterTokens +
+//                    tokenize(block, node: node)
+//                )
+//        case let .getterSetterKeywordBlock(name, typeAnnotation, block):
+//            return body.newToken(.identifier, name, node) +
+//                tokenize(typeAnnotation, node: node) +
+//                body.newToken(.space, " ", node) +
+//                tokenize(block, node: node)
+//        case let .willSetDidSetBlock(name, typeAnnotation, initExpr, block):
+//            let typeAnnoTokens = typeAnnotation.map { tokenize($0, node: node) } ?? []
+//            let initTokens = initExpr.map { body.newToken(.symbol, " = ", node) + tokenize($0) } ?? []
+//            return [body.newToken(.identifier, name, node)] +
+//                typeAnnoTokens +
+//                initTokens +
+//                [body.newToken(.space, " ", node)] +
+//                tokenize(block, node: node)
+        default:
+            return super.tokenize(body, node: node).removingTrailingSpaces()
+        }
+    }
+
+    open override func tokenize(_ block: GetterSetterBlock, node: ASTNode) -> [Token] {
+        let getterTokens = tokenize(block.getter, node: node)
+            .replacing({ $0.kind == .keyword && $0.value == "get" }, with: [block.newToken(.keyword, "get()", node)])
+        let setterTokens = block.setter.map { tokenize($0, node: node) } ?? []
+        return [
+            indent(getterTokens),
+            indent(setterTokens),
+        ].joined(token: block.newToken(.linebreak, "\n", node))
+        .prefix(with: block.newToken(.linebreak, "\n", node))
+    }
+
+    open override func tokenize(_ block: GetterSetterBlock.SetterClause, node: ASTNode) -> [Token] {
+        let newSetter = GetterSetterBlock.SetterClause(attributes: block.attributes,
+                                                       mutationModifier: block.mutationModifier,
+                                                       name: block.name ?? "newValue",
+                                                       codeBlock: block.codeBlock)
+        return super.tokenize(newSetter, node: node)
+    }
+
     // MARK: - Statements
 
     open override func tokenize(_ statement: GuardStatement) -> [Token] {
