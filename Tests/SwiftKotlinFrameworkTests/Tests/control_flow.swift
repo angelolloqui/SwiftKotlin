@@ -27,7 +27,7 @@ for i in 1...3 {}
 // Whiles
 while a > 1 && b < 2 {}
 
-// Guard statements with no statements
+// Guard statements
 guard number == 3 else { return }
 guard value() >= 3 else { return }
 guard condition else { return }
@@ -35,25 +35,6 @@ guard !condition else { return }
 guard number == 3 && value() >= 3 else { return }
 guard number == 3 && !disabled && enabled && value() >= 3 && (a == 1 || a == 2) else { return }
 guard number == 3 || value() >= 3 else { return }
-
-
-// Guard statements with statements
-guard number == 3 else {
-    NSLog("Do other operations")
-    return
-}
-guard value() >= 3 else {
-    NSLog("Do other operations")
-    return
-}
-guard condition else {
-    NSLog("Do other operations")
-    return
-}
-guard !condition else {
-    NSLog("Do other operations")
-    return
-}
 
 // Guard lets
 guard let number = number else { return }

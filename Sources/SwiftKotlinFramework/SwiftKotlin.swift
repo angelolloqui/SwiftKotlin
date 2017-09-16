@@ -376,6 +376,9 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
     }
 
+    open override func tokenize(_ origin: ThrowsKind, node: ASTNode) -> [Token] {
+        return []
+    }
 
     // MARK: - Private helpers
 

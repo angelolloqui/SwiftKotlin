@@ -12,7 +12,7 @@ class SwiftKotlinTests: XCTestCase {
     let kotlinTokenizer = KotlinTokenizer()
 
     func testSpecificFile() {
-        try! testSource(file: "string_interpolator")
+        try! testSource(file: "exceptions")
     }
 
     func testAll() {
