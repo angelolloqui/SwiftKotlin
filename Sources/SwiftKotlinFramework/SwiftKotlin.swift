@@ -139,14 +139,44 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ declaration: InitializerDeclaration) -> [Token] {
-        return super.tokenize(declaration)
-            .replacing({ $0.value == "init"},
-                       with: [declaration.newToken(.keyword, "constructor")])
+        var tokens = super.tokenize(declaration)
+
+        // Find super.init and move to body start
+        let superInitExpression = declaration.body.statements
+            .flatMap { ($0 as? FunctionCallExpression)?.postfixExpression as? SuperclassExpression }
+            .filter { $0.isInitializer }
+            .first
+
+        let selfInitExpression = declaration.body.statements
+            .flatMap { ($0 as? FunctionCallExpression)?.postfixExpression as? SelfExpression }
+            .filter { $0.isInitializer }
+            .first
+
+        let bodyStart = tokens.index(where: { $0.node === declaration.body })
+
+        if  let bodyStart = bodyStart,
+            let initExpression: ASTNode = superInitExpression ?? selfInitExpression,
+            let superIndex = tokens.index(where: { $0.node === initExpression }),
+            let endOfScopeIndex = tokens[superIndex...].index(where: { $0.kind == .endOfScope && $0.value == ")" }){
+            let keyword = superInitExpression != nil ? "super" : "this"
+            let superCallTokens = Array(tokens[superIndex...endOfScopeIndex])
+                .replacing({ $0.node === initExpression }, with: [])
+                .prefix(with: initExpression.newToken(.keyword, keyword))
+                .prefix(with: initExpression.newToken(.space, " "))
+                .prefix(with: initExpression.newToken(.symbol, ":"))
+                .suffix(with: initExpression.newToken(.space, " "))
+
+            tokens.removeSubrange((superIndex - 1)...(endOfScopeIndex + 1))
+            tokens.insert(contentsOf: superCallTokens, at: bodyStart)
+        }
+
+        return tokens.replacing({ $0.value == "init"},
+                                with: [declaration.newToken(.keyword, "constructor")])
     }
 
     open override func tokenize(_ modifier: DeclarationModifier, node: ASTNode) -> [Token] {
         switch modifier {
-        case .static, .unowned, .unownedSafe, .unownedUnsafe, .weak:
+        case .static, .unowned, .unownedSafe, .unownedUnsafe, .weak, .convenience, .dynamic:
             return []
         default:
             return super.tokenize(modifier, node: node)

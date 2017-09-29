@@ -103,3 +103,27 @@ extension DeclarationModifier {
         }
     }
 }
+
+extension SuperclassExpression {
+    var isInitializer: Bool {
+        switch kind {
+        case .initializer:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+extension SelfExpression {
+    var isInitializer: Bool {
+        switch kind {
+        case .initializer:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+

@@ -9,12 +9,10 @@ open class ClassB: ClassA {
         this.message = message
         this.cause = cause
     }
-    public constructor(cause: String) : this(message = "", cuase = cause) {
-    }
+    public constructor(cause: String) : this(message = "", cuase = cause) {}
 }
 open class ClassC: ClassB {
-    public constructor() : super(message = "message", cause = "cause") {
-    }
+    public constructor() : super(message = "message", cause = "cause") {}
 }
 val obj1 = ClassA()
 val obj2 = ClassB(message = "message", cause = "a cause")
