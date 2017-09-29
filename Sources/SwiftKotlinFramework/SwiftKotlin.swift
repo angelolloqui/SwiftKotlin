@@ -90,7 +90,19 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ declaration: StructDeclaration) -> [Token] {
-        let staticMembers = declaration.members.filter({ $0.isStatic })
+        var staticMembers: [StructDeclaration.Member] = []
+        var declarationMembers: [StructDeclaration.Member] = []
+        var otherMembers: [StructDeclaration.Member] = []
+        declaration.members.forEach { member in
+            if member.isStatic {
+                staticMembers.append(member)
+            } else if member.declaration is ConstantDeclaration || member.declaration is VariableDeclaration {
+                declarationMembers.append(member)
+            } else {
+                otherMembers.append(member)
+            }
+        }
+
         let newStruct = StructDeclaration(
             attributes: declaration.attributes,
             accessLevelModifier: declaration.accessLevelModifier,
@@ -98,7 +110,8 @@ public class KotlinTokenizer: SwiftTokenizer {
             genericParameterClause: declaration.genericParameterClause,
             typeInheritanceClause: declaration.typeInheritanceClause,
             genericWhereClause: declaration.genericWhereClause,
-            members: declaration.members.filter({ !$0.isStatic }))
+            members: otherMembers)
+
         var tokens = super.tokenize(newStruct)
             .replacing({ $0.value == "struct"},
                        with: [declaration.newToken(.keyword, "data class")])
@@ -108,6 +121,29 @@ public class KotlinTokenizer: SwiftTokenizer {
                 .prefix(with: declaration.newToken(.linebreak, "\n"))
                 .suffix(with: declaration.newToken(.linebreak, "\n"))
             tokens.insert(contentsOf: companionTokens, at: bodyStart + 1)
+        }
+
+        if !declarationMembers.isEmpty, let bodyStart = tokens.index(where: { $0.value == "{"}) {
+            let linebreak = declaration.newToken(.linebreak, "\n")
+            let declarationTokens: [Token]
+            if declarationMembers.count == 1 {
+                declarationTokens = declarationMembers
+                        .flatMap { tokenize($0) }
+            } else {
+                let joinTokens = [
+                    declaration.newToken(.delimiter, ","),
+                    linebreak
+                ]
+                declarationTokens = indent(
+                    declarationMembers
+                        .map { tokenize($0) }
+                        .joined(tokens: joinTokens))
+                    .prefix(with: linebreak)
+            }
+            tokens.insert(contentsOf: declarationTokens
+                .prefix(with: declaration.newToken(.startOfScope, "("))
+                .suffix(with: declaration.newToken(.endOfScope, ")")),
+                          at: bodyStart - 1)
         }
 
         return tokens

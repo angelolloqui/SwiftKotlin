@@ -36,12 +36,11 @@ class A {
     var name = "string"
     fun test() {}
 }
-data class A {
+data class A(var name = "string") {
     companion object {
         var myBool = true
         fun method() {}
     }
 
-    var name = "string"
     fun test() {}
 }

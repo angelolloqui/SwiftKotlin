@@ -18,4 +18,3 @@ val obj1 = ClassA()
 val obj2 = ClassB(message = "message", cause = "a cause")
 val obj3 = ClassB("a cause")
 val obj4 = ClassC()
-
