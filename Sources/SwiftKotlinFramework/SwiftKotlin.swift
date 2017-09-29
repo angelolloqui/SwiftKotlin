@@ -424,6 +424,10 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
     }
 
+    open override func tokenize(_ expression: ForcedValueExpression) -> [Token] {
+        return tokenize(expression.postfixExpression) + expression.newToken(.symbol, "!!")
+    }
+
     // MARK: - Types
     open override func tokenize(_ type: ArrayType, node: ASTNode) -> [Token] {
         return

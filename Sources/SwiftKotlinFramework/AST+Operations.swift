@@ -11,12 +11,20 @@ extension VariableDeclaration {
     var isStatic: Bool {
         return modifiers.isStatic
     }
+
     var isImplicitlyUnwrapped: Bool {
+        return typeAnnotation?.type is ImplicitlyUnwrappedOptionalType
+    }
+
+    var typeAnnotation: TypeAnnotation? {
         switch body {
-        case .initializerList(let patters):
-            return patters.first?.initializerExpression == nil
+        case .initializerList(let patterns):
+            return patterns
+                .flatMap { $0.pattern as? IdentifierPattern }
+                .flatMap { $0.typeAnnotation }
+                .first
         default:
-            return false
+            return nil
         }
     }
 }
