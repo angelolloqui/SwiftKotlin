@@ -62,42 +62,48 @@ The scope of this project is not mapping all existing methods and data types to 
 
 ## Status
 
-**Attention: The project is going through a majar refactor to use a AST instead of a tokenizer. Work is being done under the `feature/swift-tranform` branch. It will be integrated into the main one as soon as it is in a comparable state, which will be ending september or beginning of october**
 
-The project is in active development, with many rules still to be implemented. Some of them include:
+The project is in active development, with many rules and improvements still to be implemented. Some of them include:
 
 - [x] Constructors
 - [x] Simple Control flow statments (`guard`, `if`, `for`, `while`, `switch`)
-- [ ] Composed Control flow statments (multiple `guard`, `if let`)
-- [ ] Exception handling
-- [ ] Extensions
+- [x] Composed Control flow statments (multiple `guard`, `if let`)
+- [x] Extensions
 - [x] Keyword replacements (`val`, `this`, `fun`, ...)
-- [x] Basic memory management
-- [ ] Advanced memory management
+- [x] Basic memory management (`weak`, captures,...)
 - [x] Function returns and named parameters
-- [x] Basic property transfromers
+- [x] Basic property transfromers (getters and setters)
 - [ ] Advance property transformers (`lazy`, `didSet`,...)
 - [x] Static to Companion
 - [x] Struct to data class
 - [x] String interpolators
-- [ ] Foundation types (arrays, maps,...)
+- [x] Foundation types (arrays, maps,...)
+- [x] Basic exception handling syntax
+- [ ] Simple enums
+- [ ] Complex enum cases to Sealed classes
 - ...
 
 With the implemented rules you can get already a pretty decent Kotlin output for many of your classes. The rest will come in future releases.
 
 
 ## Installation
+
 The project comes with 2 executable targets:
 
 - **SwiftKotlinCommandLine**
 - **SwiftKotlinApp**
 
-Make sure you run `git submodule update` before building them with XCode8+; ~~or just go to the download page to get the most recent compiled versions of the project~~.
+Checkout the [project's releases page](https://github.com/angelolloqui/SwiftKotlin/releases) to get a preview compiled version of the app or compile it manually:
 
-Copy the executables in a directory with executable rights. Typically, you could use:
+- Install Xcode 9+ and check it is the default selected one by running `xcode-select -p`
+- clone the repo: `git clone git@github.com:angelolloqui/SwiftKotlin.git; cd SwiftKotlin` and move to the ast branch `git checkout -b 'feature/swift-tranform' 'origin/feature/swift-transform'` 
+- Run `swift package update`
+- Open the project: `open SwiftKotlin.xcodeproj`
+
+From Xcode, run the desired target and copy the generated executables in a directory with executable rights for later use. Typically, you could use:
 
 - **swiftkotlin** command line tool: `/usr/local/bin/`
-- **SwiftKotlin** desktop app: `/Applications/`
+- **SwiftKotlinApp** desktop app: `/Applications/`
 
 ## Usage
 ### Command line tool
@@ -119,7 +125,7 @@ For a list of missing features, check the disabled Unit Tests.
 
 ## Credits
 
-SwiftKotlin uses [SwiftFormat](https://github.com/nicklockwood/SwiftFormat/) for extracting tokens from the Swift file.
+SwiftKotlin uses [Swift-Transform](https://github.com/yanagiba/swift-transform) and [Swift-AST](https://github.com/yanagiba/swift-ast) for generating the AST for transpilation.
 
 SwiftKotlin is brought to you by [Angel Garcia Olloqui](http://angelolloqui.com). You can contact me on:
 
@@ -129,5 +135,5 @@ SwiftKotlin is brought to you by [Angel Garcia Olloqui](http://angelolloqui.com)
 - LinkedIn: [angelolloqui](http://www.linkedin.com/in/angelolloqui)
 
 And special credits for the contributors:
-
+- [Ryuichi Sai](https://github.com/ryuichis)
 - [jonnermut](https://github.com/jonnermut)

@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "bocho",
+        "repositoryURL": "https://github.com/yanagiba/bocho",
+        "state": {
+          "branch": null,
+          "revision": "a02d4faf11539b121cc007210a0141478fa3d924",
+          "version": "0.1.0"
+        }
+      },
+      {
+        "package": "swift-ast",
+        "repositoryURL": "https://github.com/yanagiba/swift-ast",
+        "state": {
+          "branch": null,
+          "revision": "87888a78bc264a57536e6c628f4ad4ad02eadd06",
+          "version": "0.4.1"
+        }
+      },
+      {
+        "package": "swift-transform",
+        "repositoryURL": "https://github.com/angelolloqui/swift-transform",
+        "state": {
+          "branch": null,
+          "revision": "64d534716ef6f7d42c46a7e5c6f4aa4cbb71d0c8",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
