@@ -62,25 +62,25 @@ The scope of this project is not mapping all existing methods and data types to 
 
 ## Status
 
-**Attention: The project is going through a major refactor to use an AST instead of a tokenizer. Work is being done under the `feature/swift-tranform` branch. It will be integrated into the main branch as soon as it is in a comparable state, which will be by beginning of October 2017**
 
-The project is in active development, with many rules still to be implemented. Some of them include:
+The project is in active development, with many rules and improvements still to be implemented. Some of them include:
 
-- [ ] Constructors
+- [x] Constructors
 - [x] Simple Control flow statments (`guard`, `if`, `for`, `while`, `switch`)
 - [x] Composed Control flow statments (multiple `guard`, `if let`)
-- [ ] Exception handling
-- [ ] Extensions
+- [x] Extensions
 - [x] Keyword replacements (`val`, `this`, `fun`, ...)
-- [ ] Basic memory management
-- [ ] Advanced memory management
+- [x] Basic memory management (`weak`, captures,...)
 - [x] Function returns and named parameters
-- [ ] Basic property transfromers
+- [x] Basic property transfromers (getters and setters)
 - [ ] Advance property transformers (`lazy`, `didSet`,...)
-- [ ] Static to Companion
+- [x] Static to Companion
 - [x] Struct to data class
-- [ ] String interpolators
+- [x] String interpolators
 - [x] Foundation types (arrays, maps,...)
+- [x] Basic exception handling syntax
+- [ ] Simple enums
+- [ ] Complex enum cases to Sealed classes
 - ...
 
 With the implemented rules you can get already a pretty decent Kotlin output for many of your classes. The rest will come in future releases.
@@ -125,7 +125,7 @@ For a list of missing features, check the disabled Unit Tests.
 
 ## Credits
 
-SwiftKotlin uses [SwiftFormat](https://github.com/nicklockwood/SwiftFormat/) for extracting tokens from the Swift file.
+SwiftKotlin uses [Swift-Transform](https://github.com/yanagiba/swift-transform) and [Swift-AST](https://github.com/yanagiba/swift-ast) for generating the AST for transpilation.
 
 SwiftKotlin is brought to you by [Angel Garcia Olloqui](http://angelolloqui.com). You can contact me on:
 
@@ -135,5 +135,5 @@ SwiftKotlin is brought to you by [Angel Garcia Olloqui](http://angelolloqui.com)
 - LinkedIn: [angelolloqui](http://www.linkedin.com/in/angelolloqui)
 
 And special credits for the contributors:
-
+- [Ryuichi Sai](https://github.com/ryuichis)
 - [jonnermut](https://github.com/jonnermut)
