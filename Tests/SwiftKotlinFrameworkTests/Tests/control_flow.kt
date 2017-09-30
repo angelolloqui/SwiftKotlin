@@ -5,21 +5,23 @@ if (number > 3 || number == 0) {}
 if (number == null) {}
 if (item is Movie) {}
 if (!object.condition()) {}
+val number = number
 if (number != null) {}
-val number = method()
+val number = this.method()
 if (number != null) {}
 val name = formatter.next(fromIndex = firstTokenIndex)
 if (name != null) {}
 val number = some.method()
 val param = object.itemAt(number)
 if (number != null && param != null) {}
-if (obj is Movie) {}
+val obj = obj as? Movie
+if (obj != null) {}
 val movie = obj2 as? Movie
 if (movie != null) {}
-if (numbers.flatMap({ it % 2}).count == 1) {}
+if (numbers.flatMap({ it % 2 }).count == 1) {}
 for (current in someObjects) {}
 for (i in 0 until count) {}
-for (i in 1..3) {}
+for (i in 1 .. 3) {}
 while (a > 1 && b < 2) {}
 if (number != 3) {
     return
@@ -36,27 +38,20 @@ if (condition) {
 if (number != 3 || value() < 3) {
     return
 }
+if (number != 3 || disabled || !enabled || value() < 3 || (a != 1 && a != 2)) {
+    return
+}
 if (number != 3 && value() < 3) {
     return
 }
-if (number != 3) {
-    NSLog("Do other operations")
+val number = number
+if (number == null) {
     return
 }
-if (value() < 3) {
-    NSLog("Do other operations")
+val value = some.method()
+if (value == null) {
     return
 }
-if (!condition) {
-    NSLog("Do other operations")
-    return
-}
-if (condition) {
-    NSLog("Do other operations")
-    return
-}
-val number = number ?: return
-val value = some.method() ?: return
 val result = some.method()
 val param = result.number()
 if (result == null || param == null || param <= 1) {
@@ -67,10 +62,17 @@ if (value == null) {
     NSLog("Do other operations")
     return
 }
-val value = some.method() ?: throw Exception()
+val value = some.method()
+if (value == null) {
+    throw Exception()
+}
 when (nb) {
-    in 0...7, 8, 9 -> print("single digit")
+    in 0 .. 7, 8, 9 -> print("single digit")
     10 -> print("double digits")
-    in 11...99 -> print("double digits")
+    11 .. 99 -> print("double digits")
+    -1 -> {
+        print("negative digits")
+        print("Multiple statements")
+    }
     else -> print("three or more digits")
 }

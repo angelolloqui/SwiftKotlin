@@ -328,35 +328,45 @@ public class KotlinTokenizer: SwiftTokenizer {
             super.tokenize(statement)
     }
 
-
     open override func tokenize(_ statement: SwitchStatement) -> [Token] {
-        var tokens = super.tokenize(statement)
-        if let startIndex = tokens.index(where: { $0.origin is Expression }),
-            let endIndex = tokens.index(where: { $0.value == "{"}) {
-            tokens.insert(statement.newToken(.endOfScope, ")"), at: endIndex - 1)
-            tokens.insert(statement.newToken(.startOfScope, "("), at: startIndex)
+        var casesTokens = statement.newToken(.startOfScope, "{") + statement.newToken(.endOfScope, "}")
+        if !statement.cases.isEmpty {
+            casesTokens = [
+                [statement.newToken(.startOfScope, "{")],
+                indent(
+                    statement.cases.map { tokenize($0, node: statement) }
+                    .joined(token: statement.newToken(.linebreak, "\n"))),
+                [statement.newToken(.endOfScope, "}")]
+                ].joined(token: statement.newToken(.linebreak, "\n"))
         }
-        return tokens.replacing({ $0.value == "switch" },
-                                with: [statement.newToken(.keyword, "when")])
+
+        return [
+            [statement.newToken(.keyword, "when")],
+            tokenize(statement.expression)
+                .prefix(with: statement.newToken(.startOfScope, "("))
+                .suffix(with: statement.newToken(.endOfScope, ")")),
+            casesTokens
+            ].joined(token: statement.newToken(.space, " "))
     }
 
     open override func tokenize(_ statement: SwitchStatement.Case, node: ASTNode) -> [Token] {
         let separatorTokens =  [
             statement.newToken(.space, " ", node),
             statement.newToken(.delimiter, "->", node),
-            statement.newToken(.linebreak, "\n", node)
+            statement.newToken(.space, " ", node),
         ]
         switch statement {
         case let .case(itemList, stmts):
             let prefix = itemList.count > 1 ? [statement.newToken(.keyword, "in", node), statement.newToken(.space, " ", node)] : []
             let conditions = itemList.map { tokenize($0, node: node) }.joined(token: statement.newToken(.delimiter, ", ", node))
-            return prefix + conditions + separatorTokens + indent(tokenize(stmts, node: node))
+            let statements = stmts.count > 1 ? tokenize(CodeBlock(statements: stmts)) : tokenize(stmts, node: node)
+            return prefix + conditions + separatorTokens + statements
 
         case .default(let stmts):
             return
                 [statement.newToken(.keyword, "else", node)] +
                     separatorTokens +
-                    indent(tokenize(stmts, node: node))
+                    tokenize(stmts, node: node)
         }
     }
 
@@ -418,9 +428,16 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ expression: BinaryOperatorExpression) -> [Token] {
+        let binaryOperator: Operator
+        switch expression.binaryOperator {
+        case "..<": binaryOperator = "until"
+        case "...": binaryOperator = ".."
+        case "??": binaryOperator = "?:"
+        default: binaryOperator = expression.binaryOperator
+        }
         return super.tokenize(expression)
-            .replacing({ $0.value == "??"},
-                       with: [expression.newToken(.symbol, "?:")])
+            .replacing({ $0.kind == .symbol && $0.value == expression.binaryOperator },
+                       with: [expression.newToken(.symbol, binaryOperator)])
     }
 
     open override func tokenize(_ expression: FunctionCallExpression.Argument, node: ASTNode) -> [Token] {

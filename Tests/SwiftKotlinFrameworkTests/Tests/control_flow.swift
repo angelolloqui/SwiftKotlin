@@ -53,5 +53,9 @@ switch nb {
     case 0...7, 8, 9: print("single digit")
     case 10: print("double digits")
     case 11...99: print("double digits")
+    case -1:
+        print("negative digits")
+        print("Multiple statements")
+    
     default: print("three or more digits")
 }
