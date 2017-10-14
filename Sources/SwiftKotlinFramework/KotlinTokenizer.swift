@@ -1,5 +1,5 @@
 //
-//  SwiftKotlin.swift
+//  KotlinTokenizer.swift
 //  SwiftKotlinFramework
 //
 //  Created by Angel Garcia on 14/09/16.
@@ -12,17 +12,7 @@ import AST
 import Source
 import Parser
 
-public class SwiftTokenizer: Tokenizer {
-    override open var indentation: String {
-        return "    "
-    }
-
-    open func unsupportedTokens(message: String, element: ASTTokenizable, node: ASTNode) -> [Token] {
-        return [element.newToken(.comment, "//FIXME: @SwiftKotlin - \(message)", node)]
-    }
-}
-
-public class KotlinTokenizer: SwiftTokenizer {
+open class KotlinTokenizer: SwiftTokenizer {
 
     // MARK: - Declarations
 
@@ -575,6 +565,10 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     open override func tokenize(_ origin: ThrowsKind, node: ASTNode) -> [Token] {
         return []
+    }
+
+    open func unsupportedTokens(message: String, element: ASTTokenizable, node: ASTNode) -> [Token] {
+        return [element.newToken(.comment, "//FIXME: @SwiftKotlin - \(message)", node)]
     }
 
     // MARK: - Private helpers
