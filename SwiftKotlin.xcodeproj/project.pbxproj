@@ -63,10 +63,12 @@
 		78266B0D1F5CA62D00F08378 /* Source.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Source::Product" /* Source.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		78266B101F5CA62D00F08378 /* Bocho.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "bocho::Bocho::Product" /* Bocho.framework */; };
 		78266B111F5CA62D00F08378 /* Bocho.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "bocho::Bocho::Product" /* Bocho.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		789D78FB1F927957009ED628 /* PluginDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D78F91F92792E009ED628 /* PluginDefinitions.swift */; };
+		789D78FB1F927957009ED628 /* TransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D78F91F92792E009ED628 /* TransformPlugin.swift */; };
 		789D78FE1F9279BF009ED628 /* SwiftTokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D78FC1F9279AE009ED628 /* SwiftTokenizer.swift */; };
 		789D79031F927B5F009ED628 /* Token+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D79021F927A66009ED628 /* Token+Operations.swift */; };
 		789D79041F927B63009ED628 /* AST+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D79011F927A66009ED628 /* AST+Operations.swift */; };
+		78CAB0CF1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CAB0CE1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift */; };
+		78CAB0D61F92843C009E2608 /* TransformPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CAB0D51F92843C009E2608 /* TransformPluginTests.swift */; };
 		OBJ_265 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_271 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* Package.swift */; };
 		OBJ_277 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_230 /* Package.swift */; };
@@ -83,7 +85,7 @@
 		OBJ_299 /* Source.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Source::Product" /* Source.framework */; };
 		OBJ_300 /* Bocho.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "bocho::Bocho::Product" /* Bocho.framework */; };
 		OBJ_328 /* StringDifference.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* StringDifference.swift */; };
-		OBJ_329 /* SwiftKotlinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* SwiftKotlinTests.swift */; };
+		OBJ_329 /* KotlinTokenizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* KotlinTokenizerTests.swift */; };
 		OBJ_333 /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; };
 		OBJ_334 /* Transform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-transform::Transform::Product" /* Transform.framework */; };
 		OBJ_335 /* Tooling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Tooling::Product" /* Tooling.framework */; };
@@ -1016,11 +1018,13 @@
 		78266AE01F5AD05100F08378 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78266AE11F5AD05100F08378 /* SwiftKotlinApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftKotlinApp.entitlements; sourceTree = "<group>"; };
 		78266AE21F5AD05100F08378 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		78266AED1F5AE4C200F08378 /* Tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tests; sourceTree = "<group>"; };
-		789D78F91F92792E009ED628 /* PluginDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginDefinitions.swift; sourceTree = "<group>"; };
+		789D78F91F92792E009ED628 /* TransformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformPlugin.swift; sourceTree = "<group>"; };
 		789D78FC1F9279AE009ED628 /* SwiftTokenizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTokenizer.swift; sourceTree = "<group>"; };
 		789D79011F927A66009ED628 /* AST+Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AST+Operations.swift"; sourceTree = "<group>"; };
 		789D79021F927A66009ED628 /* Token+Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Token+Operations.swift"; sourceTree = "<group>"; };
+		78CAB0CE1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTTestToJUnitTokenTransformPlugin.swift; sourceTree = "<group>"; };
+		78CAB0D41F9283D6009E2608 /* Tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tests; sourceTree = "<group>"; };
+		78CAB0D51F92843C009E2608 /* TransformPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformPluginTests.swift; sourceTree = "<group>"; };
 		OBJ_100 /* AssignmentOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentOperatorExpression.swift; sourceTree = "<group>"; };
 		OBJ_101 /* BinaryOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryOperatorExpression.swift; sourceTree = "<group>"; };
 		OBJ_102 /* ClosureExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureExpression.swift; sourceTree = "<group>"; };
@@ -1089,7 +1093,7 @@
 		OBJ_167 /* SwitchStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchStatement.swift; sourceTree = "<group>"; };
 		OBJ_168 /* ThrowStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowStatement.swift; sourceTree = "<group>"; };
 		OBJ_169 /* WhileStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhileStatement.swift; sourceTree = "<group>"; };
-		OBJ_17 /* SwiftKotlinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftKotlinTests.swift; sourceTree = "<group>"; };
+		OBJ_17 /* KotlinTokenizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotlinTokenizerTests.swift; sourceTree = "<group>"; };
 		OBJ_170 /* Statements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statements.swift; sourceTree = "<group>"; };
 		OBJ_171 /* ThrowsKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowsKind.swift; sourceTree = "<group>"; };
 		OBJ_172 /* TopLevelDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLevelDeclaration.swift; sourceTree = "<group>"; };
@@ -1436,7 +1440,8 @@
 		789D78F81F927905009ED628 /* plugins */ = {
 			isa = PBXGroup;
 			children = (
-				789D78F91F92792E009ED628 /* PluginDefinitions.swift */,
+				789D78F91F92792E009ED628 /* TransformPlugin.swift */,
+				78CAB0CE1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift */,
 			);
 			path = plugins;
 			sourceTree = "<group>";
@@ -1448,6 +1453,14 @@
 				789D79021F927A66009ED628 /* Token+Operations.swift */,
 			);
 			path = utils;
+			sourceTree = "<group>";
+		};
+		78CAB0D11F9282AB009E2608 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_16 /* StringDifference.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		OBJ_12 /* SwiftKotlinCommandLine */ = {
@@ -1503,9 +1516,10 @@
 		OBJ_15 /* SwiftKotlinFrameworkTests */ = {
 			isa = PBXGroup;
 			children = (
-				78266AED1F5AE4C200F08378 /* Tests */,
-				OBJ_16 /* StringDifference.swift */,
-				OBJ_17 /* SwiftKotlinTests.swift */,
+				78CAB0D41F9283D6009E2608 /* Tests */,
+				78CAB0D11F9282AB009E2608 /* Utils */,
+				OBJ_17 /* KotlinTokenizerTests.swift */,
+				78CAB0D51F92843C009E2608 /* TransformPluginTests.swift */,
 			);
 			name = SwiftKotlinFrameworkTests;
 			path = Tests/SwiftKotlinFrameworkTests;
@@ -2474,7 +2488,8 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_328 /* StringDifference.swift in Sources */,
-				OBJ_329 /* SwiftKotlinTests.swift in Sources */,
+				78CAB0D61F92843C009E2608 /* TransformPluginTests.swift in Sources */,
+				OBJ_329 /* KotlinTokenizerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2483,8 +2498,9 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_358 /* KotlinTokenizer.swift in Sources */,
-				789D78FB1F927957009ED628 /* PluginDefinitions.swift in Sources */,
+				789D78FB1F927957009ED628 /* TransformPlugin.swift in Sources */,
 				OBJ_360 /* TransformOptions.swift in Sources */,
+				78CAB0CF1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift in Sources */,
 				789D78FE1F9279BF009ED628 /* SwiftTokenizer.swift in Sources */,
 				789D79041F927B63009ED628 /* AST+Operations.swift in Sources */,
 				789D79031F927B5F009ED628 /* Token+Operations.swift in Sources */,

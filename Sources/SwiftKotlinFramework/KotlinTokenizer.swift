@@ -300,6 +300,10 @@ open class KotlinTokenizer: SwiftTokenizer {
         return super.tokenize(newSetter, node: node)
     }
 
+    open override func tokenize(_ declaration: ImportDeclaration) -> [Token] {
+        return []
+    }
+
     // MARK: - Statements
 
     open override func tokenize(_ statement: GuardStatement) -> [Token] {
