@@ -49,5 +49,20 @@ extension Array where Iterator.Element == Token {
         }
         return newTokens
     }
+
+    func lineIndentationToken(at: Int) -> Token? {
+        var index = at
+        while index >= 0 {
+            let token = self[index]
+            if token.kind == .indentation {
+                return token
+            }
+            if token.kind == .linebreak {
+                return nil
+            }
+            index -= 1
+        }
+        return nil
+    }
 }
 

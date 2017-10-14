@@ -19,28 +19,23 @@ open class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
     }
 
     public func transform(tokens: [Token], topDeclaration: TopLevelDeclaration) throws -> [Token] {
-        guard hasXCTests(topDeclaration: topDeclaration) else { return tokens }
+        let testClasses = topDeclaration.statements
+            .flatMap { $0 as? ClassDeclaration }
+            .filter { clazz in
+                return clazz.typeInheritanceClause?.textDescription.contains("XCTestCase") ?? false
+            }
+
+        guard !testClasses.isEmpty else { return tokens }
 
         var newTokens = tokens
         newTokens = addImports(newTokens, node: topDeclaration)
 
-        return newTokens
-    }
-
-    private func hasXCTests(topDeclaration: TopLevelDeclaration) -> Bool {
-        for statement in topDeclaration.statements {
-            if isXCTTestClass(statement: statement) {
-                return true
-            }
+        for testClass in testClasses {
+            newTokens = addTestAnnotations(newTokens, node: testClass)
         }
-        return false
-    }
 
-    private func isXCTTestClass(statement: Statement) -> Bool {
-        guard let classDeclaration = statement as? ClassDeclaration else { return false }
-        return classDeclaration.typeInheritanceClause?.typeInheritanceList.filter {
-            $0.textDescription.contains("XCTestCase")
-        }.first != nil
+
+        return newTokens
     }
 
     private func addImports(_ tokens: [Token], node: ASTNode) -> [Token] {
@@ -54,5 +49,23 @@ open class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
             importTokens + node.newToken(.identifier, "org.junit.Test"),
             tokens
         ].joined(token: node.newToken(.linebreak, "\n"))
+    }
+
+    private func addTestAnnotations(_ tokens: [Token], node: ClassDeclaration) -> [Token] {
+        let testMethods = node.members
+            .flatMap { $0.declaration as? FunctionDeclaration }
+            .filter { $0.name.starts(with: "test") }
+        guard !testMethods.isEmpty else { return tokens }
+
+        var newTokens = tokens
+        for method in testMethods {
+            if let firstTokenIndex = newTokens.index(where: { $0.node === method }) {
+                let indentation = newTokens.lineIndentationToken(at: firstTokenIndex)
+                indentation.map { newTokens.insert($0, at: firstTokenIndex) }
+                newTokens.insert(method.newToken(.linebreak, "\n"), at: firstTokenIndex)
+                newTokens.insert(method.newToken(.identifier, "@Test"), at: firstTokenIndex)
+            }
+        }
+        return newTokens
     }
 }
