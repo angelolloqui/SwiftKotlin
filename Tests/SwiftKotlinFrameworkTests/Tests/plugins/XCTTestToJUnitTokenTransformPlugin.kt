@@ -52,6 +52,12 @@ class AvailabilityServiceTests {
         XCTAssertTrue(true)
     }
 }
+class TestWithInheritance: SomeProtocol {
+    @Test
+    fun testMethodNotUnderXCTest() {
+        XCTAssertTrue(true)
+    }
+}
 class ClassWithNoTest: Other {
     override fun setUp() {
         super.setUp()

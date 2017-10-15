@@ -82,13 +82,35 @@ open class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
                 indentation.map { newTokens.insert($0, at: lineBreakIndex) }
                 newTokens.insert(method.newToken(.linebreak, "\n"), at: lineBreakIndex)
             }
+            newTokens = removeSuperCall(newTokens, node: method)
         }
+
         return newTokens
     }
 
     private func removeSuperCall(_ tokens: [Token], node: FunctionDeclaration) -> [Token] {
-        // TODO:
-        return tokens
+        guard node.modifiers.contains(.override) else { return tokens }
+        var newTokens = tokens
+        if let overrideIndex = newTokens.index(where: { $0.node === node && $0.value == "override" }) {
+            newTokens.remove(at: overrideIndex)
+            newTokens.remove(at: overrideIndex)     // Remove the spacing
+        }
+
+        guard let superCallExpression = node.body?.statements
+            .flatMap({ $0 as? FunctionCallExpression })
+            .filter({ $0.textDescription.starts(with: "super.\(node.name)()") })
+            .first else {
+                return newTokens
+        }
+        guard let superIndex = newTokens.index(where: { $0.node === superCallExpression }) else {
+            return newTokens
+        }
+
+        let startOfLine = newTokens.indexOf(kind: .linebreak, before: superIndex) ?? 0
+        let endOfLine = newTokens.indexOf(kind: .linebreak, after: superIndex) ?? newTokens.count
+        newTokens.removeSubrange(startOfLine..<endOfLine)
+
+        return newTokens
     }
 
 
