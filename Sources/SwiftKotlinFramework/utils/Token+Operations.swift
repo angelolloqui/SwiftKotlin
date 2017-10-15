@@ -6,6 +6,7 @@
 //
 
 import Transform
+import AST
 
 extension Collection where Iterator.Element == [Token] {
     public func joined(tokens: [Token]) -> [Token] {

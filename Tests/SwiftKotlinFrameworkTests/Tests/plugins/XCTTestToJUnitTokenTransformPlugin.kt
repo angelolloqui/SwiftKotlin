@@ -14,48 +14,48 @@ class AvailabilityServiceTests {
     }
     @Test
     fun testAssertEqual() {
-        XCTAssertEqual(1, 1)
-        XCTAssertEqual(1, 1, "Not equal")
+        assertEquals(1, 1)
+        assertEquals(1, 1, "Not equal")
     }
     @Test
     fun testAssertTrue() {
-        XCTAssertTrue(true)
-        XCTAssertTrue(true, "Not true")
+        assertTrue(true)
+        assertTrue(true, "Not true")
     }
     @Test
     fun testAssertFalse() {
-        XCTAssertFalse(false)
-        XCTAssertFalse(false, "Should not be true")
+        assertFalse(false)
+        assertFalse(false, "Should not be true")
     }
     @Test
     fun testAssertNil() {
-        XCTAssertNil(null)
-        XCTAssertNil(null, "Should be nil")
+        assertNull(null)
+        assertNull(null, "Should be nil")
     }
     @Test
     fun testAssertNotNil() {
-        XCTAssertNotNil("")
-        XCTAssertNotNil("", "Should not be nil")
+        assertNotNull("")
+        assertNotNull("", "Should not be nil")
     }
     @Test
     fun testMultipleStatements() {
         mockHttpClient.fileResponse = "empty"
         val result = service.search()
         val params = mockHttpClient.parameters
-        XCTAssertTrue(mockHttpClient.method == "GET", "Expected get request")
-        XCTAssertEqual(mockHttpClient.endpoint, "/api/v2/availability/search")
-        XCTAssertNotNil(params, "Expected parameters")
-        XCTAssertNil(promise.error, "Promise should not have error")
-        XCTAssertNotNil(result)
+        assertTrue(mockHttpClient.method == "GET", "Expected get request")
+        assertEquals(mockHttpClient.endpoint, "/api/v2/availability/search")
+        assertNotNull(params, "Expected parameters")
+        assertNull(promise.error, "Promise should not have error")
+        assertNotNull(result)
     }
     fun noTestMethod() {
-        XCTAssertTrue(true)
+        assertTrue(true)
     }
 }
 class TestWithInheritance: SomeProtocol {
     @Test
     fun testMethodNotUnderXCTest() {
-        XCTAssertTrue(true)
+        assertTrue(true)
     }
 }
 class ClassWithNoTest: Other {
@@ -69,6 +69,6 @@ class ClassWithNoTest: Other {
         super.tearDown()
     }
     fun testMethodNotUnderXCTest() {
-        XCTAssertTrue(true)
+        assertTrue(true)
     }
 }

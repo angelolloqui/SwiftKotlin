@@ -113,9 +113,26 @@ open class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
         return newTokens
     }
 
-
+    let xctMap = [
+        "XCTAssertTrue": (junitName: "assertTrue", parameters: 1),
+        "XCTAssertFalse": (junitName: "assertFalse", parameters: 1),
+        "XCTAssertNil": (junitName: "assertNull", parameters: 1),
+        "XCTAssertNotNil": (junitName: "assertNotNull", parameters: 1),
+        "XCTAssertEqual": (junitName: "assertEquals", parameters: 2),
+        "XCTAssertNotEqual": (junitName: "assertNotEquals", parameters: 2)
+    ]
     private func replaceXCTAssertCalls(_ tokens: [Token], node: TopLevelDeclaration) -> [Token] {
-        // TODO:
-        return tokens
+        var newTokens = [Token]()
+
+        for token in tokens {
+            if let expression = token.node as? IdentifierExpression, let mapping = xctMap[token.value] {
+                newTokens.append(expression.newToken(.identifier, mapping.junitName))
+                // TODO: Count parameters and reverse if more than expected (comments go first)
+            } else {
+                newTokens.append(token)
+            }
+        }
+
+        return newTokens
     }
 }

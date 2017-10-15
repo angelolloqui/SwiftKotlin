@@ -10,7 +10,7 @@ import XCTest
 
 class TransformPluginTests: XCTestCase {
     
-    func testXCTestToJUnitPlugin() {
+    func testXCTestToJUnitPlugin() {        
         try! testTokenTransformPlugin(
             plugin: XCTTestToJUnitTokenTransformPlugin(),
             file: "XCTTestToJUnitTokenTransformPlugin")
