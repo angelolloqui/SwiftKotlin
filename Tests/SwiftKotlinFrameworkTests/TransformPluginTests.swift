@@ -1,33 +1,31 @@
 //
-//  SwiftKotlinTests.swift
+//  TransformPluginTests.swift
 //  SwiftKotlinFrameworkTests
 //
-//  Created by Angel Luis Garcia on 26/08/2017.
+//  Created by Angel Luis Garcia on 14/10/2017.
 //
 
 import XCTest
-import SwiftKotlinFramework
+@testable import SwiftKotlinFramework
 
-class SwiftKotlinTests: XCTestCase {
-    let kotlinTokenizer = KotlinTokenizer()
-
-    func testSpecificFile() {
-        try! testSource(file: "control_flow")
+class TransformPluginTests: XCTestCase {
+    
+    func testXCTestToJUnitPlugin() {        
+        try! testTokenTransformPlugin(
+            plugin: XCTTestToJUnitTokenTransformPlugin(),
+            file: "XCTTestToJUnitTokenTransformPlugin")
     }
 
-    func testAll() {
-        let files = try! FileManager().contentsOfDirectory(atPath: self.testFilePath)
-        let swiftFiles = files
-            .filter { $0.contains(".swift") }
-            .map { $0.replacingOccurrences(of: ".swift", with: "")}
+}
 
-        for file in swiftFiles {
-            try! testSource(file: file)
-        }
-    }
+extension TransformPluginTests {
+    
+    private func testTokenTransformPlugin(plugin: TokenTransformPlugin, file: String) throws {
+        let kotlinTokenizer = KotlinTokenizer()
+        kotlinTokenizer.sourceTransformPlugins = []
+        kotlinTokenizer.tokenTransformPlugins = [plugin]
 
-    private func testSource(path: String? = nil, file: String) throws {
-        let path = path ?? self.testFilePath
+        let path = self.testFilePath
         let swiftURL = URL(fileURLWithPath: "\(path)/\(file).swift")
         let kotlinURL = URL(fileURLWithPath: "\(path)/\(file).kt")
 
@@ -43,12 +41,11 @@ class SwiftKotlinTests: XCTestCase {
         }
     }
 
-    var testFilePath: String {
+    private var testFilePath: String {
         return URL(fileURLWithPath: #file)
             .deletingLastPathComponent()
             .appendingPathComponent("Tests")
+            .appendingPathComponent("plugins")
             .path
     }
 }
-
-
