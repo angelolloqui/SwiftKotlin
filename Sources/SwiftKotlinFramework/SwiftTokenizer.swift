@@ -11,13 +11,19 @@ import AST
 import Source
 import Parser
 
-open class SwiftTokenizer: Tokenizer {
+public class SwiftTokenizer: Tokenizer {
     override open var indentation: String {
         return "    "
     }
 
-    open var sourceTransformPlugins: [SourceTransformPlugin] = []
-    open var tokenTransformPlugins: [TokenTransformPlugin] = []
+    open var sourceTransformPlugins: [SourceTransformPlugin]
+    open var tokenTransformPlugins: [TokenTransformPlugin]
+
+    public init(sourceTransformPlugins: [SourceTransformPlugin] = [],
+         tokenTransformPlugins: [TokenTransformPlugin] = []) {
+        self.sourceTransformPlugins = sourceTransformPlugins
+        self.tokenTransformPlugins = tokenTransformPlugins
+    }
 
     open func translate(path: URL) throws -> [Token] {
         let content = try String(contentsOf: path)

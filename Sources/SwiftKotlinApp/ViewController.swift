@@ -13,7 +13,11 @@ import Transform
 class ViewController: NSViewController {
 
     let swiftTokenizer = SwiftTokenizer()
-    let kotlinTokenizer = KotlinTokenizer()
+    let kotlinTokenizer = KotlinTokenizer(
+        tokenTransformPlugins: [
+            XCTTestToJUnitTokenTransformPlugin()
+        ]
+    )
     
     @IBOutlet var swiftTextView: NSTextView!
     @IBOutlet var kotlinTextView: NSTextView!

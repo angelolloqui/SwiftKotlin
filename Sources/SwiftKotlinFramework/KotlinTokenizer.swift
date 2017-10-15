@@ -12,7 +12,7 @@ import AST
 import Source
 import Parser
 
-open class KotlinTokenizer: SwiftTokenizer {
+public class KotlinTokenizer: SwiftTokenizer {
 
     // MARK: - Declarations
 

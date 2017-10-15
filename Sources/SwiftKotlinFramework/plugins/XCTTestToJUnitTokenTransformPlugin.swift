@@ -9,7 +9,7 @@ import Foundation
 import Transform
 import AST
 
-open class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
+public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
     public var name: String {
         return "XCTest to JUnit4"
     }
@@ -17,6 +17,8 @@ open class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
     public var description: String {
         return "Transforms XCTTest classes and methods to JUnit4 variants"
     }
+
+    public init() {}
 
     public func transform(tokens: [Token], topDeclaration: TopLevelDeclaration) throws -> [Token] {
         let testClasses = topDeclaration.statements
@@ -126,7 +128,7 @@ open class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
 
         for token in tokens {
             if let expression = token.node as? IdentifierExpression, let mapping = xctMap[token.value] {
-                newTokens.append(expression.newToken(.identifier, mapping.junitName))
+                newTokens.append(expression.newToken(.identifier, mapping.junitName))                
                 // TODO: Count parameters and reverse if more than expected (comments go first)
             } else {
                 newTokens.append(token)
