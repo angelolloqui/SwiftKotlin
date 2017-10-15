@@ -50,17 +50,35 @@ extension Array where Iterator.Element == Token {
         return newTokens
     }
 
-    func lineIndentationToken(at: Int) -> Token? {
-        var index = at
+    func lineIndentationToken(at index: Int) -> Token? {
+        guard let firstIndentation = indexOf(kind: .indentation, before: index) else { return nil }
+
+        if let firstLineBreak = indexOf(kind: .linebreak, before: index), firstIndentation < firstLineBreak {
+            return nil
+        }
+
+        return self[firstIndentation]
+    }
+
+    func indexOf(kind: Token.Kind, before: Int) -> Int? {
+        var index = before
         while index >= 0 {
-            let token = self[index]
-            if token.kind == .indentation {
-                return token
-            }
-            if token.kind == .linebreak {
-                return nil
+            if self[index].kind == kind {
+                return index
             }
             index -= 1
+        }
+        return nil
+    }
+
+
+    func indexOf(kind: Token.Kind, after: Int) -> Int? {
+        var index = after
+        while index >= 0 {
+            if self[index].kind == kind {
+                return index
+            }
+            index += 1
         }
         return nil
     }

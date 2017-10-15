@@ -60,6 +60,11 @@ class AvailabilityServiceTests: XCTestCase {
 
 }
 
+class TestWithInheritance: XCTestCase, SomeProtocol {
+    func testMethodNotUnderXCTest() {
+        XCTAssertTrue(true)
+    }
+}
 
 class ClassWithNoTest: Other {
 

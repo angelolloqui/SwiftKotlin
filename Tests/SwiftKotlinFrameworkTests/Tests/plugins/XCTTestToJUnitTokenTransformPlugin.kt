@@ -1,17 +1,16 @@
-import junit.framework.Assert
-import org.junit.Before
-import org.junit.Test
-class AvailabilityServiceTests: XCTestCase {
+import org.junit.*
+import org.junit.Assert.*
+class AvailabilityServiceTests {
     lateinit var service: AvailabilityService
     lateinit var mockHttpClient: MockHttpClient
-    override fun setUp() {
-        super.setUp()
+    @Before
+    fun setUp() {
         mockHttpClient = MockHttpClient()
         service = AvailabilityService(httpClient = mockHttpClient)
     }
-    override fun tearDown() {
+    @After
+    fun tearDown() {
         mockHttpClient.clear()
-        super.tearDown()
     }
     @Test
     fun testAssertEqual() {
