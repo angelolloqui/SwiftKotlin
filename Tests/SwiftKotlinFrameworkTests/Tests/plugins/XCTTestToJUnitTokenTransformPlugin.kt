@@ -15,37 +15,37 @@ class AvailabilityServiceTests {
     @Test
     fun testAssertEqual() {
         assertEquals(1, 1)
-        assertEquals(1, 1, "Not equal")
+        assertEquals("Not equal", 1, 1)
     }
     @Test
     fun testAssertTrue() {
         assertTrue(true)
-        assertTrue(true, "Not true")
+        assertTrue("Not true", true)
     }
     @Test
     fun testAssertFalse() {
         assertFalse(false)
-        assertFalse(false, "Should not be true")
+        assertFalse("Should not be true", false)
     }
     @Test
     fun testAssertNil() {
         assertNull(null)
-        assertNull(null, "Should be nil")
+        assertNull("Should be nil", null)
     }
     @Test
     fun testAssertNotNil() {
         assertNotNull("")
-        assertNotNull("", "Should not be nil")
+        assertNotNull("Should not be nil", "")
     }
     @Test
     fun testMultipleStatements() {
         mockHttpClient.fileResponse = "empty"
         val result = service.search()
         val params = mockHttpClient.parameters
-        assertTrue(mockHttpClient.method == "GET", "Expected get request")
+        assertTrue("Expected get request", mockHttpClient.method == "GET")
         assertEquals(mockHttpClient.endpoint, "/api/v2/availability/search")
-        assertNotNull(params, "Expected parameters")
-        assertNull(promise.error, "Promise should not have error")
+        assertNotNull("Expected parameters", params)
+        assertNull("Promise should not have error", promise.error)
         assertNotNull(result)
     }
     fun noTestMethod() {

@@ -126,12 +126,35 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
     private func replaceXCTAssertCalls(_ tokens: [Token], node: TopLevelDeclaration) -> [Token] {
         var newTokens = [Token]()
 
-        for token in tokens {
+        var index = 0
+        while index < tokens.count {
+            let token = tokens[index]
+
             if let expression = token.node as? IdentifierExpression, let mapping = xctMap[token.value] {
-                newTokens.append(expression.newToken(.identifier, mapping.junitName))                
-                // TODO: Count parameters and reverse if more than expected (comments go first)
+
+                // Replace method name
+                newTokens.append(expression.newToken(.identifier, mapping.junitName))
+                index += 1
+
+                // Check parameters
+                if let functionCallExpression = tokens[index].origin as? FunctionCallExpression,
+                    let endOfLineIndex = tokens.indexOf(kind: .linebreak, after: index) {
+                    var remainingLineTokens = Array(tokens[index..<endOfLineIndex])
+
+                    // Put last parameter in first place (JUnit places comments first)
+                    if  functionCallExpression.argumentClause?.count ?? 0 > mapping.parameters,
+                        let lastDelimiter = remainingLineTokens.indexOf(kind: .delimiter, before: remainingLineTokens.count - 1){
+                        let delimiterToken = remainingLineTokens.remove(at: lastDelimiter)
+                        let parameterToken = remainingLineTokens.remove(at: lastDelimiter)
+                        remainingLineTokens.insert(parameterToken, at: 1)
+                        remainingLineTokens.insert(delimiterToken, at: 2)
+                    }
+                    newTokens.append(contentsOf: remainingLineTokens)
+                    index += remainingLineTokens.count
+                }
             } else {
                 newTokens.append(token)
+                index += 1
             }
         }
 

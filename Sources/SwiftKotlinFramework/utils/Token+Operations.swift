@@ -85,3 +85,10 @@ extension Array where Iterator.Element == Token {
     }
 }
 
+extension ASTTokenizable {
+    static public func ==(lhs: ASTTokenizable, rhs: ASTTokenizable) -> Bool {
+        guard type(of: lhs) == type(of: rhs) else { return false }
+        return (lhs as? ASTTextRepresentable)?.textDescription == (rhs as? ASTTextRepresentable)?.textDescription
+    }
+}
+
