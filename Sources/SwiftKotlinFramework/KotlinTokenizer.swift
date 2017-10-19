@@ -443,8 +443,9 @@ public class KotlinTokenizer: SwiftTokenizer {
     open override func tokenize(_ expression: ClosureExpression) -> [Token] {
         var tokens = super.tokenize(expression)
         if expression.signature != nil {
+            let arrowTokens = expression.signature?.parameterClause != nil ? [expression.newToken(.symbol, " -> ")] : []
             tokens = tokens.replacing({ $0.value == "in" },
-                                      with: [expression.newToken(.symbol, " -> ")],
+                                      with: arrowTokens,
                                       amount: 1)
         }
         return tokens
