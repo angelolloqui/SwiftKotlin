@@ -26,21 +26,21 @@ Kotlin is a great language, it is to Android/Java what Swift is to iOS/Objective
 
 **If you are a Swift developer**, you will love Kotlin. It provides the most important Swift features (optionals, extensions, generics, lambdas,...) and a very similar syntax. You can check a [side by side comparison of Swift and Kotlin here](https://nilhcem.github.io/swift-is-like-kotlin/).
 
-**If you are a Java developer**, you will find in Kotlin a much more modern and safer language (optionals and mutation). It is a pleasure to write Kotlin code, much more readable and compact that the Java counterpart. You can check some of the [benefits and differences in Kotlin official documentation](https://kotlinlang.org/docs/reference/comparison-to-java.html) and a [nice list of reasons to chose Kotlin over Java](https://medium.freecodecamp.com/why-kotlin-is-my-next-programming-language-c25c001e26e3#.hjam7bscd)
+**If you are a Java developer**, you will find in Kotlin a much more modern and safer language (optionals and mutation). It is a pleasure to write Kotlin code, much more readable and compact that the Java counterpart. You can check some of the [benefits and differences in Kotlin official documentation](https://kotlinlang.org/docs/reference/comparison-to-java.html) and a [nice list of reasons to chose Kotlin over Java](https://medium.freecodecamp.com/why-kotlin-is-my-next-programming-language-c25c001e26e3#.hjam7bscd).
 
 Moreover, Kotlin is fully integrated in IntelliJ (Android Studio), so you can keep using the "de facto" IDE for Android with all the added benefits brought by Google, and it even has a Java to Kotlin converter if you want to update your legacy Java.
 
-On top of that, if you consider the similarities between Swift and Kotlin, you can easily convert code in one language to the other one, and have Swift developers writing Kotlin (and viciversa) with ease. That is in fact the purpose of this project, to help you with that conversion.
+On top of that, if you consider the similarities between Swift and Kotlin, you can easily convert code in one language to the other one, and have Swift developers writing Kotlin (and *vice versa*) with ease. That is, in fact, the purpose of this project, to help you with that conversion.
 
 
-### Benefits over shared code accross platforms
+### Benefits over shared code across platforms
 There are many alternatives for making multiplatform projects or sharing code between them. Some alternatives are [Xamarin](https://www.xamarin.com/), [ReactNative](https://facebook.github.io/react-native/), [Cordova](https://cordova.apache.org/) or low level C++ libraries.
 
 The main issue with all of them is that once you chose to use them, you need to keep in their boundaries, including specific tools and libraries, introducing a steep learning curve and a big risk in terms of dependency on that 3rd party. Besides that, for many of those options the resulting app will lack the quality of a fully native app.
 
 On the other hand, by using Kotlin, you will still have 2 fully native applications, with all the benefits (best quality, performance, best tools per platform -Xcode/Android Studio-, follow platform conventions,...), but at the same time minimize the extra work required to translate between them due to the similarity with Swift. 
 
-In fact, [I explored an actual example using MVVM+Rx](http://angelolloqui.com/blog/38-Swift-vs-Kotlin-for-real-iOS-Android-apps), where I got between a 50% and 90% of code similarity depending on the layer (non UIKit dependent is much more reusable than UIKit dependent classes of course). It took me around 30% the time to convert the Android version from the iOS version and I did not have SwiftKotlin then ;)
+In fact, [I explored an actual example using MVVM+Rx](http://angelolloqui.com/blog/38-Swift-vs-Kotlin-for-real-iOS-Android-apps), where I got between a 50% and 90% of code similarity depending on the layer (non UIKit dependent is much more reusable than UIKit dependent classes of course). It took me around 30% the time to convert the Android version from the iOS version and I did not have SwiftKotlin then. ;)
 
 
 ## Limitations
@@ -81,9 +81,9 @@ The project is in active development, with many rules and improvements still to 
 - [x] Basic exception handling syntax
 - [x] Simple enums
 - [ ] Complex enum cases to Sealed classes
-- ... [(check open issues)](https://github.com/angelolloqui/SwiftKotlin/issues)
+- [ ] ... [(check open issues)](https://github.com/angelolloqui/SwiftKotlin/issues)
 
-With the implemented rules you can get already a pretty decent Kotlin output for many of your classes. The rest will come in future releases.
+With the implemented rules you can already get pretty decent Kotlin output for many of your classes. The rest will come in future releases.
 
 
 ## Installation
@@ -107,9 +107,9 @@ From Xcode, run the desired target and copy the generated executables (you can f
 
 ## Usage
 ### Command line tool
-If you placed `swiftkotlin` in your any of your path directories, just run: `swiftkotlin [<file>] [--output path]`
+If you placed `swiftkotlin` in any of your path directories, just run: `swiftkotlin [<file>] [--output path]`
 
-Note that you can specify a directory as input. Output will be default use the input directory, creating a `<name>.kt` file for each existing `<name>.swift` file found. 
+Note that you can specify a directory as input. Output will by default use the input directory, creating a `<name>.kt` file for each existing `<name>.swift` file found. 
 
 
 ## License
