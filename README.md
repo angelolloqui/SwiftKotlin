@@ -79,9 +79,9 @@ The project is in active development, with many rules and improvements still to 
 - [x] String interpolators
 - [x] Foundation types (arrays, maps,...)
 - [x] Basic exception handling syntax
-- [ ] Simple enums
+- [x] Simple enums
 - [ ] Complex enum cases to Sealed classes
-- ...
+- ... [(check open issues)](https://github.com/angelolloqui/SwiftKotlin/issues)
 
 With the implemented rules you can get already a pretty decent Kotlin output for many of your classes. The rest will come in future releases.
 
