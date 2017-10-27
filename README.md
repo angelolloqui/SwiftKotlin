@@ -49,7 +49,7 @@ Despite the similarities, Swift and Kotlin are different languages, with some in
 Because of that, this **tool does not have as a goal to produce production ready Kotlin code**, but just a Kotlin translation that **will require manual editing**. For example, things as simple as adding a new item to an array have different method names:
 
 ```swift
-// Swift 3
+// Swift
 array.append("This is in Swift")
 ```
 ```kotlin
@@ -96,11 +96,11 @@ The project comes with 2 executable targets:
 Checkout the [project's releases page](https://github.com/angelolloqui/SwiftKotlin/releases) to get a preview compiled version of the app or compile it manually:
 
 - Install Xcode 9+ and check it is the default selected one by running `xcode-select -p`
-- clone the repo: `git clone git@github.com:angelolloqui/SwiftKotlin.git; cd SwiftKotlin` and move to the ast branch `git checkout -b 'feature/swift-tranform' 'origin/feature/swift-transform'` 
+- clone the repo: `git clone git@github.com:angelolloqui/SwiftKotlin.git; cd SwiftKotlin`
 - Run `swift package update`
 - Open the project: `open SwiftKotlin.xcodeproj`
 
-From Xcode, run the desired target and copy the generated executables in a directory with executable rights for later use. Typically, you could use:
+From Xcode, run the desired target and copy the generated executables (you can find it under the `Products` generated folder) in a directory with executable rights for later use. Typically, you could use:
 
 - **swiftkotlin** command line tool: `/usr/local/bin/`
 - **SwiftKotlinApp** desktop app: `/Applications/`
