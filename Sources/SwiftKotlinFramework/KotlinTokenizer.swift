@@ -313,7 +313,44 @@ public class KotlinTokenizer: SwiftTokenizer {
     open override func tokenize(_ declaration: ImportDeclaration) -> [Token] {
         return []
     }
+    
+    open override func tokenize(_ declaration: EnumDeclaration) -> [Token] {
+        // Check if it is a simple enum
+        let unionCases = declaration.members.flatMap { $0.unionStyleEnumCase }
+        let simpleCases = unionCases.flatMap { $0.cases }
+        let lineBreak = declaration.newToken(.linebreak, "\n")
 
+        if  unionCases.count == declaration.members.count &&
+            !simpleCases.contains(where: { $0.tuple != nil }) &&
+            declaration.genericParameterClause == nil &&
+            declaration.genericWhereClause == nil &&
+            declaration.typeInheritanceClause == nil {
+            let attrsTokens = tokenize(declaration.attributes, node: declaration)
+            let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+            let headTokens = [
+                attrsTokens,
+                modifierTokens,
+                [declaration.newToken(.keyword, "enum")],
+                [declaration.newToken(.keyword, "class")],
+                [declaration.newToken(.identifier, declaration.name)],
+            ].joined(token: declaration.newToken(.space, " "))
+            
+            let membersTokens = simpleCases.map { c in
+                return [c.newToken(.identifier, c.name, declaration)]
+            }.joined(tokens: [
+                declaration.newToken(.delimiter, ","),
+                lineBreak
+            ])
+            
+            return headTokens +
+                [declaration.newToken(.space, " "), declaration.newToken(.startOfScope, "{"), lineBreak] +
+                indent(membersTokens) +
+                [lineBreak, declaration.newToken(.endOfScope, "}")]
+        }
+        return self.unsupportedTokens(message: "Complex enums not supported yet", element: declaration, node: declaration).suffix(with: lineBreak) +            
+            super.tokenize(declaration)
+    }
+    
     // MARK: - Statements
 
     open override func tokenize(_ statement: GuardStatement) -> [Token] {

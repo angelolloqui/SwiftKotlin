@@ -134,4 +134,16 @@ extension SelfExpression {
     }
 }
 
+extension EnumDeclaration.Member {
+    
+    var unionStyleEnumCase: EnumDeclaration.UnionStyleEnumCase? {
+        switch self {
+        case .union(let enumCase):
+            return enumCase
+        default:
+            return nil
+        }
+    }
+}
+
 
