@@ -10,7 +10,7 @@ import Foundation
 import SwiftKotlinFramework
 
 let kotlinTokenizer = KotlinTokenizer()
-let version = "0.1"
+let version = "0.0.3"
 let arguments = [
     "output",
     "help",
@@ -20,7 +20,7 @@ let arguments = [
 
 func showHelp() {
     print("swiftkotlin, version \(version)")
-    print("copyright (c) 2016 Angel G. Olloqui")
+    print("copyright (c) 2017 Angel G. Olloqui")
     print("")
     print("usage: swiftkotlin [<file>] [--output path]")
     print("")

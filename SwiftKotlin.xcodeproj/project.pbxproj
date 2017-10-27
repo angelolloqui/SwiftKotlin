@@ -1225,7 +1225,7 @@
 		OBJ_96 /* TypealiasDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypealiasDeclaration.swift; sourceTree = "<group>"; };
 		OBJ_97 /* VariableDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableDeclaration.swift; sourceTree = "<group>"; };
 		OBJ_98 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
-		"SwiftKotlin::SwiftKotlinCommandLine::Product" /* SwiftKotlinCommandLine */ = {isa = PBXFileReference; lastKnownFileType = text; path = SwiftKotlinCommandLine; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SwiftKotlin::SwiftKotlinCommandLine::Product" /* swiftkotlin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = swiftkotlin; sourceTree = BUILT_PRODUCTS_DIR; };
 		"SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftKotlinFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"SwiftKotlin::SwiftKotlinFrameworkTests::Product" /* SwiftKotlinFrameworkTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = SwiftKotlinFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		"bocho::Bocho::Product" /* Bocho.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Bocho.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1734,7 +1734,7 @@
 		OBJ_246 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"SwiftKotlin::SwiftKotlinCommandLine::Product" /* SwiftKotlinCommandLine */,
+				"SwiftKotlin::SwiftKotlinCommandLine::Product" /* swiftkotlin */,
 				"SwiftKotlin::SwiftKotlinFrameworkTests::Product" /* SwiftKotlinFrameworkTests.xctest */,
 				"SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */,
 				"swift-transform::swift-transform::Product" /* swift-transform */,
@@ -2055,7 +2055,7 @@
 			);
 			name = SwiftKotlinCommandLine;
 			productName = SwiftKotlinCommandLine;
-			productReference = "SwiftKotlin::SwiftKotlinCommandLine::Product" /* SwiftKotlinCommandLine */;
+			productReference = "SwiftKotlin::SwiftKotlinCommandLine::Product" /* swiftkotlin */;
 			productType = "com.apple.product-type.tool";
 		};
 		"SwiftKotlin::SwiftKotlinFramework" /* SwiftKotlinFramework */ = {
@@ -3443,7 +3443,7 @@
 				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
 				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
 				SWIFT_VERSION = 4.0;
-				TARGET_NAME = SwiftKotlinCommandLine;
+				TARGET_NAME = swiftkotlin;
 			};
 			name = Debug;
 		};
@@ -3462,7 +3462,7 @@
 				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
 				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
 				SWIFT_VERSION = 4.0;
-				TARGET_NAME = SwiftKotlinCommandLine;
+				TARGET_NAME = swiftkotlin;
 			};
 			name = Release;
 		};
