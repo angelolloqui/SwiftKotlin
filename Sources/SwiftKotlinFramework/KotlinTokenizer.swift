@@ -259,6 +259,16 @@ public class KotlinTokenizer: SwiftTokenizer {
                 declaration.newToken(.space, " ")
             ], at: 0)
         }
+        else if declaration.isOptional {
+            if declaration.initializerList?.last?.initializerExpression == nil {
+                tokens += [
+                    declaration.newToken(.space, " "),
+                    declaration.newToken(.symbol, "="),
+                    declaration.newToken(.space, " "),
+                    declaration.newToken(.keyword, "null")
+                ]
+            }
+        }
         return tokens
     }
 

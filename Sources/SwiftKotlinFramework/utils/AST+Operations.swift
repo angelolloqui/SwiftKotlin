@@ -15,14 +15,22 @@ extension VariableDeclaration {
     var isImplicitlyUnwrapped: Bool {
         return typeAnnotation?.type is ImplicitlyUnwrappedOptionalType
     }
+    
+    var isOptional: Bool {
+        return typeAnnotation?.type is OptionalType
+    }
 
     var typeAnnotation: TypeAnnotation? {
+        return initializerList?
+            .flatMap { $0.pattern as? IdentifierPattern }
+            .flatMap { $0.typeAnnotation }
+            .first
+    }
+    
+    var initializerList: [PatternInitializer]? {
         switch body {
         case .initializerList(let patterns):
             return patterns
-                .flatMap { $0.pattern as? IdentifierPattern }
-                .flatMap { $0.typeAnnotation }
-                .first
         default:
             return nil
         }
