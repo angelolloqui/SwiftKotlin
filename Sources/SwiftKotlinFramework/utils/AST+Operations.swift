@@ -146,4 +146,21 @@ extension EnumDeclaration.Member {
     }
 }
 
-
+extension SequenceExpression.Element {
+    var isTernaryConditionalOperator: Bool {
+        switch self {
+        case .ternaryConditionalOperator:
+            return true
+        default:
+            return false
+        }
+    }
+    var isAssignmentOperator: Bool {
+        switch self {
+        case .assignmentOperator:
+            return true
+        default:
+            return false
+        }
+    }
+}

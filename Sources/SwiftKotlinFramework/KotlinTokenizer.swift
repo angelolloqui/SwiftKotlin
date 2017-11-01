@@ -553,6 +553,53 @@ public class KotlinTokenizer: SwiftTokenizer {
         return tokenize(expression.postfixExpression) + expression.newToken(.symbol, "!!")
     }
 
+    open override func tokenize(_ expression: TernaryConditionalOperatorExpression) -> [Token] {
+        return [
+            [expression.newToken(.keyword, "if")],
+            tokenize(expression.conditionExpression)
+                .prefix(with: expression.newToken(.startOfScope, "("))
+                .suffix(with: expression.newToken(.endOfScope, ")")),
+            tokenize(expression.trueExpression),
+            [expression.newToken(.keyword, "else")],
+            tokenize(expression.falseExpression),
+            ].joined(token: expression.newToken(.space, " "))
+    }
+
+
+    open override func tokenize(_ expression: SequenceExpression) -> [Token] {
+        var elementTokens = expression.elements.map({ tokenize($0, node: expression) })
+
+        //If there is a ternary, then prefix with if
+        if let ternaryOperatorIndex = expression.elements.index(where: { $0.isTernaryConditionalOperator }),
+            ternaryOperatorIndex > 0 {
+            let assignmentIndex = expression.elements.index(where: { $0.isAssignmentOperator }) ?? -1
+            let prefixTokens = [
+                expression.newToken(.keyword, "if"),
+                expression.newToken(.space, " "),
+                expression.newToken(.startOfScope, "("),
+            ]
+            elementTokens[assignmentIndex + 1] =
+                prefixTokens +
+                elementTokens[assignmentIndex + 1]
+            elementTokens[ternaryOperatorIndex - 1] = elementTokens[ternaryOperatorIndex - 1]
+                .suffix(with: expression.newToken(.endOfScope, ")"))
+        }
+        return elementTokens.joined(token: expression.newToken(.space, " "))
+    }
+
+    open override func tokenize(_ element: SequenceExpression.Element, node: ASTNode) -> [Token] {
+        switch element {
+        case .ternaryConditionalOperator(let expr):
+            return [
+                tokenize(expr),
+                [node.newToken(.keyword, "else")],
+                ].joined(token: node.newToken(.space, " "))
+        default:
+            return super.tokenize(element, node: node)
+        }
+    }
+
+
     // MARK: - Types
     open override func tokenize(_ type: ArrayType, node: ASTNode) -> [Token] {
         return

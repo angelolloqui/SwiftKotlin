@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "SwiftKotlin::SwiftKotlinCommandLine"
-               BuildableName = "SwiftKotlinCommandLine"
+               BuildableName = "swiftkotlin"
                BlueprintName = "SwiftKotlinCommandLine"
                ReferencedContainer = "container:SwiftKotlin.xcodeproj">
             </BuildableReference>
@@ -34,7 +34,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "SwiftKotlin::SwiftKotlinCommandLine"
-            BuildableName = "SwiftKotlinCommandLine"
+            BuildableName = "swiftkotlin"
             BlueprintName = "SwiftKotlinCommandLine"
             ReferencedContainer = "container:SwiftKotlin.xcodeproj">
          </BuildableReference>
@@ -58,7 +58,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "SwiftKotlin::SwiftKotlinCommandLine"
-            BuildableName = "SwiftKotlinCommandLine"
+            BuildableName = "swiftkotlin"
             BlueprintName = "SwiftKotlinCommandLine"
             ReferencedContainer = "container:SwiftKotlin.xcodeproj">
          </BuildableReference>
@@ -77,7 +77,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "SwiftKotlin::SwiftKotlinCommandLine"
-            BuildableName = "SwiftKotlinCommandLine"
+            BuildableName = "swiftkotlin"
             BlueprintName = "SwiftKotlinCommandLine"
             ReferencedContainer = "container:SwiftKotlin.xcodeproj">
          </BuildableReference>
