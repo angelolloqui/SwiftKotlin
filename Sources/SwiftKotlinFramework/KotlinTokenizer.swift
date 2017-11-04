@@ -222,7 +222,8 @@ public class KotlinTokenizer: SwiftTokenizer {
 
         let memberTokens = declaration.members.map { member in
             var tokens = tokenize(member)
-            tokens.insert(contentsOf: modifierTokens, at: 0)
+            let firstToken = tokens.index(where: { $0.kind != .linebreak }) ?? 0
+            tokens.insert(contentsOf: modifierTokens, at: firstToken)
             if let index = tokens.index(where: { $0.kind == .identifier }) {
                 if member.isStatic {
                     tokens.insert(contentsOf: [declaration.newToken(.keyword, "Companion"), declaration.newToken(.delimiter, ".")], at: index)

@@ -69,7 +69,6 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
     }
 
     private func addMethodAnnotations(_ tokens: [Token], node: ClassDeclaration, method: String, annotation: String) -> [Token] {
-
         let testMethods = node.members
             .flatMap { $0.declaration as? FunctionDeclaration }
             .filter { $0.name.starts(with: method) }
@@ -77,7 +76,7 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
 
         var newTokens = tokens
         for method in testMethods {
-            if let firstTokenIndex = newTokens.index(where: { $0.node === method }),
+            if let firstTokenIndex = newTokens.index(where: { $0.node === method && $0.kind != .linebreak && $0.kind != .indentation }),
                 let lineBreakIndex = newTokens.indexOf(kind: .linebreak, before: firstTokenIndex) {
                 let indentation = newTokens.lineIndentationToken(at: firstTokenIndex)
                 newTokens.insert(method.newToken(.identifier, annotation), at: lineBreakIndex)
