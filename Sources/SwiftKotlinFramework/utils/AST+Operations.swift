@@ -164,3 +164,27 @@ extension SequenceExpression.Element {
         }
     }
 }
+
+extension Condition {
+    var isUnwrappingCondition: Bool {
+        switch self {
+        case .let, .var:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+extension GuardStatement {
+    var isUnwrappingGuard: Bool {
+        guard conditionList.count == 1,
+            codeBlock.statements.count == 1,
+            let condition = conditionList.first,
+            let bodyStatement = codeBlock.statements.first
+            else { return false }
+
+        return condition.isUnwrappingCondition &&
+            (bodyStatement is ReturnStatement || bodyStatement is ThrowStatement)
+    }
+}
