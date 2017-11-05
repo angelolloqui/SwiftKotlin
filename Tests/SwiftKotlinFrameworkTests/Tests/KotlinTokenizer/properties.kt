@@ -1,7 +1,9 @@
+
 interface Hello {
     val foo: String
     var bar: String
 }
+
 class A {
     val stateObservable1: Observable<RestaurantsListState>
         get() {
