@@ -640,6 +640,13 @@ public class KotlinTokenizer: SwiftTokenizer {
         return tokenize(type.wrappedType, node: node)
     }
 
+    open override func tokenize(_ attribute: Attribute, node: ASTNode) -> [Token] {
+        if ["escaping", "autoclosure", "discardableResult"].contains(attribute.name) {
+            return []
+        }
+        return super.tokenize(attribute, node: node)
+    }
+
     // MARK: - Patterns
 
 
