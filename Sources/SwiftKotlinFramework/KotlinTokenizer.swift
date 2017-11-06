@@ -355,14 +355,21 @@ public class KotlinTokenizer: SwiftTokenizer {
     // MARK: - Statements
 
     open override func tokenize(_ statement: GuardStatement) -> [Token] {
-        let invertedConditions = statement.conditionList.map(InvertedCondition.init)
-        return
-            tokenizeDeclarationConditions(statement.conditionList, node: statement) +
-            [
+        let declarationTokens = tokenizeDeclarationConditions(statement.conditionList, node: statement)
+        if statement.isUnwrappingGuard, let body = statement.codeBlock.statements.first {
+            return [
+                Array(declarationTokens.dropLast()),
+                [statement.newToken(.symbol, "?:")],
+                tokenize(body),
+            ].joined(token: statement.newToken(.space, " "))
+        } else {
+            let invertedConditions = statement.conditionList.map(InvertedCondition.init)
+            return declarationTokens + [
                 [statement.newToken(.keyword, "if")],
                 tokenize(invertedConditions, node: statement),
                 tokenize(statement.codeBlock)
             ].joined(token: statement.newToken(.space, " "))
+        }
     }
 
     open override func tokenize(_ statement: IfStatement) -> [Token] {

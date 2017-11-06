@@ -44,14 +44,8 @@ if (number != 3 || disabled || !enabled || value() < 3 || (a != 1 && a != 2)) {
 if (number != 3 && value() < 3) {
     return
 }
-val number = number
-if (number == null) {
-    return
-}
-val value = some.method()
-if (value == null) {
-    return
-}
+val number = number ?: return
+val value = some.method() ?: return
 val result = some.method()
 val param = result.number()
 if (result == null || param == null || param <= 1) {
@@ -62,10 +56,7 @@ if (value == null) {
     NSLog("Do other operations")
     return
 }
-val value = some.method()
-if (value == null) {
-    throw Exception()
-}
+val value = some.method() ?: throw Exception()
 when (nb) {
     in 0 .. 7, 8, 9 -> print("single digit")
     10 -> print("double digits")
