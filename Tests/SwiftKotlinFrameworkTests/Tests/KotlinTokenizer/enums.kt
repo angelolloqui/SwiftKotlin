@@ -14,3 +14,8 @@ private enum class Planet {
     uranus,
     neptune
 }
+sealed class Barcode {
+    data class upc(val v1: Int, val v2: Int, val v3: Int, val v4: Int) : Barcode()
+    data class qrCode(val named: String) : Barcode()
+    object empty : Barcode()
+}
