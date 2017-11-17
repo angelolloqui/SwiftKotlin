@@ -19,3 +19,7 @@ sealed class Barcode {
     data class qrCode(val named: String) : Barcode()
     object empty : Barcode()
 }
+when (enumValue) {
+    .resetPasswordSendEmail -> return (category: "ResetPassword", name: "sendEmail", label: null)
+    .paymentSelectorOpen -> return (category: "PaymentSelector", name: "open", label: "${tenant.name} - ${option.duration}min")
+}

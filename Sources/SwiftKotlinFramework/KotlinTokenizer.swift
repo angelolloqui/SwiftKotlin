@@ -461,6 +461,19 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
     }
 
+    open override func tokenize(_ statement: SwitchStatement.Case.Item, node: ASTNode) -> [Token] {
+        guard let enumCasePattern = statement.pattern as? EnumCasePattern else {
+            return super.tokenize(statement, node: node)
+        }
+        let patternWithoutTuple = EnumCasePattern(typeIdentifier: enumCasePattern.typeIdentifier, name: enumCasePattern.name, tuplePattern: nil)
+        return [
+            tokenize(patternWithoutTuple, node: node),
+            statement.whereExpression.map { _ in [statement.newToken(.keyword, "where", node)] } ?? [],
+            statement.whereExpression.map { tokenize($0) } ?? []
+            ].joined(token: statement.newToken(.space, " ", node))
+    }
+
+
     open override func tokenize(_ statement: ForInStatement) -> [Token] {
         var tokens = super.tokenize(statement)
         if let endIndex = tokens.index(where: { $0.value == "{"}) {

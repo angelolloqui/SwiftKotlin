@@ -16,3 +16,11 @@ enum Barcode {
     case qrCode(named: String)
     case empty
 }
+
+// Usage
+switch enumValue {
+case .resetPasswordSendEmail:
+    return (category: "ResetPassword", name: "sendEmail", label: nil)
+case .paymentSelectorOpen(_, let tenant, _, let option):
+    return (category: "PaymentSelector", name: "open", label: "\(tenant.name) - \(option.duration)min")
+}
