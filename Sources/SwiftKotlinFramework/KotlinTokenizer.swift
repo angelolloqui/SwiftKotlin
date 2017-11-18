@@ -316,16 +316,21 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
     
     open override func tokenize(_ declaration: EnumDeclaration) -> [Token] {
-        // Check if it is a simple enum
         let unionCases = declaration.members.flatMap { $0.unionStyleEnumCase }
         let simpleCases = unionCases.flatMap { $0.cases }
         let lineBreak = declaration.newToken(.linebreak, "\n")
+        let space = declaration.newToken(.space, " ")
 
-        if  unionCases.count == declaration.members.count &&
-            !simpleCases.contains(where: { $0.tuple != nil }) &&
+        guard unionCases.count == declaration.members.count &&
             declaration.genericParameterClause == nil &&
             declaration.genericWhereClause == nil &&
-            declaration.typeInheritanceClause == nil {
+            declaration.typeInheritanceClause == nil else {
+                return self.unsupportedTokens(message: "Complex enums not supported yet", element: declaration, node: declaration).suffix(with: lineBreak) +
+                    super.tokenize(declaration)
+        }
+
+        // Simple enums (no tuples)
+        if !simpleCases.contains(where: { $0.tuple != nil }) {
             let attrsTokens = tokenize(declaration.attributes, node: declaration)
             let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
             let headTokens = [
@@ -334,22 +339,59 @@ public class KotlinTokenizer: SwiftTokenizer {
                 [declaration.newToken(.keyword, "enum")],
                 [declaration.newToken(.keyword, "class")],
                 [declaration.newToken(.identifier, declaration.name)],
-            ].joined(token: declaration.newToken(.space, " "))
-            
+                ].joined(token: space)
+
             let membersTokens = simpleCases.map { c in
                 return [c.newToken(.identifier, c.name, declaration)]
-            }.joined(tokens: [
-                declaration.newToken(.delimiter, ","),
-                lineBreak
-            ])
-            
+                }.joined(tokens: [
+                    declaration.newToken(.delimiter, ","),
+                    lineBreak
+                    ])
+
             return headTokens +
-                [declaration.newToken(.space, " "), declaration.newToken(.startOfScope, "{"), lineBreak] +
+                [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
                 indent(membersTokens) +
                 [lineBreak, declaration.newToken(.endOfScope, "}")]
         }
-        return self.unsupportedTokens(message: "Complex enums not supported yet", element: declaration, node: declaration).suffix(with: lineBreak) +            
-            super.tokenize(declaration)
+        // Tuples required sealed classes
+        else {
+            let attrsTokens = tokenize(declaration.attributes, node: declaration)
+            let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+            let headTokens = [
+                attrsTokens,
+                modifierTokens,
+                [declaration.newToken(.keyword, "sealed")],
+                [declaration.newToken(.keyword, "class")],
+                [declaration.newToken(.identifier, declaration.name)],
+            ].joined(token: space)
+
+            let membersTokens = simpleCases.map { c in
+                var tokenSections: [[Token]]
+                if let tuple = c.tuple {
+                    tokenSections = [
+                        [c.newToken(.keyword, "data", declaration)],
+                        [c.newToken(.keyword, "class", declaration)],
+                        [c.newToken(.identifier, c.name, declaration)] + tokenize(tuple, node: declaration)
+                    ]
+                } else {
+                    tokenSections = [
+                        [c.newToken(.keyword, "object", declaration)],
+                        [c.newToken(.identifier, c.name, declaration)]
+                    ]
+                }
+                tokenSections += [
+                    [c.newToken(.symbol, ":", declaration)],
+                    [c.newToken(.identifier, declaration.name, declaration), c.newToken(.startOfScope, "(", declaration), c.newToken(.endOfScope, ")", declaration)]
+                ]
+                return tokenSections.joined(token: space)
+            }.joined(token: lineBreak)
+
+            return headTokens +
+                [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
+                indent(membersTokens) +
+                [lineBreak, declaration.newToken(.endOfScope, "}")]
+        }
+
     }
     
     // MARK: - Statements
@@ -418,6 +460,19 @@ public class KotlinTokenizer: SwiftTokenizer {
                     tokenize(stmts, node: node)
         }
     }
+
+    open override func tokenize(_ statement: SwitchStatement.Case.Item, node: ASTNode) -> [Token] {
+        guard let enumCasePattern = statement.pattern as? EnumCasePattern else {
+            return super.tokenize(statement, node: node)
+        }
+        let patternWithoutTuple = EnumCasePattern(typeIdentifier: enumCasePattern.typeIdentifier, name: enumCasePattern.name, tuplePattern: nil)
+        return [
+            tokenize(patternWithoutTuple, node: node),
+            statement.whereExpression.map { _ in [statement.newToken(.keyword, "where", node)] } ?? [],
+            statement.whereExpression.map { tokenize($0) } ?? []
+            ].joined(token: statement.newToken(.space, " ", node))
+    }
+
 
     open override func tokenize(_ statement: ForInStatement) -> [Token] {
         var tokens = super.tokenize(statement)
@@ -652,6 +707,36 @@ public class KotlinTokenizer: SwiftTokenizer {
             return []
         }
         return super.tokenize(attribute, node: node)
+    }
+
+    open override func tokenize(_ type: TupleType, node: ASTNode) -> [Token] {
+        var typeWithNames = [TupleType.Element]()
+
+        for (index, element) in type.elements.enumerated() {
+            if element.name != nil || element.type is FunctionType {
+                typeWithNames.append(element)
+            } else {
+                typeWithNames.append(TupleType.Element(type: element.type, name: "v\(index + 1)", attributes: element.attributes, isInOutParameter: element.isInOutParameter))
+            }
+        }
+        return type.newToken(.startOfScope, "(", node) +
+            typeWithNames.map { tokenize($0, node: node) }.joined(token: type.newToken(.delimiter, ", ", node)) +
+            type.newToken(.endOfScope, ")", node)
+    }
+
+    open override func tokenize(_ type: TupleType.Element, node: ASTNode) -> [Token] {
+        var nameTokens = [Token]()
+        if let name = type.name {
+            nameTokens = type.newToken(.keyword, "val", node) +
+                type.newToken(.space, " ", node) +
+                type.newToken(.identifier, name, node) +
+                type.newToken(.delimiter, ":", node)
+        }
+        return [
+            nameTokens,
+            tokenize(type.attributes, node: node),
+            tokenize(type.type, node: node)
+        ].joined(token: type.newToken(.space, " ", node))
     }
 
     // MARK: - Patterns
