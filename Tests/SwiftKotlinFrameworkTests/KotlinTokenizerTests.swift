@@ -31,7 +31,8 @@ extension KotlinTokenizerTests {
         let kotlinURL = URL(fileURLWithPath: "\(path)/\(file).kt")
 
         let expected = try String(contentsOf: kotlinURL).trimmingCharacters(in: .whitespacesAndNewlines)
-        let translated = try kotlinTokenizer.translate(path: swiftURL).joinedValues().trimmingCharacters(in: .whitespacesAndNewlines)
+        let translated = try kotlinTokenizer.translate(path: swiftURL).tokens?
+            .joinedValues().trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 
         if translated != expected {
             let difference = prettyFirstDifferenceBetweenStrings(translated, expected)

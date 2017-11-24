@@ -51,28 +51,29 @@ class ViewController: NSViewController {
     }
     
     @IBAction func formatSwift(_ sender: AnyObject) {
-        do {
-            let swift = swiftTextView.string
-            let swiftTokens = try swiftTokenizer.translate(content: swift)
-            let formatted = self.attributedStringFromTokens(tokens: swiftTokens)
-            self.swiftTextView.textStorage?.beginEditing()
-            self.swiftTextView.textStorage?.setAttributedString(formatted)
-            self.swiftTextView.textStorage?.endEditing()
-        } catch {}
+        let swift = swiftTextView.string
+        let result = swiftTokenizer.translate(content: swift)
+        guard let swiftTokens = result.tokens else {
+            return
+        }
+        let formatted = self.attributedStringFromTokens(tokens: swiftTokens)
+        self.swiftTextView.textStorage?.beginEditing()
+        self.swiftTextView.textStorage?.setAttributedString(formatted)
+        self.swiftTextView.textStorage?.endEditing()
     }
     
     func translateSwift() {
-        do {
-            let swift = swiftTextView.string
-            let kotlinTokens = try kotlinTokenizer.translate(content: swift)
-
-            DispatchQueue.main.async {
-                self.kotlinTextView.textStorage?.beginEditing()
-                let formatted = self.attributedStringFromTokens(tokens: kotlinTokens)
-                self.kotlinTextView.textStorage?.setAttributedString(formatted)
-                self.kotlinTextView.textStorage?.endEditing()
-            }
-        } catch {}
+        let swift = swiftTextView.string
+        let result = kotlinTokenizer.translate(content: swift)
+        guard let kotlinTokens = result.tokens else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.kotlinTextView.textStorage?.beginEditing()
+            let formatted = self.attributedStringFromTokens(tokens: kotlinTokens)
+            self.kotlinTextView.textStorage?.setAttributedString(formatted)
+            self.kotlinTextView.textStorage?.endEditing()
+        }
     }
     
     func attributedStringFromTokens(tokens: [Token]) -> NSAttributedString {

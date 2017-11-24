@@ -10,7 +10,7 @@ import Foundation
 import SwiftKotlinFramework
 
 let kotlinTokenizer = KotlinTokenizer()
-let version = "0.0.3"
+let version = "0.1.0"
 let arguments = [
     "output",
     "help",
@@ -75,11 +75,21 @@ func execute(_ args: [String]) {
                 input = (input ?? "") + line
             }
             if let input = input {
-                guard let output = try? kotlinTokenizer.translate(content: input).joinedValues() else {
+                let result = kotlinTokenizer.translate(content: input)
+                guard let tokens = result.tokens else {
                     print("error: could not parse input")
+                    if let error = result.exception {
+                        print(error)
+                    } else {
+                        result.diagnostics.forEach { d in
+                            print("\(d.location): \(d.kind.diagnosticMessage)")
+                        }
+                    }
                     finished = true
                     return
                 }
+                
+                let output = tokens.joinedValues()
                 if let outputURL = outputURL {
                     if (try? output.write(to: outputURL, atomically: true, encoding: String.Encoding.utf8)) != nil {
                         print("swiftkotlin completed successfully")
@@ -110,6 +120,8 @@ func execute(_ args: [String]) {
     
     // Format the code
     let start = CFAbsoluteTimeGetCurrent()
+    
+    // TODO: Change this to first get the sources, then translate and finally write output
     let filesWritten = processInput(inputURL!, andWriteToOutput: outputURL!)
     let time = CFAbsoluteTimeGetCurrent() - start
     print("swiftkotlin completed. \(filesWritten) file\(filesWritten == 1 ? "" : "s") updated in \(String(format: "%.2f", time))s.")
@@ -181,11 +193,19 @@ func processInput(_ inputURL: URL, andWriteToOutput outputURL: URL) -> Int {
                 print("error: failed to read contents of directory at: \(inputURL.path)")
             }
         } else if inputURL.pathExtension == "swift" {
-            guard let output = try? kotlinTokenizer.translate(path: inputURL).joinedValues() else {
-                print("error: could not parse file: \(inputURL.path)")
+            let result = kotlinTokenizer.translate(path: inputURL)
+            guard let tokens = result.tokens else {
+                print("error: could not parse input")
+                if let error = result.exception {
+                    print(error)
+                } else {
+                    result.diagnostics.forEach { d in
+                        print("\(d.location): \(d.kind.diagnosticMessage)")
+                    }
+                }
                 return 0
             }
-
+            let output = tokens.joinedValues()
             if (try? output.write(to: outputURL.deletingPathExtension().appendingPathExtension("kt"), atomically: true, encoding: String.Encoding.utf8)) != nil {
                 return 1
             } else {

@@ -30,7 +30,8 @@ extension TransformPluginTests {
         let kotlinURL = URL(fileURLWithPath: "\(path)/\(file).kt")
 
         let expected = try String(contentsOf: kotlinURL).trimmingCharacters(in: .whitespacesAndNewlines)
-        let translated = try kotlinTokenizer.translate(path: swiftURL).joinedValues().trimmingCharacters(in: .whitespacesAndNewlines)
+        let translated = try kotlinTokenizer.translate(paths: [swiftURL]).first?.tokens?
+            .joinedValues().trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 
         if translated != expected {
             let difference = prettyFirstDifferenceBetweenStrings(translated, expected)
