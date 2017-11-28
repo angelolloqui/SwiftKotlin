@@ -25,7 +25,12 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        self.swiftTextView.isAutomaticQuoteSubstitutionEnabled = false
+        self.swiftTextView.isAutomaticDashSubstitutionEnabled = false
+        self.swiftTextView.isAutomaticTextReplacementEnabled = false
+        self.kotlinTextView.isAutomaticQuoteSubstitutionEnabled = false
+        self.kotlinTextView.isAutomaticDashSubstitutionEnabled = false
+        self.kotlinTextView.isAutomaticTextReplacementEnabled = false
     }
     
     @IBAction func openSwiftFile(_ sender: AnyObject) {
