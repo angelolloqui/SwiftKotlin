@@ -21,6 +21,7 @@ class ViewController: NSViewController {
     
     @IBOutlet var swiftTextView: NSTextView!
     @IBOutlet var kotlinTextView: NSTextView!
+    @IBOutlet var feedbackTextField: NSTextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +54,7 @@ class ViewController: NSViewController {
     @IBAction func formatSwift(_ sender: AnyObject) {
         let swift = swiftTextView.string
         let result = swiftTokenizer.translate(content: swift)
+        updateFeedback(result: result)
         guard let swiftTokens = result.tokens else {
             return
         }
@@ -65,6 +67,7 @@ class ViewController: NSViewController {
     func translateSwift() {
         let swift = swiftTextView.string
         let result = kotlinTokenizer.translate(content: swift)
+        updateFeedback(result: result)
         guard let kotlinTokens = result.tokens else {
             return
         }
@@ -82,6 +85,24 @@ class ViewController: NSViewController {
             attributedString.append($0.attributedString)
         }
         return attributedString
+    }
+    
+    func updateFeedback(result: TokenizationResult) {
+        if let exception = result.exception {
+            feedbackTextField.textColor = NSColor.red
+            feedbackTextField.stringValue = "❌ - \(exception.localizedDescription)"
+        } else if !result.diagnostics.isEmpty {
+            if let error = result.diagnostics.filter({ $0.level != .warning }).first {
+                self.feedbackTextField.textColor = NSColor.red
+                self.feedbackTextField.stringValue = "❌ Line \(error.location.line) Col \(error.location.column) - \(error.kind.diagnosticMessage)"
+            } else {
+                let warn = result.diagnostics.first!
+                feedbackTextField.textColor = NSColor.yellow
+                feedbackTextField.stringValue =  "⚠️ Line \(warn.location.line) Col \(warn.location.column) - \(warn.kind.diagnosticMessage)"
+            }
+        } else {
+            feedbackTextField.stringValue = "✅"
+        }
     }
 }
 
