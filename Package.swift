@@ -31,7 +31,7 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/angelolloqui/swift-transform",
-      .revision("ae7b9aa53f5c413a2d673927abdb1432f51a1e60")
+      .revision("3fc221cc73d30034bf1d32a21a42ba1474f21abf")
     ),
   ],
   targets: [

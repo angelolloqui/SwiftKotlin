@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/yanagiba/swift-ast",
         "state": {
           "branch": null,
-          "revision": "3e572e59de1f520201285a9b7c00f5b166c916ba",
+          "revision": "e9657500e90aebc5220401d222a4664f6241f3d7",
           "version": null
         }
       },
@@ -24,7 +24,7 @@
         "repositoryURL": "https://github.com/angelolloqui/swift-transform",
         "state": {
           "branch": null,
-          "revision": "ae7b9aa53f5c413a2d673927abdb1432f51a1e60",
+          "revision": "3fc221cc73d30034bf1d32a21a42ba1474f21abf",
           "version": null
         }
       }

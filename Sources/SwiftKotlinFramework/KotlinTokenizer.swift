@@ -897,8 +897,9 @@ public class KotlinTokenizer: SwiftTokenizer {
                 }
             }
             let expression = String(remainingText[..<remainingText.index(remainingText.startIndex, offsetBy: i - 1)])
-            let computedExpression = (try? translate(content: expression).joinedValues().replacingOccurrences(of: "\n", with: "")) ?? expression
-            interpolatedString += "${\(computedExpression)}"
+            let computedExpression = translate(content: expression).tokens?.joinedValues().replacingOccurrences(of: "\n", with: "")
+            
+            interpolatedString += "${\(computedExpression ?? expression)}"
             remainingText = String(remainingText[remainingText.index(remainingText.startIndex, offsetBy: i)...])
         }
 

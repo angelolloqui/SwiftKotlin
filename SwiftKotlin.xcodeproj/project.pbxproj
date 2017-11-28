@@ -63,6 +63,7 @@
 		78266B0D1F5CA62D00F08378 /* Source.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-ast::Source::Product" /* Source.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		78266B101F5CA62D00F08378 /* Bocho.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "bocho::Bocho::Product" /* Bocho.framework */; };
 		78266B111F5CA62D00F08378 /* Bocho.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "bocho::Bocho::Product" /* Bocho.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78314DD61FC8B64700539A2D /* TokenizationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78314DD51FC8B64700539A2D /* TokenizationResult.swift */; };
 		789D78FB1F927957009ED628 /* TransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D78F91F92792E009ED628 /* TransformPlugin.swift */; };
 		789D78FE1F9279BF009ED628 /* SwiftTokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D78FC1F9279AE009ED628 /* SwiftTokenizer.swift */; };
 		789D79031F927B5F009ED628 /* Token+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D79021F927A66009ED628 /* Token+Operations.swift */; };
@@ -1018,6 +1019,7 @@
 		78266AE01F5AD05100F08378 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78266AE11F5AD05100F08378 /* SwiftKotlinApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftKotlinApp.entitlements; sourceTree = "<group>"; };
 		78266AE21F5AD05100F08378 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		78314DD51FC8B64700539A2D /* TokenizationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenizationResult.swift; sourceTree = "<group>"; };
 		789D78F91F92792E009ED628 /* TransformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformPlugin.swift; sourceTree = "<group>"; };
 		789D78FC1F9279AE009ED628 /* SwiftTokenizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTokenizer.swift; sourceTree = "<group>"; };
 		789D79011F927A66009ED628 /* AST+Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AST+Operations.swift"; sourceTree = "<group>"; };
@@ -1940,6 +1942,7 @@
 				OBJ_9 /* KotlinTokenizer.swift */,
 				789D78FC1F9279AE009ED628 /* SwiftTokenizer.swift */,
 				OBJ_11 /* TransformOptions.swift */,
+				78314DD51FC8B64700539A2D /* TokenizationResult.swift */,
 			);
 			name = SwiftKotlinFramework;
 			path = Sources/SwiftKotlinFramework;
@@ -2497,6 +2500,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				78314DD61FC8B64700539A2D /* TokenizationResult.swift in Sources */,
 				OBJ_358 /* KotlinTokenizer.swift in Sources */,
 				789D78FB1F927957009ED628 /* TransformPlugin.swift in Sources */,
 				OBJ_360 /* TransformOptions.swift in Sources */,
