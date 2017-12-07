@@ -8,3 +8,7 @@ let text = label ?? "default"
 
 // Wilcard assignments
 _ = service.deleteObject()
+
+// Optional chaning
+self.service.fetchData()?.user.name?.count
+self.data.filter { $0.item?.value == 1 }.map { $0.key }.first?.name.count

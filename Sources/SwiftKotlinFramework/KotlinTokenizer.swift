@@ -490,6 +490,23 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     // MARK: - Expressions
+    open override func tokenize(_ expression: ExplicitMemberExpression) -> [Token] {
+        switch expression.kind {
+        case let .namedType(postfixExpr, identifier):
+            let postfixTokens = tokenize(postfixExpr)
+            var delimiters = [expression.newToken(.delimiter, ".")]
+
+            if postfixTokens.last?.value != "?" &&
+                postfixTokens.removingOtherScopes().contains(where: {
+                    $0.value == "?" && $0.origin is OptionalChainingExpression
+                }) {
+                delimiters = delimiters.prefix(with: expression.newToken(.symbol, "?"))
+            }
+            return postfixTokens + delimiters + expression.newToken(.identifier, identifier)
+        default:
+            return super.tokenize(expression)
+        }
+    }
 
     open override func tokenize(_ expression: AssignmentOperatorExpression) -> [Token] {
         guard expression.leftExpression is WildcardExpression else {
