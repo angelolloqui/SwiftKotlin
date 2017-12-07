@@ -450,7 +450,13 @@ public class KotlinTokenizer: SwiftTokenizer {
         case let .case(itemList, stmts):
             let prefix = itemList.count > 1 ? [statement.newToken(.keyword, "in", node), statement.newToken(.space, " ", node)] : []
             let conditions = itemList.map { tokenize($0, node: node) }.joined(token: statement.newToken(.delimiter, ", ", node))
-            let statements = stmts.count > 1 ? tokenize(CodeBlock(statements: stmts)) : tokenize(stmts, node: node)
+            var statements = tokenize(stmts, node: node)
+            if stmts.count > 1 || statements.filter({ $0.kind == .linebreak }).count > 1 {
+                let linebreak = statement.newToken(.linebreak, "\n", node)
+                statements = [statement.newToken(.startOfScope, "{", node), linebreak] +
+                    indent(statements) +
+                    [linebreak, statement.newToken(.endOfScope, "}", node)]
+            }
             return prefix + conditions + separatorTokens + statements
 
         case .default(let stmts):
