@@ -485,6 +485,13 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     // MARK: - Expressions
 
+    open override func tokenize(_ expression: AssignmentOperatorExpression) -> [Token] {
+        guard expression.leftExpression is WildcardExpression else {
+            return super.tokenize(expression)
+        }
+        return tokenize(expression.rightExpression)
+    }
+
     open override func tokenize(_ expression: LiteralExpression) -> [Token] {
         switch expression.kind {
         case .nil:
