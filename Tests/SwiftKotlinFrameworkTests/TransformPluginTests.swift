@@ -16,6 +16,12 @@ class TransformPluginTests: XCTestCase {
             file: "XCTTestToJUnitTokenTransformPlugin")
     }
 
+    func testFoundationTransformPlugin() {
+        try! testTokenTransformPlugin(
+            plugin: FoundationMethodsTransformPlugin(),
+            file: "FoundationMethodsTransformPlugin")
+    }
+
 }
 
 extension TransformPluginTests {
