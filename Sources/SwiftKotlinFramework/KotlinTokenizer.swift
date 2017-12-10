@@ -450,7 +450,13 @@ public class KotlinTokenizer: SwiftTokenizer {
         case let .case(itemList, stmts):
             let prefix = itemList.count > 1 ? [statement.newToken(.keyword, "in", node), statement.newToken(.space, " ", node)] : []
             let conditions = itemList.map { tokenize($0, node: node) }.joined(token: statement.newToken(.delimiter, ", ", node))
-            let statements = stmts.count > 1 ? tokenize(CodeBlock(statements: stmts)) : tokenize(stmts, node: node)
+            var statements = tokenize(stmts, node: node)
+            if stmts.count > 1 || statements.filter({ $0.kind == .linebreak }).count > 1 {
+                let linebreak = statement.newToken(.linebreak, "\n", node)
+                statements = [statement.newToken(.startOfScope, "{", node), linebreak] +
+                    indent(statements) +
+                    [linebreak, statement.newToken(.endOfScope, "}", node)]
+            }
             return prefix + conditions + separatorTokens + statements
 
         case .default(let stmts):
@@ -484,6 +490,30 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     // MARK: - Expressions
+    open override func tokenize(_ expression: ExplicitMemberExpression) -> [Token] {
+        switch expression.kind {
+        case let .namedType(postfixExpr, identifier):
+            let postfixTokens = tokenize(postfixExpr)
+            var delimiters = [expression.newToken(.delimiter, ".")]
+
+            if postfixTokens.last?.value != "?" &&
+                postfixTokens.removingOtherScopes().contains(where: {
+                    $0.value == "?" && $0.origin is OptionalChainingExpression
+                }) {
+                delimiters = delimiters.prefix(with: expression.newToken(.symbol, "?"))
+            }
+            return postfixTokens + delimiters + expression.newToken(.identifier, identifier)
+        default:
+            return super.tokenize(expression)
+        }
+    }
+
+    open override func tokenize(_ expression: AssignmentOperatorExpression) -> [Token] {
+        guard expression.leftExpression is WildcardExpression else {
+            return super.tokenize(expression)
+        }
+        return tokenize(expression.rightExpression)
+    }
 
     open override func tokenize(_ expression: LiteralExpression) -> [Token] {
         switch expression.kind {

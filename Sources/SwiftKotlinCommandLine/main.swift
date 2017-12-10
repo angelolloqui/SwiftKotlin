@@ -9,7 +9,12 @@
 import Foundation
 import SwiftKotlinFramework
 
-let kotlinTokenizer = KotlinTokenizer()
+let kotlinTokenizer = KotlinTokenizer(
+    tokenTransformPlugins: [
+        XCTTestToJUnitTokenTransformPlugin(),
+        FoundationMethodsTransformPlugin()
+    ]
+)
 let version = "0.1.0"
 let arguments = [
     "output",

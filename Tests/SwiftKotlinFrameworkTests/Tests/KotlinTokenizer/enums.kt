@@ -23,3 +23,14 @@ when (enumValue) {
     .resetPasswordSendEmail -> return (category: "ResetPassword", name: "sendEmail", label: null)
     .paymentSelectorOpen -> return (category: "PaymentSelector", name: "open", label: "${tenant.name} - ${option.duration}min")
 }
+when (exception) {
+    .qrCode -> {
+        val message = serverMessage
+        if (message != null) {
+            trackError(name = name, message = message)
+        } else {
+            trackError(name = name, message = R.string.localizable.network_error())
+        }
+    }
+    else -> trackError(name = "generic", message = R.string.localizable.generic_error())
+}

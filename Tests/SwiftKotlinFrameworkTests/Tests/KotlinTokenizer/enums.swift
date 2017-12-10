@@ -24,3 +24,14 @@ case .resetPasswordSendEmail:
 case .paymentSelectorOpen(_, let tenant, _, let option):
     return (category: "PaymentSelector", name: "open", label: "\(tenant.name) - \(option.duration)min")
 }
+
+switch exception {
+case .qrCode(_):
+    if let message = serverMessage {
+        trackError(name: name, message: message)
+    } else {
+        trackError(name: name, message: R.string.localizable.network_error())
+    }
+default:
+    trackError(name: "generic", message: R.string.localizable.generic_error())
+}

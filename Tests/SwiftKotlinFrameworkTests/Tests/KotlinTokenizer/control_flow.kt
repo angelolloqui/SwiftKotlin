@@ -18,7 +18,7 @@ val obj = obj as? Movie
 if (obj != null) {}
 val movie = obj2 as? Movie
 if (movie != null) {}
-if (numbers.flatMap({ it % 2 }).count == 1) {}
+if (numbers.flatMap({ it % 2 }).size == 1) {}
 for (current in someObjects) {}
 for (i in 0 until count) {}
 for (i in 1 .. 3) {}
@@ -67,7 +67,3 @@ when (nb) {
     }
     else -> print("three or more digits")
 }
-val value = if (isTrue) "yes" else "no"
-val label = if (x > 0) "Positive" else "negative"
-button.color = if (item.deleted) red else green
-val text = label ?: "default"

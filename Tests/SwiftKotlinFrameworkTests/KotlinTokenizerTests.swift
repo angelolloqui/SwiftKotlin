@@ -9,7 +9,12 @@ import XCTest
 import SwiftKotlinFramework
 
 class KotlinTokenizerTests: XCTestCase {
-    let kotlinTokenizer = KotlinTokenizer()
+    let kotlinTokenizer = KotlinTokenizer(
+        tokenTransformPlugins: [
+            XCTTestToJUnitTokenTransformPlugin(),
+            FoundationMethodsTransformPlugin()
+        ]
+    )
 
     func testAll() {
         let files = try! FileManager().contentsOfDirectory(atPath: self.testFilePath)

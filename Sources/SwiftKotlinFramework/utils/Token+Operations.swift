@@ -83,6 +83,24 @@ extension Array where Iterator.Element == Token {
         }
         return nil
     }
+
+    public func removingOtherScopes() -> [Token] {
+        var tokens = [Token]()
+        var scope = 0
+        for token in self {
+            if token.kind == .endOfScope {
+                scope -= 1
+            }
+            if scope == 0 {
+                tokens.append(token)
+            }
+            if token.kind == .startOfScope {
+                scope += 1
+            }
+        }
+        return tokens
+    }
+
 }
 
 extension ASTTokenizable {
