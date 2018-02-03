@@ -692,7 +692,14 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
     }
 
-
+    open override func tokenize(_ expression: OptionalChainingExpression) -> [Token] {
+        var tokens = tokenize(expression.postfixExpression)
+        if tokens.last?.value != "this" {
+            tokens.append(expression.newToken(.symbol, "?"))
+        }
+        return tokens
+    }
+    
     // MARK: - Types
     open override func tokenize(_ type: ArrayType, node: ASTNode) -> [Token] {
         return
