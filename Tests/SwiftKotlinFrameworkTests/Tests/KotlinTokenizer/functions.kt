@@ -15,3 +15,6 @@ fun tokenize(codeBlock: String?) : List<String> {
     val statement = codeBlock ?: return listOf()
     return someOtherMethod(statement = statement)
 }
+
+public fun <T> whenAll(promises: List<Promise<T>>) : Promise<List<T>> =
+    Promise<T>()

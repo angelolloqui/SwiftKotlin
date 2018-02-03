@@ -23,9 +23,27 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ declaration: FunctionDeclaration) -> [Token] {
-        return super.tokenize(declaration)
-            .replacing({ $0.value == "func"},
-                       with: [declaration.newToken(.keyword, "fun")])
+        let attrsTokens = tokenize(declaration.attributes, node: declaration)
+        let modifierTokens = declaration.modifiers.map { tokenize($0, node: declaration) }
+            .joined(token: declaration.newToken(.space, " "))
+        let genericParameterClauseTokens = declaration.genericParameterClause.map { tokenize($0, node: declaration) } ?? []
+        
+        let headTokens = [
+            attrsTokens,
+            modifierTokens,
+            [declaration.newToken(.keyword, "fun")],
+            genericParameterClauseTokens
+        ].joined(token: declaration.newToken(.space, " "))
+        
+        let signatureTokens = tokenize(declaration.signature, node: declaration)
+        let bodyTokens = declaration.body.map(tokenize) ?? []
+        
+        return [
+            headTokens,
+            [declaration.newToken(.identifier, declaration.name)] + signatureTokens,
+            bodyTokens
+        ].joined(token: declaration.newToken(.space, " "))
+        .prefix(with: declaration.newToken(.linebreak, "\n"))
     }
 
     open override func tokenize(_ parameter: FunctionSignature.Parameter, node: ASTNode) -> [Token] {

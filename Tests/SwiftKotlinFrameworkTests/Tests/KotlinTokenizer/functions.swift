@@ -18,3 +18,7 @@ func tokenize(_ codeBlock: String?) -> [String] {
     }
     return someOtherMethod(statement: statement)
 }
+
+public func whenAll<T>(promises: [Promise<T>]) -> Promise<[T]> {
+    return Promise<T>()
+}
