@@ -6,9 +6,7 @@ interface Hello {
 
 class A {
     val stateObservable1: Observable<RestaurantsListState>
-        get() {
-            return state.asObservable()
-        }
+        get() = state.asObservable()
     val stateObservable2: Observable<RestaurantsListState>
         get() {
             return state.asObservable()

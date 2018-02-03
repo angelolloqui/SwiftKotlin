@@ -16,3 +16,6 @@ userService.autoLinkTenant(tenantId: tenant.id).then { [weak self] _ in
 item.selectCallback = { option in
     presenter.selectPaymentMethod(option)
 }
+
+item.selectCallback?(option)
+item.selectCallback!(option)

@@ -23,9 +23,27 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ declaration: FunctionDeclaration) -> [Token] {
-        return super.tokenize(declaration)
-            .replacing({ $0.value == "func"},
-                       with: [declaration.newToken(.keyword, "fun")])
+        let attrsTokens = tokenize(declaration.attributes, node: declaration)
+        let modifierTokens = declaration.modifiers.map { tokenize($0, node: declaration) }
+            .joined(token: declaration.newToken(.space, " "))
+        let genericParameterClauseTokens = declaration.genericParameterClause.map { tokenize($0, node: declaration) } ?? []
+        
+        let headTokens = [
+            attrsTokens,
+            modifierTokens,
+            [declaration.newToken(.keyword, "fun")],
+            genericParameterClauseTokens
+        ].joined(token: declaration.newToken(.space, " "))
+        
+        let signatureTokens = tokenize(declaration.signature, node: declaration)
+        let bodyTokens = declaration.body.map(tokenize) ?? []
+        
+        return [
+            headTokens,
+            [declaration.newToken(.identifier, declaration.name)] + signatureTokens,
+            bodyTokens
+        ].joined(token: declaration.newToken(.space, " "))
+        .prefix(with: declaration.newToken(.linebreak, "\n"))
     }
 
     open override func tokenize(_ parameter: FunctionSignature.Parameter, node: ASTNode) -> [Token] {
@@ -323,14 +341,13 @@ public class KotlinTokenizer: SwiftTokenizer {
 
         guard unionCases.count == declaration.members.count &&
             declaration.genericParameterClause == nil &&
-            declaration.genericWhereClause == nil &&
-            declaration.typeInheritanceClause == nil else {
+            declaration.genericWhereClause == nil else {
                 return self.unsupportedTokens(message: "Complex enums not supported yet", element: declaration, node: declaration).suffix(with: lineBreak) +
                     super.tokenize(declaration)
         }
 
         // Simple enums (no tuples)
-        if !simpleCases.contains(where: { $0.tuple != nil }) {
+        if !simpleCases.contains(where: { $0.tuple != nil }) && declaration.typeInheritanceClause == nil {
             let attrsTokens = tokenize(declaration.attributes, node: declaration)
             let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
             let headTokens = [
@@ -353,16 +370,18 @@ public class KotlinTokenizer: SwiftTokenizer {
                 indent(membersTokens) +
                 [lineBreak, declaration.newToken(.endOfScope, "}")]
         }
-        // Tuples required sealed classes
+        // Tuples or inhertance required sealed classes
         else {
             let attrsTokens = tokenize(declaration.attributes, node: declaration)
             let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+            let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []
             let headTokens = [
                 attrsTokens,
                 modifierTokens,
                 [declaration.newToken(.keyword, "sealed")],
                 [declaration.newToken(.keyword, "class")],
                 [declaration.newToken(.identifier, declaration.name)],
+                inheritanceTokens
             ].joined(token: space)
 
             let membersTokens = simpleCases.map { c in
@@ -392,6 +411,21 @@ public class KotlinTokenizer: SwiftTokenizer {
                 [lineBreak, declaration.newToken(.endOfScope, "}")]
         }
 
+    }
+    
+    open override func tokenize(_ codeBlock: CodeBlock) -> [Token] {
+        guard codeBlock.statements.count == 1,
+            let returnStatement = codeBlock.statements.first as? ReturnStatement,
+            let parent = codeBlock.lexicalParent as? Declaration else {
+            return super.tokenize(codeBlock)
+        }
+        let sameLine = parent is VariableDeclaration
+        let separator = sameLine ? codeBlock.newToken(.space, " ") : codeBlock.newToken(.linebreak, "\n")
+        let tokens = Array(tokenize(returnStatement).dropFirst(2))
+        return [
+            [codeBlock.newToken(.symbol, "=")],
+            sameLine ? tokens : indent(tokens)
+        ].joined(token: separator)
     }
     
     // MARK: - Statements
@@ -574,6 +608,18 @@ public class KotlinTokenizer: SwiftTokenizer {
                        with: [expression.newToken(.symbol, binaryOperator)])
     }
 
+    open override func tokenize(_ expression: FunctionCallExpression) -> [Token] {
+        var tokens = super.tokenize(expression)
+        if (expression.postfixExpression is OptionalChainingExpression || expression.postfixExpression is ForcedValueExpression),
+            let startIndex = tokens.indexOf(kind: .startOfScope, after: 0) {
+            tokens.insert(contentsOf: [
+                expression.newToken(.symbol, "."),
+                expression.newToken(.keyword, "invoke")
+            ], at: startIndex)
+        }
+        return tokens
+    }
+    
     open override func tokenize(_ expression: FunctionCallExpression.Argument, node: ASTNode) -> [Token] {
         return super.tokenize(expression, node: node)
             .replacing({ $0.value == ": " && $0.kind == .delimiter },
@@ -692,7 +738,14 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
     }
 
-
+    open override func tokenize(_ expression: OptionalChainingExpression) -> [Token] {
+        var tokens = tokenize(expression.postfixExpression)
+        if tokens.last?.value != "this" {
+            tokens.append(expression.newToken(.symbol, "?"))
+        }
+        return tokens
+    }
+    
     // MARK: - Types
     open override func tokenize(_ type: ArrayType, node: ASTNode) -> [Token] {
         return

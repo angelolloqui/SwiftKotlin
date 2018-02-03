@@ -35,3 +35,9 @@ case .qrCode(_):
 default:
     trackError(name: "generic", message: R.string.localizable.generic_error())
 }
+
+public enum SDKException: Error {
+    case notFound
+    case unauthorized
+    case network(HttpResponse, Error?)
+}

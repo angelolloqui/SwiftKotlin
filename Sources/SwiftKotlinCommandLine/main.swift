@@ -15,7 +15,7 @@ let kotlinTokenizer = KotlinTokenizer(
         FoundationMethodsTransformPlugin()
     ]
 )
-let version = "0.1.0"
+let version = "0.1.3"
 let arguments = [
     "output",
     "help",

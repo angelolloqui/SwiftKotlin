@@ -25,13 +25,11 @@ class A {
         
         fun method() {}
         
-        fun create() : A? {
-            return null
-        }
+        fun create() : A? =
+            null
         
-        fun withParams(param: Int) : A? {
-            return null
-        }
+        fun withParams(param: Int) : A? =
+            null
     }
 }
 
