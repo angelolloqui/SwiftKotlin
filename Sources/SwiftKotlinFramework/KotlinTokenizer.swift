@@ -323,14 +323,13 @@ public class KotlinTokenizer: SwiftTokenizer {
 
         guard unionCases.count == declaration.members.count &&
             declaration.genericParameterClause == nil &&
-            declaration.genericWhereClause == nil &&
-            declaration.typeInheritanceClause == nil else {
+            declaration.genericWhereClause == nil else {
                 return self.unsupportedTokens(message: "Complex enums not supported yet", element: declaration, node: declaration).suffix(with: lineBreak) +
                     super.tokenize(declaration)
         }
 
         // Simple enums (no tuples)
-        if !simpleCases.contains(where: { $0.tuple != nil }) {
+        if !simpleCases.contains(where: { $0.tuple != nil }) && declaration.typeInheritanceClause == nil {
             let attrsTokens = tokenize(declaration.attributes, node: declaration)
             let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
             let headTokens = [
@@ -353,16 +352,18 @@ public class KotlinTokenizer: SwiftTokenizer {
                 indent(membersTokens) +
                 [lineBreak, declaration.newToken(.endOfScope, "}")]
         }
-        // Tuples required sealed classes
+        // Tuples or inhertance required sealed classes
         else {
             let attrsTokens = tokenize(declaration.attributes, node: declaration)
             let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+            let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []
             let headTokens = [
                 attrsTokens,
                 modifierTokens,
                 [declaration.newToken(.keyword, "sealed")],
                 [declaration.newToken(.keyword, "class")],
                 [declaration.newToken(.identifier, declaration.name)],
+                inheritanceTokens
             ].joined(token: space)
 
             let membersTokens = simpleCases.map { c in

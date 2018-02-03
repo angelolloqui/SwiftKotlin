@@ -34,3 +34,8 @@ when (exception) {
     }
     else -> trackError(name = "generic", message = R.string.localizable.generic_error())
 }
+public sealed class SDKException : Error {
+    object notFound : SDKException()
+    object unauthorized : SDKException()
+    data class network(val v1: HttpResponse, val v2: Error?) : SDKException()
+}
