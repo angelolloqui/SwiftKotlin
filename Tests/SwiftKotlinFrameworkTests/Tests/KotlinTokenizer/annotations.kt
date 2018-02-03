@@ -12,6 +12,5 @@ fun collectCustomerProviders(customerProvider: () -> String) {
     customerProviders.append(customerProvider)
 }
 
-fun foo(code: (() -> String)) : String {
-    return "foo ${bar(code)}"
-}
+fun foo(code: (() -> String)) : String =
+    "foo ${bar(code)}"

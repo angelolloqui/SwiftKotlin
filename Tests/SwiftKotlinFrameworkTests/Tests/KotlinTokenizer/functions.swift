@@ -11,3 +11,10 @@ func findRestaurant(restaurantId: Int) -> ServiceTask<Restaurant> {
 }
 
 restaurantService.findRestaurant(restaurantId: restaurant.id, param: param)
+
+func tokenize(_ codeBlock: String?) -> [String] {
+    guard let statement = codeBlock else {
+        return []
+    }
+    return someOtherMethod(statement: statement)
+}

@@ -7,7 +7,11 @@ fun method(param: String) : String {}
 
 fun method(param: (Int) -> Unit) {}
 
-fun findRestaurant(restaurantId: Int) : ServiceTask<Restaurant> {
-    return NetworkRequestServiceTask<Restaurant>(networkSession = networkSession, endpoint = "restaurants/")
-}
+fun findRestaurant(restaurantId: Int) : ServiceTask<Restaurant> =
+    NetworkRequestServiceTask<Restaurant>(networkSession = networkSession, endpoint = "restaurants/")
 restaurantService.findRestaurant(restaurantId = restaurant.id, param = param)
+
+fun tokenize(codeBlock: String?) : List<String> {
+    val statement = codeBlock ?: return listOf()
+    return someOtherMethod(statement = statement)
+}

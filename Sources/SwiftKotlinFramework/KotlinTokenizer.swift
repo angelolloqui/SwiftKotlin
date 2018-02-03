@@ -394,6 +394,21 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     }
     
+    open override func tokenize(_ codeBlock: CodeBlock) -> [Token] {
+        guard codeBlock.statements.count == 1,
+            let returnStatement = codeBlock.statements.first as? ReturnStatement,
+            let parent = codeBlock.lexicalParent as? Declaration else {
+            return super.tokenize(codeBlock)
+        }
+        let sameLine = parent is VariableDeclaration
+        let separator = sameLine ? codeBlock.newToken(.space, " ") : codeBlock.newToken(.linebreak, "\n")
+        let tokens = Array(tokenize(returnStatement).dropFirst(2))
+        return [
+            [codeBlock.newToken(.symbol, "=")],
+            sameLine ? tokens : indent(tokens)
+        ].joined(token: separator)
+    }
+    
     // MARK: - Statements
 
     open override func tokenize(_ statement: GuardStatement) -> [Token] {
