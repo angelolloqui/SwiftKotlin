@@ -608,6 +608,18 @@ public class KotlinTokenizer: SwiftTokenizer {
                        with: [expression.newToken(.symbol, binaryOperator)])
     }
 
+    open override func tokenize(_ expression: FunctionCallExpression) -> [Token] {
+        var tokens = super.tokenize(expression)
+        if (expression.postfixExpression is OptionalChainingExpression || expression.postfixExpression is ForcedValueExpression),
+            let startIndex = tokens.indexOf(kind: .startOfScope, after: 0) {
+            tokens.insert(contentsOf: [
+                expression.newToken(.symbol, "."),
+                expression.newToken(.keyword, "invoke")
+            ], at: startIndex)
+        }
+        return tokens
+    }
+    
     open override func tokenize(_ expression: FunctionCallExpression.Argument, node: ASTNode) -> [Token] {
         return super.tokenize(expression, node: node)
             .replacing({ $0.value == ": " && $0.kind == .delimiter },

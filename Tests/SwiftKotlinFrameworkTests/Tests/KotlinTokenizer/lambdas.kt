@@ -10,3 +10,5 @@ userService.autoLinkTenant(tenantId = tenant.id).then { _  ->
 item.selectCallback = { option  -> 
     presenter.selectPaymentMethod(option)
 }
+item.selectCallback?.invoke(option)
+item.selectCallback!!.invoke(option)
