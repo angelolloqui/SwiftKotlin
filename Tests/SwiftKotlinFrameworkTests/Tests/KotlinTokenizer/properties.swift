@@ -5,6 +5,7 @@ protocol Hello {
 }
 
 class A {
+    var myVar: String?
     var stateObservable1: Observable<RestaurantsListState> { return state.asObservable() }
     var stateObservable2: Observable<RestaurantsListState> {
         get {
@@ -37,9 +38,14 @@ class A {
 
     var subject: TestSubject!
 
-//    private(set) var numberOfEdits = 0
-//    lazy var importer = DataImporter()
-
+    lazy var players: [String] = {
+        var temporaryPlayers = [String]()
+        temporaryPlayers.append("John Doe")
+        return temporaryPlayers
+    }()
+    private lazy var name: String = {() -> String in
+        return "abc"
+    }()
 }
 
 //class StepCounter {

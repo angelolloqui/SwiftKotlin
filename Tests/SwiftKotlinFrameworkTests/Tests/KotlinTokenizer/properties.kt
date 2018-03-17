@@ -5,6 +5,7 @@ interface Hello {
 }
 
 class A {
+    var myVar: String? = null
     val stateObservable1: Observable<RestaurantsListState>
         get() = state.asObservable()
     val stateObservable2: Observable<RestaurantsListState>
@@ -32,4 +33,12 @@ class A {
             origin.x = val.x
         }
     lateinit var subject: TestSubject
+    val players: List<String> by lazy {
+        var temporaryPlayers = listOf(String)()
+        temporaryPlayers.append("John Doe")
+        return temporaryPlayers
+    }
+    private val name: String by lazy {   -> 
+        return "abc"
+    }
 }

@@ -220,7 +220,7 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     open override func tokenize(_ modifier: DeclarationModifier, node: ASTNode) -> [Token] {
         switch modifier {
-        case .static, .unowned, .unownedSafe, .unownedUnsafe, .weak, .convenience, .dynamic:
+        case .static, .unowned, .unownedSafe, .unownedUnsafe, .weak, .convenience, .dynamic, .lazy:
             return []
         default:
             return super.tokenize(modifier, node: node)
@@ -257,38 +257,48 @@ public class KotlinTokenizer: SwiftTokenizer {
             memberTokens
         ].joined(token: declaration.newToken(.linebreak, "\n"))
     }
-
+    
     open override func tokenize(_ declaration: VariableDeclaration) -> [Token] {
-        var tokens = super.tokenize(declaration)
-
-        let readOnly: Bool
-        switch declaration.body {
-        case .codeBlock: readOnly = true
-        case .getterSetterBlock(_, _, let block) where block.setter == nil: readOnly = true
-        default: readOnly = false
-        }
-
-        if readOnly {
-            tokens = tokens.replacing({ $0.value == "var" }, with: [declaration.body.newToken(.keyword, "val", declaration)], amount: 1)
-        }
-
+        let spaceToken = declaration.newToken(.space, " ")
+        let mutabilityTokens = [declaration.newToken(.keyword, declaration.isReadOnly ? "val" : "var")]
+        let attrsTokenGroups = declaration.attributes.map { tokenize($0, node: declaration) }
+        var modifierTokenGroups = declaration.modifiers.map { tokenize($0, node: declaration) }
+        var bodyTokens = tokenize(declaration.body, node: declaration)
+        
         if declaration.isImplicitlyUnwrapped {
-            tokens.insert(contentsOf: [
-                declaration.newToken(.keyword, "lateinit"),
-                declaration.newToken(.space, " ")
-            ], at: 0)
+            modifierTokenGroups = [[declaration.newToken(.keyword, "lateinit")]] + modifierTokenGroups
         }
-        else if declaration.isOptional {
-            if declaration.initializerList?.last?.initializerExpression == nil {
-                tokens += [
-                    declaration.newToken(.space, " "),
+        
+        if declaration.isOptional && declaration.initializerList?.last?.initializerExpression == nil {
+                bodyTokens = bodyTokens + [
+                    spaceToken,
                     declaration.newToken(.symbol, "="),
-                    declaration.newToken(.space, " "),
+                    spaceToken,
                     declaration.newToken(.keyword, "null")
                 ]
+        } else if declaration.isLazy {
+            bodyTokens = bodyTokens
+                .replacing({ $0.value == " = " }, with: [
+                    spaceToken,
+                    declaration.newToken(.keyword, "by"),
+                    spaceToken,
+                    declaration.newToken(.keyword, "lazy"),
+                    spaceToken,
+                    ], amount: 1)
+            if bodyTokens.last?.value == ")" {
+                bodyTokens.removeLast()
+            }
+            if bodyTokens.last?.value == "(" {
+                bodyTokens.removeLast()
             }
         }
-        return tokens
+
+        return [
+            attrsTokenGroups.joined(token: spaceToken),
+            modifierTokenGroups.joined(token: spaceToken),
+            mutabilityTokens,
+            bodyTokens
+        ].joined(token: spaceToken)
     }
 
     open override func tokenize(_ body: VariableDeclaration.Body, node: ASTNode) -> [Token] {
