@@ -644,6 +644,23 @@ public class KotlinTokenizer: SwiftTokenizer {
                                       with: arrowTokens,
                                       amount: 1)
         }
+        
+        // Last return can be removed
+        if let lastReturn = expression.statements?.last as? ReturnStatement,
+            let index = tokens.index(where: { $0.node === lastReturn && $0.value == "return" }) {
+            tokens.remove(at: index)
+            tokens.remove(at: index)
+        }
+        
+        // Other returns must be suffixed with call name
+        if let callExpression = expression.lexicalParent as? FunctionCallExpression,
+            let memberExpression = callExpression.postfixExpression as? ExplicitMemberExpression {
+            while let returnIndex = tokens.index(where: { $0.value == "return" }) {
+                tokens.remove(at: returnIndex)
+                tokens.insert(expression.newToken(.keyword, "return@"), at: returnIndex)
+                tokens.insert(expression.newToken(.identifier, memberExpression.identifier), at: returnIndex + 1)
+            }
+        }
         return tokens
     }
 

@@ -12,3 +12,9 @@ item.selectCallback = { option  ->
 }
 item.selectCallback?.invoke(option)
 item.selectCallback!!.invoke(option)
+ints.map {
+    if (it == 0) {
+        return@map "zero"
+    }
+    "non zero"
+}

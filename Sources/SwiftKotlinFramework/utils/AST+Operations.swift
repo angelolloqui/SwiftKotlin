@@ -158,6 +158,21 @@ extension SelfExpression {
     }
 }
 
+extension ExplicitMemberExpression {
+    var identifier: String {
+        switch kind {
+        case let .tuple(_, index):
+            return "var\(index)"
+        case let .namedType(_, identifier):
+            return identifier
+        case let .generic(_, identifier, _):
+            return identifier
+        case let .argument(_, identifier, _):
+            return identifier
+        }
+    }
+}
+
 extension EnumDeclaration.Member {
     
     var unionStyleEnumCase: EnumDeclaration.UnionStyleEnumCase? {

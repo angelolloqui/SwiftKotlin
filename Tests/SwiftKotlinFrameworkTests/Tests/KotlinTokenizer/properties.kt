@@ -36,9 +36,9 @@ class A {
     val players: List<String> by lazy {
         var temporaryPlayers = listOf(String)()
         temporaryPlayers.append("John Doe")
-        return temporaryPlayers
+        temporaryPlayers
     }
     private val name: String by lazy {   -> 
-        return "abc"
+        "abc"
     }
 }

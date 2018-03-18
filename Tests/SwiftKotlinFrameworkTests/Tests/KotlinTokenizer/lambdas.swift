@@ -19,3 +19,10 @@ item.selectCallback = { option in
 
 item.selectCallback?(option)
 item.selectCallback!(option)
+
+ints.map {
+    if $0 == 0 {
+        return "zero"
+    }
+    return "non zero"
+}
