@@ -54,13 +54,16 @@ public class KotlinTokenizer: SwiftTokenizer {
         let defaultTokens = parameter.defaultArgumentClause.map {
             return parameter.newToken(.symbol, " = ", node) + tokenize($0)
         }
-        let varargsTokens = parameter.isVarargs ? [parameter.newToken(.symbol, "...", node)] : []
+        let varargsTokens = parameter.isVarargs ? [
+            parameter.newToken(.keyword, "vararg", node),
+            parameter.newToken(.space, " ", node),
+        ] : []
 
         return
+            varargsTokens +
             nameTokens +
-                typeAnnoTokens +
-                defaultTokens +
-        varargsTokens
+            typeAnnoTokens +
+            defaultTokens
     }
 
     open override func tokenize(_ result: FunctionResult, node: ASTNode) -> [Token] {
