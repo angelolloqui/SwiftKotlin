@@ -42,3 +42,19 @@ class A {
         "abc"
     }
 }
+
+data class Rect(
+    var origin = Point(),
+    var size = Size()) {
+    var center: Point
+        get() {
+            val centerX = origin.x + (size.width / 2)
+            val centerY = origin.y + (size.height / 2)
+            return Point(x = centerX, y = centerY)
+        }
+        set(newCenter) {
+            origin.x = newCenter.x - (size.width / 2)
+            origin.y = newCenter.y - (size.height / 2)
+        }
+}
+

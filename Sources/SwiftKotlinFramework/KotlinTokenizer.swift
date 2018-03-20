@@ -107,7 +107,8 @@ public class KotlinTokenizer: SwiftTokenizer {
         declaration.members.forEach { member in
             if member.isStatic {
                 staticMembers.append(member)
-            } else if member.declaration is ConstantDeclaration || member.declaration is VariableDeclaration {
+            } else if member.declaration is ConstantDeclaration ||
+                (member.declaration as? VariableDeclaration)?.initializerList != nil {
                 declarationMembers.append(member)
             } else {
                 otherMembers.append(member)
