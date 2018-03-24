@@ -41,6 +41,12 @@ class A {
     private val name: String by lazy {   -> 
         "abc"
     }
+    var isLocating = false
+        set(newValue) {
+            val oldValue = field
+            field = newValue
+            delegate.set(isLocating = isLocating)
+        }
 }
 
 data class Rect(
@@ -58,3 +64,14 @@ data class Rect(
         }
 }
 
+class StepCounter {
+    var totalSteps: Int = 0
+        set(newTotalSteps) {
+            val oldValue = field
+            print("About to set totalSteps to ${newTotalSteps}")
+            field = newTotalSteps
+            if (totalSteps > oldValue) {
+                print("Added ${totalSteps - oldValue} steps")
+            }
+        }
+}

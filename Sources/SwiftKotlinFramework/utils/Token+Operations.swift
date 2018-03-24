@@ -101,6 +101,22 @@ extension Array where Iterator.Element == Token {
         return tokens
     }
 
+    public func tokensOnScope(depth: Int) -> [Token] {
+        var tokens = [Token]()
+        var scope = 0
+        for token in self {
+            if token.kind == .endOfScope {
+                scope -= 1
+            }
+            if scope == depth {
+                tokens.append(token)
+            }
+            if token.kind == .startOfScope {
+                scope += 1
+            }
+        }
+        return tokens
+    }
 }
 
 extension ASTTokenizable {

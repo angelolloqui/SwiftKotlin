@@ -306,12 +306,12 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ body: VariableDeclaration.Body, node: ASTNode) -> [Token] {
-        let getterTokens = [
-            body.newToken(.keyword, "get()", node),
-            body.newToken(.space, " ", node)
-        ]
         switch body {
         case let .codeBlock(name, typeAnnotation, codeBlock):
+            let getterTokens = [
+                body.newToken(.keyword, "get()", node),
+                body.newToken(.space, " ", node)
+            ]
             return body.newToken(.identifier, name, node) +
                 tokenize(typeAnnotation, node: node) +
                 body.newToken(.linebreak, "\n", node) +
@@ -319,6 +319,34 @@ public class KotlinTokenizer: SwiftTokenizer {
                     getterTokens +
                     tokenize(codeBlock)
                 )
+            
+        case let .willSetDidSetBlock(name, typeAnnotation, initExpr, block):
+            let newName = block.willSetClause?.name ?? "newValue"
+            let oldName = block.didSetClause?.name ?? "oldValue"
+            let fieldAssignmentExpression = AssignmentOperatorExpression(
+                leftExpression: IdentifierExpression(kind: IdentifierExpression.Kind.identifier("field", nil)),
+                rightExpression: IdentifierExpression(kind: IdentifierExpression.Kind.identifier(newName, nil))
+            )
+            let oldValueAssignmentExpression = ConstantDeclaration(initializerList: [
+                PatternInitializer(pattern: IdentifierPattern(identifier: oldName),
+                                   initializerExpression: IdentifierExpression(kind: IdentifierExpression.Kind.identifier("field", nil)))
+            ])
+            let setterCodeBlock = CodeBlock(statements:
+                    (block.didSetClause?.codeBlock.statements.count ?? 0 > 0 ? [oldValueAssignmentExpression] : []) +
+                    (block.willSetClause?.codeBlock.statements ?? []) +
+                    [fieldAssignmentExpression] +
+                    (block.didSetClause?.codeBlock.statements ?? [])
+            )
+            let setterTokens = tokenize(GetterSetterBlock.SetterClause(name: newName, codeBlock: setterCodeBlock), node: node)            
+            let typeAnnoTokens = typeAnnotation.map { tokenize($0, node: node) } ?? []
+            let initTokens = initExpr.map { body.newToken(.symbol, " = ", node) + tokenize($0) } ?? []
+            return [
+                body.newToken(.identifier, name, node)] +
+                typeAnnoTokens +
+                initTokens +
+                [body.newToken(.linebreak, "\n", node)] +
+                indent(setterTokens)
+            
         default:
             return super.tokenize(body, node: node).removingTrailingSpaces()
         }
@@ -343,6 +371,25 @@ public class KotlinTokenizer: SwiftTokenizer {
         return super.tokenize(newSetter, node: node)
     }
 
+    open override func tokenize(_ block: WillSetDidSetBlock, node: ASTNode) -> [Token] {
+        let name = block.willSetClause?.name ?? block.didSetClause?.name ?? "newValue"
+        let willSetBlock = block.willSetClause.map { tokenize($0.codeBlock) }?.tokensOnScope(depth: 1) ?? []
+        let didSetBlock = block.didSetClause.map { tokenize($0.codeBlock) }?.tokensOnScope(depth: 1) ?? []
+        let assignmentBlock = [
+            block.newToken(.identifier, "field", node),
+            block.newToken(.keyword, " = ", node),
+            block.newToken(.identifier, name, node)
+        ]
+        return [
+            [block.newToken(.startOfScope, "{", node)],
+            willSetBlock,
+            indent(assignmentBlock),
+            didSetBlock,
+            [block.newToken(.endOfScope, "}", node)]
+        ].joined(token: block.newToken(.linebreak, "\n", node))
+        
+    }
+    
     open override func tokenize(_ declaration: ImportDeclaration) -> [Token] {
         return []
     }

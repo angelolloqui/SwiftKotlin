@@ -43,9 +43,16 @@ class A {
         temporaryPlayers.append("John Doe")
         return temporaryPlayers
     }()
+    
     private lazy var name: String = {() -> String in
         return "abc"
     }()
+    
+    var isLocating = false {
+        didSet {
+            delegate.set(isLocating: isLocating)
+        }
+    }
 }
 
 struct Rect {
@@ -65,16 +72,15 @@ struct Rect {
     }
 }
 
-//class StepCounter {
-//    var totalSteps: Int = 0 {
-//        willSet(newTotalSteps) {
-//            print("About to set totalSteps to \(newTotalSteps)")
-//        }
-//        didSet {
-//            if totalSteps > oldValue  {
-//                print("Added \(totalSteps - oldValue) steps")
-//            }
-//        }
-//    }
-//}
-
+class StepCounter {
+    var totalSteps: Int = 0 {
+        willSet(newTotalSteps) {
+            print("About to set totalSteps to \(newTotalSteps)")
+        }
+        didSet {
+            if totalSteps > oldValue  {
+                print("Added \(totalSteps - oldValue) steps")
+            }
+        }
+    }
+}
