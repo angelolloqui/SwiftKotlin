@@ -20,6 +20,18 @@ extension VariableDeclaration {
         return typeAnnotation?.type is OptionalType
     }
 
+    var isReadOnly: Bool {
+        switch body {
+        case .codeBlock: return true
+        case .getterSetterBlock(_, _, let block) where block.setter == nil: return true
+        default: return isLazy
+        }
+    }
+    
+    var isLazy: Bool {
+        return modifiers.isLazy
+    }
+    
     var typeAnnotation: TypeAnnotation? {
         return initializerList?
             .flatMap { $0.pattern as? IdentifierPattern }
@@ -35,6 +47,7 @@ extension VariableDeclaration {
             return nil
         }
     }
+    
 }
 
 extension FunctionDeclaration {
@@ -101,12 +114,23 @@ extension Collection where Iterator.Element == DeclarationModifier {
     var isStatic: Bool {
         return self.contains(where: { $0.isStatic })
     }
+    
+    var isLazy: Bool {
+        return self.contains(where: { $0.isLazy })
+    }
 }
 
 extension DeclarationModifier {
     var isStatic: Bool {
         switch self {
         case .`static`: return true
+        default: return false
+        }
+    }
+    
+    var isLazy: Bool {
+        switch self {
+        case .lazy: return true
         default: return false
         }
     }
@@ -130,6 +154,21 @@ extension SelfExpression {
             return true
         default:
             return false
+        }
+    }
+}
+
+extension ExplicitMemberExpression {
+    var identifier: String {
+        switch kind {
+        case let .tuple(_, index):
+            return "var\(index)"
+        case let .namedType(_, identifier):
+            return identifier
+        case let .generic(_, identifier, _):
+            return identifier
+        case let .argument(_, identifier, _):
+            return identifier
         }
     }
 }

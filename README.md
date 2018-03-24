@@ -73,14 +73,15 @@ The project is in active development, with many rules and improvements still to 
 - [x] Basic memory management (`weak`, captures,...)
 - [x] Function returns and named parameters
 - [x] Basic property transfromers (getters and setters)
-- [ ] Advance property transformers (`lazy`, `didSet`,...)
+- [x] Lazy properties 
+- [ ] Properties with `didSet`/`willSet`
 - [x] Static to Companion
 - [x] Struct to data class
 - [x] String interpolators
 - [x] Foundation types (arrays, maps,...)
 - [x] Basic exception handling syntax
 - [x] Simple enums
-- [ ] Complex enum cases to Sealed classes
+- [x] Complex enum cases to Sealed classes
 - [ ] ... [(check open issues)](https://github.com/angelolloqui/SwiftKotlin/issues)
 
 With the implemented rules you can already get pretty decent Kotlin output for many of your classes. The rest will come in future releases.

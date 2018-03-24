@@ -54,13 +54,16 @@ public class KotlinTokenizer: SwiftTokenizer {
         let defaultTokens = parameter.defaultArgumentClause.map {
             return parameter.newToken(.symbol, " = ", node) + tokenize($0)
         }
-        let varargsTokens = parameter.isVarargs ? [parameter.newToken(.symbol, "...", node)] : []
+        let varargsTokens = parameter.isVarargs ? [
+            parameter.newToken(.keyword, "vararg", node),
+            parameter.newToken(.space, " ", node),
+        ] : []
 
         return
+            varargsTokens +
             nameTokens +
-                typeAnnoTokens +
-                defaultTokens +
-        varargsTokens
+            typeAnnoTokens +
+            defaultTokens
     }
 
     open override func tokenize(_ result: FunctionResult, node: ASTNode) -> [Token] {
@@ -104,7 +107,8 @@ public class KotlinTokenizer: SwiftTokenizer {
         declaration.members.forEach { member in
             if member.isStatic {
                 staticMembers.append(member)
-            } else if member.declaration is ConstantDeclaration || member.declaration is VariableDeclaration {
+            } else if member.declaration is ConstantDeclaration ||
+                (member.declaration as? VariableDeclaration)?.initializerList != nil {
                 declarationMembers.append(member)
             } else {
                 otherMembers.append(member)
@@ -220,7 +224,7 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     open override func tokenize(_ modifier: DeclarationModifier, node: ASTNode) -> [Token] {
         switch modifier {
-        case .static, .unowned, .unownedSafe, .unownedUnsafe, .weak, .convenience, .dynamic:
+        case .static, .unowned, .unownedSafe, .unownedUnsafe, .weak, .convenience, .dynamic, .lazy:
             return []
         default:
             return super.tokenize(modifier, node: node)
@@ -257,47 +261,57 @@ public class KotlinTokenizer: SwiftTokenizer {
             memberTokens
         ].joined(token: declaration.newToken(.linebreak, "\n"))
     }
-
+    
     open override func tokenize(_ declaration: VariableDeclaration) -> [Token] {
-        var tokens = super.tokenize(declaration)
-
-        let readOnly: Bool
-        switch declaration.body {
-        case .codeBlock: readOnly = true
-        case .getterSetterBlock(_, _, let block) where block.setter == nil: readOnly = true
-        default: readOnly = false
-        }
-
-        if readOnly {
-            tokens = tokens.replacing({ $0.value == "var" }, with: [declaration.body.newToken(.keyword, "val", declaration)], amount: 1)
-        }
-
+        let spaceToken = declaration.newToken(.space, " ")
+        let mutabilityTokens = [declaration.newToken(.keyword, declaration.isReadOnly ? "val" : "var")]
+        let attrsTokenGroups = declaration.attributes.map { tokenize($0, node: declaration) }
+        var modifierTokenGroups = declaration.modifiers.map { tokenize($0, node: declaration) }
+        var bodyTokens = tokenize(declaration.body, node: declaration)
+        
         if declaration.isImplicitlyUnwrapped {
-            tokens.insert(contentsOf: [
-                declaration.newToken(.keyword, "lateinit"),
-                declaration.newToken(.space, " ")
-            ], at: 0)
+            modifierTokenGroups = [[declaration.newToken(.keyword, "lateinit")]] + modifierTokenGroups
         }
-        else if declaration.isOptional {
-            if declaration.initializerList?.last?.initializerExpression == nil {
-                tokens += [
-                    declaration.newToken(.space, " "),
+        
+        if declaration.isOptional && declaration.initializerList?.last?.initializerExpression == nil {
+                bodyTokens = bodyTokens + [
+                    spaceToken,
                     declaration.newToken(.symbol, "="),
-                    declaration.newToken(.space, " "),
+                    spaceToken,
                     declaration.newToken(.keyword, "null")
                 ]
+        } else if declaration.isLazy {
+            bodyTokens = bodyTokens
+                .replacing({ $0.value == " = " }, with: [
+                    spaceToken,
+                    declaration.newToken(.keyword, "by"),
+                    spaceToken,
+                    declaration.newToken(.keyword, "lazy"),
+                    spaceToken,
+                    ], amount: 1)
+            if bodyTokens.last?.value == ")" {
+                bodyTokens.removeLast()
+            }
+            if bodyTokens.last?.value == "(" {
+                bodyTokens.removeLast()
             }
         }
-        return tokens
+
+        return [
+            attrsTokenGroups.joined(token: spaceToken),
+            modifierTokenGroups.joined(token: spaceToken),
+            mutabilityTokens,
+            bodyTokens
+        ].joined(token: spaceToken)
     }
 
     open override func tokenize(_ body: VariableDeclaration.Body, node: ASTNode) -> [Token] {
-        let getterTokens = [
-            body.newToken(.keyword, "get()", node),
-            body.newToken(.space, " ", node)
-        ]
         switch body {
         case let .codeBlock(name, typeAnnotation, codeBlock):
+            let getterTokens = [
+                body.newToken(.keyword, "get()", node),
+                body.newToken(.space, " ", node)
+            ]
             return body.newToken(.identifier, name, node) +
                 tokenize(typeAnnotation, node: node) +
                 body.newToken(.linebreak, "\n", node) +
@@ -305,6 +319,34 @@ public class KotlinTokenizer: SwiftTokenizer {
                     getterTokens +
                     tokenize(codeBlock)
                 )
+            
+        case let .willSetDidSetBlock(name, typeAnnotation, initExpr, block):
+            let newName = block.willSetClause?.name ?? "newValue"
+            let oldName = block.didSetClause?.name ?? "oldValue"
+            let fieldAssignmentExpression = AssignmentOperatorExpression(
+                leftExpression: IdentifierExpression(kind: IdentifierExpression.Kind.identifier("field", nil)),
+                rightExpression: IdentifierExpression(kind: IdentifierExpression.Kind.identifier(newName, nil))
+            )
+            let oldValueAssignmentExpression = ConstantDeclaration(initializerList: [
+                PatternInitializer(pattern: IdentifierPattern(identifier: oldName),
+                                   initializerExpression: IdentifierExpression(kind: IdentifierExpression.Kind.identifier("field", nil)))
+            ])
+            let setterCodeBlock = CodeBlock(statements:
+                    (block.didSetClause?.codeBlock.statements.count ?? 0 > 0 ? [oldValueAssignmentExpression] : []) +
+                    (block.willSetClause?.codeBlock.statements ?? []) +
+                    [fieldAssignmentExpression] +
+                    (block.didSetClause?.codeBlock.statements ?? [])
+            )
+            let setterTokens = tokenize(GetterSetterBlock.SetterClause(name: newName, codeBlock: setterCodeBlock), node: node)            
+            let typeAnnoTokens = typeAnnotation.map { tokenize($0, node: node) } ?? []
+            let initTokens = initExpr.map { body.newToken(.symbol, " = ", node) + tokenize($0) } ?? []
+            return [
+                body.newToken(.identifier, name, node)] +
+                typeAnnoTokens +
+                initTokens +
+                [body.newToken(.linebreak, "\n", node)] +
+                indent(setterTokens)
+            
         default:
             return super.tokenize(body, node: node).removingTrailingSpaces()
         }
@@ -329,6 +371,25 @@ public class KotlinTokenizer: SwiftTokenizer {
         return super.tokenize(newSetter, node: node)
     }
 
+    open override func tokenize(_ block: WillSetDidSetBlock, node: ASTNode) -> [Token] {
+        let name = block.willSetClause?.name ?? block.didSetClause?.name ?? "newValue"
+        let willSetBlock = block.willSetClause.map { tokenize($0.codeBlock) }?.tokensOnScope(depth: 1) ?? []
+        let didSetBlock = block.didSetClause.map { tokenize($0.codeBlock) }?.tokensOnScope(depth: 1) ?? []
+        let assignmentBlock = [
+            block.newToken(.identifier, "field", node),
+            block.newToken(.keyword, " = ", node),
+            block.newToken(.identifier, name, node)
+        ]
+        return [
+            [block.newToken(.startOfScope, "{", node)],
+            willSetBlock,
+            indent(assignmentBlock),
+            didSetBlock,
+            [block.newToken(.endOfScope, "}", node)]
+        ].joined(token: block.newToken(.linebreak, "\n", node))
+        
+    }
+    
     open override func tokenize(_ declaration: ImportDeclaration) -> [Token] {
         return []
     }
@@ -633,6 +694,23 @@ public class KotlinTokenizer: SwiftTokenizer {
             tokens = tokens.replacing({ $0.value == "in" },
                                       with: arrowTokens,
                                       amount: 1)
+        }
+        
+        // Last return can be removed
+        if let lastReturn = expression.statements?.last as? ReturnStatement,
+            let index = tokens.index(where: { $0.node === lastReturn && $0.value == "return" }) {
+            tokens.remove(at: index)
+            tokens.remove(at: index)
+        }
+        
+        // Other returns must be suffixed with call name
+        if let callExpression = expression.lexicalParent as? FunctionCallExpression,
+            let memberExpression = callExpression.postfixExpression as? ExplicitMemberExpression {
+            while let returnIndex = tokens.index(where: { $0.value == "return" }) {
+                tokens.remove(at: returnIndex)
+                tokens.insert(expression.newToken(.keyword, "return@"), at: returnIndex)
+                tokens.insert(expression.newToken(.identifier, memberExpression.identifier), at: returnIndex + 1)
+            }
         }
         return tokens
     }
