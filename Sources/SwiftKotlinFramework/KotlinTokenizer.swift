@@ -638,7 +638,9 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     open override func tokenize(_ entry: DictionaryEntry, node: ASTNode) -> [Token] {
         return tokenize(entry.key) +
-            entry.newToken(.delimiter, " to ", node) +
+            entry.newToken(.space, " ", node) +
+            entry.newToken(.keyword, "to", node) +
+            entry.newToken(.space, " ", node) +
             tokenize(entry.value)
     }
 
