@@ -89,6 +89,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             typeInheritanceClause: declaration.typeInheritanceClause,
             genericWhereClause: declaration.genericWhereClause,
             members: declaration.members.filter({ !$0.isStatic }))
+        newClass.setSourceRange(declaration.sourceRange)
         var tokens = super.tokenize(newClass)
         if !staticMembers.isEmpty, let bodyStart = tokens.index(where: { $0.value == "{"}) {
             let companionTokens = indent(tokenizeCompanion(staticMembers, node: declaration))
@@ -123,7 +124,8 @@ public class KotlinTokenizer: SwiftTokenizer {
             typeInheritanceClause: declaration.typeInheritanceClause,
             genericWhereClause: declaration.genericWhereClause,
             members: otherMembers)
-
+        newStruct.setSourceRange(declaration.sourceRange)
+        
         var tokens = super.tokenize(newStruct)
             .replacing({ $0.value == "struct"},
                        with: [declaration.newToken(.keyword, "data class")])
@@ -367,7 +369,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         let newSetter = GetterSetterBlock.SetterClause(attributes: block.attributes,
                                                        mutationModifier: block.mutationModifier,
                                                        name: block.name ?? "newValue",
-                                                       codeBlock: block.codeBlock)
+                                                       codeBlock: block.codeBlock)        
         return super.tokenize(newSetter, node: node)
     }
 
