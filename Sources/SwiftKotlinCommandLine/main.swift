@@ -12,7 +12,8 @@ import SwiftKotlinFramework
 let kotlinTokenizer = KotlinTokenizer(
     tokenTransformPlugins: [
         XCTTestToJUnitTokenTransformPlugin(),
-        FoundationMethodsTransformPlugin()
+        FoundationMethodsTransformPlugin(),
+        CommentsAdditionTransformPlugin()
     ]
 )
 let version = "0.1.4"

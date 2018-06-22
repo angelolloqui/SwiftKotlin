@@ -12,11 +12,16 @@ import Transform
 
 class ViewController: NSViewController {
 
-    let swiftTokenizer = SwiftTokenizer()
+    let swiftTokenizer = SwiftTokenizer(
+        tokenTransformPlugins: [
+            CommentsAdditionTransformPlugin()
+        ]
+    )
     let kotlinTokenizer = KotlinTokenizer(
         tokenTransformPlugins: [
             XCTTestToJUnitTokenTransformPlugin(),
-            FoundationMethodsTransformPlugin()
+            FoundationMethodsTransformPlugin(),
+            CommentsAdditionTransformPlugin()
         ]
     )
     
