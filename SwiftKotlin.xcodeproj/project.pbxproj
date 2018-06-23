@@ -71,6 +71,7 @@
 		78CAB0CF1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CAB0CE1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift */; };
 		78CAB0D61F92843C009E2608 /* TransformPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CAB0D51F92843C009E2608 /* TransformPluginTests.swift */; };
 		78FE79801FDDABC000B64A2C /* FoundationMethodsTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FE797E1FDDAB5900B64A2C /* FoundationMethodsTransformPlugin.swift */; };
+		D5D4A11420DD7351000AD25C /* CommentsAdditionTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D4A11220DD723A000AD25C /* CommentsAdditionTransformPlugin.swift */; };
 		OBJ_265 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_271 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* Package.swift */; };
 		OBJ_277 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_230 /* Package.swift */; };
@@ -1029,6 +1030,7 @@
 		78CAB0D41F9283D6009E2608 /* Tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tests; sourceTree = "<group>"; };
 		78CAB0D51F92843C009E2608 /* TransformPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformPluginTests.swift; sourceTree = "<group>"; };
 		78FE797E1FDDAB5900B64A2C /* FoundationMethodsTransformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationMethodsTransformPlugin.swift; sourceTree = "<group>"; };
+		D5D4A11220DD723A000AD25C /* CommentsAdditionTransformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsAdditionTransformPlugin.swift; sourceTree = "<group>"; };
 		OBJ_100 /* AssignmentOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentOperatorExpression.swift; sourceTree = "<group>"; };
 		OBJ_101 /* BinaryOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryOperatorExpression.swift; sourceTree = "<group>"; };
 		OBJ_102 /* ClosureExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureExpression.swift; sourceTree = "<group>"; };
@@ -1447,6 +1449,7 @@
 				789D78F91F92792E009ED628 /* TransformPlugin.swift */,
 				78CAB0CE1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift */,
 				78FE797E1FDDAB5900B64A2C /* FoundationMethodsTransformPlugin.swift */,
+				D5D4A11220DD723A000AD25C /* CommentsAdditionTransformPlugin.swift */,
 			);
 			path = plugins;
 			sourceTree = "<group>";
@@ -2512,6 +2515,7 @@
 				789D78FE1F9279BF009ED628 /* SwiftTokenizer.swift in Sources */,
 				789D79041F927B63009ED628 /* AST+Operations.swift in Sources */,
 				789D79031F927B5F009ED628 /* Token+Operations.swift in Sources */,
+				D5D4A11420DD7351000AD25C /* CommentsAdditionTransformPlugin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

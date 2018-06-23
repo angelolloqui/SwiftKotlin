@@ -12,11 +12,16 @@ import Transform
 
 class ViewController: NSViewController {
 
-    let swiftTokenizer = SwiftTokenizer()
+    let swiftTokenizer = SwiftTokenizer(
+        tokenTransformPlugins: [
+            CommentsAdditionTransformPlugin()
+        ]
+    )
     let kotlinTokenizer = KotlinTokenizer(
         tokenTransformPlugins: [
             XCTTestToJUnitTokenTransformPlugin(),
-            FoundationMethodsTransformPlugin()
+            FoundationMethodsTransformPlugin(),
+            CommentsAdditionTransformPlugin()
         ]
     )
     
@@ -118,16 +123,18 @@ extension ViewController: NSTextViewDelegate {
     }
 }
 
-
 extension Token {
     var attributes: [NSAttributedStringKey : Any] {
         switch self.kind {
         case .keyword:
             return [NSAttributedStringKey.foregroundColor: NSColor(red: 170.0/255.0, green: 13.0/255.0, blue: 145.0/255.0, alpha: 1)]
-        case .number, .string:
-            return [NSAttributedStringKey.foregroundColor: NSColor(red: 0, green: 116.0/255.0, blue: 0, alpha: 1)]
-        case .comment:
+        case .number:
+            return [NSAttributedStringKey.foregroundColor: NSColor(red: 28.0/255.0, green: 0.0/255.0, blue: 207.0/255.0, alpha: 1)]
+        case .string:
             return [NSAttributedStringKey.foregroundColor: NSColor(red: 196.0/255.0, green: 26.0/255.0, blue: 22.0/255.0, alpha: 1)]
+        case .comment:
+            return [NSAttributedStringKey.foregroundColor: NSColor(red: 0, green: 116.0/255.0, blue: 0, alpha: 1)]
+            
         default:
             return [:]
         }
