@@ -40,8 +40,19 @@ public class CommentsAdditionTransformPlugin: TokenTransformPlugin {
             }
             
             if consumeComment, let node = token.node {
+                // Consume linbreaks
+                if token.kind == .linebreak {
+                    newTokens.append(token)
+                    position += 1
+                }
+                // Consume indentations
+                while position < tokens.count && tokens[position].kind == .indentation {
+                    newTokens.append(tokens[position])
+                    position += 1
+                }                
                 newTokens.append(node.newToken(.comment, comment.fomattedContent()))
                 sortedComments.removeFirst()
+                tokens.lineIndentationToken(at: position).map { newTokens.append($0) }
             } else {
                 newTokens.append(token)
                 position += 1
