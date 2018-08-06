@@ -71,6 +71,13 @@
 		78CAB0CF1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CAB0CE1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift */; };
 		78CAB0D61F92843C009E2608 /* TransformPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CAB0D51F92843C009E2608 /* TransformPluginTests.swift */; };
 		78FE79801FDDABC000B64A2C /* FoundationMethodsTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FE797E1FDDAB5900B64A2C /* FoundationMethodsTransformPlugin.swift */; };
+		963335982118615F0092E078 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963335972118615F0092E078 /* Types.swift */; };
+		96333599211861C30092E078 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963335972118615F0092E078 /* Types.swift */; };
+		9637291C20EF392700486A66 /* TransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D78F91F92792E009ED628 /* TransformPlugin.swift */; };
+		9637291D20EF3BDF00486A66 /* MacroTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9637291720EF322C00486A66 /* MacroTransformPlugin.swift */; };
+		9637291F20F0462500486A66 /* IdentifiersTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9637291E20F0462500486A66 /* IdentifiersTransformPlugin.swift */; };
+		9637292020F0462500486A66 /* IdentifiersTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9637291E20F0462500486A66 /* IdentifiersTransformPlugin.swift */; };
+		9637292220F16B8900486A66 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9637292120F16B8900486A66 /* Utilities.swift */; };
 		D5D4A11420DD7351000AD25C /* CommentsAdditionTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D4A11220DD723A000AD25C /* CommentsAdditionTransformPlugin.swift */; };
 		OBJ_265 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_271 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* Package.swift */; };
@@ -1030,6 +1037,10 @@
 		78CAB0D41F9283D6009E2608 /* Tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tests; sourceTree = "<group>"; };
 		78CAB0D51F92843C009E2608 /* TransformPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformPluginTests.swift; sourceTree = "<group>"; };
 		78FE797E1FDDAB5900B64A2C /* FoundationMethodsTransformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationMethodsTransformPlugin.swift; sourceTree = "<group>"; };
+		963335972118615F0092E078 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
+		9637291720EF322C00486A66 /* MacroTransformPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacroTransformPlugin.swift; sourceTree = "<group>"; };
+		9637291E20F0462500486A66 /* IdentifiersTransformPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifiersTransformPlugin.swift; sourceTree = "<group>"; };
+		9637292120F16B8900486A66 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		D5D4A11220DD723A000AD25C /* CommentsAdditionTransformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsAdditionTransformPlugin.swift; sourceTree = "<group>"; };
 		OBJ_100 /* AssignmentOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentOperatorExpression.swift; sourceTree = "<group>"; };
 		OBJ_101 /* BinaryOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryOperatorExpression.swift; sourceTree = "<group>"; };
@@ -1450,6 +1461,8 @@
 				78CAB0CE1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift */,
 				78FE797E1FDDAB5900B64A2C /* FoundationMethodsTransformPlugin.swift */,
 				D5D4A11220DD723A000AD25C /* CommentsAdditionTransformPlugin.swift */,
+				9637291720EF322C00486A66 /* MacroTransformPlugin.swift */,
+				9637291E20F0462500486A66 /* IdentifiersTransformPlugin.swift */,
 			);
 			path = plugins;
 			sourceTree = "<group>";
@@ -1948,6 +1961,8 @@
 				OBJ_9 /* KotlinTokenizer.swift */,
 				789D78FC1F9279AE009ED628 /* SwiftTokenizer.swift */,
 				OBJ_11 /* TransformOptions.swift */,
+				9637292120F16B8900486A66 /* Utilities.swift */,
+				963335972118615F0092E078 /* Types.swift */,
 				78314DD51FC8B64700539A2D /* TokenizationResult.swift */,
 			);
 			name = SwiftKotlinFramework;
@@ -2449,6 +2464,7 @@
 			files = (
 				78266AE41F5AD06200F08378 /* AppDelegate.swift in Sources */,
 				78266AE31F5AD06000F08378 /* ViewController.swift in Sources */,
+				9637291C20EF392700486A66 /* TransformPlugin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2456,7 +2472,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				963335982118615F0092E078 /* Types.swift in Sources */,
 				OBJ_265 /* Package.swift in Sources */,
+				9637291F20F0462500486A66 /* IdentifiersTransformPlugin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2509,9 +2527,13 @@
 				78314DD61FC8B64700539A2D /* TokenizationResult.swift in Sources */,
 				78FE79801FDDABC000B64A2C /* FoundationMethodsTransformPlugin.swift in Sources */,
 				OBJ_358 /* KotlinTokenizer.swift in Sources */,
+				96333599211861C30092E078 /* Types.swift in Sources */,
+				9637292020F0462500486A66 /* IdentifiersTransformPlugin.swift in Sources */,
+				9637292220F16B8900486A66 /* Utilities.swift in Sources */,
 				789D78FB1F927957009ED628 /* TransformPlugin.swift in Sources */,
 				OBJ_360 /* TransformOptions.swift in Sources */,
 				78CAB0CF1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift in Sources */,
+				9637291D20EF3BDF00486A66 /* MacroTransformPlugin.swift in Sources */,
 				789D78FE1F9279BF009ED628 /* SwiftTokenizer.swift in Sources */,
 				789D79041F927B63009ED628 /* AST+Operations.swift in Sources */,
 				789D79031F927B5F009ED628 /* Token+Operations.swift in Sources */,
