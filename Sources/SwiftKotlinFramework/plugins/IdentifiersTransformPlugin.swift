@@ -1,15 +1,9 @@
 
 //
-//  MacroTransformPlugin.swift
-//  SwiftKotlinPackageDescription
+//  IdentifiersTransformPlugin.swift
 //
 //  Created by Tor Langballe on 05/07/2018.
 //
-//
-//  IdentifiersTransformPlugin.swift
-//  SwiftKotlinPackageDescription
-//
-//  Created by Tor Langballe on 06/07/2018.
 //
 
 import Foundation

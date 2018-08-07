@@ -441,19 +441,96 @@ public class KotlinTokenizer: SwiftTokenizer {
         return []
     }
     
+    private func getAssignments(rawCases:[AST.EnumDeclaration.RawValueStyleEnumCase], declaration:EnumDeclaration, typeToken:Token) -> [Token] {
+        let space = declaration.newToken(.space, " ")
+        var acomps = [[Token]]()
+        var intStart = 0
+        for r in rawCases {
+            for c in r.cases {
+                var set = [Token]()
+                if (c.assignment == nil) {
+                    switch typeToken.value {
+                    case "String":
+                        set = [
+                            declaration.newToken(.startOfScope, "\""),
+                            declaration.newToken(.endOfScope, "\"")
+                        ]
+                    default: // Int
+                        set = [declaration.newToken(.number, "\(intStart)")]
+                        intStart += 1
+                    }
+                } else {
+                    switch c.assignment! {
+                    case .string(let s):
+                            set = [declaration.newToken(.string, "\"\(s)\"")]
+                    case .floatingPoint(let f):
+                        set = [declaration.newToken(.number, "\(f)")]
+                    case .boolean(let b):
+                        set = [declaration.newToken(.keyword, "\(b)")]
+                    case .integer(let i):
+                        set = [declaration.newToken(.number, "\(i)")]
+                        intStart = i + 1
+                    }
+                }
+                let c = [
+                    declaration.newToken(.identifier, c.name),
+                    declaration.newToken(.startOfScope, "(") ] +
+                    set +
+                    [ declaration.newToken(.endOfScope, ")") ]
+                acomps.append(c)
+            }
+        }
+        return acomps.joined(tokens: [ declaration.newToken(.delimiter, ","), space ])
+    }
+    
+    private func makeValueEnum(declaration:EnumDeclaration) -> [Token] {
+        let attrsTokens = tokenize(declaration.attributes, node: declaration)
+        let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+        let lineBreak = declaration.newToken(.linebreak, "\n")
+        let space = declaration.newToken(.space, " ")
+        let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []
+        let rawCases = declaration.members.flatMap { $0.rawValueStyleEnumCase }
+        
+        let headTokens = [
+            attrsTokens,
+            modifierTokens,
+            [declaration.newToken(.keyword, "enum")],
+            [declaration.newToken(.keyword, "class")],
+            [declaration.newToken(.identifier, declaration.name)],
+            ].joined(token: space)
+        
+        let initTokens = [
+            declaration.newToken(.startOfScope, "("),
+            declaration.newToken(.keyword, "val"),
+            space,
+            declaration.newToken(.identifier, "rawValue"),
+            declaration.newToken(.delimiter, ":"),
+            space,
+            IdentifiersTransformPlugin.TransformType(inheritanceTokens.last!),
+            declaration.newToken(.endOfScope, ")"),
+            space
+        ]
+        let comps = getAssignments(rawCases:rawCases, declaration:declaration, typeToken:inheritanceTokens.last!)
+        
+        let bodyTokens = [ declaration.newToken(.startOfScope, "{"), lineBreak ] +
+            indent(comps) +
+            [ lineBreak, declaration.newToken(.endOfScope, "}"), lineBreak ]
+        return headTokens + initTokens + bodyTokens
+    }
+
     open override func tokenize(_ declaration: EnumDeclaration) -> [Token] {
         let unionCases = declaration.members.flatMap { $0.unionStyleEnumCase }
         let simpleCases = unionCases.flatMap { $0.cases }
         let lineBreak = declaration.newToken(.linebreak, "\n")
         let space = declaration.newToken(.space, " ")
 
-        guard unionCases.count == declaration.members.count &&
-            declaration.genericParameterClause == nil &&
-            declaration.genericWhereClause == nil else {
-                return self.unsupportedTokens(message: "Complex enums not supported yet", element: declaration, node: declaration).suffix(with: lineBreak) +
-                    super.tokenize(declaration)
-        }
-
+//        guard unionCases.count == declaration.members.count &&
+//            declaration.genericParameterClause == nil &&
+//            declaration.genericWhereClause == nil else {
+//                return self.unsupportedTokens(message: "Complex enums not supported yet", element: declaration, node: declaration).suffix(with: lineBreak) +
+//                    super.tokenize(declaration)
+//        }
+//
         // Simple enums (no tuples)
         if !simpleCases.contains(where: { $0.tuple != nil }) && declaration.typeInheritanceClause == nil {
             let attrsTokens = tokenize(declaration.attributes, node: declaration)
@@ -480,6 +557,8 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
         // Tuples or inhertance required sealed classes
         else {
+            return makeValueEnum(declaration:declaration)
+            
             let attrsTokens = tokenize(declaration.attributes, node: declaration)
             let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
             let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []

@@ -186,6 +186,15 @@ extension EnumDeclaration.Member {
             return nil
         }
     }
+
+    var rawValueStyleEnumCase: EnumDeclaration.RawValueStyleEnumCase? {
+        switch self {
+        case .rawValue(let rawValueStyleEnumCase):
+            return rawValueStyleEnumCase
+        default:
+            return nil
+        }
+    }
 }
 
 extension SequenceExpression.Element {
