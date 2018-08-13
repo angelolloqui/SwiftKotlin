@@ -163,8 +163,24 @@ public class KotlinTokenizer: SwiftTokenizer {
         tokens = tokens.replacing({ $0.kind == .keyword && $0.value == "struct"},
                        with: [declaration.newToken(.keyword, "data class")])
 
-        if isStruct {
-            
+        if isStruct && declarationMembers.isEmpty, let bodyStart = tokens.index(where: { $0.value == "{"}) {
+            let space = declaration.newToken(.space, " ")
+            let dummyDeclaration = [
+                declaration.newToken(.startOfScope, "("),
+                declaration.newToken(.keyword, "val"),
+                space,
+                declaration.newToken(.identifier, "_dummy"),
+                declaration.newToken(.symbol, ":"),
+                space,
+                declaration.newToken(.keyword, "Int"),
+                space,
+                declaration.newToken(.symbol, "="),
+                space,
+                declaration.newToken(.number, "0"),
+                declaration.newToken(.endOfScope, ")"),
+                space
+            ]
+            tokens.insert(contentsOf:dummyDeclaration, at:bodyStart)
         }
         if !staticMembers.isEmpty, let bodyStart = tokens.index(where: { $0.value == "{"}) {
             let companionTokens = indent(tokenizeCompanion(staticMembers, node: declaration))
@@ -196,6 +212,7 @@ public class KotlinTokenizer: SwiftTokenizer {
                 tokens.removeSubrange(inheritanceRange)
                 bodyStart -= inheritanceTokens.count
             }
+            inheritanceTokens = []
             tokens.insert(contentsOf: declarationTokens
                 .prefix(with: declaration.newToken(.startOfScope, "("))
                 .suffix(with: declaration.newToken(.endOfScope, ")")) + inheritanceTokens,

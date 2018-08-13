@@ -35,18 +35,34 @@ public class IdentifiersTransformPlugin: TokenTransformPlugin {
         var newTokens = [Token]()
         
         for token in tokens {
-            if token.kind == .identifier, let origin = token.origin, let node = token.node {
+            if let origin = token.origin, let node = token.node {
                 switch token.value {
+                case "&":
+                    if token.kind == .identifier || token.kind == .symbol {
+                        newTokens.append(origin.newToken(.keyword, "and", node))
+                        continue
+                    }
+
+                case "|":
+                    if token.kind == .identifier || token.kind == .symbol {
+                        newTokens.append(origin.newToken(.keyword, "or", node))
+                        continue
+                    }
+
                 case "enumerated":
-                    newTokens.append(origin.newToken(.identifier, "withIndex", node))
-                    continue
+                    if token.kind == .identifier {
+                        newTokens.append(origin.newToken(.identifier, "withIndex", node))
+                        continue
+                    }
                 
                 case "append":
-                    if let p = newTokens.last, p.value == "." && p.kind == .delimiter {
-                        newTokens.removeLast()
-                        newTokens.append(origin.newToken(.identifier, " += ", node))
+                    if token.kind == .identifier {
+                        if let p = newTokens.last, p.value == "." && p.kind == .delimiter {
+                            newTokens.removeLast()
+                            newTokens.append(origin.newToken(.identifier, " += ", node))
+                        }
+                        continue
                     }
-                    continue
                     
                 default:
                     break
