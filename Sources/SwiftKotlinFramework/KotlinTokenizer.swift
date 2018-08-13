@@ -441,49 +441,111 @@ public class KotlinTokenizer: SwiftTokenizer {
         return []
     }
     
+    private func makeFromRawFunc(declaration d: EnumDeclaration, typeToken: Token) -> [Token] {
+        //        companion object : ZEnumCompanion<Int, XWeekday>(XWeekday.values().associateBy(XWeekday::rawValue))
+        let name = d.newToken(.identifier, d.name)
+        let space = d.newToken(.space, " ")
+        return [
+            d.newToken(.keyword, "companion"),
+            space,
+            d.newToken(.keyword, "object"),
+            space,
+            d.newToken(.delimiter, ":"),
+            space,
+            d.newToken(.identifier, "ZEnumCompanion"),
+            d.newToken(.startOfScope, "<"),
+            typeToken,
+            d.newToken(.delimiter, ","),
+            space,
+            name,
+            d.newToken(.endOfScope, ">"),
+            d.newToken(.startOfScope, "("),
+            name,
+            d.newToken(.delimiter, "."),
+            d.newToken(.identifier, "values"),
+            d.newToken(.startOfScope, "("),
+            d.newToken(.endOfScope, ")"),
+            d.newToken(.delimiter, "."),
+            d.newToken(.identifier, "associateBy"),
+            d.newToken(.startOfScope, "("),
+            name,
+            d.newToken(.delimiter, "::"),
+            d.newToken(.identifier, "rawValue"),
+            d.newToken(.endOfScope, ")"),
+            d.newToken(.endOfScope, ")")
+        ]
+    }
+    
     private func getAssignments(rawCases:[AST.EnumDeclaration.RawValueStyleEnumCase], declaration:EnumDeclaration, typeToken:Token) -> [Token] {
         let space = declaration.newToken(.space, " ")
         var acomps = [[Token]]()
         var intStart = 0
         for r in rawCases {
             for c in r.cases {
-                var set = [Token]()
+                var set = space // just set it to something
                 if (c.assignment == nil) {
                     switch typeToken.value {
                     case "String":
-                        set = [
-                            declaration.newToken(.startOfScope, "\""),
-                            declaration.newToken(.endOfScope, "\"")
-                        ]
+                        set = declaration.newToken(.string, "\"\(c.name)\"")
                     default: // Int
-                        set = [declaration.newToken(.number, "\(intStart)")]
+                        set = declaration.newToken(.number, "\(intStart)")
                         intStart += 1
                     }
                 } else {
                     switch c.assignment! {
                     case .string(let s):
-                            set = [declaration.newToken(.string, "\"\(s)\"")]
+                            set = declaration.newToken(.string, "\"\(s)\"")
                     case .floatingPoint(let f):
-                        set = [declaration.newToken(.number, "\(f)")]
+                        set = declaration.newToken(.number, "\(f)")
+                        intStart = Int(f) + 1
                     case .boolean(let b):
-                        set = [declaration.newToken(.keyword, "\(b)")]
+                        set = declaration.newToken(.keyword, "\(b)")
                     case .integer(let i):
-                        set = [declaration.newToken(.number, "\(i)")]
+                        set = declaration.newToken(.number, "\(i)")
                         intStart = i + 1
                     }
                 }
                 let c = [
                     declaration.newToken(.identifier, c.name),
-                    declaration.newToken(.startOfScope, "(") ] +
-                    set +
-                    [ declaration.newToken(.endOfScope, ")") ]
+                    declaration.newToken(.startOfScope, "("),
+                    set,
+                    declaration.newToken(.endOfScope, ")")
+                ]
                 acomps.append(c)
             }
         }
         return acomps.joined(tokens: [ declaration.newToken(.delimiter, ","), space ])
     }
     
-    private func makeValueEnum(declaration:EnumDeclaration) -> [Token] {
+    private func getSimpleAssignments(simpleCases:[AST.EnumDeclaration.UnionStyleEnumCase.Case], declaration:EnumDeclaration, typeToken:Token) -> [Token] {
+        let space = declaration.newToken(.space, " ")
+        var acomps = [[Token]]()
+        var intStart = 0
+        var boolStart = false
+        for s in simpleCases {
+            var set = space // hack to set it to space to start
+            switch typeToken.value {
+            case "Bool":
+                set = declaration.newToken(.keyword, "\(boolStart)")
+                boolStart = !boolStart
+            case "String":
+                set = declaration.newToken(.string, "\"\(s.name)\"")
+            default:
+                set = declaration.newToken(.number, "\(intStart)")
+                intStart += 1
+            }
+            let comp = [
+                declaration.newToken(.identifier, s.name),
+                declaration.newToken(.startOfScope, "("),
+                set,
+                declaration.newToken(.endOfScope, ")")
+            ]
+            acomps.append(comp)
+        }
+        return acomps.joined(tokens: [ declaration.newToken(.delimiter, ","), space ])
+    }
+
+    private func makeValueEnum(declaration:EnumDeclaration, simpleCases:[AST.EnumDeclaration.UnionStyleEnumCase.Case]) -> [Token] {
         let attrsTokens = tokenize(declaration.attributes, node: declaration)
         let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
         let lineBreak = declaration.newToken(.linebreak, "\n")
@@ -510,11 +572,19 @@ public class KotlinTokenizer: SwiftTokenizer {
             declaration.newToken(.endOfScope, ")"),
             space
         ]
-        let comps = getAssignments(rawCases:rawCases, declaration:declaration, typeToken:inheritanceTokens.last!)
-        
+        let typeToken = inheritanceTokens.last!
+        var comps = [Token]()
+        var fromRawTokens = [Token]()
+        if simpleCases.count > 0 {
+            comps = getSimpleAssignments(simpleCases:simpleCases, declaration:declaration, typeToken:typeToken)
+        } else {
+            comps = getAssignments(rawCases:rawCases, declaration:declaration, typeToken:typeToken)
+            fromRawTokens = [lineBreak] + indent(makeFromRawFunc(declaration:declaration, typeToken:typeToken))
+        }
         let bodyTokens = [ declaration.newToken(.startOfScope, "{"), lineBreak ] +
-            indent(comps) +
-            [ lineBreak, declaration.newToken(.endOfScope, "}"), lineBreak ]
+            indent(comps) + [ declaration.newToken(.delimiter, ";")] +
+            fromRawTokens +
+            [ lineBreak, declaration.newToken(.endOfScope, "}") ]
         return headTokens + initTokens + bodyTokens
     }
 
@@ -557,7 +627,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
         // Tuples or inhertance required sealed classes
         else {
-            return makeValueEnum(declaration:declaration)
+            return makeValueEnum(declaration:declaration, simpleCases:simpleCases)
             
             let attrsTokens = tokenize(declaration.attributes, node: declaration)
             let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
@@ -1013,7 +1083,8 @@ public class KotlinTokenizer: SwiftTokenizer {
             for e in type.elements {
                 typeWithNames.append(e)
             }
-            return type.newToken(.keyword, "Pair", node) +
+            let name = (typeWithNames.count == 2 ? "Pair" : "Triple")
+            return type.newToken(.keyword, name, node) +
                 type.newToken(.startOfScope, "<", node) +
                 typeWithNames.map { tokenize($0, node: node) }.joined(token: type.newToken(.delimiter, ", ", node)) +
                 type.newToken(.endOfScope, ">", node)
