@@ -55,14 +55,14 @@ public class IdentifiersTransformPlugin: TokenTransformPlugin {
                         continue
                     }
                 
-                case "append":
-                    if token.kind == .identifier {
-                        if let p = newTokens.last, p.value == "." && p.kind == .delimiter {
-                            newTokens.removeLast()
-                            newTokens.append(origin.newToken(.identifier, " += ", node))
-                        }
-                        continue
-                    }
+//                case "append":
+//                    if token.kind == .identifier {
+//                        if let p = newTokens.last, p.value == "." && p.kind == .delimiter {
+//                            newTokens.removeLast()
+//                            newTokens.append(origin.newToken(.identifier, " += ", node))
+//                        }
+//                        continue
+//                    }
                     
                 default:
                     break

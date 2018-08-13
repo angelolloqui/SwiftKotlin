@@ -212,13 +212,12 @@ public class KotlinTokenizer: SwiftTokenizer {
                 tokens.removeSubrange(inheritanceRange)
                 bodyStart -= inheritanceTokens.count
             }
-            inheritanceTokens = []
+            inheritanceTokens = [] // let's just get rid of conforms to protocols for now, no actual inheritance
             tokens.insert(contentsOf: declarationTokens
                 .prefix(with: declaration.newToken(.startOfScope, "("))
                 .suffix(with: declaration.newToken(.endOfScope, ")")) + inheritanceTokens,
                           at: bodyStart - 1)
         }
-
         return tokens
     }
 
@@ -768,10 +767,14 @@ public class KotlinTokenizer: SwiftTokenizer {
             return prefix + conditions + separatorTokens + statements
 
         case .default(let stmts):
+            let defStatements = tokenize(stmts, node: node)
+            if defStatements.count == 1 && defStatements[0].kind == .keyword && defStatements[0].value == "break" {
+                return []
+            }
             return
                 [statement.newToken(.keyword, "else", node)] +
-                    separatorTokens +
-                    tokenize(stmts, node: node)
+                    separatorTokens + defStatements
+            
         }
     }
 
@@ -831,10 +834,14 @@ public class KotlinTokenizer: SwiftTokenizer {
             return tokenizeInterpolatedString(rawText, node: expression)
         case .array(let exprs):
             return
-                expression.newToken(.identifier, "listOf") +
-                expression.newToken(.startOfScope, "(") +
+                expression.newToken(.identifier, "mutableListOf") +
+                expression.newToken(.startOfScope, "<") +
                 exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", ")) +
-                expression.newToken(.endOfScope, ")")
+                expression.newToken(.endOfScope, ">")
+//                expression.newToken(.identifier, "listOf") +
+//                expression.newToken(.startOfScope, "(") +
+//                exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", ")) +
+//                expression.newToken(.endOfScope, ")")
         case .dictionary(let entries):
             return
                 expression.newToken(.identifier, "mapOf") +
