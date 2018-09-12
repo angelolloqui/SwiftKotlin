@@ -32,6 +32,35 @@ public class KotlinTokenizer: SwiftTokenizer {
                        with: [constant.newToken(.keyword, "val")])
     }
 
+    private func removeDefaultArgsFromParameters(tokens:[Token]) -> [Token] {
+        var newTokens = [Token]()
+        var removing = false
+        var bracket = false
+        for t in tokens {
+            if removing && t.kind == .startOfScope && t.value == "(" {
+                bracket = true
+            }
+            if bracket && t.kind == .endOfScope && t.value == ")" {
+                bracket = false
+                removing = false
+                continue
+            }
+            if t.kind == .symbol && (t.value.contains("=")) {
+                removing = true
+            }
+            if t.kind == .delimiter && t.value.contains(",") {
+                removing = false
+            }
+            if !bracket && removing && t.kind == .endOfScope && t.value == ")" {
+                removing = false
+            }
+            if !removing {
+                newTokens.append(t)
+            }
+        }
+        return newTokens
+    }
+    
     open override func tokenize(_ declaration: FunctionDeclaration) -> [Token] {
         let attrsTokens = tokenize(declaration.attributes, node: declaration)
         let modifierTokens = declaration.modifiers.map { tokenize($0, node: declaration) }
@@ -47,9 +76,12 @@ public class KotlinTokenizer: SwiftTokenizer {
         ].joined(token: declaration.newToken(.space, " "))
 
         
-        let signatureTokens = tokenize(declaration.signature, node: declaration)
+        var signatureTokens = tokenize(declaration.signature, node: declaration)
         let bodyTokens = declaration.body.map(tokenize) ?? []
         
+        if modifierTokens.contains(where:{$0.value == "override" }) {
+            signatureTokens = removeDefaultArgsFromParameters(tokens:signatureTokens)
+        }
         var tokens = [
             headTokens,
             [declaration.newToken(.identifier, declaration.name)] + signatureTokens,
@@ -137,6 +169,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         var staticMembers: [StructDeclaration.Member] = []
         var declarationMembers: [StructDeclaration.Member] = []
         var otherMembers: [StructDeclaration.Member] = []
+        
         declaration.members.forEach { member in
             if member.isStatic {
                 staticMembers.append(member)
@@ -246,6 +279,22 @@ public class KotlinTokenizer: SwiftTokenizer {
             node)]
     }
 
+    private func indexOfBalancingBracket(_ tokens:[Token]) -> Int? {
+        var count = 0
+        for (i, t) in tokens.enumerated() {
+            if t.kind == .startOfScope && t.value == "(" {
+                count += 1
+            }
+            if t.kind == .endOfScope && t.value == ")" {
+                count -= 1
+                if count <= 0 {
+                    return i
+                }
+            }
+        }
+        return nil
+    }
+    
     open override func tokenize(_ declaration: InitializerDeclaration) -> [Token] {
         var tokens = super.tokenize(declaration)
 
@@ -267,7 +316,9 @@ public class KotlinTokenizer: SwiftTokenizer {
                 let superIndex = tokens.index(where: { $0.node === initExpression }) {
             // changes here to get last )
             let superStart = Array(tokens[superIndex...])
-            if let endOfScopeIndex = lastIndexOfTokens(tokens, when: { $0.kind == .endOfScope && $0.value == ")" }) {
+//            if let endOfScopeIndex = lastIndexOfTokens(tokens, when: { $0.kind == .endOfScope && $0.value == ")" }) {
+            if let e = indexOfBalancingBracket(superStart) {
+                let endOfScopeIndex = superIndex + e
                 let keyword = superInitExpression != nil ? "super" : "this"
                 let superCallTokens = Array(tokens[superIndex...endOfScopeIndex])
                     .replacing({ $0.node === initExpression }, with: [])
@@ -277,10 +328,12 @@ public class KotlinTokenizer: SwiftTokenizer {
                     .suffix(with: initExpression.newToken(.space, " "))
 
                 tokens.removeSubrange((superIndex - 1)...(endOfScopeIndex + 1))
+                tokens.insert(initExpression.newToken(.linebreak, "\n"), at:bodyStart + 1)
                 tokens.insert(contentsOf: superCallTokens, at: bodyStart)
             }
         }
 
+        tokens = tokens.filter({ $0.kind != .keyword || $0.value != "override" })
         return tokens.replacing({ $0.value == "init"},
                                 with: [declaration.newToken(.keyword, "constructor")])
     }
@@ -844,11 +897,13 @@ public class KotlinTokenizer: SwiftTokenizer {
 //                expression.newToken(.endOfScope, ")")
         case .dictionary(let entries):
             return
-                expression.newToken(.identifier, "mapOf") +
-                expression.newToken(.startOfScope, "(") +
+                expression.newToken(.identifier, "mutableMapOf") +
+                expression.newToken(.startOfScope, "<") +
                 entries.map { tokenize($0, node: expression) }
                     .joined(token: expression.newToken(.delimiter, ", ")) +
-                expression.newToken(.endOfScope, ")")
+                expression.newToken(.endOfScope, ">")
+//                expression.newToken(.startOfScope, "(") +
+//                expression.newToken(.endOfScope, ")")
         default:
             return super.tokenize(expression)
         }
@@ -856,9 +911,9 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     open override func tokenize(_ entry: DictionaryEntry, node: ASTNode) -> [Token] {
         return tokenize(entry.key) +
-            entry.newToken(.space, " ", node) +
-            entry.newToken(.keyword, "to", node) +
-            entry.newToken(.space, " ", node) +
+//            entry.newToken(.space, " ", node) +
+            entry.newToken(.delimiter, ", ", node) +
+  //          entry.newToken(.space, " ", node) +
             tokenize(entry.value)
     }
 
@@ -1261,21 +1316,29 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     private func tokenizeCompanion(_ members: [Declaration], node: ASTNode) -> [Token] {
         let membersTokens = indent(members.map(tokenize)
-            .joined(token: node.newToken(.linebreak, "\n")))
+            .joinedWithCloseToken(token:node.newToken(.linebreak, "\n")))
 
-        return [
+        let first = membersTokens.first!.node!
+        let last = membersTokens.last!.node!
+        let tokens = [
             [
-                node.newToken(.keyword, "companion"),
-                node.newToken(.space, " "),
-                node.newToken(.keyword, "object"),
-                node.newToken(.space, " "),
-                node.newToken(.startOfScope, "{")
+                first.newToken(.keyword, "companion"),
+                first.newToken(.space, " "),
+                first.newToken(.keyword, "object"),
+                first.newToken(.space, " "),
+                first.newToken(.startOfScope, "{")
             ],
             membersTokens,
             [
-                node.newToken(.endOfScope, "}")
+                last.newToken(.endOfScope, "}")
             ]
-        ].joined(token: node.newToken(.linebreak, "\n"))
+        ].joinedWithCloseToken(token: node.newToken(.linebreak, "\n"))        
+//        for t in tokens {
+//            if let r = t.sourceRange {
+//                print(t.value.replacingOccurrences(of:"\n", with:"\\n"), r.start.line, r.end.line)
+//            }
+//        }
+        return tokens
     }
 
     private func tokenizeInterpolatedString(_ rawText: String, node: ASTNode) -> [Token] {

@@ -23,3 +23,18 @@ func stringHasPrefix(_ str:String, prefix:String, rest: inout String) -> Bool {
     return false
 }
 
+extension Collection where Iterator.Element == [Token] {
+    public func joinedWithCloseToken(token: Token) -> [Token] {
+        var out = [Token]()
+        let all = self.filter { !$0.isEmpty }
+        for (i, a) in all.enumerated() {
+            out += a
+            if i != all.endIndex - 1 {
+                out.append(a.last!.node!.newToken(token.kind, token.value))
+            }
+        }
+        return out
+    }
+}
+
+// return Array(self.filter { !$0.isEmpty }.flatMap { $0 + token }.dropLast())
