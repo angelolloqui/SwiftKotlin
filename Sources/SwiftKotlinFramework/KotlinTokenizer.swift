@@ -886,11 +886,30 @@ public class KotlinTokenizer: SwiftTokenizer {
         case let .interpolatedString(_, rawText):
             return tokenizeInterpolatedString(rawText, node: expression)
         case .array(let exprs):
-            return
-                expression.newToken(.identifier, "mutableListOf") +
-                expression.newToken(.startOfScope, "<") +
-                exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", ")) +
-                expression.newToken(.endOfScope, ">")
+            var hasIdentifier = false
+            for e in exprs {
+                switch e {
+                case let _ as IdentifierExpression:
+                    hasIdentifier = true
+                default:
+                    break
+                }
+            }
+            let middle = exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", "))
+            let mutable = expression.newToken(.identifier, "mutableListOf")
+            if hasIdentifier {
+                return
+                    [ mutable ] +
+                    [ expression.newToken(.startOfScope, "<") ] +
+                    middle +
+                    [ expression.newToken(.endOfScope, ">") ]
+            } else {
+                return
+                    [ mutable ] +
+                        [ expression.newToken(.startOfScope, "(") ] +
+                        middle +
+                        [ expression.newToken(.endOfScope, ")") ]
+            }
 //                expression.newToken(.identifier, "listOf") +
 //                expression.newToken(.startOfScope, "(") +
 //                exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", ")) +
