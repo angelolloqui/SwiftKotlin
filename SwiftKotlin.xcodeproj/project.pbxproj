@@ -41,7 +41,6 @@
 		78266AE31F5AD06000F08378 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78266AE21F5AD05100F08378 /* ViewController.swift */; };
 		78266AE41F5AD06200F08378 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78266ADC1F5AD05100F08378 /* AppDelegate.swift */; };
 		78266AE51F5AD06700F08378 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78266ADE1F5AD05100F08378 /* Main.storyboard */; };
-		78266AE61F5AD06A00F08378 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78266AE01F5AD05100F08378 /* Info.plist */; };
 		78266AE71F5AD06C00F08378 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78266ADD1F5AD05100F08378 /* Assets.xcassets */; };
 		78266AE81F5AD0B800F08378 /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; };
 		78266AE91F5AD0B800F08378 /* SwiftKotlinFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKotlin::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -2440,7 +2439,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78266AE61F5AD06A00F08378 /* Info.plist in Resources */,
 				78266AE51F5AD06700F08378 /* Main.storyboard in Resources */,
 				78266AE71F5AD06C00F08378 /* Assets.xcassets in Resources */,
 			);
