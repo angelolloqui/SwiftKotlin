@@ -72,6 +72,8 @@
 		78FE79801FDDABC000B64A2C /* FoundationMethodsTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FE797E1FDDAB5900B64A2C /* FoundationMethodsTransformPlugin.swift */; };
 		B13B83FE214A9ADD00FA8218 /* NamedIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13B83FC214A9AC700FA8218 /* NamedIdentifier.swift */; };
 		B13B8401214A9B9200FA8218 /* Parser+Lexing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13B83FF214A9B8400FA8218 /* Parser+Lexing.swift */; };
+		B199FA77214ACD7A00681865 /* Sema.swift in Sources */ = {isa = PBXBuildFile; fileRef = B199FA76214ACD7400681865 /* Sema.swift */; };
+		B199FA7B214ACF9200681865 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = B199FA75214ACD6800681865 /* AST.swift */; };
 		D5D4A11420DD7351000AD25C /* CommentsAdditionTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D4A11220DD723A000AD25C /* CommentsAdditionTransformPlugin.swift */; };
 		OBJ_265 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_271 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* Package.swift */; };
@@ -1033,6 +1035,8 @@
 		78FE797E1FDDAB5900B64A2C /* FoundationMethodsTransformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationMethodsTransformPlugin.swift; sourceTree = "<group>"; };
 		B13B83FC214A9AC700FA8218 /* NamedIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamedIdentifier.swift; sourceTree = "<group>"; };
 		B13B83FF214A9B8400FA8218 /* Parser+Lexing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parser+Lexing.swift"; sourceTree = "<group>"; };
+		B199FA75214ACD6800681865 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
+		B199FA76214ACD7400681865 /* Sema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sema.swift; sourceTree = "<group>"; };
 		D5D4A11220DD723A000AD25C /* CommentsAdditionTransformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsAdditionTransformPlugin.swift; sourceTree = "<group>"; };
 		OBJ_100 /* AssignmentOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentOperatorExpression.swift; sourceTree = "<group>"; };
 		OBJ_101 /* BinaryOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryOperatorExpression.swift; sourceTree = "<group>"; };
@@ -1472,6 +1476,15 @@
 				OBJ_16 /* StringDifference.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		B199FA74214ACD1400681865 /* Dummy */ = {
+			isa = PBXGroup;
+			children = (
+				B199FA75214ACD6800681865 /* AST.swift */,
+				B199FA76214ACD7400681865 /* Sema.swift */,
+			);
+			path = Dummy;
 			sourceTree = "<group>";
 		};
 		OBJ_12 /* SwiftKotlinCommandLine */ = {
@@ -1929,6 +1942,7 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				B199FA74214ACD1400681865 /* Dummy */,
 				78266ADB1F5AD05000F08378 /* SwiftKotlinApp */,
 				OBJ_8 /* SwiftKotlinFramework */,
 				OBJ_12 /* SwiftKotlinCommandLine */,
@@ -2565,6 +2579,7 @@
 			files = (
 				OBJ_463 /* LexicalParentAssignment.swift in Sources */,
 				OBJ_464 /* SequenceExpressionFolding.swift in Sources */,
+				B199FA77214ACD7A00681865 /* Sema.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2688,6 +2703,7 @@
 				OBJ_601 /* GenericArgumentClause.swift in Sources */,
 				OBJ_602 /* GenericParameterClause.swift in Sources */,
 				OBJ_603 /* GenericWhereClause.swift in Sources */,
+				B199FA7B214ACF9200681865 /* AST.swift in Sources */,
 				OBJ_604 /* Identifier.swift in Sources */,
 				OBJ_605 /* IdentifierList.swift in Sources */,
 				OBJ_606 /* LocatableNode.swift in Sources */,
