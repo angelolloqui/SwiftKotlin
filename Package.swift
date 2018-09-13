@@ -30,8 +30,8 @@ let package = Package(
   ],
   dependencies: [
     .package(
-      url: "https://github.com/angelolloqui/swift-transform",
-      .revision("3fc221cc73d30034bf1d32a21a42ba1474f21abf")
+      url: "https://github.com/yanagiba/swift-transform",
+      .exact("0.1.3")
     ),
   ],
   targets: [

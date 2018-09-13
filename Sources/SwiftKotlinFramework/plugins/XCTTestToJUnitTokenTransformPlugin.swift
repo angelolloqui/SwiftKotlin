@@ -71,7 +71,7 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
     private func addMethodAnnotations(_ tokens: [Token], node: ClassDeclaration, method: String, annotation: String) -> [Token] {
         let testMethods = node.members
             .flatMap { $0.declaration as? FunctionDeclaration }
-            .filter { $0.name.starts(with: method) }
+            .filter { $0.name.textDescription.starts(with: method) }
         guard !testMethods.isEmpty else { return tokens }
 
         var newTokens = tokens

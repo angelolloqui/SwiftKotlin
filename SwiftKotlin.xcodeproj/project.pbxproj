@@ -71,6 +71,8 @@
 		78CAB0CF1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CAB0CE1F92808E009E2608 /* XCTTestToJUnitTokenTransformPlugin.swift */; };
 		78CAB0D61F92843C009E2608 /* TransformPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CAB0D51F92843C009E2608 /* TransformPluginTests.swift */; };
 		78FE79801FDDABC000B64A2C /* FoundationMethodsTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FE797E1FDDAB5900B64A2C /* FoundationMethodsTransformPlugin.swift */; };
+		B13B83FE214A9ADD00FA8218 /* NamedIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13B83FC214A9AC700FA8218 /* NamedIdentifier.swift */; };
+		B13B8401214A9B9200FA8218 /* Parser+Lexing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13B83FF214A9B8400FA8218 /* Parser+Lexing.swift */; };
 		D5D4A11420DD7351000AD25C /* CommentsAdditionTransformPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D4A11220DD723A000AD25C /* CommentsAdditionTransformPlugin.swift */; };
 		OBJ_265 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_271 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* Package.swift */; };
@@ -1030,6 +1032,8 @@
 		78CAB0D41F9283D6009E2608 /* Tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tests; sourceTree = "<group>"; };
 		78CAB0D51F92843C009E2608 /* TransformPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformPluginTests.swift; sourceTree = "<group>"; };
 		78FE797E1FDDAB5900B64A2C /* FoundationMethodsTransformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationMethodsTransformPlugin.swift; sourceTree = "<group>"; };
+		B13B83FC214A9AC700FA8218 /* NamedIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamedIdentifier.swift; sourceTree = "<group>"; };
+		B13B83FF214A9B8400FA8218 /* Parser+Lexing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parser+Lexing.swift"; sourceTree = "<group>"; };
 		D5D4A11220DD723A000AD25C /* CommentsAdditionTransformPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsAdditionTransformPlugin.swift; sourceTree = "<group>"; };
 		OBJ_100 /* AssignmentOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentOperatorExpression.swift; sourceTree = "<group>"; };
 		OBJ_101 /* BinaryOperatorExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryOperatorExpression.swift; sourceTree = "<group>"; };
@@ -1155,7 +1159,7 @@
 		OBJ_225 /* ToolAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolAction.swift; sourceTree = "<group>"; };
 		OBJ_226 /* ToolActionOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolActionOptions.swift; sourceTree = "<group>"; };
 		OBJ_227 /* ToolActionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolActionResult.swift; sourceTree = "<group>"; };
-		OBJ_230 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/agarcia/Documents/ios/SwiftKotlin/.build/checkouts/swift-ast--6091406344627272003/Package.swift"; sourceTree = "<group>"; };
+		OBJ_230 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_234 /* CLIOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLIOption.swift; sourceTree = "<group>"; };
 		OBJ_236 /* DotYanagiba+Merge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DotYanagiba+Merge.swift"; sourceTree = "<group>"; };
 		OBJ_237 /* DotYanagibaModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotYanagibaModels.swift; sourceTree = "<group>"; };
@@ -1165,7 +1169,7 @@
 		OBJ_242 /* String+Indentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Indentation.swift"; sourceTree = "<group>"; };
 		OBJ_243 /* String+Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Path.swift"; sourceTree = "<group>"; };
 		OBJ_244 /* String+TTYColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+TTYColor.swift"; sourceTree = "<group>"; };
-		OBJ_245 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/agarcia/Documents/ios/SwiftKotlin/.build/checkouts/bocho-9204563082657130146/Package.swift"; sourceTree = "<group>"; };
+		OBJ_245 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_26 /* ASTTokenizable+AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASTTokenizable+AST.swift"; sourceTree = "<group>"; };
 		OBJ_27 /* ASTTokenizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASTTokenizable.swift; sourceTree = "<group>"; };
 		OBJ_28 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -1178,7 +1182,7 @@
 		OBJ_36 /* DotYanagibaTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotYanagibaTransform.swift; sourceTree = "<group>"; };
 		OBJ_37 /* Option.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Option.swift; sourceTree = "<group>"; };
 		OBJ_38 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		OBJ_39 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/agarcia/Documents/ios/SwiftKotlin/.build/checkouts/swift-transform--4657532357736841045/Package.swift"; sourceTree = "<group>"; };
+		OBJ_39 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_42 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		OBJ_43 /* CommentSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSet.swift; sourceTree = "<group>"; };
 		OBJ_44 /* Shebang.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shebang.swift; sourceTree = "<group>"; };
@@ -1597,6 +1601,7 @@
 				OBJ_195 /* Lexer+Operator.swift */,
 				OBJ_196 /* Lexer+StringLiteral.swift */,
 				OBJ_197 /* Lexer.swift */,
+				B13B83FC214A9AC700FA8218 /* NamedIdentifier.swift */,
 				OBJ_198 /* Role+Lexer.swift */,
 				OBJ_199 /* Role.swift */,
 				OBJ_200 /* Scanner.swift */,
@@ -1621,6 +1626,7 @@
 				OBJ_212 /* Parser+Diagnostic.swift */,
 				OBJ_213 /* Parser+Expression.swift */,
 				OBJ_214 /* Parser+Generic.swift */,
+				B13B83FF214A9B8400FA8218 /* Parser+Lexing.swift */,
 				OBJ_215 /* Parser+Modifier.swift */,
 				OBJ_216 /* Parser+Pattern.swift */,
 				OBJ_217 /* Parser+Statement.swift */,
@@ -1672,20 +1678,20 @@
 		OBJ_23 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_24 /* swift-transform */,
-				OBJ_40 /* swift-ast 0.4.1 */,
-				OBJ_231 /* bocho 0.1.0 */,
+				OBJ_24 /* swift-transform 0.1.3 */,
+				OBJ_40 /* swift-ast 0.4.3 */,
+				OBJ_231 /* bocho 0.1.3 */,
 			);
 			name = Dependencies;
 			sourceTree = "<group>";
 		};
-		OBJ_231 /* bocho 0.1.0 */ = {
+		OBJ_231 /* bocho 0.1.3 */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_232 /* Bocho */,
 				OBJ_245 /* Package.swift */,
 			);
-			name = "bocho 0.1.0";
+			name = "bocho 0.1.3";
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_232 /* Bocho */ = {
@@ -1718,14 +1724,14 @@
 			path = DotYanagiba;
 			sourceTree = "<group>";
 		};
-		OBJ_24 /* swift-transform */ = {
+		OBJ_24 /* swift-transform 0.1.3 */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_25 /* Transform */,
 				OBJ_35 /* swift-transform */,
 				OBJ_39 /* Package.swift */,
 			);
-			name = "swift-transform";
+			name = "swift-transform 0.1.3";
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_240 /* SwiftExtensions */ = {
@@ -1774,7 +1780,7 @@
 				OBJ_34 /* Tokenizer.swift */,
 			);
 			name = Transform;
-			path = ".build/checkouts/swift-transform--4657532357736841045/Sources/Transform";
+			path = ".build/checkouts/swift-transform--6903351295532836201/Sources/Transform";
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_35 /* swift-transform */ = {
@@ -1785,10 +1791,10 @@
 				OBJ_38 /* main.swift */,
 			);
 			name = "swift-transform";
-			path = ".build/checkouts/swift-transform--4657532357736841045/Sources/swift-transform";
+			path = ".build/checkouts/swift-transform--6903351295532836201/Sources/swift-transform";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_40 /* swift-ast 0.4.1 */ = {
+		OBJ_40 /* swift-ast 0.4.3 */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_41 /* Source */,
@@ -1802,7 +1808,7 @@
 				OBJ_229 /* swift-ast */,
 				OBJ_230 /* Package.swift */,
 			);
-			name = "swift-ast 0.4.1";
+			name = "swift-ast 0.4.3";
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_41 /* Source */ = {
@@ -2570,6 +2576,7 @@
 			files = (
 				OBJ_478 /* Parser+Attribute.swift in Sources */,
 				OBJ_479 /* Parser+Common.swift in Sources */,
+				B13B8401214A9B9200FA8218 /* Parser+Lexing.swift in Sources */,
 				OBJ_480 /* Parser+Declaration.swift in Sources */,
 				OBJ_481 /* Parser+Diagnostic.swift in Sources */,
 				OBJ_482 /* Parser+Expression.swift in Sources */,
@@ -2590,6 +2597,7 @@
 				OBJ_505 /* Char.swift in Sources */,
 				OBJ_506 /* Lexer+Checkpoint.swift in Sources */,
 				OBJ_507 /* Lexer+Comment.swift in Sources */,
+				B13B83FE214A9ADD00FA8218 /* NamedIdentifier.swift in Sources */,
 				OBJ_508 /* Lexer+Identifier.swift in Sources */,
 				OBJ_509 /* Lexer+NumericLiteral.swift in Sources */,
 				OBJ_510 /* Lexer+Operator.swift in Sources */,

@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/yanagiba/bocho",
         "state": {
           "branch": null,
-          "revision": "411fb57fe99824ebe8f107c69cf61fc8bc68853d",
-          "version": "0.1.1"
+          "revision": "b7fad4d8087792664c1256d315608acc0999592e",
+          "version": "0.1.3"
         }
       },
       {
@@ -15,17 +15,17 @@
         "repositoryURL": "https://github.com/yanagiba/swift-ast",
         "state": {
           "branch": null,
-          "revision": "e9657500e90aebc5220401d222a4664f6241f3d7",
-          "version": null
+          "revision": "059a48d28d547a153dc223b93bcf592803988fdf",
+          "version": "0.4.3"
         }
       },
       {
         "package": "swift-transform",
-        "repositoryURL": "https://github.com/angelolloqui/swift-transform",
+        "repositoryURL": "https://github.com/yanagiba/swift-transform",
         "state": {
           "branch": null,
-          "revision": "3fc221cc73d30034bf1d32a21a42ba1474f21abf",
-          "version": null
+          "revision": "647f8adcaabb81fa7fbf28cc199b1e26587f5c96",
+          "version": "0.1.3"
         }
       }
     ]
