@@ -8,13 +8,13 @@ import Foundation
 ///
 /// :returns: .DifferenceAtIndex(i) or .NoDifference
 public func firstDifferenceBetweenStrings(_ s1: String, _ s2: String) -> FirstDifferenceResult {
-    let len1 = s1.characters.count
-    let len2 = s2.characters.count
+    let len1 = s1.count
+    let len2 = s2.count
 
     let lenMin = min(len1, len2)
 
     for i in 0..<lenMin {
-        if s1.characters[s1.index(s1.startIndex, offsetBy: i)] != s2.characters[s2.index(s2.startIndex, offsetBy: i)] {
+        if s1[s1.index(s1.startIndex, offsetBy: i)] != s2[s2.index(s2.startIndex, offsetBy: i)] {
             return .DifferenceAtIndex(i)
         }
     }
