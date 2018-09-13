@@ -193,12 +193,12 @@ public class KotlinTokenizer: SwiftTokenizer {
 
         // Find super.init and move to body start
         let superInitExpression = declaration.body.statements
-            .flatMap { ($0 as? FunctionCallExpression)?.postfixExpression as? SuperclassExpression }
+            .compactMap { ($0 as? FunctionCallExpression)?.postfixExpression as? SuperclassExpression }
             .filter { $0.isInitializer }
             .first
 
         let selfInitExpression = declaration.body.statements
-            .flatMap { ($0 as? FunctionCallExpression)?.postfixExpression as? SelfExpression }
+            .compactMap { ($0 as? FunctionCallExpression)?.postfixExpression as? SelfExpression }
             .filter { $0.isInitializer }
             .first
 
@@ -397,7 +397,7 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
     
     open override func tokenize(_ declaration: EnumDeclaration) -> [Token] {
-        let unionCases = declaration.members.flatMap { $0.unionStyleEnumCase }
+        let unionCases = declaration.members.compactMap { $0.unionStyleEnumCase }
         let simpleCases = unionCases.flatMap { $0.cases }
         let lineBreak = declaration.newToken(.linebreak, "\n")
         let space = declaration.newToken(.space, " ")
@@ -1016,11 +1016,11 @@ public class KotlinTokenizer: SwiftTokenizer {
 
 
     private func tokenizeCompanion(_ members: [StructDeclaration.Member], node: ASTNode) -> [Token] {
-        return tokenizeCompanion(members.flatMap { $0.declaration }, node: node)
+        return tokenizeCompanion(members.compactMap { $0.declaration }, node: node)
     }
 
     private func tokenizeCompanion(_ members: [ClassDeclaration.Member], node: ASTNode) -> [Token] {
-        return tokenizeCompanion(members.flatMap { $0.declaration }, node: node)
+        return tokenizeCompanion(members.compactMap { $0.declaration }, node: node)
     }
 
     private func tokenizeCompanion(_ members: [Declaration], node: ASTNode) -> [Token] {

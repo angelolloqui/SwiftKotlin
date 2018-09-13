@@ -34,8 +34,8 @@ extension VariableDeclaration {
     
     var typeAnnotation: TypeAnnotation? {
         return initializerList?
-            .flatMap { $0.pattern as? IdentifierPattern }
-            .flatMap { $0.typeAnnotation }
+            .compactMap { $0.pattern as? IdentifierPattern }
+            .compactMap { $0.typeAnnotation }
             .first
     }
     
