@@ -96,6 +96,21 @@ public class IdentifiersTransformPlugin: TokenTransformPlugin {
     }
     
     class func TransformKotlinFunctionCallExpression(_ tokens:[Token]) -> [Token] {
+        if tokens.count >= 5 {
+            if tokens[0].kind == .identifier && firstCharIsUpper(str:tokens[0].value) &&
+                tokens[1].kind == .startOfScope && tokens[1].value == "(" &&
+                tokens[2].kind == .identifier && tokens[2].value == "rawValue" {
+                var newTokens = [Token]()
+                if let origin = tokens[0].origin, let node = tokens[0].node {
+                    newTokens.append(tokens[0])
+                    newTokens.append(origin.newToken(.symbol, ".", node))
+                    newTokens.append(tokens[2])
+                    newTokens.append(tokens[1])
+                    newTokens += tokens[4...]
+                }
+                return newTokens
+            }
+        }
         if let f = tokens.first {
             if f.kind == .identifier {
                 if let n = typeConversions[f.value] {
@@ -136,6 +151,12 @@ private func addRestExpressionCallingToName(_ name:String, t:Token, tokens:[Toke
         if exp.count == 3 {
             exp = [exp[1]]
         }
+        if exp.count == 1 && name == "toFloat" {
+            let s = exp[0].value
+            if let _ = Int(s) {
+                return [origin.newToken(.number, s + "f", node)]
+            }
+        }
         return
             exp +
             origin.newToken(.symbol, ".", node) +
@@ -146,4 +167,9 @@ private func addRestExpressionCallingToName(_ name:String, t:Token, tokens:[Toke
     return tokens
 }
 
-
+//private func firstCharIsUpper(str:String) -> Bool {
+//    let s = String(str.first!)
+//    return s == s.uppercased()
+//}
+//
+//

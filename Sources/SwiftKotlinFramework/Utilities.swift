@@ -8,6 +8,11 @@
 import AST
 import Transform
 
+func firstCharIsUpper(str:String) -> Bool {
+    let s = String(str.first!)
+    return s == s.uppercased()
+}
+
 func changedValueToken(_ t:Token, _ val:String) -> Token {
     if let origin = t.origin, let node = t.node {
         return origin.newToken(t.kind, val, node)

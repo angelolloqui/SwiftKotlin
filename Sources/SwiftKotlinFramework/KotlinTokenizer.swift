@@ -808,7 +808,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         ]
         switch statement {
         case let .case(itemList, stmts):
-            let prefix = itemList.count > 1 ? [statement.newToken(.keyword, "in", node), statement.newToken(.space, " ", node)] : []
+//            let prefix = itemList.count > 1 ? [statement.newToken(.keyword, "in", node), statement.newToken(.space, " ", node)] : []
             let conditions = itemList.map { tokenize($0, node: node) }.joined(token: statement.newToken(.delimiter, ", ", node))
             var statements = tokenize(stmts, node: node)
             if stmts.count > 1 || statements.filter({ $0.kind == .linebreak }).count > 1 {
@@ -817,7 +817,7 @@ public class KotlinTokenizer: SwiftTokenizer {
                     indent(statements) +
                     [linebreak, statement.newToken(.endOfScope, "}", node)]
             }
-            return prefix + conditions + separatorTokens + statements
+            return conditions + separatorTokens + statements // prefix +
 
         case .default(let stmts):
             let defStatements = tokenize(stmts, node: node)
@@ -886,18 +886,21 @@ public class KotlinTokenizer: SwiftTokenizer {
         case let .interpolatedString(_, rawText):
             return tokenizeInterpolatedString(rawText, node: expression)
         case .array(let exprs):
-            var hasIdentifier = false
+            var hasType = false
             for e in exprs {
                 switch e {
                 case let _ as IdentifierExpression:
-                    hasIdentifier = true
+                    hasType = true
                 default:
                     break
                 }
             }
+            if hasType && exprs.count == 1 && !firstCharIsUpper(str:exprs[0].description) {
+                hasType = false
+            }
             let middle = exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", "))
             let mutable = expression.newToken(.identifier, "mutableListOf")
-            if hasIdentifier {
+            if hasType {
                 return
                     [ mutable ] +
                     [ expression.newToken(.startOfScope, "<") ] +
