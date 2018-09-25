@@ -1129,7 +1129,8 @@ public class KotlinTokenizer: SwiftTokenizer {
     // MARK: - Types
     open override func tokenize(_ type: ArrayType, node: ASTNode) -> [Token] {
         return
-            type.newToken(.identifier, "List", node) +
+            type.newToken(.identifier, "MutableList", node) +
+//            type.newToken(.identifier, "List", node) +
             type.newToken(.startOfScope, "<", node) +
             tokenize(type.elementType, node: node) +
             type.newToken(.endOfScope, ">", node)
@@ -1139,7 +1140,8 @@ public class KotlinTokenizer: SwiftTokenizer {
         let keyTokens = tokenize(type.keyType, node: node)
         let valueTokens = tokenize(type.valueType, node: node)
         return
-            [type.newToken(.identifier, "Map", node), type.newToken(.startOfScope, "<", node)] +
+//            [type.newToken(.identifier, "Map", node), type.newToken(.startOfScope, "<", node)] +
+            [type.newToken(.identifier, "MutableMap", node), type.newToken(.startOfScope, "<", node)] +
             keyTokens +
             [type.newToken(.delimiter, ", ", node)] +
             valueTokens +
