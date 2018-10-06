@@ -22,7 +22,7 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
 
     public func transform(tokens: [Token], topDeclaration: TopLevelDeclaration) throws -> [Token] {
         let testClasses = topDeclaration.statements
-            .flatMap { $0 as? ClassDeclaration }
+            .compactMap { $0 as? ClassDeclaration }
             .filter { clazz in
                 return clazz.typeInheritanceClause?.textDescription.contains("XCTestCase") ?? false
             }
@@ -70,8 +70,8 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
 
     private func addMethodAnnotations(_ tokens: [Token], node: ClassDeclaration, method: String, annotation: String) -> [Token] {
         let testMethods = node.members
-            .flatMap { $0.declaration as? FunctionDeclaration }
-            .filter { $0.name.starts(with: method) }
+            .compactMap { $0.declaration as? FunctionDeclaration }
+            .filter { $0.name.textDescription.starts(with: method) }
         guard !testMethods.isEmpty else { return tokens }
 
         var newTokens = tokens
@@ -98,7 +98,7 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
         }
 
         guard let superCallExpression = node.body?.statements
-            .flatMap({ $0 as? FunctionCallExpression })
+            .compactMap({ $0 as? FunctionCallExpression })
             .filter({ $0.textDescription.starts(with: "super.\(node.name)()") })
             .first else {
                 return newTokens
