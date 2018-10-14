@@ -300,7 +300,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.angelolloqui.SwiftKotlinApp;
 				PRODUCT_NAME = SwiftKotlin;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -353,7 +353,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.angelolloqui.SwiftKotlinApp;
 				PRODUCT_NAME = SwiftKotlin;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

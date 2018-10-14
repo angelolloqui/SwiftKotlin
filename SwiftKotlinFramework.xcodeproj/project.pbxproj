@@ -1020,7 +1020,7 @@
 		OBJ_97 /* SourceLocatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceLocatable.swift; sourceTree = "<group>"; };
 		OBJ_98 /* SourceLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceLocation.swift; sourceTree = "<group>"; };
 		OBJ_99 /* SourceRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceRange.swift; sourceTree = "<group>"; };
-		"SwiftKotlinFramework::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwiftKotlinFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SwiftKotlinFramework::SwiftKotlinFramework::Product" /* SwiftKotlinFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftKotlinFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"SwiftKotlinFramework::SwiftKotlinFrameworkTests::Product" /* SwiftKotlinFrameworkTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = SwiftKotlinFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		"bocho::Bocho::Product" /* Bocho.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bocho.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"swift-ast::AST::Product" /* AST.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AST.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1628,7 +1628,7 @@
 			path = ".build/checkouts/swift-ast-7133529002672842119/Sources/Parser";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -1639,7 +1639,6 @@
 				OBJ_30 /* Dependencies */,
 				OBJ_255 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_62 /* Frontend */ = {
@@ -2059,6 +2058,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					"SwiftKotlinFramework::SwiftKotlinFramework" = {
+						LastSwiftMigration = 1000;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "SwiftKotlinFramework" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2067,7 +2071,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_255 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -3189,7 +3193,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = SwiftKotlinFramework;
 			};
 			name = Debug;
@@ -3213,7 +3217,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = SwiftKotlinFramework;
 			};
 			name = Release;

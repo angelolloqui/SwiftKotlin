@@ -1,6 +1,8 @@
 ![](Assets/logo_small.png)
 
 ![status](https://travis-ci.org/angelolloqui/SwiftKotlin.svg?branch=develop)
+![Swift 4.2](https://img.shields.io/badge/swift-4.2-brightgreen.svg)
+![Swift Package Manager](https://img.shields.io/badge/SPM-ready-orange.svg)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg?maxAge=2592000)](https://opensource.org/licenses/MIT)
 [![Twitter](https://img.shields.io/badge/twitter-@angelolloqui-blue.svg?maxAge=2592000)](http://twitter.com/angelolloqui)
 
@@ -74,7 +76,7 @@ The project is in active development, with many rules and improvements still to 
 - [x] Function returns and named parameters
 - [x] Basic property transfromers (getters and setters)
 - [x] Lazy properties 
-- [ ] Properties with `didSet`/`willSet`
+- [x] Properties with `didSet`/`willSet`
 - [x] Static to Companion
 - [x] Struct to data class
 - [x] String interpolators
@@ -96,10 +98,10 @@ The project comes with 2 executable targets:
 
 Checkout the [project's releases page](https://github.com/angelolloqui/SwiftKotlin/releases) to get a preview compiled version of the app or compile it manually:
 
-- Install Xcode 9+ and check it is the default selected one by running `xcode-select -p`
+- Install Xcode 10+ and check it is the default selected one by running `xcode-select -p`
 - clone the repo: `git clone git@github.com:angelolloqui/SwiftKotlin.git; cd SwiftKotlin`
 - Run `swift package update`
-- Open the project: `open SwiftKotlin.xcodeproj`
+- Open the project: `open SwiftKotlin.xcworkspace`
 
 From Xcode, run the desired target and copy the generated executables (you can find it under the `Products` generated folder) in a directory with executable rights for later use. Typically, you could use:
 
@@ -138,3 +140,4 @@ SwiftKotlin is brought to you by [Angel Garcia Olloqui](http://angelolloqui.com)
 And special credits for the contributors:
 - [Ryuichi Sai](https://github.com/ryuichis)
 - [jonnermut](https://github.com/jonnermut)
+- [Tomohiro Matsuzawa](https://github.com/thmatuza)
