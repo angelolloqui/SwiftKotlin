@@ -4,23 +4,8 @@
 import PackageDescription
 
 let package = Package(
-  name: "SwiftKotlin",
+  name: "SwiftKotlinFramework",
   products: [
-    .executable(
-      name: "SwiftKotlinCommandLine",
-      targets: [
-        "SwiftKotlinCommandLine",
-      ]
-    ),
-/* Mac OSX apps not supported. Do manually:
- https://stackoverflow.com/a/45138790/378433
-    .executable(
-        name: "SwiftKotlinApp",
-        targets: [
-            "SwiftKotlinApp",
-        ]
-    ),
- */
     .library(
       name: "SwiftKotlinFramework",
       targets: [
@@ -39,22 +24,11 @@ let package = Package(
       name: "SwiftKotlinFramework",
       dependencies: [
         "swift-transform",
+      ],
+      exclude: [
+        "SwiftKotlin.xcworkspace"
       ]
-    ),
-    /*
-    .target(
-        name: "SwiftKotlinApp",
-        dependencies: [
-            "SwiftKotlinFramework",
-        ]
-    ),
- */
-    .target(
-        name: "SwiftKotlinCommandLine",
-        dependencies: [
-            "SwiftKotlinFramework",
-        ]
-    ),
+    ),    
 
     // MARK: Tests
     .testTarget(

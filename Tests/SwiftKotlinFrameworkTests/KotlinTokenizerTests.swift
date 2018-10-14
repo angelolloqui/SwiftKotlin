@@ -51,6 +51,9 @@ extension KotlinTokenizerTests {
     private var testFilePath: String {
         return URL(fileURLWithPath: #file)
             .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("Assets")
             .appendingPathComponent("Tests")
             .appendingPathComponent("KotlinTokenizer")
             .path
