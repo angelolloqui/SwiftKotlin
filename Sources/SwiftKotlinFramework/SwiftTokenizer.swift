@@ -29,7 +29,7 @@ public class SwiftTokenizer: Tokenizer {
     
     open func translate(paths: [URL]) -> [TokenizationResult] {
         var errorResults = [TokenizationResult]()
-        let sourceFiles = paths.flatMap { path -> SourceFile? in
+        let sourceFiles = paths.compactMap { path -> SourceFile? in
             do {
                 let content = try String(contentsOf: path)
                 return SourceFile(path: path.absoluteString, content: content)
@@ -86,7 +86,7 @@ extension SwiftTokenizer {
         var errorResults = [TokenizationResult]()
         
         // Apply source transformation plugins
-        let transformedSourceFiles = sourceFiles.flatMap { sourceFile -> SourceFile? in
+        let transformedSourceFiles = sourceFiles.compactMap { sourceFile -> SourceFile? in
             do {
                 return try self.applySourceTransformPlugins(sourceFile: sourceFile)
             } catch let exception {
@@ -110,7 +110,7 @@ extension SwiftTokenizer {
         )
         
         // Tokenize AST back to [Token]
-        let successfulResults = result.astUnitCollection.flatMap { unit -> TokenizationResult? in
+        let successfulResults = result.astUnitCollection.compactMap { unit -> TokenizationResult? in
             guard let sourceFile = unit.sourceFile else {
                 return nil
             }

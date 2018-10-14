@@ -28,7 +28,7 @@ public class FoundationMethodsTransformPlugin: TokenTransformPlugin {
                 let memberExpression = token.origin as? ExplicitMemberExpression,
                 case ExplicitMemberExpression.Kind.namedType(let expression, let identifier) = memberExpression.kind,
                 let inferredType = inferTypeFor(expression: expression, topDeclaration: topDeclaration),
-                let replace = memberStringMappings[inferredType]?[identifier] {
+                let replace = memberStringMappings[inferredType]?[identifier.textDescription] {
                 newTokens.append(memberExpression.newToken(.identifier, replace))
             } else if token.kind == .identifier, token.value == "fatalError", let origin = token.origin, let node = token.node {
                 newTokens.append(origin.newToken(.keyword, "throw", node))
