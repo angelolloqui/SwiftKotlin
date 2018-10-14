@@ -99,12 +99,15 @@ Checkout the [project's releases page](https://github.com/angelolloqui/SwiftKotl
 - Install Xcode 9+ and check it is the default selected one by running `xcode-select -p`
 - clone the repo: `git clone git@github.com:angelolloqui/SwiftKotlin.git; cd SwiftKotlin`
 - Run `swift package update`
-- Open the project: `open SwiftKotlin.xcodeproj`
+- Open the project: `open SwiftKotlin.xcworkspace`
 
 From Xcode, run the desired target and copy the generated executables (you can find it under the `Products` generated folder) in a directory with executable rights for later use. Typically, you could use:
 
 - **swiftkotlin** command line tool: `/usr/local/bin/`
 - **SwiftKotlinApp** desktop app: `/Applications/`
+
+NOTE: If you upgrade any project dependencies, make sure you run:
+`swift package generate-xcodeproj --enable-code-coverage` after upgrade
 
 ## Usage
 ### Command line tool
