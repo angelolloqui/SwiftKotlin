@@ -29,7 +29,7 @@ func stringHasPrefix(_ str:String, prefix:String, rest: inout String) -> Bool {
 }
 
 extension Collection where Iterator.Element == [Token] {
-    public func joinedWithCloseToken(token: Token) -> [Token] {
+    public func joinedWithTokenRangeSetToSame(token: Token) -> [Token] {
         var out = [Token]()
         let all = self.filter { !$0.isEmpty }
         for (i, a) in all.enumerated() {

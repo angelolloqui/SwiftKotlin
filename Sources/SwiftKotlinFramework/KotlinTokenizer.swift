@@ -159,7 +159,8 @@ public class KotlinTokenizer: SwiftTokenizer {
             let companionTokens = indent(tokenizeCompanion(staticMembers, node: declaration))
                 .prefix(with: declaration.newToken(.linebreak, "\n"))
                 .suffix(with: declaration.newToken(.linebreak, "\n"))
-            tokens.insert(contentsOf: companionTokens, at: bodyStart + 1)
+//            tokens.insert(contentsOf: companionTokens, at: bodyStart + 1)
+            tokens.insert(contentsOf: companionTokens, at:tokens.count - 1)
         }
 
         return tokens
@@ -630,6 +631,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             [declaration.newToken(.identifier, declaration.name)],
             ].joined(token: space)
         
+        let typeToken = inheritanceTokens.first(where: { $0.kind == .identifier })!
         let initTokens = [
             declaration.newToken(.startOfScope, "("),
             declaration.newToken(.keyword, "val"),
@@ -637,11 +639,10 @@ public class KotlinTokenizer: SwiftTokenizer {
             declaration.newToken(.identifier, "rawValue"),
             declaration.newToken(.delimiter, ":"),
             space,
-            IdentifiersTransformPlugin.TransformType(inheritanceTokens.last!),
+            IdentifiersTransformPlugin.TransformType(typeToken),
             declaration.newToken(.endOfScope, ")"),
             space
         ]
-        let typeToken = inheritanceTokens.last!
         var comps = [Token]()
         var fromRawTokens = [Token]()
         if simpleCases.count > 0 {
@@ -899,16 +900,16 @@ public class KotlinTokenizer: SwiftTokenizer {
                 hasType = false
             }
             let middle = exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", "))
-            let mutable = expression.newToken(.identifier, "mutableListOf")
+            let mutable = [ expression.newToken(.identifier, "mutableListOf") ]
             if hasType {
                 return
-                    [ mutable ] +
+                    mutable +
                     [ expression.newToken(.startOfScope, "<") ] +
                     middle +
                     [ expression.newToken(.endOfScope, ">") ]
             } else {
                 return
-                    [ mutable ] +
+                    mutable +
                         [ expression.newToken(.startOfScope, "(") ] +
                         middle +
                         [ expression.newToken(.endOfScope, ")") ]
@@ -1340,7 +1341,7 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     private func tokenizeCompanion(_ members: [Declaration], node: ASTNode) -> [Token] {
         let membersTokens = indent(members.map(tokenize)
-            .joinedWithCloseToken(token:node.newToken(.linebreak, "\n")))
+            .joinedWithTokenRangeSetToSame(token:node.newToken(.linebreak, "\n")))
 
         let first = membersTokens.first!.node!
         let last = membersTokens.last!.node!
@@ -1356,7 +1357,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             [
                 last.newToken(.endOfScope, "}")
             ]
-        ].joinedWithCloseToken(token: node.newToken(.linebreak, "\n"))        
+        ].joinedWithTokenRangeSetToSame(token: node.newToken(.linebreak, "\n"))
 //        for t in tokens {
 //            if let r = t.sourceRange {
 //                print(t.value.replacingOccurrences(of:"\n", with:"\\n"), r.start.line, r.end.line)
