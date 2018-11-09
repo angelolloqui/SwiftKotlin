@@ -80,6 +80,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         let bodyTokens = declaration.body.map(tokenize) ?? []
         
         if modifierTokens.contains(where:{$0.value == "override" }) {
+            // overridden methods can't have default args in kotlin:
             signatureTokens = removeDefaultArgsFromParameters(tokens:signatureTokens)
         }
         var tokens = [
@@ -99,21 +100,6 @@ public class KotlinTokenizer: SwiftTokenizer {
             parameter.newToken(.identifier, parameter.localName, node)
         ]
         var typeAnnoTokens = tokenize(parameter.typeAnnotation, node: node)
-        var refTokens = [Token]()
-        for (i, t) in typeAnnoTokens.enumerated(){
-            if t.kind == .keyword && t.value == "inout" {
-                typeAnnoTokens.remove(at:i)
-                refTokens = [
-                    parameter.newToken(.keyword, "ref", node),
-                    parameter.newToken(.space, " ", node),
-                ]
-            } else if t.kind == .identifier {
-//                let name = IdentifiersTransformPlugin.TransformType(t.value)
-//                if name != t.value {
-//                    typeAnnoTokens[i] = changedValueToken(t, name)
-//                }
-            }
-        }
         let defaultTokens = parameter.defaultArgumentClause.map {
             return parameter.newToken(.symbol, " = ", node) + tokenize($0)
         }
@@ -124,7 +110,6 @@ public class KotlinTokenizer: SwiftTokenizer {
 
         return
             varargsTokens +
-            refTokens +
             nameTokens +
             typeAnnoTokens +
             defaultTokens
@@ -159,8 +144,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             let companionTokens = indent(tokenizeCompanion(staticMembers, node: declaration))
                 .prefix(with: declaration.newToken(.linebreak, "\n"))
                 .suffix(with: declaration.newToken(.linebreak, "\n"))
-//            tokens.insert(contentsOf: companionTokens, at: bodyStart + 1)
-            tokens.insert(contentsOf: companionTokens, at:tokens.count - 1)
+            tokens.insert(contentsOf: companionTokens, at:tokens.count - 1) // inserting the companion at the bottom causes a lot less problems with sourceRange of code messing up comment-merging, and maybe good to get it out of the way too.
         }
 
         return tokens
@@ -197,6 +181,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         tokens = tokens.replacing({ $0.kind == .keyword && $0.value == "struct"},
                        with: [declaration.newToken(.keyword, "data class")])
 
+        // this is to allow structs with no variables, typically just a collection of methods/values:
         if isStruct && declarationMembers.isEmpty, let bodyStart = tokens.index(where: { $0.value == "{"}) {
             let space = declaration.newToken(.space, " ")
             let dummyDeclaration = [
@@ -246,7 +231,7 @@ public class KotlinTokenizer: SwiftTokenizer {
                 tokens.removeSubrange(inheritanceRange)
                 bodyStart -= inheritanceTokens.count
             }
-            inheritanceTokens = [] // let's just get rid of conforms to protocols for now, no actual inheritance
+            inheritanceTokens = [] // clearing this for now, inheritance in data class doesn't seem to work?
             tokens.insert(contentsOf: declarationTokens
                 .prefix(with: declaration.newToken(.startOfScope, "("))
                 .suffix(with: declaration.newToken(.endOfScope, ")")) + inheritanceTokens,
@@ -315,9 +300,10 @@ public class KotlinTokenizer: SwiftTokenizer {
         if let bodyStart = bodyStart,
                 let initExpression: ASTNode = superInitExpression ?? selfInitExpression,
                 let superIndex = tokens.index(where: { $0.node === initExpression }) {
-            // changes here to get last )
+            // changes here to get last ")"
             let superStart = Array(tokens[superIndex...])
 //            if let endOfScopeIndex = lastIndexOfTokens(tokens, when: { $0.kind == .endOfScope && $0.value == ")" }) {
+            // indexOfBalancingBracket does a better job of getting the last ) when there are other brackets in arguments:
             if let e = indexOfBalancingBracket(superStart) {
                 let endOfScopeIndex = superIndex + e
                 let keyword = superInitExpression != nil ? "super" : "this"
@@ -511,6 +497,14 @@ public class KotlinTokenizer: SwiftTokenizer {
         return []
     }
     
+//    this methid adds an extension to add a function <Enum>.fromRaw() to simple enums that have set values.
+//    This then needs to be defined somewhere:
+//    special helper companion class that is inserted into enums with values, for fromRaw conversion:
+//    open class ZEnumCompanion<T, V>(private val valueMap: Map<T, V>) {
+//    fun rawValue(type: T) = valueMap[type]
+//    }
+//    This should be optional of course.
+
     private func makeFromRawFunc(declaration d: EnumDeclaration, typeToken: Token) -> [Token] {
         //        companion object : ZEnumCompanion<Int, XWeekday>(XWeekday.values().associateBy(XWeekday::rawValue))
         let name = d.newToken(.identifier, d.name)
@@ -546,6 +540,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         ]
     }
     
+    // these two methods below allow getting simple, non type enums and single-type enums and outputing their values.
     private func getAssignments(rawCases:[AST.EnumDeclaration.RawValueStyleEnumCase], declaration:EnumDeclaration, typeToken:Token) -> [Token] {
         let space = declaration.newToken(.space, " ")
         var acomps = [[Token]]()
@@ -615,6 +610,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         return acomps.joined(tokens: [ declaration.newToken(.delimiter, ","), space ])
     }
 
+    // this makes a enum with values output. Complex enums not supported.
     private func makeValueEnum(declaration:EnumDeclaration, simpleCases:[AST.EnumDeclaration.UnionStyleEnumCase.Case]) -> [Token] {
         let attrsTokens = tokenize(declaration.attributes, node: declaration)
         let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
@@ -809,6 +805,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         ]
         switch statement {
         case let .case(itemList, stmts):
+            // removed prefix, don't think it works like this anymore?
 //            let prefix = itemList.count > 1 ? [statement.newToken(.keyword, "in", node), statement.newToken(.space, " ", node)] : []
             let conditions = itemList.map { tokenize($0, node: node) }.joined(token: statement.newToken(.delimiter, ", ", node))
             var statements = tokenize(stmts, node: node)
@@ -822,6 +819,7 @@ public class KotlinTokenizer: SwiftTokenizer {
 
         case .default(let stmts):
             let defStatements = tokenize(stmts, node: node)
+            // if just break, don't output else?
             if defStatements.count == 1 && defStatements[0].kind == .keyword && defStatements[0].value == "break" {
                 return []
             }
@@ -887,6 +885,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         case let .interpolatedString(_, rawText):
             return tokenizeInterpolatedString(rawText, node: expression)
         case .array(let exprs):
+            // Trying to output example mutableListOf<String> if it's a declartion, or mutableListOf("xx", "yy") if it's an instance with values, not great
             var hasType = false
             for e in exprs {
                 switch e {
@@ -914,6 +913,7 @@ public class KotlinTokenizer: SwiftTokenizer {
                         middle +
                         [ expression.newToken(.endOfScope, ")") ]
             }
+            // have to output mutableMap since all swift arrays are mutable. Not great.
 //                expression.newToken(.identifier, "listOf") +
 //                expression.newToken(.startOfScope, "(") +
 //                exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", ")) +
@@ -1130,6 +1130,7 @@ public class KotlinTokenizer: SwiftTokenizer {
     // MARK: - Types
     open override func tokenize(_ type: ArrayType, node: ASTNode) -> [Token] {
         return
+            // need mutable list here since it swift code assums it's mutable
             type.newToken(.identifier, "MutableList", node) +
 //            type.newToken(.identifier, "List", node) +
             type.newToken(.startOfScope, "<", node) +
@@ -1142,6 +1143,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         let valueTokens = tokenize(type.valueType, node: node)
         return
 //            [type.newToken(.identifier, "Map", node), type.newToken(.startOfScope, "<", node)] +
+            // needs mutable here too, swift code things all maps are mutable
             [type.newToken(.identifier, "MutableMap", node), type.newToken(.startOfScope, "<", node)] +
             keyTokens +
             [type.newToken(.delimiter, ", ", node)] +
@@ -1184,6 +1186,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         var typeWithNames = [TupleType.Element]()
 
         if type.elements.count > 1 && type.elements.index(where:{ $0.type is FunctionType}) == nil {
+            // handle Pair/Triple
             for e in type.elements {
                 typeWithNames.append(e)
             }
@@ -1341,8 +1344,10 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     private func tokenizeCompanion(_ members: [Declaration], node: ASTNode) -> [Token] {
         let membersTokens = indent(members.map(tokenize)
+            // joinedWithTokenRangeSetToSame is to try and make sure linebreak has sourceRange near each item it is joined too. Needed so comments sync up nicely
             .joinedWithTokenRangeSetToSame(token:node.newToken(.linebreak, "\n")))
 
+        // below is also to add tokens nearer to token they will be closest to:
         let first = membersTokens.first!.node!
         let last = membersTokens.last!.node!
         let tokens = [

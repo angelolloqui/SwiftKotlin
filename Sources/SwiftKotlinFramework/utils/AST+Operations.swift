@@ -63,6 +63,7 @@ extension StructDeclaration.Member {
             return variable.isStatic
         }
         if let const = declaration as? ConstantDeclaration {
+            // this is static too:
             return const.modifiers.isStatic
         }
         if let function = declaration as? FunctionDeclaration {

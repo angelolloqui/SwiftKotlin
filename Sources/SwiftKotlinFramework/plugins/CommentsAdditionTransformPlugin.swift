@@ -20,10 +20,6 @@ public class CommentsAdditionTransformPlugin: TokenTransformPlugin {
     }
     
     public init() {}
-    
-    func xxx() {
-        
-    }
 
     /*
     public func transform(tokens: [Token], topDeclaration: TopLevelDeclaration) throws -> [Token] {
@@ -76,6 +72,8 @@ public class CommentsAdditionTransformPlugin: TokenTransformPlugin {
     }
 }
 */
+    
+    // rewrote to better handle merging in comments:
     public func transform(tokens: [Token], topDeclaration: TopLevelDeclaration) throws -> [Token] {
         var newTokens = [Token]()
         var sortedComments = topDeclaration.comments.sorted { $0.location.line < $1.location.line }

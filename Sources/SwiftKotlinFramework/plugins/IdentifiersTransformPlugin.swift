@@ -31,6 +31,8 @@ public class IdentifiersTransformPlugin: TokenTransformPlugin {
     
     public init() {}
     
+    // this does brute-force conversion of tokens at a general level. Maybe they can be done more in context, but I think it was hard or needed work in AST
+
     public func transform(tokens: [Token], topDeclaration: TopLevelDeclaration) throws -> [Token] {
         var newTokens = [Token]()
         
@@ -81,6 +83,7 @@ public class IdentifiersTransformPlugin: TokenTransformPlugin {
             let t = newTokens[j]
             if t.kind == .identifier {
                 var name = ""
+                // this allowes special operator_ prefixed functions to become operators in kotlin
                 if stringHasPrefix(t.value, prefix:"operator_", rest:&name) {
                     newTokens[j] = changedValueToken(t, name)
                     if let origin = t.origin, let node = t.node {
@@ -100,6 +103,7 @@ public class IdentifiersTransformPlugin: TokenTransformPlugin {
             if tokens[0].kind == .identifier && firstCharIsUpper(str:tokens[0].value) &&
                 tokens[1].kind == .startOfScope && tokens[1].value == "(" &&
                 tokens[2].kind == .identifier && tokens[2].value == "rawValue" {
+                // this is a real hack that converts <Enum>(rawValue:xxx) to <Enum>.rawValue(xxx),
                 var newTokens = [Token]()
                 if let origin = tokens[0].origin, let node = tokens[0].node {
                     newTokens.append(tokens[0])
@@ -114,8 +118,10 @@ public class IdentifiersTransformPlugin: TokenTransformPlugin {
         if let f = tokens.first {
             if f.kind == .identifier {
                 if let n = typeConversions[f.value] {
+                    // converts Float(x) to x.toFloat() etc
                     return addRestExpressionCallingToName("to" + n, t:f, tokens:tokens)
                 }
+                // these convert max() to maxOf() etc
                 if let origin = f.origin, let node = f.node {
                     switch f.value {
                     case "max":
@@ -138,6 +144,7 @@ public class IdentifiersTransformPlugin: TokenTransformPlugin {
     }
     
     class func TransformType(_ t:Token) -> Token {
+        // this converts Bool to Boolean etc and all 
         if let name = typeConversions[t.value] {
             return changedValueToken(t, name)
         }
