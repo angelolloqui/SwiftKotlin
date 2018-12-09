@@ -1167,7 +1167,7 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ type: TypeIdentifier.TypeName, node: ASTNode) -> [Token] {
-        return type.newToken(.identifier, typeConversions[type.name] ?? type.name, node) +
+        return type.newToken(.identifier, typeConversions[type.name.textDescription] ?? type.name.textDescription, node) +
             type.genericArgumentClause.map { tokenize($0, node: node) }
     }
 
