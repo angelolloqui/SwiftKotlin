@@ -108,6 +108,9 @@ From Xcode, run the desired target and copy the generated executables (you can f
 - **swiftkotlin** command line tool: `/usr/local/bin/`
 - **SwiftKotlinApp** desktop app: `/Applications/`
 
+NOTE: If you upgrade any project dependencies, make sure you run:
+`swift package generate-xcodeproj --enable-code-coverage` after upgrade
+
 ## Usage
 ### Command line tool
 If you placed `swiftkotlin` in any of your path directories, just run: `swiftkotlin [<file>] [--output path]`
