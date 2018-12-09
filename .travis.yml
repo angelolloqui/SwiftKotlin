@@ -1,6 +1,7 @@
 language: objective-c
-osx_image: xcode9
+osx_image: xcode10
 install:
-- swift package resolve
+- swift package update
+- swift package generate-xcodeproj --enable-code-coverage
 script:
-- xcodebuild test -scheme SwiftKotlin-Package
+- xcodebuild test -workspace SwiftKotlin.xcworkspace -scheme SwiftKotlinFramework

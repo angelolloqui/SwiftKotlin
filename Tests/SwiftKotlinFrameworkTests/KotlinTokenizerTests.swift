@@ -36,7 +36,7 @@ extension KotlinTokenizerTests {
         let kotlinURL = URL(fileURLWithPath: "\(path)/\(file).kt")
 
         let expected = try String(contentsOf: kotlinURL).trimmingCharacters(in: .whitespacesAndNewlines)
-        let translated = try kotlinTokenizer.translate(path: swiftURL).tokens?
+        let translated = kotlinTokenizer.translate(path: swiftURL).tokens?
             .joinedValues().trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 
         if translated != expected {
@@ -51,6 +51,9 @@ extension KotlinTokenizerTests {
     private var testFilePath: String {
         return URL(fileURLWithPath: #file)
             .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("Assets")
             .appendingPathComponent("Tests")
             .appendingPathComponent("KotlinTokenizer")
             .path

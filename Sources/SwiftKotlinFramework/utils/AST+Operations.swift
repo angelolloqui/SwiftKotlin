@@ -34,8 +34,8 @@ extension VariableDeclaration {
     
     var typeAnnotation: TypeAnnotation? {
         return initializerList?
-            .flatMap { $0.pattern as? IdentifierPattern }
-            .flatMap { $0.typeAnnotation }
+            .compactMap { $0.pattern as? IdentifierPattern }
+            .compactMap { $0.typeAnnotation }
             .first
     }
     
@@ -168,11 +168,11 @@ extension ExplicitMemberExpression {
         case let .tuple(_, index):
             return "var\(index)"
         case let .namedType(_, identifier):
-            return identifier
+            return identifier.textDescription
         case let .generic(_, identifier, _):
-            return identifier
+            return identifier.textDescription
         case let .argument(_, identifier, _):
-            return identifier
+            return identifier.textDescription
         }
     }
 }

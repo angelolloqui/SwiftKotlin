@@ -16,7 +16,7 @@ let kotlinTokenizer = KotlinTokenizer(
         CommentsAdditionTransformPlugin()
     ]
 )
-let version = "0.1.4"
+let version = "0.2.0"
 let arguments = [
     "output",
     "help",
@@ -142,7 +142,7 @@ func preprocessArguments(_ args: [String], _ names: [String]) -> [String: String
     for arg in args {
         if arg.hasPrefix("--") {
             // Long argument names
-            let key = arg.substring(from: arg.characters.index(arg.startIndex, offsetBy: 2))
+            let key = String(arg[arg.index(arg.startIndex, offsetBy: 2)...])
             if !names.contains(key) {
                 print("error: unknown argument: \(arg).")
                 return nil
@@ -151,7 +151,7 @@ func preprocessArguments(_ args: [String], _ names: [String]) -> [String: String
             continue
         } else if arg.hasPrefix("-") {
             // Short argument names
-            let flag = arg.substring(from: arg.characters.index(arg.startIndex, offsetBy: 1))
+            let flag = String(arg[arg.index(arg.startIndex, offsetBy: 1)])
             let matches = names.filter { $0.hasPrefix(flag) }
             if matches.count > 1 {
                 print("error: ambiguous argument: \(arg).")
@@ -186,7 +186,7 @@ func processInput(_ inputURL: URL, andWriteToOutput outputURL: URL) -> Int {
                 var filesWritten = 0
                 for url in files {
                     let inputDirectory = inputURL.path
-                    let path = outputURL.path + url.path.substring(from: inputDirectory.characters.endIndex)
+                    let path = outputURL.path + url.path[inputDirectory.endIndex...]
                     let outputDirectory = path.components(separatedBy: "/").dropLast().joined(separator: "/")
                     if (try? manager.createDirectory(atPath: outputDirectory, withIntermediateDirectories: true, attributes: nil)) != nil {
                         filesWritten += processInput(url, andWriteToOutput: URL(fileURLWithPath: path))

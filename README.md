@@ -1,6 +1,8 @@
 ![](Assets/logo_small.png)
 
 ![status](https://travis-ci.org/angelolloqui/SwiftKotlin.svg?branch=develop)
+![Swift 4.2](https://img.shields.io/badge/swift-4.2-brightgreen.svg)
+![Swift Package Manager](https://img.shields.io/badge/SPM-ready-orange.svg)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg?maxAge=2592000)](https://opensource.org/licenses/MIT)
 [![Twitter](https://img.shields.io/badge/twitter-@angelolloqui-blue.svg?maxAge=2592000)](http://twitter.com/angelolloqui)
 
@@ -26,7 +28,7 @@ Kotlin is a great language, it is to Android/Java what Swift is to iOS/Objective
 
 **If you are a Swift developer**, you will love Kotlin. It provides the most important Swift features (optionals, extensions, generics, lambdas,...) and a very similar syntax. You can check a [side by side comparison of Swift and Kotlin here](https://nilhcem.github.io/swift-is-like-kotlin/).
 
-**If you are a Java developer**, you will find in Kotlin a much more modern and safer language (optionals and mutation). It is a pleasure to write Kotlin code, much more readable and compact that the Java counterpart. You can check some of the [benefits and differences in Kotlin official documentation](https://kotlinlang.org/docs/reference/comparison-to-java.html) and a [nice list of reasons to chose Kotlin over Java](https://medium.freecodecamp.com/why-kotlin-is-my-next-programming-language-c25c001e26e3#.hjam7bscd).
+**If you are a Java developer**, you will find in Kotlin a much more modern and safer language (optionals and mutation). It is a pleasure to write Kotlin code, much more readable and compact than the Java counterpart. You can check some of the [benefits and differences in Kotlin official documentation](https://kotlinlang.org/docs/reference/comparison-to-java.html) and a [nice list of reasons to chose Kotlin over Java](https://medium.freecodecamp.com/why-kotlin-is-my-next-programming-language-c25c001e26e3#.hjam7bscd).
 
 Moreover, Kotlin is fully integrated in IntelliJ (Android Studio), so you can keep using the "de facto" IDE for Android with all the added benefits brought by Google, and it even has a Java to Kotlin converter if you want to update your legacy Java.
 
@@ -74,7 +76,7 @@ The project is in active development, with many rules and improvements still to 
 - [x] Function returns and named parameters
 - [x] Basic property transfromers (getters and setters)
 - [x] Lazy properties 
-- [ ] Properties with `didSet`/`willSet`
+- [x] Properties with `didSet`/`willSet`
 - [x] Static to Companion
 - [x] Struct to data class
 - [x] String interpolators
@@ -96,15 +98,18 @@ The project comes with 2 executable targets:
 
 Checkout the [project's releases page](https://github.com/angelolloqui/SwiftKotlin/releases) to get a preview compiled version of the app or compile it manually:
 
-- Install Xcode 9+ and check it is the default selected one by running `xcode-select -p`
+- Install Xcode 10+ and check it is the default selected one by running `xcode-select -p`
 - clone the repo: `git clone git@github.com:angelolloqui/SwiftKotlin.git; cd SwiftKotlin`
 - Run `swift package update`
-- Open the project: `open SwiftKotlin.xcodeproj`
+- Open the project: `open SwiftKotlin.xcworkspace`
 
 From Xcode, run the desired target and copy the generated executables (you can find it under the `Products` generated folder) in a directory with executable rights for later use. Typically, you could use:
 
 - **swiftkotlin** command line tool: `/usr/local/bin/`
 - **SwiftKotlinApp** desktop app: `/Applications/`
+
+NOTE: If you upgrade any project dependencies, make sure you run:
+`swift package generate-xcodeproj --enable-code-coverage` after upgrade
 
 ## Usage
 ### Command line tool
@@ -138,3 +143,4 @@ SwiftKotlin is brought to you by [Angel Garcia Olloqui](http://angelolloqui.com)
 And special credits for the contributors:
 - [Ryuichi Sai](https://github.com/ryuichis)
 - [jonnermut](https://github.com/jonnermut)
+- [Tomohiro Matsuzawa](https://github.com/thmatuza)

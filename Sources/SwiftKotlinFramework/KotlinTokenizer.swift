@@ -286,12 +286,12 @@ public class KotlinTokenizer: SwiftTokenizer {
 
         // Find super.init and move to body start
         let superInitExpression = declaration.body.statements
-            .flatMap { ($0 as? FunctionCallExpression)?.postfixExpression as? SuperclassExpression }
+            .compactMap { ($0 as? FunctionCallExpression)?.postfixExpression as? SuperclassExpression }
             .filter { $0.isInitializer }
             .first
 
         let selfInitExpression = declaration.body.statements
-            .flatMap { ($0 as? FunctionCallExpression)?.postfixExpression as? SelfExpression }
+            .compactMap { ($0 as? FunctionCallExpression)?.postfixExpression as? SelfExpression }
             .filter { $0.isInitializer }
             .first
 
@@ -424,15 +424,15 @@ public class KotlinTokenizer: SwiftTokenizer {
                 )
             
         case let .willSetDidSetBlock(name, typeAnnotation, initExpr, block):
-            let newName = block.willSetClause?.name ?? "newValue"
-            let oldName = block.didSetClause?.name ?? "oldValue"
+            let newName = block.willSetClause?.name ?? .name("newValue")
+            let oldName = block.didSetClause?.name ?? .name("oldValue")
             let fieldAssignmentExpression = AssignmentOperatorExpression(
-                leftExpression: IdentifierExpression(kind: IdentifierExpression.Kind.identifier("field", nil)),
+                leftExpression: IdentifierExpression(kind: IdentifierExpression.Kind.identifier(.name("field"), nil)),
                 rightExpression: IdentifierExpression(kind: IdentifierExpression.Kind.identifier(newName, nil))
             )
             let oldValueAssignmentExpression = ConstantDeclaration(initializerList: [
                 PatternInitializer(pattern: IdentifierPattern(identifier: oldName),
-                                   initializerExpression: IdentifierExpression(kind: IdentifierExpression.Kind.identifier("field", nil)))
+                                   initializerExpression: IdentifierExpression(kind: IdentifierExpression.Kind.identifier(.name("field"), nil)))
             ])
             let setterCodeBlock = CodeBlock(statements:
                     (block.didSetClause?.codeBlock.statements.count ?? 0 > 0 ? [oldValueAssignmentExpression] : []) +
@@ -469,13 +469,13 @@ public class KotlinTokenizer: SwiftTokenizer {
     open override func tokenize(_ block: GetterSetterBlock.SetterClause, node: ASTNode) -> [Token] {
         let newSetter = GetterSetterBlock.SetterClause(attributes: block.attributes,
                                                        mutationModifier: block.mutationModifier,
-                                                       name: block.name ?? "newValue",
+                                                       name: block.name ?? .name("newValue"),
                                                        codeBlock: block.codeBlock)        
         return super.tokenize(newSetter, node: node)
     }
 
     open override func tokenize(_ block: WillSetDidSetBlock, node: ASTNode) -> [Token] {
-        let name = block.willSetClause?.name ?? block.didSetClause?.name ?? "newValue"
+        let name = block.willSetClause?.name ?? block.didSetClause?.name ?? .name("newValue")
         let willSetBlock = block.willSetClause.map { tokenize($0.codeBlock) }?.tokensOnScope(depth: 1) ?? []
         let didSetBlock = block.didSetClause.map { tokenize($0.codeBlock) }?.tokensOnScope(depth: 1) ?? []
         let assignmentBlock = [
@@ -655,7 +655,7 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ declaration: EnumDeclaration) -> [Token] {
-        let unionCases = declaration.members.flatMap { $0.unionStyleEnumCase }
+        let unionCases = declaration.members.compactMap { $0.unionStyleEnumCase }
         let simpleCases = unionCases.flatMap { $0.cases }
         let lineBreak = declaration.newToken(.linebreak, "\n")
         let space = declaration.newToken(.space, " ")
@@ -1176,7 +1176,7 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ attribute: Attribute, node: ASTNode) -> [Token] {
-        if ["escaping", "autoclosure", "discardableResult"].contains(attribute.name) {
+        if ["escaping", "autoclosure", "discardableResult"].contains(attribute.name.textDescription) {
             return []
         }
         return super.tokenize(attribute, node: node)
@@ -1200,7 +1200,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             if element.name != nil || element.type is FunctionType {
                 typeWithNames.append(element)
             } else {
-                typeWithNames.append(TupleType.Element(type: element.type, name: "v\(index + 1)", attributes: element.attributes, isInOutParameter: element.isInOutParameter))
+                typeWithNames.append(TupleType.Element(type: element.type, name: .name("v\(index + 1)"), attributes: element.attributes, isInOutParameter: element.isInOutParameter))
             }
         }
         return type.newToken(.startOfScope, "(", node) +
@@ -1335,11 +1335,11 @@ public class KotlinTokenizer: SwiftTokenizer {
 
 
     private func tokenizeCompanion(_ members: [StructDeclaration.Member], node: ASTNode) -> [Token] {
-        return tokenizeCompanion(members.flatMap { $0.declaration }, node: node)
+        return tokenizeCompanion(members.compactMap { $0.declaration }, node: node)
     }
 
     private func tokenizeCompanion(_ members: [ClassDeclaration.Member], node: ASTNode) -> [Token] {
-        return tokenizeCompanion(members.flatMap { $0.declaration }, node: node)
+        return tokenizeCompanion(members.compactMap { $0.declaration }, node: node)
     }
 
     private func tokenizeCompanion(_ members: [Declaration], node: ASTNode) -> [Token] {

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:/Users/agarcia/Documents/ios/SwiftKotlin/SwiftKotlinCommandLine.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/agarcia/Documents/ios/SwiftKotlin/SwiftKotlinApp.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SwiftKotlinFramework.xcodeproj">
+   </FileRef>
+</Workspace>
