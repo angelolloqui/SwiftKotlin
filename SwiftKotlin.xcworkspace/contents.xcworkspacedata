@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/agarcia/Documents/ios/SwiftKotlin/SwiftKotlinCommandLine.xcodeproj">
+      location = "group:SwiftKotlinCommandLine.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/agarcia/Documents/ios/SwiftKotlin/SwiftKotlinApp.xcodeproj">
+      location = "group:SwiftKotlinApp.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:SwiftKotlinFramework.xcodeproj">

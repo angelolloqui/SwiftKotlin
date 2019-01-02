@@ -951,7 +951,7 @@
 		OBJ_236 /* DiagnosticConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticConsumer.swift; sourceTree = "<group>"; };
 		OBJ_237 /* DiagnosticKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticKind.swift; sourceTree = "<group>"; };
 		OBJ_238 /* DiagnosticPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticPool.swift; sourceTree = "<group>"; };
-		OBJ_239 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/agarcia/Documents/ios/SwiftKotlin/.build/checkouts/swift-ast-7508574239353456058/Package.swift"; sourceTree = "<group>"; };
+		OBJ_239 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = ".build/checkouts/swift-ast-7508574239353456058/Package.swift"; sourceTree = "<group>"; };
 		OBJ_24 /* TransformPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformPluginTests.swift; sourceTree = "<group>"; };
 		OBJ_243 /* CLIOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLIOption.swift; sourceTree = "<group>"; };
 		OBJ_245 /* DotYanagiba+Merge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DotYanagiba+Merge.swift"; sourceTree = "<group>"; };
@@ -962,7 +962,7 @@
 		OBJ_251 /* String+Indentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Indentation.swift"; sourceTree = "<group>"; };
 		OBJ_252 /* String+Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Path.swift"; sourceTree = "<group>"; };
 		OBJ_253 /* String+TTYColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+TTYColor.swift"; sourceTree = "<group>"; };
-		OBJ_254 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/agarcia/Documents/ios/SwiftKotlin/.build/checkouts/bocho--9124166418598778832/Package.swift"; sourceTree = "<group>"; };
+		OBJ_254 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = ".build/checkouts/bocho--9124166418598778832/Package.swift"; sourceTree = "<group>"; };
 		OBJ_26 /* StringDifference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringDifference.swift; sourceTree = "<group>"; };
 		OBJ_27 /* Dummy */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Dummy; sourceTree = SOURCE_ROOT; };
 		OBJ_28 /* SwiftKotlin.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = SwiftKotlin.xcworkspace; sourceTree = SOURCE_ROOT; };
@@ -979,7 +979,7 @@
 		OBJ_43 /* DotYanagibaTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotYanagibaTransform.swift; sourceTree = "<group>"; };
 		OBJ_44 /* Option.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Option.swift; sourceTree = "<group>"; };
 		OBJ_45 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		OBJ_46 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/agarcia/Documents/ios/SwiftKotlin/.build/checkouts/swift-transform-8664148535795795565/Package.swift"; sourceTree = "<group>"; };
+		OBJ_46 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = ".build/checkouts/swift-transform-8664148535795795565/Package.swift"; sourceTree = "<group>"; };
 		OBJ_49 /* LexicalParentAssignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexicalParentAssignment.swift; sourceTree = "<group>"; };
 		OBJ_50 /* SequenceExpressionFolding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceExpressionFolding.swift; sourceTree = "<group>"; };
 		OBJ_53 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -1618,7 +1618,7 @@
 			path = ".build/checkouts/swift-ast-7508574239353456058/Sources/Sema";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -1630,7 +1630,6 @@
 				OBJ_30 /* Dependencies */,
 				OBJ_255 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_51 /* swift-ast */ = {
@@ -2078,7 +2077,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_255 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
