@@ -1017,7 +1017,7 @@
          isa = "PBXFileReference";
          explicitFileType = "sourcecode.swift";
          name = "Package.swift";
-         path = "/Users/agarcia/Documents/ios/SwiftKotlin/.build/checkouts/swift-ast-7508574239353456058/Package.swift";
+         path = ".build/checkouts/swift-ast-7508574239353456058/Package.swift";
          sourceTree = "<group>";
       };
       "OBJ_24" = {
@@ -1137,7 +1137,7 @@
          isa = "PBXFileReference";
          explicitFileType = "sourcecode.swift";
          name = "Package.swift";
-         path = "/Users/agarcia/Documents/ios/SwiftKotlin/.build/checkouts/bocho--9124166418598778832/Package.swift";
+         path = ".build/checkouts/bocho--9124166418598778832/Package.swift";
          sourceTree = "<group>";
       };
       "OBJ_255" = {
@@ -2565,7 +2565,7 @@
          isa = "PBXFileReference";
          explicitFileType = "sourcecode.swift";
          name = "Package.swift";
-         path = "/Users/agarcia/Documents/ios/SwiftKotlin/.build/checkouts/swift-transform-8664148535795795565/Package.swift";
+         path = ".build/checkouts/swift-transform-8664148535795795565/Package.swift";
          sourceTree = "<group>";
       };
       "OBJ_460" = {
