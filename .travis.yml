@@ -4,4 +4,4 @@ install:
 - swift package update
 - swift package generate-xcodeproj --enable-code-coverage
 script:
-- xcodebuild test -workspace SwiftKotlin.xcworkspace -scheme SwiftKotlinFramework
+- xcodebuild test -workspace SwiftKotlin.xcworkspace -scheme SwiftKotlinFramework-Package
