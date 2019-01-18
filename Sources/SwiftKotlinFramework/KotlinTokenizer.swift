@@ -83,16 +83,13 @@ public class KotlinTokenizer: SwiftTokenizer {
             // overridden methods can't have default args in kotlin:
             signatureTokens = removeDefaultArgsFromParameters(tokens:signatureTokens)
         }
-        var tokens = [
+
+        return [
             headTokens,
             [declaration.newToken(.identifier, declaration.name)] + signatureTokens,
             bodyTokens
         ].joined(token: declaration.newToken(.space, " "))
         .prefix(with: declaration.newToken(.linebreak, "\n"))
-        
-        tokens = IdentifiersTransformPlugin.TransformKotlinFunctionDeclarations(tokens)
-
-        return tokens
     }
 
     open override func tokenize(_ parameter: FunctionSignature.Parameter, node: ASTNode) -> [Token] {
@@ -1405,5 +1402,34 @@ public class KotlinTokenizer: SwiftTokenizer {
 public typealias InvertedConditionList = [InvertedCondition]
 public struct InvertedCondition: ASTTokenizable {
     public let condition: Condition
+}
+
+private func removeDefaultArgsFromParameters(tokens:[Token]) -> [Token] {
+    var newTokens = [Token]()
+    var removing = false
+    var bracket = false
+    for t in tokens {
+        if removing && t.kind == .startOfScope && t.value == "(" {
+            bracket = true
+        }
+        if bracket && t.kind == .endOfScope && t.value == ")" {
+            bracket = false
+            removing = false
+            continue
+        }
+        if t.kind == .symbol && (t.value.contains("=")) {
+            removing = true
+        }
+        if t.kind == .delimiter && t.value.contains(",") {
+            removing = false
+        }
+        if !bracket && removing && t.kind == .endOfScope && t.value == ")" {
+            removing = false
+        }
+        if !removing {
+            newTokens.append(t)
+        }
+    }
+    return newTokens
 }
 
