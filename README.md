@@ -100,7 +100,7 @@ Checkout the [project's releases page](https://github.com/angelolloqui/SwiftKotl
 
 - Install Xcode 10+ and check it is the default selected one by running `xcode-select -p`
 - clone the repo: `git clone git@github.com:angelolloqui/SwiftKotlin.git; cd SwiftKotlin`
-- Run `swift package update`
+- Run `swift package update` and `swift package generate-xcodeproj --enable-code-coverage`
 - Open the project: `open SwiftKotlin.xcworkspace`
 
 From Xcode, run the desired target and copy the generated executables (you can find it under the `Products` generated folder) in a directory with executable rights for later use. Typically, you could use:
