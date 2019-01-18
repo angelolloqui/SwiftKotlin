@@ -76,3 +76,6 @@ xcuserdata/
 *.xcscmblueprint
 test.swiftdoc
 test.swiftmodule
+
+## Generated project file
+SwiftKotlinFramework.xcodeproj
