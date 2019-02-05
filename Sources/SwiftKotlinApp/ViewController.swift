@@ -136,7 +136,12 @@ extension Token {
             return [NSAttributedString.Key.foregroundColor: NSColor(red: 0, green: 116.0/255.0, blue: 0, alpha: 1)]
             
         default:
-            return [:]
+            if #available(OSX 10.14, *)
+            {
+                return [NSAttributedString.Key.foregroundColor: NSApp.mainWindow?.effectiveAppearance.name == .darkAqua ? NSColor.white : NSColor.black]
+            } else {
+                return [:]
+            }
         }
     }
     
