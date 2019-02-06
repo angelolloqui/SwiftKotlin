@@ -21,7 +21,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             .replacing({ $0.value == "let"},
                        with: [constant.newToken(.keyword, "val")])
     }
-
+    
     open override func tokenize(_ declaration: FunctionDeclaration) -> [Token] {
         let attrsTokens = tokenize(declaration.attributes, node: declaration)
         let modifierTokens = declaration.modifiers.map { tokenize($0, node: declaration) }
@@ -35,15 +35,21 @@ public class KotlinTokenizer: SwiftTokenizer {
             genericParameterClauseTokens
         ].joined(token: declaration.newToken(.space, " "))
         
-        let signatureTokens = tokenize(declaration.signature, node: declaration)
+        var signatureTokens = tokenize(declaration.signature, node: declaration)
         let bodyTokens = declaration.body.map(tokenize) ?? []
         
-        return [
+        if modifierTokens.contains(where:{$0.value == "override" }) {
+            // overridden methods can't have default args in kotlin:
+            signatureTokens = removeDefaultArgsFromParameters(tokens:signatureTokens)
+        }
+        let tokens = [
             headTokens,
             [declaration.newToken(.identifier, declaration.name)] + signatureTokens,
             bodyTokens
         ].joined(token: declaration.newToken(.space, " "))
         .prefix(with: declaration.newToken(.linebreak, "\n"))
+        
+        return tokens
     }
 
     open override func tokenize(_ parameter: FunctionSignature.Parameter, node: ASTNode) -> [Token] {
@@ -1078,3 +1084,32 @@ public struct InvertedCondition: ASTTokenizable {
     public let condition: Condition
 }
 
+// function used to remove default arguments from override functions, since kotlin doesn't have them
+private func removeDefaultArgsFromParameters(tokens:[Token]) -> [Token] {
+    var newTokens = [Token]()
+    var removing = false
+    var bracket = false
+    for t in tokens {
+        if removing && t.kind == .startOfScope && t.value == "(" {
+            bracket = true
+        }
+        if bracket && t.kind == .endOfScope && t.value == ")" {
+            bracket = false
+            removing = false
+            continue
+        }
+        if t.kind == .symbol && (t.value.contains("=")) {
+            removing = true
+        }
+        if t.kind == .delimiter && t.value.contains(",") {
+            removing = false
+        }
+        if !bracket && removing && t.kind == .endOfScope && t.value == ")" {
+            removing = false
+        }
+        if !removing {
+            newTokens.append(t)
+        }
+    }
+    return newTokens
+}
