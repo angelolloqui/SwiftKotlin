@@ -37,8 +37,8 @@ public class KotlinTokenizer: SwiftTokenizer {
         
         var signatureTokens = tokenize(declaration.signature, node: declaration)
         let bodyTokens = declaration.body.map(tokenize) ?? []
-        
-        if modifierTokens.contains(where:{$0.value == "override" }) {
+
+        if declaration.isOverride {
             // overridden methods can't have default args in kotlin:
             signatureTokens = removeDefaultArgsFromParameters(tokens:signatureTokens)
         }
@@ -1077,39 +1077,39 @@ public class KotlinTokenizer: SwiftTokenizer {
         interpolatedString += remainingText
         return [node.newToken(.string, interpolatedString)]
     }
+
+    // function used to remove default arguments from override functions, since kotlin doesn't have them
+    private func removeDefaultArgsFromParameters(tokens:[Token]) -> [Token] {
+        var newTokens = [Token]()
+        var removing = false
+        var bracket = false
+        for t in tokens {
+            if removing && t.kind == .startOfScope && t.value == "(" {
+                bracket = true
+            }
+            if bracket && t.kind == .endOfScope && t.value == ")" {
+                bracket = false
+                removing = false
+                continue
+            }
+            if t.kind == .symbol && (t.value.contains("=")) {
+                removing = true
+            }
+            if t.kind == .delimiter && t.value.contains(",") {
+                removing = false
+            }
+            if !bracket && removing && t.kind == .endOfScope && t.value == ")" {
+                removing = false
+            }
+            if !removing {
+                newTokens.append(t)
+            }
+        }
+        return newTokens
+    }
 }
 
 public typealias InvertedConditionList = [InvertedCondition]
 public struct InvertedCondition: ASTTokenizable {
     public let condition: Condition
-}
-
-// function used to remove default arguments from override functions, since kotlin doesn't have them
-private func removeDefaultArgsFromParameters(tokens:[Token]) -> [Token] {
-    var newTokens = [Token]()
-    var removing = false
-    var bracket = false
-    for t in tokens {
-        if removing && t.kind == .startOfScope && t.value == "(" {
-            bracket = true
-        }
-        if bracket && t.kind == .endOfScope && t.value == ")" {
-            bracket = false
-            removing = false
-            continue
-        }
-        if t.kind == .symbol && (t.value.contains("=")) {
-            removing = true
-        }
-        if t.kind == .delimiter && t.value.contains(",") {
-            removing = false
-        }
-        if !bracket && removing && t.kind == .endOfScope && t.value == ")" {
-            removing = false
-        }
-        if !removing {
-            newTokens.append(t)
-        }
-    }
-    return newTokens
 }
