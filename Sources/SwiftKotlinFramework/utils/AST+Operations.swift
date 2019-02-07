@@ -54,6 +54,9 @@ extension FunctionDeclaration {
     var isStatic: Bool {
         return modifiers.isStatic
     }
+    var isOverride: Bool {
+        return modifiers.isOverride
+    }
 }
 
 extension StructDeclaration.Member {
@@ -118,6 +121,10 @@ extension Collection where Iterator.Element == DeclarationModifier {
     var isLazy: Bool {
         return self.contains(where: { $0.isLazy })
     }
+
+    var isOverride: Bool {
+        return self.contains(where: { $0.isOverride })
+    }
 }
 
 extension DeclarationModifier {
@@ -131,6 +138,13 @@ extension DeclarationModifier {
     var isLazy: Bool {
         switch self {
         case .lazy: return true
+        default: return false
+        }
+    }
+
+    var isOverride: Bool {
+        switch self {
+        case .override: return true
         default: return false
         }
     }
