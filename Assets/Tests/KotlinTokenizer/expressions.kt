@@ -6,3 +6,5 @@ val text = label ?: "default"
 service.deleteObject()
 this.service.fetchData()?.user?.name?.size
 this.data.filter { it.item?.value == 1 }.map { it.key }.firstOrNull()?.name?.size
+this.object = data as ObjectType
+this.object = data as? ObjectType
