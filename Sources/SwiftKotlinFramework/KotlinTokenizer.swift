@@ -833,6 +833,20 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
         return tokens
     }
+
+    open override func tokenize(_ expression: TypeCastingOperatorExpression) -> [Token] {
+        switch expression.kind {
+        case let .forcedCast(expr, type):
+            return [
+                tokenize(expr),
+                [expression.newToken(.keyword, "as")],
+                tokenize(type, node: expression)
+            ].joined(token: expression.newToken(.space, " "))
+        default:
+            return super.tokenize(expression)
+        }
+    }
+
     
     // MARK: - Types
     open override func tokenize(_ type: ArrayType, node: ASTNode) -> [Token] {

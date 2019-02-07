@@ -12,3 +12,7 @@ _ = service.deleteObject()
 // Optional chaning
 self.service.fetchData()?.user.name?.count
 self.data.filter { $0.item?.value == 1 }.map { $0.key }.first?.name.count
+
+// Type casting
+self.object =  data as! ObjectType
+self.object =  data as? ObjectType
