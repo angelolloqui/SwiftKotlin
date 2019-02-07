@@ -144,3 +144,5 @@ And special credits for the contributors:
 - [Ryuichi Sai](https://github.com/ryuichis)
 - [jonnermut](https://github.com/jonnermut)
 - [Tomohiro Matsuzawa](https://github.com/thmatuza)
+- [Tor Langballe](https://github.com/torlangballe)
+- [Levi Dahlstrom](https://github.com/LeviDahl)
