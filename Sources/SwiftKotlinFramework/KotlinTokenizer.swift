@@ -627,9 +627,9 @@ public class KotlinTokenizer: SwiftTokenizer {
         case .array(let exprs):
             return
                 expression.newToken(.identifier, "listOf") +
-                expression.newToken(.startOfScope, "(") +
+                expression.newToken(.startOfScope, "<") +
                 exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", ")) +
-                expression.newToken(.endOfScope, ")")
+                expression.newToken(.endOfScope, ">")
         case .dictionary(let entries):
             return
                 expression.newToken(.identifier, "mapOf") +
