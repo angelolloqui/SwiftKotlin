@@ -12,6 +12,17 @@ import AST
 import Source
 import Parser
 
+extension EnumDeclaration.Member {
+    var rawValueStyleEnumCase: EnumDeclaration.RawValueStyleEnumCase? {
+        switch self {
+        case .rawValue(let rawValueStyleEnumCase):
+            return rawValueStyleEnumCase
+        default:
+            return nil
+        }
+    }
+}
+
 public class KotlinTokenizer: SwiftTokenizer {
 
     // MARK: - Declarations
@@ -408,7 +419,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         let lineBreak = declaration.newToken(.linebreak, "\n")
         let space = declaration.newToken(.space, " ")
 
-        guard unionCases.count == declaration.members.count &&
+        guard unionCases.count <= declaration.members.count && // unionCases is 0 when enums have specific values
             declaration.genericParameterClause == nil &&
             declaration.genericWhereClause == nil else {
                 return self.unsupportedTokens(message: "Complex enums not supported yet", element: declaration, node: declaration).suffix(with: lineBreak) +
@@ -416,7 +427,10 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
 
         // Simple enums (no tuples)
-        if !simpleCases.contains(where: { $0.tuple != nil }) && declaration.typeInheritanceClause == nil {
+        if !simpleCases.contains(where: { $0.tuple != nil }) {
+            if declaration.typeInheritanceClause != nil {
+                return makeValueEnum(declaration:declaration, simpleCases:simpleCases)
+            }
             let attrsTokens = tokenize(declaration.attributes, node: declaration)
             let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
             let headTokens = [
@@ -1120,6 +1134,171 @@ public class KotlinTokenizer: SwiftTokenizer {
             }
         }
         return newTokens
+    }
+    
+    private func makeInitEnumFromRawFunc(declaration d: EnumDeclaration, typeToken: Token) -> [Token] {
+        //        companion object : ZEnumCompanion<Int, XWeekday>(XWeekday.values().associateBy(XWeekday::rawValue))
+        let name = d.newToken(.identifier, d.name)
+        let space = d.newToken(.space, " ")
+        let lineBreak = d.newToken(.linebreak, "\n")
+        return [
+            d.newToken(.keyword, "companion"),
+            space,
+            d.newToken(.keyword, "object"),
+            space,
+            d.newToken(.startOfScope, "{"),
+            lineBreak ] +
+            indent([
+                d.newToken(.keyword, "operator"),
+                space,
+                d.newToken(.keyword, "fun"),
+                space,
+                d.newToken(.keyword, "invoke"),
+                d.newToken(.startOfScope, "("),
+                d.newToken(.identifier, "rawValue"),
+                d.newToken(.delimiter, ":"),
+                space,
+                typeToken,
+                d.newToken(.endOfScope, ")"),
+                space,
+                d.newToken(.symbol, "="),
+                space,
+                name,
+                d.newToken(.delimiter, "."),
+                d.newToken(.identifier, "values"),
+                d.newToken(.startOfScope, "("),
+                d.newToken(.endOfScope, ")"),
+                d.newToken(.delimiter, "."),
+                d.newToken(.identifier, "firstOrNull"),
+                space,
+                d.newToken(.startOfScope, "{"),
+                space,
+                d.newToken(.identifier, "it"),
+                d.newToken(.delimiter, "."),
+                d.newToken(.identifier, "rawValue"),
+                space,
+                d.newToken(.symbol, "=="),
+                space,
+                d.newToken(.identifier, "rawValue"),
+                space,
+                d.newToken(.endOfScope, "}")
+            ]) + [
+                lineBreak,
+                d.newToken(.endOfScope, "}")
+            ]
+    }
+    
+    
+    // these two methods below allow getting simple, non type enums and single-type enums and outputing their values.
+    private func getAssignments(rawCases:[AST.EnumDeclaration.RawValueStyleEnumCase], declaration:EnumDeclaration, typeToken:Token) -> [Token] {
+        let space = declaration.newToken(.space, " ")
+        var acomps = [[Token]]()
+        var intStart = 0
+        for r in rawCases {
+            for c in r.cases {
+                var set = space // just set it to something
+                if (c.assignment == nil) {
+                    switch typeToken.value {
+                    case "String":
+                        set = declaration.newToken(.string, "\"\(c.name)\"")
+                    default: // Int
+                        set = declaration.newToken(.number, "\(intStart)")
+                        intStart += 1
+                    }
+                } else {
+                    switch c.assignment! {
+                    case .string(let s):
+                        set = declaration.newToken(.string, "\"\(s)\"")
+                    case .floatingPoint(let f):
+                        set = declaration.newToken(.number, "\(f)")
+                        intStart = Int(f) + 1
+                    case .boolean(let b):
+                        set = declaration.newToken(.keyword, "\(b)")
+                    case .integer(let i):
+                        set = declaration.newToken(.number, "\(i)")
+                        intStart = i + 1
+                    }
+                }
+                let c = [
+                    declaration.newToken(.identifier, c.name),
+                    declaration.newToken(.startOfScope, "("),
+                    set,
+                    declaration.newToken(.endOfScope, ")")
+                ]
+                acomps.append(c)
+            }
+        }
+        return acomps.joined(tokens: [ declaration.newToken(.delimiter, ","), space ])
+    }
+    
+    private func getSimpleAssignments(simpleCases:[AST.EnumDeclaration.UnionStyleEnumCase.Case], declaration:EnumDeclaration, typeToken:Token) -> [Token] {
+        let space = declaration.newToken(.space, " ")
+        var acomps = [[Token]]()
+        var intStart = 0
+        var boolStart = false
+        for s in simpleCases {
+            var set = space // hack to set it to space to start
+            switch typeToken.value {
+            case "Bool":
+                set = declaration.newToken(.keyword, "\(boolStart)")
+                boolStart = !boolStart
+            case "String":
+                set = declaration.newToken(.string, "\"\(s.name)\"")
+            default:
+                set = declaration.newToken(.number, "\(intStart)")
+                intStart += 1
+            }
+            let comp = [
+                declaration.newToken(.identifier, s.name),
+                declaration.newToken(.startOfScope, "("),
+                set,
+                declaration.newToken(.endOfScope, ")")
+            ]
+            acomps.append(comp)
+        }
+        return acomps.joined(tokens: [ declaration.newToken(.delimiter, ","), space ])
+    }
+    
+    private func makeValueEnum(declaration:EnumDeclaration, simpleCases:[AST.EnumDeclaration.UnionStyleEnumCase.Case]) -> [Token] {
+        let attrsTokens = tokenize(declaration.attributes, node: declaration)
+        let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+        let lineBreak = declaration.newToken(.linebreak, "\n")
+        let space = declaration.newToken(.space, " ")
+        let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []
+        let rawCases = declaration.members.compactMap { $0.rawValueStyleEnumCase }
+        
+        let headTokens = [
+            attrsTokens,
+            modifierTokens,
+            [declaration.newToken(.keyword, "enum")],
+            [declaration.newToken(.keyword, "class")],
+            [declaration.newToken(.identifier, declaration.name)],
+            ].joined(token: space)
+        
+        let typeToken = inheritanceTokens.first(where: { $0.kind == .identifier })!
+        let initTokens = [
+            declaration.newToken(.startOfScope, "("),
+            declaration.newToken(.keyword, "val"),
+            space,
+            declaration.newToken(.identifier, "rawValue"),
+            declaration.newToken(.delimiter, ":"),
+            space,
+            typeToken, // had IdentifiersTransformPlugin.TransformType() around it
+            declaration.newToken(.endOfScope, ")"),
+            space
+        ]
+        var comps = [Token]()
+        if simpleCases.count > 0 {
+            comps = getSimpleAssignments(simpleCases:simpleCases, declaration:declaration, typeToken:typeToken)
+        } else {
+            comps = getAssignments(rawCases:rawCases, declaration:declaration, typeToken:typeToken)
+        }
+        let initFromRawTokens = [lineBreak] + indent(makeInitEnumFromRawFunc(declaration:declaration, typeToken:typeToken))
+        let bodyTokens = [ declaration.newToken(.startOfScope, "{"), lineBreak ] +
+            indent(comps) + [ declaration.newToken(.delimiter, ";")] +
+            initFromRawTokens +
+            [ lineBreak, declaration.newToken(.endOfScope, "}") ]
+        return headTokens + initTokens + bodyTokens
     }
 }
 
