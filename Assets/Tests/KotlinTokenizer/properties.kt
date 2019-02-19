@@ -34,7 +34,7 @@ class A {
         }
     lateinit var subject: TestSubject
     val players: List<String> by lazy {
-        var temporaryPlayers = listOf(String)()
+        var temporaryPlayers = listOf<String>()
         temporaryPlayers.append("John Doe")
         temporaryPlayers
     }
