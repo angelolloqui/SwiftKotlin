@@ -625,18 +625,22 @@ public class KotlinTokenizer: SwiftTokenizer {
         case let .interpolatedString(_, rawText):
             return tokenizeInterpolatedString(rawText, node: expression)
         case .array(let exprs):
+            let isGenericTypeInfo = expression.lexicalParent is FunctionCallExpression
             return
                 expression.newToken(.identifier, "listOf") +
-                expression.newToken(.startOfScope, "(") +
+                    expression.newToken(.startOfScope, isGenericTypeInfo ? "<" : "(") +
                 exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", ")) +
-                expression.newToken(.endOfScope, ")")
+                    expression.newToken(.endOfScope, isGenericTypeInfo ? ">" : ")")
         case .dictionary(let entries):
-            return
-                expression.newToken(.identifier, "mapOf") +
-                expression.newToken(.startOfScope, "(") +
-                entries.map { tokenize($0, node: expression) }
-                    .joined(token: expression.newToken(.delimiter, ", ")) +
-                expression.newToken(.endOfScope, ")")
+            let isGenericTypeInfo = expression.lexicalParent is FunctionCallExpression
+            var entryTokens = entries.map { tokenize($0, node: expression) }.joined(token: expression.newToken(.delimiter, ", "))
+            if isGenericTypeInfo {
+                entryTokens = entryTokens.replacing({ $0.value == "to"}, with: [expression.newToken(.delimiter, ",") ])
+            }
+            return [expression.newToken(.identifier, "mapOf"),
+                expression.newToken(.startOfScope, isGenericTypeInfo ? "<" : "(")] +
+                entryTokens +
+                [expression.newToken(.endOfScope, isGenericTypeInfo ? ">" : ")")]
         default:
             return super.tokenize(expression)
         }
