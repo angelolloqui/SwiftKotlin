@@ -9,6 +9,17 @@ import Foundation
 import AST
 import Transform
 
+extension EnumDeclaration.Member {
+    var rawValueStyleEnumCase: EnumDeclaration.RawValueStyleEnumCase? {
+        switch self {
+        case .rawValue(let rawValueStyleEnumCase):
+            return rawValueStyleEnumCase
+        default:
+            return nil
+        }
+    }
+}
+
 extension KotlinTokenizer {
 
     func tokenizeNoValueEnum(declaration: EnumDeclaration, simpleCases: [AST.EnumDeclaration.UnionStyleEnumCase.Case]) -> [Token] {
@@ -23,7 +34,10 @@ extension KotlinTokenizer {
             [declaration.newToken(.keyword, "class")],
             [declaration.newToken(.identifier, declaration.name)],
             ].joined(token: space)
-
+        let otherMemberTokens = declaration.members.filter { $0.unionStyleEnumCase == nil && $0.rawValueStyleEnumCase == nil }
+            .map { tokenize($0, node: declaration) }
+            .joined(token: lineBreak)
+            .prefix(with: lineBreak)
         let membersTokens = simpleCases.map { c in
             return [c.newToken(.identifier, c.name, declaration)]
             }.joined(tokens: [
@@ -34,6 +48,7 @@ extension KotlinTokenizer {
         return headTokens +
             [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
             indent(membersTokens) +
+            indent(otherMemberTokens) +
             [lineBreak, declaration.newToken(.endOfScope, "}")]
     }
 
@@ -75,9 +90,14 @@ extension KotlinTokenizer {
             comps = getAssignments(rawCases: rawCases, declaration: declaration, typeToken: typeToken)
         }
         let initFromRawTokens = [lineBreak] + indent(makeInitEnumFromRawFunc(declaration: declaration, typeToken:typeToken))
+        let otherMemberTokens = declaration.members.filter { $0.unionStyleEnumCase == nil && $0.rawValueStyleEnumCase == nil }
+            .map { tokenize($0, node: declaration) }
+            .joined(token: lineBreak)
+            .prefix(with: lineBreak)
         let bodyTokens = [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
             indent(comps) + [declaration.newToken(.delimiter, ";"), lineBreak] +
             initFromRawTokens +
+            indent(otherMemberTokens) +
             [lineBreak, declaration.newToken(.endOfScope, "}")]
         return headTokens + bodyTokens
     }
@@ -118,9 +138,15 @@ extension KotlinTokenizer {
             return tokenSections.joined(token: space)
             }.joined(token: lineBreak)
 
+        let otherMemberTokens = declaration.members.filter { $0.unionStyleEnumCase == nil && $0.rawValueStyleEnumCase == nil }
+            .map { tokenize($0, node: declaration) }
+            .joined(token: lineBreak)
+            .prefix(with: lineBreak)
+
         return headTokens +
             [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
             indent(membersTokens) +
+            indent(otherMemberTokens) +
             [lineBreak, declaration.newToken(.endOfScope, "}")]
     }
 }

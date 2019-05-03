@@ -12,17 +12,6 @@ import AST
 import Source
 import Parser
 
-extension EnumDeclaration.Member {
-    var rawValueStyleEnumCase: EnumDeclaration.RawValueStyleEnumCase? {
-        switch self {
-        case .rawValue(let rawValueStyleEnumCase):
-            return rawValueStyleEnumCase
-        default:
-            return nil
-        }
-    }
-}
-
 public class KotlinTokenizer: SwiftTokenizer {
 
     // MARK: - Declarations
