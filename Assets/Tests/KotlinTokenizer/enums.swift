@@ -41,3 +41,45 @@ public enum SDKException: Error {
     case unauthorized
     case network(HttpResponse, Error?)
 }
+
+public enum PaymentMethodType: String, Equatable {
+    case direct = "DIRECT",  creditCard = "CREDIT_CARD"
+}
+
+enum AnimationLength {
+    case shot
+    case long
+    var duration: Double {
+        switch self {
+        case .shot:
+            return 2
+        case .long:
+            return 5.0
+        }
+    }
+
+    func getDuration() -> Double {
+        return self.duration
+    }
+}
+
+enum AnimationLengthAdvanced {
+    case shot
+    case long
+    case custom(Double)
+
+    var duration: Double {
+        switch self {
+        case .shot:
+            return 2
+        case .long:
+            return 5.0
+        case .custom(let duration):
+            return duration
+        }
+    }
+
+    func getDuration() -> Double {
+        return self.duration
+    }
+}

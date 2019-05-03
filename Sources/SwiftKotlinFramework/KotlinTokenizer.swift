@@ -406,80 +406,26 @@ public class KotlinTokenizer: SwiftTokenizer {
         let unionCases = declaration.members.compactMap { $0.unionStyleEnumCase }
         let simpleCases = unionCases.flatMap { $0.cases }
         let lineBreak = declaration.newToken(.linebreak, "\n")
-        let space = declaration.newToken(.space, " ")
 
-        guard unionCases.count == declaration.members.count &&
+        guard unionCases.count <= declaration.members.count && // unionCases is 0 when enums have specific values
             declaration.genericParameterClause == nil &&
             declaration.genericWhereClause == nil else {
                 return self.unsupportedTokens(message: "Complex enums not supported yet", element: declaration, node: declaration).suffix(with: lineBreak) +
                     super.tokenize(declaration)
         }
 
-        // Simple enums (no tuples)
-        if !simpleCases.contains(where: { $0.tuple != nil }) && declaration.typeInheritanceClause == nil {
-            let attrsTokens = tokenize(declaration.attributes, node: declaration)
-            let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
-            let headTokens = [
-                attrsTokens,
-                modifierTokens,
-                [declaration.newToken(.keyword, "enum")],
-                [declaration.newToken(.keyword, "class")],
-                [declaration.newToken(.identifier, declaration.name)],
-                ].joined(token: space)
-
-            let membersTokens = simpleCases.map { c in
-                return [c.newToken(.identifier, c.name, declaration)]
-                }.joined(tokens: [
-                    declaration.newToken(.delimiter, ","),
-                    lineBreak
-                    ])
-
-            return headTokens +
-                [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
-                indent(membersTokens) +
-                [lineBreak, declaration.newToken(.endOfScope, "}")]
+        // Simple enums (no tuple values)
+        if !simpleCases.contains(where: { $0.tuple != nil }) {
+            if declaration.typeInheritanceClause != nil {
+                return tokenizeSimpleValueEnum(declaration:declaration, simpleCases: simpleCases)
+            } else {
+                return tokenizeNoValueEnum(declaration: declaration, simpleCases: simpleCases)
+            }
         }
         // Tuples or inhertance required sealed classes
         else {
-            let attrsTokens = tokenize(declaration.attributes, node: declaration)
-            let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
-            let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []
-            let headTokens = [
-                attrsTokens,
-                modifierTokens,
-                [declaration.newToken(.keyword, "sealed")],
-                [declaration.newToken(.keyword, "class")],
-                [declaration.newToken(.identifier, declaration.name)],
-                inheritanceTokens
-            ].joined(token: space)
-
-            let membersTokens = simpleCases.map { c in
-                var tokenSections: [[Token]]
-                if let tuple = c.tuple {
-                    tokenSections = [
-                        [c.newToken(.keyword, "data", declaration)],
-                        [c.newToken(.keyword, "class", declaration)],
-                        [c.newToken(.identifier, c.name, declaration)] + tokenize(tuple, node: declaration)
-                    ]
-                } else {
-                    tokenSections = [
-                        [c.newToken(.keyword, "object", declaration)],
-                        [c.newToken(.identifier, c.name, declaration)]
-                    ]
-                }
-                tokenSections += [
-                    [c.newToken(.symbol, ":", declaration)],
-                    [c.newToken(.identifier, declaration.name, declaration), c.newToken(.startOfScope, "(", declaration), c.newToken(.endOfScope, ")", declaration)]
-                ]
-                return tokenSections.joined(token: space)
-            }.joined(token: lineBreak)
-
-            return headTokens +
-                [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
-                indent(membersTokens) +
-                [lineBreak, declaration.newToken(.endOfScope, "}")]
+            return tokenizeSealedClassEnum(declaration: declaration, simpleCases: simpleCases)
         }
-
     }
     
     open override func tokenize(_ codeBlock: CodeBlock) -> [Token] {
@@ -1125,6 +1071,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         }
         return newTokens
     }
+    
 }
 
 public typealias InvertedConditionList = [InvertedCondition]
