@@ -206,7 +206,7 @@ private extension KotlinTokenizer {
 
 
     // these two methods below allow getting simple, non type enums and single-type enums and outputing their values.
-    func getAssignments(rawCases:[AST.EnumDeclaration.RawValueStyleEnumCase], declaration:EnumDeclaration, typeToken:Token) -> [Token] {
+    func getAssignments(rawCases: [AST.EnumDeclaration.RawValueStyleEnumCase], declaration: EnumDeclaration, typeToken: Token) -> [Token] {
         let space = declaration.newToken(.space, " ")
         var acomps = [[Token]]()
         var intStart = 0
@@ -247,7 +247,7 @@ private extension KotlinTokenizer {
         return acomps.joined(tokens: [ declaration.newToken(.delimiter, ","), space ])
     }
 
-    func getSimpleAssignments(simpleCases:[AST.EnumDeclaration.UnionStyleEnumCase.Case], declaration:EnumDeclaration, typeToken:Token) -> [Token] {
+    func getSimpleAssignments(simpleCases: [AST.EnumDeclaration.UnionStyleEnumCase.Case], declaration: EnumDeclaration, typeToken: Token) -> [Token] {
         let space = declaration.newToken(.space, " ")
         var acomps = [[Token]]()
         var intStart = 0
