@@ -417,7 +417,6 @@ public class KotlinTokenizer: SwiftTokenizer {
         let unionCases = declaration.members.compactMap { $0.unionStyleEnumCase }
         let simpleCases = unionCases.flatMap { $0.cases }
         let lineBreak = declaration.newToken(.linebreak, "\n")
-        let space = declaration.newToken(.space, " ")
 
         guard unionCases.count <= declaration.members.count && // unionCases is 0 when enums have specific values
             declaration.genericParameterClause == nil &&
