@@ -48,7 +48,7 @@ extension KotlinTokenizer {
         return headTokens +
             [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
             indent(membersTokens) +
-            indent(otherMemberTokens) +
+            indent(otherMemberTokens).prefix(with: lineBreak) +
             [lineBreak, declaration.newToken(.endOfScope, "}")]
     }
 
@@ -97,7 +97,7 @@ extension KotlinTokenizer {
         let bodyTokens = [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
             indent(comps) + [declaration.newToken(.delimiter, ";"), lineBreak] +
             initFromRawTokens +
-            indent(otherMemberTokens) +
+            indent(otherMemberTokens).prefix(with: lineBreak) +
             [lineBreak, declaration.newToken(.endOfScope, "}")]
         return headTokens + bodyTokens
     }
@@ -146,7 +146,7 @@ extension KotlinTokenizer {
         return headTokens +
             [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
             indent(membersTokens) +
-            indent(otherMemberTokens) +
+            indent(otherMemberTokens).prefix(with: lineBreak) +
             [lineBreak, declaration.newToken(.endOfScope, "}")]
     }
 }

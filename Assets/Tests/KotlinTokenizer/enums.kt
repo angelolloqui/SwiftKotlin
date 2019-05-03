@@ -49,6 +49,7 @@ public enum class PaymentMethodType (val rawValue: String) : Equatable {
 enum class AnimationLength {
     shot,
     long
+    
     val duration: Double
         get() {
             when (this) {
@@ -56,14 +57,15 @@ enum class AnimationLength {
                 .long -> return 5.0
             }
         }
-
+    
     fun getDuration() : Double =
         this.duration
 }
 sealed class AnimationLengthAdvanced {
-    object shot : AnimationLength()
-    object long : AnimationLength()
-    data class custom(val v1: Double) : AnimationLength()
+    object shot : AnimationLengthAdvanced()
+    object long : AnimationLengthAdvanced()
+    data class custom(val v1: Double) : AnimationLengthAdvanced()
+    
     val duration: Double
         get() {
             when (this) {
@@ -72,7 +74,7 @@ sealed class AnimationLengthAdvanced {
                 .custom -> return duration
             }
         }
-
+    
     fun getDuration() : Double =
         this.duration
 }
