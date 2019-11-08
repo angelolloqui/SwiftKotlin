@@ -31,7 +31,15 @@ extension VariableDeclaration {
     var isLazy: Bool {
         return modifiers.isLazy
     }
-    
+
+    var isPrivateSet: Bool {
+        return modifiers.isPrivateSet
+    }
+
+    var isProtectedSet: Bool {
+        return modifiers.isProtectedSet
+    }
+
     var typeAnnotation: TypeAnnotation? {
         return initializerList?
             .compactMap { $0.pattern as? IdentifierPattern }
@@ -122,6 +130,14 @@ extension Collection where Iterator.Element == DeclarationModifier {
         return self.contains(where: { $0.isLazy })
     }
 
+    var isPrivateSet: Bool {
+        return self.contains(where: { $0.isPrivateSet })
+    }
+
+    var isProtectedSet: Bool {
+        return self.contains(where: { $0.isProtectedSet })
+    }
+
     var isOverride: Bool {
         return self.contains(where: { $0.isOverride })
     }
@@ -145,6 +161,22 @@ extension DeclarationModifier {
     var isOverride: Bool {
         switch self {
         case .override: return true
+        default: return false
+        }
+    }
+
+    var isPrivateSet: Bool {
+        switch self {
+        case .accessLevel(let modifier):
+            return modifier == .fileprivateSet || modifier == .privateSet
+        default: return false
+        }
+    }
+
+    var isProtectedSet: Bool {
+        switch self {
+        case .accessLevel(let modifier):
+            return modifier == .openSet || modifier == .internalSet
         default: return false
         }
     }

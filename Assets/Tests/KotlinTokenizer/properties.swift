@@ -53,6 +53,13 @@ class A {
             delegate.set(isLocating: isLocating)
         }
     }
+
+    private(set) var anotherName: String?
+
+    private(set) var anotherNameWithDidSet: String = "a value" {
+        didSet {}
+    }
+
 }
 
 struct Rect {
