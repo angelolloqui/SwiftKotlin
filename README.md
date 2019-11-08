@@ -146,3 +146,4 @@ And special credits for the contributors:
 - [Tomohiro Matsuzawa](https://github.com/thmatuza)
 - [Tor Langballe](https://github.com/torlangballe)
 - [Levi Dahlstrom](https://github.com/LeviDahl)
+- [Shaurya](https://github.com/shaurya-ObjC)
