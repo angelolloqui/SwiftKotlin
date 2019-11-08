@@ -570,6 +570,8 @@ public class KotlinTokenizer: SwiftTokenizer {
             return [expression.newToken(.keyword, "null")]
         case let .interpolatedString(_, rawText):
             return tokenizeInterpolatedString(rawText, node: expression)
+        case let .staticString(_, rawText):
+            return [expression.newToken(.string, conversionUnicodeString(rawText, node: expression))]
         case .array(let exprs):
             let isGenericTypeInfo = expression.lexicalParent is FunctionCallExpression
             return
@@ -1012,8 +1014,35 @@ public class KotlinTokenizer: SwiftTokenizer {
         ].joined(token: node.newToken(.linebreak, "\n"))
     }
 
-    private func tokenizeInterpolatedString(_ rawText: String, node: ASTNode) -> [Token] {
+    private func conversionUnicodeString(_ rawText:String, node:ASTNode) -> String {
         var remainingText = rawText
+        var unicodeString = ""
+
+        while let startRange = remainingText.range(of: "u{") {
+            unicodeString += remainingText[..<startRange.lowerBound] + "u"
+            remainingText = String(remainingText[startRange.upperBound...])
+
+            var scopes = 1
+            var i = 1
+            while i < remainingText.count && scopes > 0 {
+                let index = remainingText.index(remainingText.startIndex, offsetBy: i)
+                i += 1
+                switch remainingText[index] {
+                case "}": scopes -= 1
+                default: continue
+                }
+            }
+
+            unicodeString += remainingText[..<remainingText.index(remainingText.startIndex, offsetBy: i - 1)]
+            remainingText = String(remainingText[remainingText.index(remainingText.startIndex, offsetBy: i)...])
+        }
+
+        unicodeString += remainingText
+        return unicodeString
+    }
+
+    private func tokenizeInterpolatedString(_ rawText: String, node: ASTNode) -> [Token] {
+        var remainingText = conversionUnicodeString(rawText, node: node)
         var interpolatedString = ""
 
         while let startRange = remainingText.range(of: "\\(") {
