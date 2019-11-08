@@ -57,6 +57,10 @@ if (value == null) {
     return
 }
 val value = some.method() ?: throw Exception()
+val match = this.interactor.match
+if (match == null || !(interactor.userIsOwner || interactor.userIsPlayer)) {
+    return
+}
 when (nb) {
     in 0 .. 7, 8, 9 -> print("single digit")
     10 -> print("double digits")

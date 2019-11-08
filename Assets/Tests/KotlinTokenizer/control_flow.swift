@@ -47,6 +47,7 @@ guard let value = some.method() else {
     return
 }
 guard let value = some.method() else { throw Exception() }
+guard let match = self.interactor.match, (interactor.userIsOwner || interactor.userIsPlayer) else { return }
 
 // Switch
 switch nb {
