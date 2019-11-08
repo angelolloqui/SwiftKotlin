@@ -98,7 +98,7 @@ The project comes with 2 executable targets:
 
 Checkout the [project's releases page](https://github.com/angelolloqui/SwiftKotlin/releases) to get a preview compiled version of the app or compile it manually:
 
-- Install Xcode 10+ and check it is the default selected one by running `xcode-select -p`
+- Install Xcode 11+ and check it is the default selected one by running `xcode-select -p`
 - clone the repo: `git clone git@github.com:angelolloqui/SwiftKotlin.git; cd SwiftKotlin`
 - Run `swift package update` and `swift package generate-xcodeproj --enable-code-coverage`
 - Open the project: `open SwiftKotlin.xcworkspace`

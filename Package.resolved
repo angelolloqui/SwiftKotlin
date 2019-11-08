@@ -2,21 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "bocho",
-        "repositoryURL": "https://github.com/yanagiba/bocho",
-        "state": {
-          "branch": null,
-          "revision": "11a60ae8509658ea38bbe166d9c4e9af4d411700",
-          "version": "0.18.10"
-        }
-      },
-      {
         "package": "swift-ast",
         "repositoryURL": "https://github.com/yanagiba/swift-ast",
         "state": {
           "branch": null,
-          "revision": "295998ce223da98cab6b7189db22f0be3dfc0eb7",
-          "version": "0.18.10"
+          "revision": "e8507d78b32dbd33ea5ea975bbbc82b7613870a1",
+          "version": "0.19.9"
         }
       },
       {
@@ -24,8 +15,8 @@
         "repositoryURL": "https://github.com/yanagiba/swift-transform",
         "state": {
           "branch": null,
-          "revision": "45464c7747d97f320ca153b713affede11ce3bf4",
-          "version": "0.18.10"
+          "revision": "b58a8317967099115faef82ab52d74f2b5430ef7",
+          "version": "0.19.9"
         }
       }
     ]

@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.1
 
 
 import PackageDescription
@@ -11,7 +11,7 @@ let package = Package(
             targets: ["SwiftKotlinFramework"]
         )],
     dependencies: [
-        .package(url: "https://github.com/yanagiba/swift-transform", .exact("0.18.10"))
+        .package(url: "https://github.com/yanagiba/swift-transform", .exact("0.19.9"))
     ],
     targets: [
 
@@ -32,6 +32,5 @@ let package = Package(
                 "SwiftKotlin.xcworkspace"
             ]
         )
-    ],
-    swiftLanguageVersions: [4]
+    ]
 )

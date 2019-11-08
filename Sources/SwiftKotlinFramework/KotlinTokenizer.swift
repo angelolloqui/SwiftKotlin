@@ -97,7 +97,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             members: declaration.members.filter({ !$0.isStatic }))
         newClass.setSourceRange(declaration.sourceRange)
         var tokens = super.tokenize(newClass)
-        if !staticMembers.isEmpty, let bodyStart = tokens.index(where: { $0.value == "{"}) {
+        if !staticMembers.isEmpty, let bodyStart = tokens.firstIndex(where: { $0.value == "{"}) {
             let companionTokens = indent(tokenizeCompanion(staticMembers, node: declaration))
                 .prefix(with: declaration.newToken(.linebreak, "\n"))
                 .suffix(with: declaration.newToken(.linebreak, "\n"))
@@ -136,14 +136,14 @@ public class KotlinTokenizer: SwiftTokenizer {
             .replacing({ $0.value == "struct"},
                        with: [declaration.newToken(.keyword, "data class")])
 
-        if !staticMembers.isEmpty, let bodyStart = tokens.index(where: { $0.value == "{"}) {
+        if !staticMembers.isEmpty, let bodyStart = tokens.firstIndex(where: { $0.value == "{"}) {
             let companionTokens = indent(tokenizeCompanion(staticMembers, node: declaration))
                 .prefix(with: declaration.newToken(.linebreak, "\n"))
                 .suffix(with: declaration.newToken(.linebreak, "\n"))
             tokens.insert(contentsOf: companionTokens, at: bodyStart + 1)
         }
 
-        if !declarationMembers.isEmpty, let bodyStart = tokens.index(where: { $0.value == "{"}) {
+        if !declarationMembers.isEmpty, let bodyStart = tokens.firstIndex(where: { $0.value == "{"}) {
             let linebreak = declaration.newToken(.linebreak, "\n")
             let declarationTokens: [Token]
             if declarationMembers.count == 1 {
@@ -208,12 +208,12 @@ public class KotlinTokenizer: SwiftTokenizer {
             .filter { $0.isInitializer }
             .first
 
-        let bodyStart = tokens.index(where: { $0.node === declaration.body })
+        let bodyStart = tokens.firstIndex(where: { $0.node === declaration.body })
 
         if  let bodyStart = bodyStart,
             let initExpression: ASTNode = superInitExpression ?? selfInitExpression,
-            let superIndex = tokens.index(where: { $0.node === initExpression }),
-            let endOfScopeIndex = tokens[superIndex...].index(where: { $0.kind == .endOfScope && $0.value == ")" }){
+            let superIndex = tokens.firstIndex(where: { $0.node === initExpression }),
+            let endOfScopeIndex = tokens[superIndex...].firstIndex(where: { $0.kind == .endOfScope && $0.value == ")" }){
             let keyword = superInitExpression != nil ? "super" : "this"
             let superCallTokens = Array(tokens[superIndex...endOfScopeIndex])
                 .replacing({ $0.node === initExpression }, with: [])
@@ -252,9 +252,9 @@ public class KotlinTokenizer: SwiftTokenizer {
 
         let memberTokens = declaration.members.map { member in
             var tokens = tokenize(member)
-            let firstToken = tokens.index(where: { $0.kind != .linebreak }) ?? 0
+            let firstToken = tokens.firstIndex(where: { $0.kind != .linebreak }) ?? 0
             tokens.insert(contentsOf: modifierTokens, at: firstToken)
-            if let index = tokens.index(where: { $0.kind == .identifier }) {
+            if let index = tokens.firstIndex(where: { $0.kind == .identifier }) {
                 if member.isStatic {
                     tokens.insert(contentsOf: [declaration.newToken(.keyword, "Companion"), declaration.newToken(.delimiter, ".")], at: index)
                 }
@@ -531,7 +531,7 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     open override func tokenize(_ statement: ForInStatement) -> [Token] {
         var tokens = super.tokenize(statement)
-        if let endIndex = tokens.index(where: { $0.value == "{"}) {
+        if let endIndex = tokens.firstIndex(where: { $0.value == "{"}) {
             tokens.insert(statement.newToken(.endOfScope, ")"), at: endIndex - 1)
             tokens.insert(statement.newToken(.startOfScope, "("), at: 2)
         }
@@ -660,7 +660,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         
         // Last return can be removed
         if let lastReturn = expression.statements?.last as? ReturnStatement,
-            let index = tokens.index(where: { $0.node === lastReturn && $0.value == "return" }) {
+            let index = tokens.firstIndex(where: { $0.node === lastReturn && $0.value == "return" }) {
             tokens.remove(at: index)
             tokens.remove(at: index)
         }
@@ -668,7 +668,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         // Other returns must be suffixed with call name
         if let callExpression = expression.lexicalParent as? FunctionCallExpression,
             let memberExpression = callExpression.postfixExpression as? ExplicitMemberExpression {
-            while let returnIndex = tokens.index(where: { $0.value == "return" }) {
+            while let returnIndex = tokens.firstIndex(where: { $0.value == "return" }) {
                 tokens.remove(at: returnIndex)
                 tokens.insert(expression.newToken(.keyword, "return@"), at: returnIndex)
                 tokens.insert(expression.newToken(.identifier, memberExpression.identifier), at: returnIndex + 1)
@@ -749,9 +749,9 @@ public class KotlinTokenizer: SwiftTokenizer {
         var elementTokens = expression.elements.map({ tokenize($0, node: expression) })
 
         //If there is a ternary, then prefix with if
-        if let ternaryOperatorIndex = expression.elements.index(where: { $0.isTernaryConditionalOperator }),
+        if let ternaryOperatorIndex = expression.elements.firstIndex(where: { $0.isTernaryConditionalOperator }),
             ternaryOperatorIndex > 0 {
-            let assignmentIndex = expression.elements.index(where: { $0.isAssignmentOperator }) ?? -1
+            let assignmentIndex = expression.elements.firstIndex(where: { $0.isAssignmentOperator }) ?? -1
             let prefixTokens = [
                 expression.newToken(.keyword, "if"),
                 expression.newToken(.space, " "),
