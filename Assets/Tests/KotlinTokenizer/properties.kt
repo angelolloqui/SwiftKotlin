@@ -47,6 +47,12 @@ class A {
             field = newValue
             delegate.set(isLocating = isLocating)
         }
+    var anotherName: String? = null
+        private set
+    var anotherNameWithDidSet: String = "a value"
+        private set(newValue) {
+            field = newValue
+        }
 }
 
 data class Rect(

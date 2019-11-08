@@ -234,6 +234,8 @@ public class KotlinTokenizer: SwiftTokenizer {
         switch modifier {
         case .static, .unowned, .unownedSafe, .unownedUnsafe, .weak, .convenience, .dynamic, .lazy:
             return []
+        case .accessLevel(let mod) where mod.rawValue.contains("(set)"):
+            return []
         default:
             return super.tokenize(modifier, node: node)
         }
@@ -302,6 +304,19 @@ public class KotlinTokenizer: SwiftTokenizer {
             }
             if bodyTokens.last?.value == "(" {
                 bodyTokens.removeLast()
+            }
+        }
+
+        if declaration.isPrivateSet || declaration.isProtectedSet {
+            let modifierToken = declaration.newToken(.keyword, declaration.isPrivateSet ? "private" : "protected")
+            // If there is already a setter, change its accesibility
+            if let setterIndex = bodyTokens.firstIndex(where: { $0.kind == .keyword && $0.value == "set" }) {
+                bodyTokens.insert(contentsOf: [modifierToken, spaceToken], at: setterIndex)
+            } else { // Else create modified setter
+                bodyTokens.append(contentsOf:
+                    [declaration.newToken(.linebreak, "\n")] +
+                    indent([modifierToken, spaceToken, declaration.newToken(.keyword, "set")])
+                )
             }
         }
 
