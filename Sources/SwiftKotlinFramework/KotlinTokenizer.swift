@@ -958,47 +958,51 @@ public class KotlinTokenizer: SwiftTokenizer {
 
     private func tokenize(_ condition: InvertedCondition, node: ASTNode) -> [Token] {
         let tokens = tokenize(condition.condition, node: node)
-        var invertedTokens = [Token]()
-        var inverted = false
-        var lastExpressionIndex = 0
-        for token in tokens {
-            if let origin = token.origin, let node = token.node {
-                if origin is SequenceExpression || origin is BinaryExpression || origin is Condition {
-                    let inversionMap = [
-                        "==": "!=",
-                        "!=": "==",
-                        ">": "<=",
-                        ">=": "<",
-                        "<": ">=",
-                        "<=": ">",
-                        "is": "!is",
-                    ]
-                    if let newValue = inversionMap[token.value] {
-                        inverted = true
-                        invertedTokens.append(origin.newToken(token.kind, newValue, node))
-                        continue
-                    } else if token.value == "&&" || token.value == "||" {
-                        if !inverted {
-                            invertedTokens.insert(origin.newToken(.symbol, "!", node), at: lastExpressionIndex)
+        if case Condition.expression(let expression) = condition.condition, expression is ParenthesizedExpression {
+            return tokens.prefix(with: condition.condition.newToken(.symbol, "!", node))
+        } else {
+            var invertedTokens = [Token]()
+            var inverted = false
+            var lastExpressionIndex = 0
+            for token in tokens {
+                if let origin = token.origin, let node = token.node {
+                    if origin is SequenceExpression || origin is BinaryExpression || origin is Condition {
+                        let inversionMap = [
+                            "==": "!=",
+                            "!=": "==",
+                            ">": "<=",
+                            ">=": "<",
+                            "<": ">=",
+                            "<=": ">",
+                            "is": "!is",
+                        ]
+                        if let newValue = inversionMap[token.value] {
+                            inverted = true
+                            invertedTokens.append(origin.newToken(token.kind, newValue, node))
+                            continue
+                        } else if token.value == "&&" || token.value == "||" {
+                            if !inverted {
+                                invertedTokens.insert(origin.newToken(.symbol, "!", node), at: lastExpressionIndex)
+                            }
+                            inverted = false
+                            invertedTokens.append(origin.newToken(token.kind, token.value == "&&" ? "||" : "&&", node))
+                            lastExpressionIndex = invertedTokens.count + 1
+                            continue
                         }
-                        inverted = false
-                        invertedTokens.append(origin.newToken(token.kind, token.value == "&&" ? "||" : "&&", node))
-                        lastExpressionIndex = invertedTokens.count + 1
-                        continue
-                    }
-                } else if origin is PrefixOperatorExpression {
-                    if token.value == "!" {
-                        inverted = true
-                        continue
+                    } else if origin is PrefixOperatorExpression {
+                        if token.value == "!" {
+                            inverted = true
+                            continue
+                        }
                     }
                 }
+                invertedTokens.append(token)
             }
-            invertedTokens.append(token)
+            if !inverted {
+                invertedTokens.insert(condition.newToken(.symbol, "!", node), at: lastExpressionIndex)
+            }
+            return invertedTokens
         }
-        if !inverted {
-            invertedTokens.insert(condition.newToken(.symbol, "!", node), at: lastExpressionIndex)
-        }
-        return invertedTokens
     }
 
 
