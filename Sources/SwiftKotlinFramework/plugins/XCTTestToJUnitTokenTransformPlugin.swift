@@ -57,7 +57,7 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
 
     private func removeXCTestInheritance(_ tokens: [Token], node: ClassDeclaration) -> [Token] {
         var newTokens = tokens
-        if let inheritanceIndex = newTokens.index(where: { $0.value == "XCTestCase" }) {
+        if let inheritanceIndex = newTokens.firstIndex(where: { $0.value == "XCTestCase" }) {
             newTokens.remove(at: inheritanceIndex)
             if (node.typeInheritanceClause?.typeInheritanceList.count ?? 0) > 1 {
                 newTokens.remove(at: inheritanceIndex)
@@ -76,7 +76,7 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
 
         var newTokens = tokens
         for method in testMethods {
-            if let firstTokenIndex = newTokens.index(where: { $0.node === method && $0.kind != .linebreak && $0.kind != .indentation }),
+            if let firstTokenIndex = newTokens.firstIndex(where: { $0.node === method && $0.kind != .linebreak && $0.kind != .indentation }),
                 let lineBreakIndex = newTokens.indexOf(kind: .linebreak, before: firstTokenIndex) {
                 let indentation = newTokens.lineIndentationToken(at: firstTokenIndex)
                 newTokens.insert(method.newToken(.identifier, annotation), at: lineBreakIndex)
@@ -92,7 +92,7 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
     private func removeSuperCall(_ tokens: [Token], node: FunctionDeclaration) -> [Token] {
         guard node.modifiers.contains(.override) else { return tokens }
         var newTokens = tokens
-        if let overrideIndex = newTokens.index(where: { $0.node === node && $0.value == "override" }) {
+        if let overrideIndex = newTokens.firstIndex(where: { $0.node === node && $0.value == "override" }) {
             newTokens.remove(at: overrideIndex)
             newTokens.remove(at: overrideIndex)     // Remove the spacing
         }
@@ -103,7 +103,7 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
             .first else {
                 return newTokens
         }
-        guard let superIndex = newTokens.index(where: { $0.node === superCallExpression }) else {
+        guard let superIndex = newTokens.firstIndex(where: { $0.node === superCallExpression }) else {
             return newTokens
         }
 
