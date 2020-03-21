@@ -12,3 +12,4 @@ var map: Promise<Map<Int, String>>? = null
 var map: Map<Int, Promise<Map<String, String>>>
 var map = mapOf(1 to "a", 2 to "b")
 var map = mapOf<String , String>()
+method(value = listOf("value1", "value"))

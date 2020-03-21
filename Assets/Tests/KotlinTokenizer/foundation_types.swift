@@ -12,3 +12,4 @@ var map: Promise<[Int: String]>?
 var map: [Int: Promise<[String: String]>]
 var map = [1: "a", 2: "b"]
 var map = [String: String]()
+method(value: ["value1", "value"])

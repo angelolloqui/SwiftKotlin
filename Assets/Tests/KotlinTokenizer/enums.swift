@@ -6,7 +6,7 @@ enum CompassPoint {
     case west
 }
 
-private enum Planet {
+private enum Planet: Equatable {
     case mercury, venus, earth
     case mars, jupiter, saturn, uranus, neptune
 }
