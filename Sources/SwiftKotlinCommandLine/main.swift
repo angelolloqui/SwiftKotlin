@@ -16,7 +16,7 @@ let kotlinTokenizer = KotlinTokenizer(
         CommentsAdditionTransformPlugin()
     ]
 )
-let version = "0.2.1"
+let version = "0.2.3"
 let arguments = [
     "output",
     "help",
@@ -26,7 +26,7 @@ let arguments = [
 
 func showHelp() {
     print("swiftkotlin, version \(version)")
-    print("copyright (c) 2019 Angel G. Olloqui")
+    print("copyright (c) 2020 Angel G. Olloqui")
     print("")
     print("usage: swiftkotlin [<file>] [--output path]")
     print("")
