@@ -588,12 +588,11 @@ public class KotlinTokenizer: SwiftTokenizer {
         case let .staticString(_, rawText):
             return [expression.newToken(.string, conversionUnicodeString(rawText, node: expression))]
         case .array(let exprs):
-            let isGenericTypeInfo = expression.lexicalParent is FunctionCallExpression
-            return
-                expression.newToken(.identifier, "listOf") +
-                    expression.newToken(.startOfScope, isGenericTypeInfo ? "<" : "(") +
+            let isGenericTypeInfo = (expression.lexicalParent as? FunctionCallExpression)?.postfixExpression.textDescription.starts(with: "[") == true
+            return expression.newToken(.identifier, "listOf") +
+                expression.newToken(.startOfScope, isGenericTypeInfo ? "<" : "(") +
                 exprs.map { tokenize($0) }.joined(token: expression.newToken(.delimiter, ", ")) +
-                    expression.newToken(.endOfScope, isGenericTypeInfo ? ">" : ")")
+                expression.newToken(.endOfScope, isGenericTypeInfo ? ">" : ")")
         case .dictionary(let entries):
             let isGenericTypeInfo = expression.lexicalParent is FunctionCallExpression
             var entryTokens = entries.map { tokenize($0, node: expression) }.joined(token: expression.newToken(.delimiter, ", "))
