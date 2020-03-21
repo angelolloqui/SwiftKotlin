@@ -8,3 +8,11 @@ data class Person(
     
     fun eat() {}
 }
+
+data class User(
+    var id: Int? = 0,
+    var name: String? = null,
+    var content: Content): Codable {
+    
+    data class Content(val text: String) {}
+}

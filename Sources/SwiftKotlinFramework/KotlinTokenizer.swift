@@ -127,7 +127,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             accessLevelModifier: declaration.accessLevelModifier,
             name: declaration.name,
             genericParameterClause: declaration.genericParameterClause,
-            typeInheritanceClause: declaration.typeInheritanceClause,
+            typeInheritanceClause: nil,
             genericWhereClause: declaration.genericWhereClause,
             members: otherMembers)
         newStruct.setSourceRange(declaration.sourceRange)
@@ -135,13 +135,6 @@ public class KotlinTokenizer: SwiftTokenizer {
         var tokens = super.tokenize(newStruct)
             .replacing({ $0.value == "struct"},
                        with: [declaration.newToken(.keyword, "data class")])
-
-        if !staticMembers.isEmpty, let bodyStart = tokens.firstIndex(where: { $0.value == "{"}) {
-            let companionTokens = indent(tokenizeCompanion(staticMembers, node: declaration))
-                .prefix(with: declaration.newToken(.linebreak, "\n"))
-                .suffix(with: declaration.newToken(.linebreak, "\n"))
-            tokens.insert(contentsOf: companionTokens, at: bodyStart + 1)
-        }
 
         if !declarationMembers.isEmpty, let bodyStart = tokens.firstIndex(where: { $0.value == "{"}) {
             let linebreak = declaration.newToken(.linebreak, "\n")
@@ -164,6 +157,21 @@ public class KotlinTokenizer: SwiftTokenizer {
                 .prefix(with: declaration.newToken(.startOfScope, "("))
                 .suffix(with: declaration.newToken(.endOfScope, ")")),
                           at: bodyStart - 1)
+        }
+
+        if let typeInheritanceList = declaration.typeInheritanceClause?.typeInheritanceList,
+            !typeInheritanceList.isEmpty,
+            let bodyStart = tokens.firstIndex(where: { $0.value == "{"}) {
+            let clause = TypeInheritanceClause(classRequirement: false, typeInheritanceList: typeInheritanceList)
+            let inheritanceTokens = tokenize(clause, node: declaration)
+            tokens.insert(contentsOf: inheritanceTokens, at: bodyStart - 1)
+        }
+
+        if !staticMembers.isEmpty, let bodyStart = tokens.firstIndex(where: { $0.value == "{"}) {
+            let companionTokens = indent(tokenizeCompanion(staticMembers, node: declaration))
+                .prefix(with: declaration.newToken(.linebreak, "\n"))
+                .suffix(with: declaration.newToken(.linebreak, "\n"))
+            tokens.insert(contentsOf: companionTokens, at: bodyStart + 1)
         }
 
         return tokens

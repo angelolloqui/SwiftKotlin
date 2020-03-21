@@ -9,3 +9,12 @@ struct Person {
 
     func eat() {}
 }
+
+struct User: Codable {
+    struct Content {
+        let text: String
+    }
+    var id: Int? = 0
+    var name: String?
+    var content: Content
+}
