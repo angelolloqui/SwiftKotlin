@@ -159,8 +159,8 @@ public class KotlinTokenizer: SwiftTokenizer {
                           at: bodyStart - 1)
         }
 
-        if let typeInheritanceList = declaration.typeInheritanceClause?.typeInheritanceList,
-            !typeInheritanceList.isEmpty,
+        if let typeInheritanceList = declaration.typeInheritanceClause?.typeInheritanceList.nonEquatable,
+            typeInheritanceList.isEmpty == false,
             let bodyStart = tokens.firstIndex(where: { $0.value == "{"}) {
             let clause = TypeInheritanceClause(classRequirement: false, typeInheritanceList: typeInheritanceList)
             let inheritanceTokens = tokenize(clause, node: declaration)
@@ -439,9 +439,7 @@ public class KotlinTokenizer: SwiftTokenizer {
 
         // Simple enums (no tuple values)
         if !simpleCases.contains(where: { $0.tuple != nil }) {
-            let typeInheritanceList = declaration.typeInheritanceClause?.typeInheritanceList.filter {
-                $0.names.contains { $0.name.textDescription != "Equatable" }
-            }
+            let typeInheritanceList = declaration.typeInheritanceClause?.typeInheritanceList.nonEquatable
             if typeInheritanceList?.isEmpty == false {
                 return tokenizeSimpleValueEnum(declaration: declaration, simpleCases: simpleCases)
             } else {

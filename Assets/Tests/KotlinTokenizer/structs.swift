@@ -2,7 +2,7 @@ struct Data {
     var text: String
 }
 
-struct Person {
+struct Person: Equatable {
     let name: String
     let surname: String
     var age: Int

@@ -273,3 +273,10 @@ extension GuardStatement {
             (bodyStatement is ReturnStatement || bodyStatement is ThrowStatement)
     }
 }
+
+extension Collection where Iterator.Element == TypeIdentifier {
+    var nonEquatable: [TypeIdentifier] {
+        return filter { $0.names.contains { $0.name.textDescription != "Equatable" } }
+    }
+}
+
