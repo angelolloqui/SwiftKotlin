@@ -17,6 +17,54 @@ enum Barcode {
     case empty
 }
 
+public enum SDKException: Error {
+    case notFound
+    case unauthorized
+    case network(HttpResponse, Error?)
+}
+
+public enum PaymentMethodType: String, Equatable {
+    case direct = "DIRECT",  creditCard = "CREDIT_CARD"
+}
+
+enum AnimationLength {
+    case short
+    case long
+    var duration: Double {
+        switch self {
+        case AnimationLength.short:
+            return 2
+        case .long:
+            return 5.0
+        }
+    }
+
+    func getDuration() -> Double {
+        return self.duration
+    }
+}
+
+enum AnimationLengthAdvanced: Equatable {
+    case short
+    case long
+    case custom(Double)
+
+    var duration: Double {
+        switch self {
+        case .short:
+            return 2
+        case .long:
+            return 5.0
+        case .custom(let duration):
+            return duration
+        }
+    }
+
+    func getDuration() -> Double {
+        return self.duration
+    }
+}
+
 // Usage
 switch enumValue {
 case .resetPasswordSendEmail:
@@ -36,50 +84,21 @@ default:
     trackError(name: "generic", message: R.string.localizable.generic_error())
 }
 
-public enum SDKException: Error {
-    case notFound
-    case unauthorized
-    case network(HttpResponse, Error?)
+switch planets {
+case .mars, .earth, .venus:
+    habitable = true
+default:
+    habitable = false
+
 }
 
-public enum PaymentMethodType: String, Equatable {
-    case direct = "DIRECT",  creditCard = "CREDIT_CARD"
-}
-
-enum AnimationLength {
-    case shot
-    case long
-    var duration: Double {
-        switch self {
-        case .shot:
-            return 2
-        case .long:
-            return 5.0
-        }
-    }
-
-    func getDuration() -> Double {
-        return self.duration
-    }
-}
-
-enum AnimationLengthAdvanced {
-    case shot
-    case long
-    case custom(Double)
-
-    var duration: Double {
-        switch self {
-        case .shot:
-            return 2
-        case .long:
-            return 5.0
-        case .custom(let duration):
-            return duration
-        }
-    }
-
-    func getDuration() -> Double {
-        return self.duration
-    }
+let nb = 42
+switch nb {
+    case 0: print("zero")
+    case 1, 2, 3: print("low numbers")
+    case 4...7, 8, 9: print("single digit")
+    case 10: print("double digits")
+    case 11...99: print("double digits")
+    case 100...999: print("triple digits")
+    default: print("four or more digits")
 }

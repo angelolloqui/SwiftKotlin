@@ -16,7 +16,7 @@ let kotlinTokenizer = KotlinTokenizer(
         CommentsAdditionTransformPlugin()
     ]
 )
-let version = "0.2.3"
+let version = "0.2.4"
 let arguments = [
     "output",
     "help",

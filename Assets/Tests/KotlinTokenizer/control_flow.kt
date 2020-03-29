@@ -61,13 +61,3 @@ val match = this.interactor.match
 if (match == null || !(interactor.userIsOwner || interactor.userIsPlayer)) {
     return
 }
-when (nb) {
-    in 0 .. 7, 8, 9 -> print("single digit")
-    10 -> print("double digits")
-    11 .. 99 -> print("double digits")
-    -1 -> {
-        print("negative digits")
-        print("Multiple statements")
-    }
-    else -> print("three or more digits")
-}

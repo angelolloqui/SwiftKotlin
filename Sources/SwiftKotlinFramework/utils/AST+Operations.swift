@@ -274,6 +274,16 @@ extension GuardStatement {
     }
 }
 
+extension TypeInheritanceClause {
+    var nonEquatable: TypeInheritanceClause? {
+        let typeInheritanceList = self.typeInheritanceList.nonEquatable
+        if typeInheritanceList.isEmpty {
+            return nil
+        }
+        return TypeInheritanceClause(classRequirement: classRequirement, typeInheritanceList: typeInheritanceList)
+    }
+}
+
 extension Collection where Iterator.Element == TypeIdentifier {
     var nonEquatable: [TypeIdentifier] {
         return filter { $0.names.contains { $0.name.textDescription != "Equatable" } }

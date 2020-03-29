@@ -19,21 +19,6 @@ sealed class Barcode {
     data class qrCode(val named: String) : Barcode()
     object empty : Barcode()
 }
-when (enumValue) {
-    .resetPasswordSendEmail -> return (category: "ResetPassword", name: "sendEmail", label: null)
-    .paymentSelectorOpen -> return (category: "PaymentSelector", name: "open", label: "${tenant.name} - ${option.duration}min")
-}
-when (exception) {
-    .qrCode -> {
-        val message = serverMessage
-        if (message != null) {
-            trackError(name = name, message = message)
-        } else {
-            trackError(name = name, message = R.string.localizable.network_error())
-        }
-    }
-    else -> trackError(name = "generic", message = R.string.localizable.generic_error())
-}
 public sealed class SDKException : Error {
     object notFound : SDKException()
     object unauthorized : SDKException()
@@ -47,34 +32,63 @@ public enum class PaymentMethodType (val rawValue: String) : Equatable {
     }
 }
 enum class AnimationLength {
-    shot,
+    short,
     long
-    
+
     val duration: Double
         get() {
             when (this) {
-                .shot -> return 2
-                .long -> return 5.0
+                AnimationLength.short -> return 2
+                long -> return 5.0
             }
         }
-    
+
     fun getDuration() : Double =
         this.duration
 }
 sealed class AnimationLengthAdvanced {
-    object shot : AnimationLengthAdvanced()
+    object short : AnimationLengthAdvanced()
     object long : AnimationLengthAdvanced()
     data class custom(val v1: Double) : AnimationLengthAdvanced()
-    
+
     val duration: Double
         get() {
             when (this) {
-                .shot -> return 2
-                .long -> return 5.0
-                .custom -> return duration
+                short -> return 2
+                long -> return 5.0
+                is custom -> return duration
             }
         }
-    
+
     fun getDuration() : Double =
         this.duration
+}
+when (enumValue) {
+    resetPasswordSendEmail -> return (category: "ResetPassword", name: "sendEmail", label: null)
+    is paymentSelectorOpen -> return (category: "PaymentSelector", name: "open", label: "${tenant.name} - ${option.duration}min")
+}
+when (exception) {
+    is qrCode -> {
+        val message = serverMessage
+        if (message != null) {
+            trackError(name = name, message = message)
+        } else {
+            trackError(name = name, message = R.string.localizable.network_error())
+        }
+    }
+    else -> trackError(name = "generic", message = R.string.localizable.generic_error())
+}
+when (planets) {
+    mars, earth, venus -> habitable = true
+    else -> habitable = false
+}
+val nb = 42
+when (nb) {
+    0 -> print("zero")
+    1, 2, 3 -> print("low numbers")
+    in 4 .. 7, 8, 9 -> print("single digit")
+    10 -> print("double digits")
+    in 11 .. 99 -> print("double digits")
+    in 100 .. 999 -> print("triple digits")
+    else -> print("four or more digits")
 }

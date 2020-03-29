@@ -521,7 +521,6 @@ public class KotlinTokenizer: SwiftTokenizer {
         ]
         switch statement {
         case let .case(itemList, stmts):
-            let prefix = itemList.count > 1 ? [statement.newToken(.keyword, "in", node), statement.newToken(.space, " ", node)] : []
             let conditions = itemList.map { tokenize($0, node: node) }.joined(token: statement.newToken(.delimiter, ", ", node))
             var statements = tokenize(stmts, node: node)
             if stmts.count > 1 || statements.filter({ $0.kind == .linebreak }).count > 1 {
@@ -530,7 +529,7 @@ public class KotlinTokenizer: SwiftTokenizer {
                     indent(statements) +
                     [linebreak, statement.newToken(.endOfScope, "}", node)]
             }
-            return prefix + conditions + separatorTokens + statements
+            return conditions + separatorTokens + statements
 
         case .default(let stmts):
             return
@@ -541,17 +540,34 @@ public class KotlinTokenizer: SwiftTokenizer {
     }
 
     open override func tokenize(_ statement: SwitchStatement.Case.Item, node: ASTNode) -> [Token] {
-        guard let enumCasePattern = statement.pattern as? EnumCasePattern else {
-            return super.tokenize(statement, node: node)
+        let prefix: [Token]
+        if let expression = (statement.pattern as? ExpressionPattern)?.expression {
+            prefix = !(expression is LiteralExpression) ? [statement.newToken(.keyword, "in", node)] : []
+        } else {
+            prefix = []
         }
-        let patternWithoutTuple = EnumCasePattern(typeIdentifier: enumCasePattern.typeIdentifier, name: enumCasePattern.name, tuplePattern: nil)
         return [
-            tokenize(patternWithoutTuple, node: node),
-            statement.whereExpression.map { _ in [statement.newToken(.keyword, "where", node)] } ?? [],
-            statement.whereExpression.map { tokenize($0) } ?? []
-            ].joined(token: statement.newToken(.space, " ", node))
+            prefix,
+            super.tokenize(statement, node: node)
+        ].joined(token: statement.newToken(.space, " ", node))
     }
 
+    open override func tokenize(_ pattern: EnumCasePattern, node: ASTNode) -> [Token] {
+        let patternWithoutTuple: EnumCasePattern
+        let prefix: [Token]
+        if pattern.tuplePattern != nil {
+            patternWithoutTuple = EnumCasePattern(typeIdentifier: pattern.typeIdentifier, name: pattern.name, tuplePattern: nil)
+            prefix = [pattern.newToken(.keyword, "is", node), pattern.newToken(.space, " ", node)]
+        } else {
+            patternWithoutTuple = pattern
+            prefix = []
+        }
+        var tokens = super.tokenize(patternWithoutTuple, node: node)
+        if tokens.first?.value == "." {
+            tokens.remove(at: 0)
+        }
+        return prefix + tokens
+    }
 
     open override func tokenize(_ statement: ForInStatement) -> [Token] {
         var tokens = super.tokenize(statement)

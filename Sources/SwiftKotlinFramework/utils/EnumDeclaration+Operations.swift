@@ -107,7 +107,7 @@ extension KotlinTokenizer {
         let lineBreak = declaration.newToken(.linebreak, "\n")
         let attrsTokens = tokenize(declaration.attributes, node: declaration)
         let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
-        let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []
+        let inheritanceTokens = declaration.typeInheritanceClause?.nonEquatable.map { tokenize($0, node: declaration) } ?? []
         let headTokens = [
             attrsTokens,
             modifierTokens,
