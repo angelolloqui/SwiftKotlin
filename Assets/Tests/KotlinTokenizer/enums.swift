@@ -44,7 +44,7 @@ enum AnimationLength {
     }
 }
 
-enum AnimationLengthAdvanced {
+enum AnimationLengthAdvanced: Equatable {
     case short
     case long
     case custom(Double)
