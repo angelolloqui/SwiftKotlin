@@ -56,7 +56,7 @@ sealed class AnimationLengthAdvanced {
             when (this) {
                 short -> return 2
                 long -> return 5.0
-                custom -> return duration
+                is custom -> return duration
             }
         }
 
@@ -65,10 +65,10 @@ sealed class AnimationLengthAdvanced {
 }
 when (enumValue) {
     resetPasswordSendEmail -> return (category: "ResetPassword", name: "sendEmail", label: null)
-    paymentSelectorOpen -> return (category: "PaymentSelector", name: "open", label: "${tenant.name} - ${option.duration}min")
+    is paymentSelectorOpen -> return (category: "PaymentSelector", name: "open", label: "${tenant.name} - ${option.duration}min")
 }
 when (exception) {
-    qrCode -> {
+    is qrCode -> {
         val message = serverMessage
         if (message != null) {
             trackError(name = name, message = message)
