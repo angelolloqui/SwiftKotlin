@@ -21,6 +21,7 @@ class ViewController: NSViewController {
         tokenTransformPlugins: [
             XCTTestToJUnitTokenTransformPlugin(),
             FoundationMethodsTransformPlugin(),
+            UIKitTransformPlugin(),
             CommentsAdditionTransformPlugin()
         ]
     )
