@@ -9,25 +9,21 @@ class A {
     val stateObservable1: Observable<RestaurantsListState>
         get() = state.asObservable()
     val stateObservable2: Observable<RestaurantsListState>
-        get() {
-            return state.asObservable()
-        }
+        get() = state.asObservable()
     val stateObservable3: Observable<RestaurantsListState>
+        get() = state.asObservable()
+    val stateObservable4: Observable<RestaurantsListState>
         get() {
             NSLog("Multiple statements")
             return state.asObservable()
         }
     var center: Point
-        get() {
-            return Point(x = centerX, y = centerY)
-        }
+        get() = Point(x = centerX, y = centerY)
         set(newValue) {
             origin.x = newValue.x - 100
         }
     var top: Point
-        get() {
-            return Point(x = topX, y = topY)
-        }
+        get() = Point(x = topX, y = topY)        
         set(val) {
             origin.y = 0
             origin.x = val.x
@@ -52,6 +48,14 @@ class A {
     var anotherNameWithDidSet: String = "a value"
         private set(newValue) {
             field = newValue
+        }
+    val myVar: String
+        get() {
+            if (a == 5) {
+                return "test"
+            } else {
+                return "b"
+            }
         }
 }
 
