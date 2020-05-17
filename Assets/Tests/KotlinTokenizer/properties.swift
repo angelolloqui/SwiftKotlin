@@ -12,7 +12,8 @@ class A {
             return state.asObservable()
         }
     }
-    var stateObservable3: Observable<RestaurantsListState> {
+    var stateObservable3: Observable<RestaurantsListState> { state.asObservable() }
+    var stateObservable4: Observable<RestaurantsListState> {
         NSLog("Multiple statements")
         return state.asObservable()
     }
@@ -28,7 +29,7 @@ class A {
 
     var top: Point {
         get {
-            return Point(x: topX, y: topY)
+            Point(x: topX, y: topY)
         }
         set(val) {
             origin.y = 0
@@ -59,7 +60,13 @@ class A {
     private(set) var anotherNameWithDidSet: String = "a value" {
         didSet {}
     }
-
+    var myVar: String {
+        if a == 5 {
+            return "test"
+        } else {
+            return "b"
+        }
+    }
 }
 
 struct Rect {
