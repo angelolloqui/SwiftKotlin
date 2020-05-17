@@ -12,7 +12,7 @@ class KotlinTokenizerTests: XCTestCase {
     let kotlinTokenizer = KotlinTokenizer(
         tokenTransformPlugins: [
             XCTTestToJUnitTokenTransformPlugin(),
-            FoundationMethodsTransformPlugin()
+            FoundationMethodsTransformPlugin()            
         ]
     )
 

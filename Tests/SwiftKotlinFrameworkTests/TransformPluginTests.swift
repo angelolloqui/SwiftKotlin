@@ -28,6 +28,12 @@ class TransformPluginTests: XCTestCase {
             file: "CommentsAdditionTransformPlugin")
     }
 
+    func testUIKitTransformPlugin() {
+        try! testTokenTransformPlugin(
+            plugin: UIKitTransformPlugin(),
+            file: "UIKitTransformPlugin")
+    }
+
 }
 
 extension TransformPluginTests {

@@ -13,10 +13,11 @@ let kotlinTokenizer = KotlinTokenizer(
     tokenTransformPlugins: [
         XCTTestToJUnitTokenTransformPlugin(),
         FoundationMethodsTransformPlugin(),
+        UIKitTransformPlugin(),
         CommentsAdditionTransformPlugin()
     ]
 )
-let version = "0.2.4"
+let version = "0.2.5"
 let arguments = [
     "output",
     "help",
