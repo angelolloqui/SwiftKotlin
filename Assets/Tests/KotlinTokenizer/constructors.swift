@@ -4,8 +4,8 @@ open class ClassA {
 }
 
 open class ClassB: ClassA {
-	let message: String
-	let cause: String
+	public let message: String
+	private let cause: String
 
 	public init(message: String, cause: String) {
 		self.message = message
@@ -16,6 +16,11 @@ open class ClassB: ClassA {
     public convenience init(_ cause: String) {
         self.init(message: "", cuase: cause)
     }
+
+    private func privateMethod() {}
+    internal func internalMethod() {}
+    func implicitInternalMethod()
+    public func publicMethod() {}
 }
 
 open class ClassC: ClassB {

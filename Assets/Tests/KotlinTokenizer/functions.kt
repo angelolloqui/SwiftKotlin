@@ -1,28 +1,28 @@
 
-fun greet(name: String, day: String) {}
+internal fun greet(name: String, day: String) {}
 
-fun greet(name: String = "value", day: String, value: Int?) {}
+internal fun greet(name: String = "value", day: String, value: Int?) {}
 
-fun method(param: String) : String {}
+internal fun method(param: String) : String {}
 
-fun method(param: (Int) -> Unit) {}
+internal fun method(param: (Int) -> Unit) {}
 
-fun findRestaurant(restaurantId: Int) : ServiceTask<Restaurant> =
+internal fun findRestaurant(restaurantId: Int) : ServiceTask<Restaurant> =
     NetworkRequestServiceTask<Restaurant>(networkSession = networkSession, endpoint = "restaurants/")
 restaurantService.findRestaurant(restaurantId = restaurant.id, param = param)
 
-fun tokenize(codeBlock: String?) : List<String> {
+internal fun tokenize(codeBlock: String?) : List<String> {
     val statement = codeBlock ?: return listOf()
     return someOtherMethod(statement = statement)
 }
 
-public fun <T> whenAll(promises: List<Promise<T>>) : Promise<List<T>> =
+fun <T> whenAll(promises: List<Promise<T>>) : Promise<List<T>> =
     Promise<T>()
 
-public fun <T> whenAny(promises: List<Promise<T>>) : Promise<List<T>> =
+fun <T> whenAny(promises: List<Promise<T>>) : Promise<List<T>> =
     Promise<T>()
 
-fun sumOf(vararg numbers: Int) : Int {
+internal fun sumOf(vararg numbers: Int) : Int {
     var sum = 0
     for (number in numbers) {
         sum += number

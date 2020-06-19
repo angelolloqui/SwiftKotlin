@@ -24,14 +24,14 @@ public class CommentsAdditionTransformPlugin: TokenTransformPlugin {
     public func transform(tokens: [Token], topDeclaration: TopLevelDeclaration) throws -> [Token] {
         var newTokens = [Token]()
         var sortedComments = topDeclaration.comments.sorted { $0.location.line < $1.location.line }
-        
+
         var position = 0
-        while position < tokens.count && !sortedComments.isEmpty {
+        while position < tokens.count && (!sortedComments.isEmpty || tokens[position].kind == .linebreak) {
             let token = tokens[position]
-            let comment = sortedComments[0]
+            let comment = sortedComments.first
             var consumeComment = false
             
-            if let tokenRange = token.sourceRange,
+            if let comment = comment, let tokenRange = token.sourceRange,
                 tokenRange.isValid {
                 
                 if tokenRange.start.isAfter(location: comment.location) {
@@ -39,12 +39,7 @@ public class CommentsAdditionTransformPlugin: TokenTransformPlugin {
                 }
             }
             
-            if consumeComment, let node = token.node {
-                // Consume linbreaks
-                if token.kind == .linebreak {
-                    newTokens.append(token)
-                    position += 1
-                }
+            if consumeComment, let comment = comment, let node = token.node {
                 // Consume indentations
                 while position < tokens.count && tokens[position].kind == .indentation {
                     newTokens.append(tokens[position])
@@ -54,7 +49,12 @@ public class CommentsAdditionTransformPlugin: TokenTransformPlugin {
                 sortedComments.removeFirst()
                 tokens.lineIndentationToken(at: position).map { newTokens.append($0) }
             } else {
-                newTokens.append(token)
+                if token.kind == .linebreak, newTokens.last?.kind == .comment,
+                    let previousNoCommentIndex = newTokens.lastIndex(where: { $0.kind != .comment && $0.kind != .indentation }) {
+                    newTokens.insert(token, at: previousNoCommentIndex)
+                } else {
+                    newTokens.append(token)
+                }
                 position += 1
             }
         }

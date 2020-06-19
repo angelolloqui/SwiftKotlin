@@ -1,7 +1,7 @@
-class A {
-    lateinit var unwrapped: Object
-    var opt: Object? = null
+internal class A {
+    lateinit internal var unwrapped: Object
+    internal var opt: Object? = null
 }
-val a = A()
+internal val a = A()
 a.unwrapped.action()
 a.opt!!.action()

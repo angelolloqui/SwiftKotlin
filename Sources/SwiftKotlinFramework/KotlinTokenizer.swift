@@ -15,6 +15,9 @@ import Parser
 public class KotlinTokenizer: SwiftTokenizer {
 
     // MARK: - Declarations
+    open override func tokenize(_ declaration: Declaration) -> [Token] {
+        return super.tokenize(changeAccessLevelModifier(declaration))
+    }
 
     open override func tokenize(_ constant: ConstantDeclaration) -> [Token] {
         return super.tokenize(constant)
@@ -95,6 +98,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             typeInheritanceClause: declaration.typeInheritanceClause,
             genericWhereClause: declaration.genericWhereClause,
             members: declaration.members.filter({ !$0.isStatic }))
+        declaration.lexicalParent.map(newClass.setLexicalParent)
         newClass.setSourceRange(declaration.sourceRange)
         var tokens = super.tokenize(newClass)
         if !staticMembers.isEmpty, let bodyStart = tokens.firstIndex(where: { $0.value == "{"}) {
@@ -256,14 +260,17 @@ public class KotlinTokenizer: SwiftTokenizer {
         let whereTokens = declaration.genericWhereClause.map {
             self.unsupportedTokens(message: "Kotlin does not support where clauses in extensions:  \($0)", element: $0, node: declaration)
         } ?? []
-        let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) }?
-            .suffix(with: declaration.newToken(.space, " ")) ?? []
         let typeTokens = tokenize(declaration.type, node: declaration)
+        let accessLevelExtension = declaration.accessLevelModifier
 
         let memberTokens = declaration.members.map { member in
             var tokens = tokenize(member)
             let firstToken = tokens.firstIndex(where: { $0.kind != .linebreak }) ?? 0
-            tokens.insert(contentsOf: modifierTokens, at: firstToken)
+            let accessLevelMemeber = tokens.compactMap { $0.origin as? AccessLevelModifier }.first
+            if accessLevelMemeber == nil && accessLevelExtension != nil {
+                let modifierTokens = tokenize(accessLevelExtension!, node: declaration).suffix(with: declaration.newToken(.space, " "))
+                tokens.insert(contentsOf: modifierTokens, at: firstToken)
+            }
             if let index = tokens.firstIndex(where: { $0.kind == .identifier }) {
                 if member.isStatic {
                     tokens.insert(contentsOf: [declaration.newToken(.keyword, "Companion"), declaration.newToken(.delimiter, ".")], at: index)
