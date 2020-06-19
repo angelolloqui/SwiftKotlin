@@ -53,7 +53,7 @@ extension Array where Iterator.Element == Token {
 
     func lineIndentationToken(at index: Int) -> Token? {
         var indentation: Token?
-        var position = index
+        var position = Swift.min(index, self.count - 1)
         while position >= 0 {
             let token = self[position]            
             if token.kind == .indentation, let node = token.node {

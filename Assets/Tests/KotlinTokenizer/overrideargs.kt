@@ -1,7 +1,7 @@
 
-class Test {
+internal class Test {
     
-    override fun dostuff(x: Int) {}
+    internal override fun dostuff(x: Int) {}
     
-    fun otherMethod(x: Int = 5) {}
+    internal fun otherMethod(x: Int = 5) {}
 }

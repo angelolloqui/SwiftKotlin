@@ -5,7 +5,7 @@ class A {
 
 class A {
     static private var myBool = true
-    static var myNum = 3
+    static public var myNum = 3
     static var myString = "string"
 }
 

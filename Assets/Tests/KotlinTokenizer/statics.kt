@@ -1,57 +1,57 @@
 
-class A {
+internal class A {
     companion object {
-        public var myBool = true
+        var myBool = true
     }
 }
 
-class A {
+internal class A {
     companion object {
         private var myBool = true
         var myNum = 3
-        var myString = "string"
+        internal var myString = "string"
     }
 }
 
-class A {
+internal class A {
     companion object {
         
-        fun method() {}
+        internal fun method() {}
     }
 }
 
-class A {
+internal class A {
     companion object {
         
-        fun method() {}
+        internal fun method() {}
         
-        fun create() : A? =
+        internal fun create() : A? =
             null
         
-        fun withParams(param: Int) : A? =
+        internal fun withParams(param: Int) : A? =
             null
     }
 }
 
-class A {
+internal class A {
     companion object {
-        var myBool = true
+        internal var myBool = true
         
-        fun method() {}
+        internal fun method() {}
     }
 
-    var name = "string"
+    internal var name = "string"
     
-    fun test() {}
+    internal fun test() {}
 }
 
-data class A(var name = "string") {
+internal data class A(internal var name = "string") {
     companion object {
-        var myBool = true
+        internal var myBool = true
         
-        fun method() {}
+        internal fun method() {}
     }
 
     
-    fun test() {}
+    internal fun test() {}
 }

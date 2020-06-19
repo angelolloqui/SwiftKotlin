@@ -3,7 +3,7 @@ extension Double {
     var m: Double { return self }
 }
 extension Double {
-    open func toKm() -> Double { return self * 1000.0 }
+    private func toKm() -> Double { return self * 1000.0 }
     func toMeter() -> Double { return self }
 }
 public extension Double {

@@ -1,26 +1,33 @@
-
 open class ClassA {
-    
-    public constructor() {}
+
+    constructor() {}
 }
 
 open class ClassB: ClassA {
     val message: String
-    val cause: String
-    
-    public constructor(message: String, cause: String) : super() {
+    private val cause: String
+
+    constructor(message: String, cause: String) : super() {
         this.message = message
         this.cause = cause
     }
-    
-    public constructor(cause: String) : this(message = "", cuase = cause) {}
+
+    constructor(cause: String) : this(message = "", cuase = cause) {}
+
+    private fun privateMethod() {}
+
+    internal fun internalMethod() {}
+
+    fun implicitInternalMethod()
+
+    fun publicMethod() {}
 }
 
 open class ClassC: ClassB {
-    
-    public constructor() : super(message = "message", cause = "cause") {}
+
+    constructor() : super(message = "message", cause = "cause") {}
 }
-val obj1 = ClassA()
-val obj2 = ClassB(message = "message", cause = "a cause")
-val obj3 = ClassB("a cause")
-val obj4 = ClassC()
+internal val obj1 = ClassA()
+internal val obj2 = ClassB(message = "message", cause = "a cause")
+internal val obj3 = ClassB("a cause")
+internal val obj4 = ClassC()

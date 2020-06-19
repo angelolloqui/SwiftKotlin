@@ -4,23 +4,24 @@
 //
 //  Created by Angel Garcia on 14/10/2017.
 //
-class MyClass {
+
+internal class MyClass {
     //Public properties
-    var a: Int? = null
-    var b: String? = null
-    
+    internal var a: Int? = null
+    internal var b: String? = null
+
     //Public method
-    fun aMethod() {
+    internal fun aMethod() {
         // A comment inside aMethod
         b = "method run"
         b = b + "more"
     }
-    
+
     /*
     Multiline comments
     are also supported
     */
-    fun anotherMethod() {
+    internal fun anotherMethod() {
         val a = this.a
         if (a != null) {
             // Inside if
@@ -33,5 +34,5 @@ class MyClass {
 }
 
 // Other comments before structs
-data class MyStruct {}
+internal data class MyStruct {}
 

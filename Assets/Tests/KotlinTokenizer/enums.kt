@@ -1,4 +1,4 @@
-enum class CompassPoint {
+internal enum class CompassPoint {
     north,
     south,
     east,
@@ -14,28 +14,28 @@ private enum class Planet {
     uranus,
     neptune
 }
-sealed class Barcode {
+internal sealed class Barcode {
     data class upc(val v1: Int, val v2: Int, val v3: Int, val v4: Int) : Barcode()
     data class qrCode(val named: String) : Barcode()
     object empty : Barcode()
 }
-public sealed class SDKException : Error {
+sealed class SDKException : Error {
     object notFound : SDKException()
     object unauthorized : SDKException()
     data class network(val v1: HttpResponse, val v2: Error?) : SDKException()
 }
-public enum class PaymentMethodType (val rawValue: String) : Equatable {
+enum class PaymentMethodType (val rawValue: String) : Equatable {
     direct("DIRECT"), creditCard("CREDIT_CARD");
 
     companion object {
         operator fun invoke(rawValue: String) = PaymentMethodType.values().firstOrNull { it.rawValue == rawValue }
     }
 }
-enum class AnimationLength {
+internal enum class AnimationLength {
     short,
     long
 
-    val duration: Double
+    internal val duration: Double
         get() {
             when (this) {
                 AnimationLength.short -> return 2
@@ -43,15 +43,15 @@ enum class AnimationLength {
             }
         }
 
-    fun getDuration() : Double =
+    internal fun getDuration() : Double =
         this.duration
 }
-sealed class AnimationLengthAdvanced {
+internal sealed class AnimationLengthAdvanced {
     object short : AnimationLengthAdvanced()
     object long : AnimationLengthAdvanced()
     data class custom(val v1: Double) : AnimationLengthAdvanced()
 
-    val duration: Double
+    internal val duration: Double
         get() {
             when (this) {
                 short -> return 2
@@ -60,7 +60,7 @@ sealed class AnimationLengthAdvanced {
             }
         }
 
-    fun getDuration() : Double =
+    internal fun getDuration() : Double =
         this.duration
 }
 when (enumValue) {
@@ -82,7 +82,7 @@ when (planets) {
     mars, earth, venus -> habitable = true
     else -> habitable = false
 }
-val nb = 42
+internal val nb = 42
 when (nb) {
     0 -> print("zero")
     1, 2, 3 -> print("low numbers")

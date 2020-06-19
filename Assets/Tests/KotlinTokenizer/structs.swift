@@ -2,15 +2,16 @@ struct Data {
     var text: String
 }
 
-struct Person: Equatable {
+public struct Person: Equatable {
     let name: String
     let surname: String
     var age: Int
 
-    func eat() {}
+    internal func eat() {}
+    private func incrementAge() {}
 }
 
-struct User: Codable {
+internal struct User: Codable {
     struct Content {
         let text: String
     }

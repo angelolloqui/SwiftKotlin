@@ -1,53 +1,53 @@
 import org.junit.*
 import org.junit.Assert.*
 
-class AvailabilityServiceTests {
-    lateinit var service: AvailabilityService
-    lateinit var mockHttpClient: MockHttpClient
+internal class AvailabilityServiceTests {
+    lateinit internal var service: AvailabilityService
+    lateinit internal var mockHttpClient: MockHttpClient
     
     @Before
-    fun setUp() {
+    internal fun setUp() {
         mockHttpClient = MockHttpClient()
         service = AvailabilityService(httpClient = mockHttpClient)
     }
     
     @After
-    fun tearDown() {
+    internal fun tearDown() {
         mockHttpClient.clear()
     }
     
     @Test
-    fun testAssertEqual() {
+    internal fun testAssertEqual() {
         assertEquals(1, 1)
         assertEquals("Not equal", 1, 1)
     }
     
     @Test
-    fun testAssertTrue() {
+    internal fun testAssertTrue() {
         assertTrue(true)
         assertTrue("Not true", true)
     }
     
     @Test
-    fun testAssertFalse() {
+    internal fun testAssertFalse() {
         assertFalse(false)
         assertFalse("Should not be true", false)
     }
     
     @Test
-    fun testAssertNil() {
+    internal fun testAssertNil() {
         assertNull(null)
         assertNull("Should be nil", null)
     }
     
     @Test
-    fun testAssertNotNil() {
+    internal fun testAssertNotNil() {
         assertNotNull("")
         assertNotNull("Should not be nil", "")
     }
     
     @Test
-    fun testMultipleStatements() {
+    internal fun testMultipleStatements() {
         mockHttpClient.fileResponse = "empty"
         val result = service.search()
         val params = mockHttpClient.parameters
@@ -58,33 +58,33 @@ class AvailabilityServiceTests {
         assertNotNull(result)
     }
     
-    fun noTestMethod() {
+    internal fun noTestMethod() {
         assertTrue(true)
     }
 }
 
-class TestWithInheritance: SomeProtocol {
+internal class TestWithInheritance: SomeProtocol {
     
     @Test
-    fun testMethodNotUnderXCTest() {
+    internal fun testMethodNotUnderXCTest() {
         assertTrue(true)
     }
 }
 
-class ClassWithNoTest: Other {
+internal class ClassWithNoTest: Other {
     
-    override fun setUp() {
+    internal override fun setUp() {
         super.setUp()
         mockHttpClient = MockHttpClient()
         service = AvailabilityService(httpClient = mockHttpClient)
     }
     
-    override fun tearDown() {
+    internal override fun tearDown() {
         mockHttpClient.clear()
         super.tearDown()
     }
     
-    fun testMethodNotUnderXCTest() {
+    internal fun testMethodNotUnderXCTest() {
         assertTrue(true)
     }
 }

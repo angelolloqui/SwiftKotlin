@@ -1,7 +1,7 @@
 
-val optA = try { obj.methodThrows() } catch (e: Throwable) { null }
-val forceA = obj.methodThrows()
+internal val optA = try { obj.methodThrows() } catch (e: Throwable) { null }
+internal val forceA = obj.methodThrows()
 
-fun method() {
+internal fun method() {
     obj.methodThrows()
 }

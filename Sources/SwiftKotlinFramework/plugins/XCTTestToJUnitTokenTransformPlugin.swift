@@ -76,7 +76,7 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
 
         var newTokens = tokens
         for method in testMethods {
-            if let firstTokenIndex = newTokens.firstIndex(where: { $0.node === method && $0.kind != .linebreak && $0.kind != .indentation }),
+            if let firstTokenIndex = newTokens.firstIndex(where: { $0.isFrom(method) && $0.kind != .linebreak && $0.kind != .indentation }),
                 let lineBreakIndex = newTokens.indexOf(kind: .linebreak, before: firstTokenIndex) {
                 let indentation = newTokens.lineIndentationToken(at: firstTokenIndex)
                 newTokens.insert(method.newToken(.identifier, annotation), at: lineBreakIndex)
@@ -92,7 +92,7 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
     private func removeSuperCall(_ tokens: [Token], node: FunctionDeclaration) -> [Token] {
         guard node.modifiers.contains(.override) else { return tokens }
         var newTokens = tokens
-        if let overrideIndex = newTokens.firstIndex(where: { $0.node === node && $0.value == "override" }) {
+        if let overrideIndex = newTokens.firstIndex(where: { $0.isFrom(node) && $0.value == "override" }) {
             newTokens.remove(at: overrideIndex)
             newTokens.remove(at: overrideIndex)     // Remove the spacing
         }
@@ -158,5 +158,11 @@ public class XCTTestToJUnitTokenTransformPlugin: TokenTransformPlugin {
         }
 
         return newTokens
+    }
+}
+
+private extension Token {
+    func isFrom(_ function: FunctionDeclaration) -> Bool {
+        return (node as? FunctionDeclaration)?.name.textDescription == function.name.textDescription
     }
 }
