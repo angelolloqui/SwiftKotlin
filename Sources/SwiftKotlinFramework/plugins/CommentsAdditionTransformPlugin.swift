@@ -71,9 +71,22 @@ public class CommentsAdditionTransformPlugin: TokenTransformPlugin {
     }
 }
 
+fileprivate extension String {
+    mutating func removeAllOccurrences(word: String) {
+        if let range = self.range(of: word) {
+           self.removeSubrange(range)
+        }
+    }
+}
+
 extension Comment {
     func fomattedContent() -> String {
-        if content.contains("\n") {
+        if content.contains("MARK") {
+            var newContent = content
+            newContent.removeAllOccurrences(word: "MARK:")
+            newContent.removeAllOccurrences(word: "MARK")
+            return "// region \(content)\n"
+        } else if content.contains("\n") {
             return "/*\(content)*/\n"
         } else {
             return "//\(content)\n"
